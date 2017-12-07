@@ -16,5 +16,11 @@ namespace sice_gestion
         {
             InitializeComponent();
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            Sistema.Generales.TestConexion test = new Sistema.Generales.TestConexion();
+            test.IsServerConnected();
+        }
     }
 }
