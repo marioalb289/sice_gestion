@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Sistema.Generales;
 
 namespace sice_gestion
 {
@@ -19,7 +20,7 @@ namespace sice_gestion
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Sistema.Generales.TestConexion test = new Sistema.Generales.TestConexion();
+            TestConexion test = new Sistema.Generales.TestConexion();
             test.IsServerConnected();
         }
     }
