@@ -63,6 +63,11 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="TestConexion.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -70,6 +75,87 @@
       <Project>{b69062f0-b514-40d3-8ce3-4c288dff5103}</Project>
       <Name>Sistema.DataModel</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\loading-light.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iepc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\oslRB.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\registro_civil_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\traslados_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cat_propietarios_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logo-actas-inspeccion.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\asterisk_59.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Error_60.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\giphy.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Hand50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Image1.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Information_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\loading-light1.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\loading-light2.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\question64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Stop_63.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Warning_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\imagenes.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\InspYRegla_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\servicios_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\EstadodeCuenta_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\conseciones_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\apremios_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\hist_pagos_64.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{880BAB19-B06A-4982-A2F8-F779A06C466F}</ProjectGuid>
+    <ProjectGuid>{FC984DA1-ADB9-4350-971D-AB70AB608F16}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>sice_gestion</RootNamespace>
-    <AssemblyName>sice_gestion</AssemblyName>
+    <RootNamespace>Sistema.RegistroActas</RootNamespace>
+    <AssemblyName>Sistema.RegistroActas</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -32,21 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\..\..\..\Documents\Visual Studio 2017\Projects\sice_test\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\MySQL\MySQL Connector Net 6.9.9\Assemblies\v4.5\MySql.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="MySql.Data.Entity.EF5, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\MySQL\MySQL Connector Net 6.9.9\Assemblies\v4.5\MySql.Data.Entity.EF5.dll</HintPath>
-    </Reference>
-    <Reference Include="MySql.Web, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\MySQL\MySQL Connector Net 6.9.9\Assemblies\v4.5\MySql.Web.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -66,37 +51,16 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmModulos.cs">
+    <Compile Include="MainRegistroActas.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmModulos.Designer.cs">
-      <DependentUpon>FrmModulos.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Login.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Login.Designer.cs">
-      <DependentUpon>Login.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MDIMain.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MDIMain.Designer.cs">
-      <DependentUpon>MDIMain.cs</DependentUpon>
+    <Compile Include="MainRegistroActas.Designer.cs">
+      <DependentUpon>MainRegistroActas.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FrmModulos.resx">
-      <DependentUpon>FrmModulos.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Login.resx">
-      <DependentUpon>Login.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MDIMain.resx">
-      <DependentUpon>MDIMain.cs</DependentUpon>
+    <EmbeddedResource Include="MainRegistroActas.resx">
+      <DependentUpon>MainRegistroActas.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -122,25 +86,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Sistema.ComputosElectorales\Sistema.ComputosElectorales.csproj">
-      <Project>{f726191d-ead7-483d-b92c-22783c6ff2d2}</Project>
-      <Name>Sistema.ComputosElectorales</Name>
-    </ProjectReference>
-    <ProjectReference Include="Sistema.DataModel\Sistema.DataModel.csproj">
+    <ProjectReference Include="..\Sistema.DataModel\Sistema.DataModel.csproj">
       <Project>{b69062f0-b514-40d3-8ce3-4c288dff5103}</Project>
       <Name>Sistema.DataModel</Name>
     </ProjectReference>
-    <ProjectReference Include="Sistema.Generales\Sistema.Generales.csproj">
+    <ProjectReference Include="..\Sistema.Generales\Sistema.Generales.csproj">
       <Project>{bede632c-0cbc-4e75-8430-8c405496fd35}</Project>
       <Name>Sistema.Generales</Name>
     </ProjectReference>
-    <ProjectReference Include="Sistema.RegistroActas\Sistema.RegistroActas.csproj">
-      <Project>{fc984da1-adb9-4350-971d-ab70ab608f16}</Project>
-      <Name>Sistema.RegistroActas</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Sistema.Generales\Resources\oslRB.png" />
+    <None Include="Resources\oslRB.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

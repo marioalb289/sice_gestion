@@ -100,6 +100,7 @@
             this.btnAcceso.TabIndex = 6;
             this.btnAcceso.Text = "Acceso";
             this.btnAcceso.UseVisualStyleBackColor = false;
+            this.btnAcceso.Click += new System.EventHandler(this.btnAcceso_Click);
             // 
             // pctFondo
             // 

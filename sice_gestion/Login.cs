@@ -92,5 +92,18 @@ namespace sice_gestion
             }
                 
         }
+
+        private void btnAcceso_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            MDIMain mod = new MDIMain();
+            mod.FormClosed += FormClosedEventHandler;
+            mod.Show();
+        }
+
+        private void FormClosedEventHandler(object sender, FormClosedEventArgs e)
+        {
+            this.Show();
+        }
     }
 }
