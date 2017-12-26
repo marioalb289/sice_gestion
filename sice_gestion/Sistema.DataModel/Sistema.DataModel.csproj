@@ -66,6 +66,24 @@
       <DependentUpon>DatacenterModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="sice_ar_asignacion.cs">
+      <DependentUpon>DatacenterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sice_ar_documentos.cs">
+      <DependentUpon>DatacenterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sice_ar_reserva.cs">
+      <DependentUpon>DatacenterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sice_ar_votos.cs">
+      <DependentUpon>DatacenterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sice_ar_votos_valida1.cs">
+      <DependentUpon>DatacenterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sice_ar_votos_valida2.cs">
+      <DependentUpon>DatacenterModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="sice_candidatos.cs">
       <DependentUpon>DatacenterModel.tt</DependentUpon>
     </Compile>
@@ -84,7 +102,7 @@
     <Compile Include="sice_partidos_politicos.cs">
       <DependentUpon>DatacenterModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="sice_registro_votos.cs">
+    <Compile Include="sice_reserva.cs">
       <DependentUpon>DatacenterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="sice_usuarios.cs">

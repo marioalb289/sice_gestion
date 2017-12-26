@@ -12,11 +12,11 @@ namespace Sistema.DataModel
     using System;
     using System.Collections.Generic;
     
-    public partial class sice_registro_votos
+    public partial class sice_ar_asignacion
     {
         public int id { get; set; }
-        public Nullable<int> id_candidato { get; set; }
-        public Nullable<int> id_casilla { get; set; }
-        public Nullable<int> votos { get; set; }
+        public Nullable<int> id_usuario { get; set; }
+        public Nullable<int> id_documento { get; set; }
+        public Nullable<int> filtro { get; set; }
     }
 }

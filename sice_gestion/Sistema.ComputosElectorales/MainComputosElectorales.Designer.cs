@@ -1,6 +1,6 @@
-﻿namespace Sistema.RegistroActas
+﻿namespace Sistema.ComputosElectorales
 {
-    partial class MainRegistroActas
+    partial class MainComputosElectorales
     {
         /// <summary>
         /// Required designer variable.
@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainComputosElectorales));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -65,7 +66,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(800, 600);
-            this.tableLayoutPanel1.TabIndex = 7;
+            this.tableLayoutPanel1.TabIndex = 8;
             // 
             // label1
             // 
@@ -105,10 +106,9 @@
             this.btnConsultarActas.Name = "btnConsultarActas";
             this.btnConsultarActas.Size = new System.Drawing.Size(136, 135);
             this.btnConsultarActas.TabIndex = 14;
-            this.btnConsultarActas.Text = "Consultar Actas";
+            this.btnConsultarActas.Text = "Actas Reservadas";
             this.btnConsultarActas.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnConsultarActas.UseVisualStyleBackColor = false;
-            this.btnConsultarActas.Click += new System.EventHandler(this.btnConsultarActas_Click);
             // 
             // btnRegistrarActas
             // 
@@ -121,10 +121,9 @@
             this.btnRegistrarActas.Name = "btnRegistrarActas";
             this.btnRegistrarActas.Size = new System.Drawing.Size(136, 135);
             this.btnRegistrarActas.TabIndex = 13;
-            this.btnRegistrarActas.Text = "Registrar Actas";
+            this.btnRegistrarActas.Text = "Registro de Cómputos";
             this.btnRegistrarActas.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnRegistrarActas.UseVisualStyleBackColor = false;
-            this.btnRegistrarActas.Click += new System.EventHandler(this.btnRegistrarActas_Click);
             // 
             // btnReportes
             // 
@@ -140,12 +139,11 @@
             this.btnReportes.Text = "Reportes";
             this.btnReportes.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnReportes.UseVisualStyleBackColor = false;
-            this.btnReportes.Click += new System.EventHandler(this.btnReportes_Click);
             // 
             // pictureBox1
             // 
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Image = global::Sistema.RegistroActas.Properties.Resources.iepc;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(3, 3);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(154, 114);
@@ -156,7 +154,7 @@
             // pictureBox2
             // 
             this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox2.Image = global::Sistema.RegistroActas.Properties.Resources.iepc;
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
             this.pictureBox2.Location = new System.Drawing.Point(643, 3);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(154, 114);
@@ -164,16 +162,15 @@
             this.pictureBox2.TabIndex = 19;
             this.pictureBox2.TabStop = false;
             // 
-            // MainRegistroActas
+            // MainComputosElectorales
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::Sistema.RegistroActas.Properties.Resources.oslRB;
             this.ClientSize = new System.Drawing.Size(800, 600);
             this.Controls.Add(this.tableLayoutPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "MainRegistroActas";
-            this.Text = "MainRegistroActas";
+            this.Name = "MainComputosElectorales";
+            this.Text = "MainComputosElectorales";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -186,9 +183,9 @@
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnConsultarActas;
         private System.Windows.Forms.Button btnRegistrarActas;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnReportes;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;

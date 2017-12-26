@@ -10,11 +10,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Sistema.Generales;
 using System.Drawing.Drawing2D;
+using System.Security.Cryptography;
 
 namespace sice_gestion
 {
     public partial class Login : Form
     {
+        private MsgBox msgBox;
 
         public Login()
         {
@@ -95,10 +97,55 @@ namespace sice_gestion
 
         private void btnAcceso_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            MDIMain mod = new MDIMain();
-            mod.FormClosed += FormClosedEventHandler;
-            mod.Show();
+            
+            CheckLogin chk = new CheckLogin();
+            string usuario = "";
+            string pass = "";
+            using (MD5 md5Hash = MD5.Create())
+            {
+                usuario = CheckLogin.GetMd5Hash(md5Hash, txtUsuario.Text);
+                pass = CheckLogin.GetMd5Hash(md5Hash, txtContrasena.Text);
+            }
+
+            int res = chk.check(usuario, pass);
+            if( res == 1)
+            {
+                this.Hide();
+
+                MDIMain mod = new MDIMain();
+                mod.FormClosed += FormClosedEventHandler;
+                mod.Show();
+            }
+            else
+            {
+                messageRes(res);
+            }
+
+
+
+        }
+
+        public void messageRes(int res)
+        {
+            switch (res)
+            {
+                case 0:
+                    msgBox = new MsgBox(this, "Usuario o contraseña Incorrectos \n Intentalo de Nuevo", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    msgBox.ShowDialog(this);
+                    break;
+                case 2:
+                    msgBox = new MsgBox(this, "No hay Conexion. \n Trabajndo en modo SIN CONEXIÓN", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    msgBox.ShowDialog(this);
+                    //MessageBox.Show("No hay Conexion. \n Trabajndo en modo SIN CONEXIÓN");
+                    //this.recargar();
+                    break;
+                case 3:
+                    msgBox = new MsgBox(this, "Error al Accesar. \n Informar al Administrador.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    msgBox.ShowDialog(this);
+                    //MessageBox.Show("Error al Guardar los Datos.");
+                    break;
+            }
+
         }
 
         private void FormClosedEventHandler(object sender, FormClosedEventArgs e)

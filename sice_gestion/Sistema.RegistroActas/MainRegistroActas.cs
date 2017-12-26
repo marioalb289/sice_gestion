@@ -16,5 +16,30 @@ namespace Sistema.RegistroActas
         {
             InitializeComponent();
         }
+
+        private void btnRegistrarActas_Click(object sender, EventArgs e)
+        {
+            frmRegistroActas form = new frmRegistroActas();
+            form.MdiParent = this.MdiParent;
+            form.Dock = DockStyle.Fill;
+            form.Show();
+        }
+
+        private void btnConsultarActas_Click(object sender, EventArgs e)
+        {
+            //Form2 form = new Form2();
+            //form.MdiParent = this.MdiParent;
+            //form.Dock = DockStyle.Fill;
+            //form.Show();
+        }
+
+        private void btnReportes_Click(object sender, EventArgs e)
+        {
+            //frmRegistroActas form = new frmRegistroActas();
+            //form.MdiParent = this.MdiParent;
+            //form.Dock = DockStyle.Fill;
+            //form.Show();
+
+        }
     }
 }

@@ -13,13 +13,19 @@ namespace Sistema.DataModel
             : base("name=" + name)
         {
         }
-        public DbSet<sice_candidatos> usuarios { get; set; }
-        public DbSet<sice_candidaturas> areas { get; set; }
-        public DbSet<sice_casillas> cosas_requi { get; set; }
-        public DbSet<sice_distritos_locales> lugares { get; set; }
-        public DbSet<sice_municipios> requerimientos { get; set; }
-        public DbSet<sice_partidos_politicos> sigi_contador_folios { get; set; }
-        public DbSet<sice_registro_votos> sigi_documentos { get; set; }
-        public DbSet<sice_usuarios> sigi_oficios { get; set; }
+        public DbSet<sice_ar_asignacion> sice_ar_asignacion { get; set; }
+        public DbSet<sice_ar_documentos> sice_ar_documentos { get; set; }
+        public DbSet<sice_ar_reserva> sice_ar_reserva { get; set; }
+        public DbSet<sice_ar_votos> sice_ar_votos { get; set; }
+        public DbSet<sice_ar_votos_valida1> sice_ar_votos_valida1 { get; set; }
+        public DbSet<sice_ar_votos_valida2> sice_ar_votos_valida2 { get; set; }
+        public DbSet<sice_candidatos> usice_candidatossuarios { get; set; }
+        public DbSet<sice_candidaturas> sice_candidaturas { get; set; }
+        public DbSet<sice_casillas> sice_casillas { get; set; }
+        public DbSet<sice_distritos_locales> sice_distritos_locales { get; set; }
+        public DbSet<sice_municipios> sice_municipios { get; set; }
+        public DbSet<sice_partidos_politicos> sice_partidos_politicos { get; set; }
+        public DbSet<sice_reserva> sice_reserva { get; set; }
+        public DbSet<sice_usuarios> sice_usuarios { get; set; }
     }
 }
