@@ -73,6 +73,26 @@ namespace Sistema.RegistroActas.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap no_regis {
+            get {
+                object obj = ResourceManager.GetObject("no_regis", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap nulos {
+            get {
+                object obj = ResourceManager.GetObject("nulos", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap oslRB {
             get {
                 object obj = ResourceManager.GetObject("oslRB", resourceCulture);

@@ -45,6 +45,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmRegistroActas.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -59,6 +65,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmRegistroActas.resx">
       <DependentUpon>frmRegistroActas.cs</DependentUpon>
     </EmbeddedResource>
@@ -89,6 +98,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cyotek.Windows.Forms.ImageBox\Cyotek.Windows.Forms.ImageBox.csproj">
+      <Project>{4159c8d3-c18d-4bed-8be6-9bad1b0ca4f6}</Project>
+      <Name>Cyotek.Windows.Forms.ImageBox</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sistema.DataModel\Sistema.DataModel.csproj">
       <Project>{b69062f0-b514-40d3-8ce3-4c288dff5103}</Project>
       <Name>Sistema.DataModel</Name>
@@ -103,6 +116,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\iepc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\no-regis.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\nulos.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
