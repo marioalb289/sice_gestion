@@ -69,7 +69,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1140, 50);
+            this.panel1.Size = new System.Drawing.Size(1157, 50);
             this.panel1.TabIndex = 0;
             // 
             // tableLayoutPanel1
@@ -92,14 +92,14 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1140, 50);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1157, 50);
             this.tableLayoutPanel1.TabIndex = 4;
             // 
             // button1
             // 
             this.button1.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
-            this.button1.Location = new System.Drawing.Point(1098, 3);
+            this.button1.Location = new System.Drawing.Point(1115, 3);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(39, 44);
             this.button1.TabIndex = 24;
@@ -120,16 +120,19 @@
             // 
             // panel2
             // 
+            this.panel2.AutoScroll = true;
+            this.panel2.AutoSize = true;
             this.panel2.BackColor = System.Drawing.Color.Transparent;
             this.panel2.Controls.Add(this.tableLayoutPanel2);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 50);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1140, 750);
+            this.panel2.Size = new System.Drawing.Size(1157, 550);
             this.panel2.TabIndex = 1;
             // 
             // tableLayoutPanel2
             // 
+            this.tableLayoutPanel2.AutoScroll = true;
             this.tableLayoutPanel2.ColumnCount = 2;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
@@ -150,8 +153,8 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(1140, 750);
-            this.tableLayoutPanel2.TabIndex = 7;
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(1157, 550);
+            this.tableLayoutPanel2.TabIndex = 8;
             // 
             // panel4
             // 
@@ -164,13 +167,13 @@
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(3, 3);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(1134, 44);
+            this.panel4.Size = new System.Drawing.Size(1151, 44);
             this.panel4.TabIndex = 9;
             // 
             // btnTomarActa
             // 
             this.btnTomarActa.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnTomarActa.Location = new System.Drawing.Point(834, 0);
+            this.btnTomarActa.Location = new System.Drawing.Point(851, 0);
             this.btnTomarActa.Name = "btnTomarActa";
             this.btnTomarActa.Size = new System.Drawing.Size(75, 44);
             this.btnTomarActa.TabIndex = 20;
@@ -193,7 +196,7 @@
             // 
             this.btnLimpiar.Dock = System.Windows.Forms.DockStyle.Right;
             this.btnLimpiar.Enabled = false;
-            this.btnLimpiar.Location = new System.Drawing.Point(909, 0);
+            this.btnLimpiar.Location = new System.Drawing.Point(926, 0);
             this.btnLimpiar.Name = "btnLimpiar";
             this.btnLimpiar.Size = new System.Drawing.Size(75, 44);
             this.btnLimpiar.TabIndex = 21;
@@ -205,7 +208,7 @@
             // 
             this.btnLegible.Dock = System.Windows.Forms.DockStyle.Right;
             this.btnLegible.Enabled = false;
-            this.btnLegible.Location = new System.Drawing.Point(984, 0);
+            this.btnLegible.Location = new System.Drawing.Point(1001, 0);
             this.btnLegible.Name = "btnLegible";
             this.btnLegible.Size = new System.Drawing.Size(75, 44);
             this.btnLegible.TabIndex = 22;
@@ -217,7 +220,7 @@
             // 
             this.btnGuardar.Dock = System.Windows.Forms.DockStyle.Right;
             this.btnGuardar.Enabled = false;
-            this.btnGuardar.Location = new System.Drawing.Point(1059, 0);
+            this.btnGuardar.Location = new System.Drawing.Point(1076, 0);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(75, 44);
             this.btnGuardar.TabIndex = 23;
@@ -231,10 +234,10 @@
             this.label3.AutoSize = true;
             this.label3.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(801, 50);
+            this.label3.Location = new System.Drawing.Point(812, 50);
             this.label3.Name = "label3";
             this.label3.Padding = new System.Windows.Forms.Padding(10);
-            this.label3.Size = new System.Drawing.Size(336, 44);
+            this.label3.Size = new System.Drawing.Size(342, 44);
             this.label3.TabIndex = 5;
             this.label3.Text = "Seleccionar Sección";
             // 
@@ -243,10 +246,10 @@
             this.cmbCasilla.Dock = System.Windows.Forms.DockStyle.Top;
             this.cmbCasilla.Enabled = false;
             this.cmbCasilla.FormattingEnabled = true;
-            this.cmbCasilla.Location = new System.Drawing.Point(818, 174);
+            this.cmbCasilla.Location = new System.Drawing.Point(829, 174);
             this.cmbCasilla.Margin = new System.Windows.Forms.Padding(20, 5, 20, 5);
             this.cmbCasilla.Name = "cmbCasilla";
-            this.cmbCasilla.Size = new System.Drawing.Size(302, 21);
+            this.cmbCasilla.Size = new System.Drawing.Size(308, 21);
             this.cmbCasilla.TabIndex = 2;
             // 
             // cmbSeccion
@@ -254,22 +257,21 @@
             this.cmbSeccion.Dock = System.Windows.Forms.DockStyle.Top;
             this.cmbSeccion.Enabled = false;
             this.cmbSeccion.FormattingEnabled = true;
-            this.cmbSeccion.Location = new System.Drawing.Point(818, 99);
+            this.cmbSeccion.Location = new System.Drawing.Point(829, 99);
             this.cmbSeccion.Margin = new System.Windows.Forms.Padding(20, 5, 20, 5);
             this.cmbSeccion.Name = "cmbSeccion";
-            this.cmbSeccion.Size = new System.Drawing.Size(302, 21);
+            this.cmbSeccion.Size = new System.Drawing.Size(308, 21);
             this.cmbSeccion.TabIndex = 1;
-            this.cmbSeccion.SelectedValueChanged += new System.EventHandler(this.cmbSeccion_SelectedValueChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(801, 125);
+            this.label2.Location = new System.Drawing.Point(812, 125);
             this.label2.Name = "label2";
             this.label2.Padding = new System.Windows.Forms.Padding(10);
-            this.label2.Size = new System.Drawing.Size(336, 44);
+            this.label2.Size = new System.Drawing.Size(342, 44);
             this.label2.TabIndex = 4;
             this.label2.Text = "Seleccionar Casilla";
             // 
@@ -284,21 +286,12 @@
             this.tblPanaelPartidos.Controls.Add(this.pnlTableTitulo, 0, 0);
             this.tblPanaelPartidos.Controls.Add(this.pnlTableVotos, 1, 0);
             this.tblPanaelPartidos.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tblPanaelPartidos.Location = new System.Drawing.Point(801, 203);
+            this.tblPanaelPartidos.Location = new System.Drawing.Point(812, 203);
             this.tblPanaelPartidos.Name = "tblPanaelPartidos";
             this.tblPanaelPartidos.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.tblPanaelPartidos.RowCount = 1;
-            this.tblPanaelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tblPanaelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tblPanaelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tblPanaelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tblPanaelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tblPanaelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tblPanaelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tblPanaelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tblPanaelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tblPanaelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tblPanaelPartidos.Size = new System.Drawing.Size(336, 74);
+            this.tblPanaelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tblPanaelPartidos.Size = new System.Drawing.Size(342, 54);
             this.tblPanaelPartidos.TabIndex = 6;
             // 
             // pnlTableTitulo
@@ -308,7 +301,7 @@
             this.pnlTableTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableTitulo.Location = new System.Drawing.Point(15, 5);
             this.pnlTableTitulo.Name = "pnlTableTitulo";
-            this.pnlTableTitulo.Size = new System.Drawing.Size(118, 64);
+            this.pnlTableTitulo.Size = new System.Drawing.Size(120, 44);
             this.pnlTableTitulo.TabIndex = 39;
             // 
             // label4
@@ -318,7 +311,7 @@
             this.label4.ForeColor = System.Drawing.Color.White;
             this.label4.Location = new System.Drawing.Point(0, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(118, 64);
+            this.label4.Size = new System.Drawing.Size(120, 44);
             this.label4.TabIndex = 0;
             this.label4.Text = "PARTIDO, COALICIÓN O CANDIDATURA";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -328,9 +321,9 @@
             this.pnlTableVotos.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(158)))), ((int)(((byte)(150)))));
             this.pnlTableVotos.Controls.Add(this.label5);
             this.pnlTableVotos.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlTableVotos.Location = new System.Drawing.Point(141, 5);
+            this.pnlTableVotos.Location = new System.Drawing.Point(143, 5);
             this.pnlTableVotos.Name = "pnlTableVotos";
-            this.pnlTableVotos.Size = new System.Drawing.Size(180, 64);
+            this.pnlTableVotos.Size = new System.Drawing.Size(184, 44);
             this.pnlTableVotos.TabIndex = 41;
             // 
             // label5
@@ -340,7 +333,7 @@
             this.label5.ForeColor = System.Drawing.Color.White;
             this.label5.Location = new System.Drawing.Point(0, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(180, 24);
+            this.label5.Size = new System.Drawing.Size(184, 24);
             this.label5.TabIndex = 0;
             this.label5.Text = "RESULTADOS ELECTORALES";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -348,23 +341,15 @@
             // imageBox
             // 
             this.imageBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(14)))), ((int)(((byte)(14)))));
+            this.imageBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.imageBox.Enabled = false;
             this.imageBox.GridColor = System.Drawing.Color.Empty;
             this.imageBox.GridColorAlternate = System.Drawing.Color.Empty;
             this.imageBox.Location = new System.Drawing.Point(3, 53);
             this.imageBox.Name = "imageBox";
             this.tableLayoutPanel2.SetRowSpan(this.imageBox, 5);
-            this.imageBox.Size = new System.Drawing.Size(792, 694);
+            this.imageBox.Size = new System.Drawing.Size(803, 694);
             this.imageBox.TabIndex = 10;
-            this.imageBox.Selected += new System.EventHandler<System.EventArgs>(this.imageBox_Selected);
-            this.imageBox.SelectionRegionChanged += new System.EventHandler(this.imageBox_SelectionRegionChanged);
-            this.imageBox.ZoomChanged += new System.EventHandler(this.imageBox_ZoomChanged);
-            this.imageBox.ZoomLevelsChanged += new System.EventHandler(this.imageBox_ZoomLevelsChanged);
-            this.imageBox.Scroll += new System.Windows.Forms.ScrollEventHandler(this.imageBox_Scroll);
-            this.imageBox.Paint += new System.Windows.Forms.PaintEventHandler(this.imageBox_Paint);
-            this.imageBox.MouseLeave += new System.EventHandler(this.imageBox_MouseLeave);
-            this.imageBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.imageBox_MouseMove);
-            this.imageBox.Resize += new System.EventHandler(this.imageBox_Resize);
             // 
             // frmRegistroActas
             // 
@@ -389,32 +374,33 @@
             this.pnlTableTitulo.ResumeLayout(false);
             this.pnlTableVotos.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox cmbCasilla;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.PictureBox pictureBox4;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Button btnTomarActa;
+        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnLimpiar;
         private System.Windows.Forms.Button btnLegible;
         private System.Windows.Forms.Button btnGuardar;
-        private System.Windows.Forms.PictureBox pictureBox4;
-        private System.Windows.Forms.Label label1;
-        private Cyotek.Windows.Forms.ImageBox imageBox;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox cmbCasilla;
         private System.Windows.Forms.ComboBox cmbSeccion;
+        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TableLayoutPanel tblPanaelPartidos;
         private System.Windows.Forms.Panel pnlTableTitulo;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Panel pnlTableVotos;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button btnTomarActa;
+        private Cyotek.Windows.Forms.ImageBox imageBox;
     }
 }

@@ -106,10 +106,13 @@ namespace Sistema.RegistroActas
                     {
                         pictureBoxes[i] = new PictureBox();
                         textBoxes[i] = new TextBox();
+                        this.tblPanaelPartidos.RowCount = this.tblPanaelPartidos.RowCount + 1;
+
+                        this.tblPanaelPartidos.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
 
                         pictureBoxes[i].BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
                         pictureBoxes[i].Dock = System.Windows.Forms.DockStyle.Fill;
-                        pictureBoxes[i].Image = (i > lsCandidatos.Count) ? ((System.Drawing.Image)(Resources.nulos)) : ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
+                        pictureBoxes[i].Image = (i > lsCandidatos.Count -1 ) ? ( i == lsCandidatos.Count ? (System.Drawing.Image)(Resources.nulos) : (System.Drawing.Image)(Resources.no_regis)) : ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
                         pictureBoxes[i].Location = new System.Drawing.Point(15, 57);
                         pictureBoxes[i].Name = "pictureBox" + i;
                         pictureBoxes[i].Size = new System.Drawing.Size(75, 44);
@@ -122,12 +125,14 @@ namespace Sistema.RegistroActas
                         textBoxes[i].Anchor = System.Windows.Forms.AnchorStyles.None;
                         textBoxes[i].Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                         textBoxes[i].Location = new System.Drawing.Point(106, 64);
-                        textBoxes[i].Name = "textBox"+i;
+                        textBoxes[i].Name = "textBox" + i;
                         textBoxes[i].Size = new System.Drawing.Size(100, 29);
                         textBoxes[i].TabIndex = 10;
 
                         this.tblPanaelPartidos.Controls.Add(textBoxes[i], 1, i + 1);
-                   
+
+
+
                     }
                 }
                 int x = 1;
