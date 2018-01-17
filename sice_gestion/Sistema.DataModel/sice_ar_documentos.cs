@@ -18,6 +18,8 @@ namespace Sistema.DataModel
         public string nombre { get; set; }
         public string ruta { get; set; }
         public string estatus { get; set; }
+        public Nullable<int> filtro { get; set; }
+        public Nullable<int> id_casilla { get; set; }
         public System.DateTime create_at { get; set; }
         public System.DateTime updated_at { get; set; }
     }

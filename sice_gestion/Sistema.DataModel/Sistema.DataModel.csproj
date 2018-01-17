@@ -84,6 +84,9 @@
     <Compile Include="sice_ar_votos_valida2.cs">
       <DependentUpon>DatacenterModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="sice_ar_votos_valida3.cs">
+      <DependentUpon>DatacenterModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="sice_candidatos.cs">
       <DependentUpon>DatacenterModel.tt</DependentUpon>
     </Compile>

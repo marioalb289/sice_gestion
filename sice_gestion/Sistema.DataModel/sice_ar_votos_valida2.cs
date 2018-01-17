@@ -17,6 +17,7 @@ namespace Sistema.DataModel
         public int id { get; set; }
         public Nullable<int> id_candidato { get; set; }
         public Nullable<int> id_casilla { get; set; }
+        public Nullable<int> id_documento { get; set; }
         public Nullable<int> votos { get; set; }
         public string tipo { get; set; }
     }

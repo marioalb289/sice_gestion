@@ -12,7 +12,7 @@ namespace Sistema.DataModel
     using System;
     using System.Collections.Generic;
     
-    public partial class sice_ar_votos_valida1
+    public partial class sice_ar_votos_valida3
     {
         public int id { get; set; }
         public Nullable<int> id_candidato { get; set; }

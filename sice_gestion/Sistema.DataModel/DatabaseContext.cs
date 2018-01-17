@@ -19,6 +19,7 @@ namespace Sistema.DataModel
         public DbSet<sice_ar_votos> sice_ar_votos { get; set; }
         public DbSet<sice_ar_votos_valida1> sice_ar_votos_valida1 { get; set; }
         public DbSet<sice_ar_votos_valida2> sice_ar_votos_valida2 { get; set; }
+        public DbSet<sice_ar_votos_valida3> sice_ar_votos_valida3 { get; set; }
         public DbSet<sice_candidatos> usice_candidatossuarios { get; set; }
         public DbSet<sice_candidaturas> sice_candidaturas { get; set; }
         public DbSet<sice_casillas> sice_casillas { get; set; }

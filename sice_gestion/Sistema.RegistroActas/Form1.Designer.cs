@@ -60,13 +60,15 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox11 = new System.Windows.Forms.PictureBox();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox27 = new System.Windows.Forms.TextBox();
             this.pnlTableTitulo = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.pnlTableVotos = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.label6 = new System.Windows.Forms.Label();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.imageBox = new Cyotek.Windows.Forms.ImageBox();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -83,9 +85,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.pnlTableTitulo.SuspendLayout();
             this.pnlTableVotos.SuspendLayout();
+            this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -307,11 +310,11 @@
             this.tableLayoutPanel3.Controls.Add(this.pictureBox2, 0, 4);
             this.tableLayoutPanel3.Controls.Add(this.pictureBox11, 0, 3);
             this.tableLayoutPanel3.Controls.Add(this.pictureBox5, 0, 2);
-            this.tableLayoutPanel3.Controls.Add(this.pictureBox3, 0, 1);
             this.tableLayoutPanel3.Controls.Add(this.textBox1, 1, 1);
             this.tableLayoutPanel3.Controls.Add(this.textBox27, 1, 9);
             this.tableLayoutPanel3.Controls.Add(this.pnlTableTitulo, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.pnlTableVotos, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.panel3, 0, 1);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Top;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 203);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
@@ -482,18 +485,6 @@
             this.pictureBox5.TabIndex = 2;
             this.pictureBox5.TabStop = false;
             // 
-            // pictureBox3
-            // 
-            this.pictureBox3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(15, 57);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(75, 44);
-            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox3.TabIndex = 2;
-            this.pictureBox3.TabStop = false;
-            // 
             // textBox1
             // 
             this.textBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -502,6 +493,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(100, 29);
             this.textBox1.TabIndex = 10;
+            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBox27
             // 
@@ -556,6 +548,38 @@
             this.label5.Text = "RESULTADOS ELECTORALES";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.label6);
+            this.panel3.Controls.Add(this.pictureBox3);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel3.Location = new System.Drawing.Point(15, 57);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(75, 44);
+            this.panel3.TabIndex = 42;
+            // 
+            // label6
+            // 
+            this.label6.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label6.Location = new System.Drawing.Point(0, 28);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(75, 13);
+            this.label6.TabIndex = 5;
+            this.label6.Text = "Lic. Andres Manuel Lopez Obrador";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
+            this.pictureBox3.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(75, 28);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox3.TabIndex = 4;
+            this.pictureBox3.TabStop = false;
+            // 
             // imageBox
             // 
             this.imageBox.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -592,9 +616,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.pnlTableTitulo.ResumeLayout(false);
             this.pnlTableVotos.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -632,7 +657,6 @@
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.PictureBox pictureBox11;
         private System.Windows.Forms.PictureBox pictureBox5;
-        private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox textBox27;
         private System.Windows.Forms.Panel pnlTableTitulo;
@@ -640,5 +664,8 @@
         private System.Windows.Forms.Panel pnlTableVotos;
         private System.Windows.Forms.Label label5;
         private Cyotek.Windows.Forms.ImageBox imageBox;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.PictureBox pictureBox3;
     }
 }
