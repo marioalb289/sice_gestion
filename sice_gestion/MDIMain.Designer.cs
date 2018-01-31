@@ -29,9 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MDIMain));
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.notifyActas = new System.Windows.Forms.NotifyIcon(this.components);
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -50,6 +52,14 @@
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
             this.toolStripStatusLabel.Size = new System.Drawing.Size(42, 17);
             this.toolStripStatusLabel.Text = "Estado";
+            // 
+            // notifyActas
+            // 
+            this.notifyActas.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyActas.Icon")));
+            this.notifyActas.Text = "notifyIcon1";
+            this.notifyActas.Visible = true;
+            this.notifyActas.Click += new System.EventHandler(this.notifyActas_Click_1);
+            this.notifyActas.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyActas_MouseDoubleClick);
             // 
             // MDIMain
             // 
@@ -72,6 +82,7 @@
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
         private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.NotifyIcon notifyActas;
     }
 }
 

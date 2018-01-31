@@ -72,6 +72,9 @@
     <Compile Include="sice_ar_documentos.cs">
       <DependentUpon>DatacenterModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="sice_ar_documentos_local.cs">
+      <DependentUpon>DatacenterModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="sice_ar_reserva.cs">
       <DependentUpon>DatacenterModel.tt</DependentUpon>
     </Compile>

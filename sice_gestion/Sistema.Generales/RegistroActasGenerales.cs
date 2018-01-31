@@ -102,6 +102,37 @@ namespace Sistema.Generales
             { throw E; }
 
         }
+        public sice_ar_documentos getDocumentoCasilla(int id_casilla)
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext("MYSQLSERVER"))
+                {
+                    return (from p in contexto.sice_ar_documentos where p.id_casilla == id_casilla select p).FirstOrDefault();
+                    //return contexto.sice_casillas.Select(x => new SeccionCasilla { id = x.id, seccion = (int)x.seccion, casilla = (string)x.tipo_casilla }).ToList();
+                }
+
+            }
+            catch (Exception E)
+            { throw E; }
+
+        }
+
+        public List<sice_ar_documentos> ListaDocumentos()
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext("MYSQLSERVER"))
+                {
+                    return (from p in contexto.sice_ar_documentos select p).ToList();
+                    //return contexto.sice_casillas.Select(x => new SeccionCasilla { id = x.id, seccion = (int)x.seccion, casilla = (string)x.tipo_casilla }).ToList();
+                }
+
+            }
+            catch (Exception E)
+            { throw E; }
+
+        }
 
         public List<Candidatos> ListaCandidatos(int distrito)
         {
@@ -127,56 +158,37 @@ namespace Sistema.Generales
             { throw E; }
         }
 
-        public int TomarCasilla(string nombreArchivo,string ruta)
+        public sice_ar_documentos TomarCasilla()
         {
             try
             {
                 //Buscar que el arcivo no se encuentre ya registrado
                 using (DatabaseContext contexto = new DatabaseContext("MYSQLSERVER"))
                 {
-                    DateTime localDate = DateTime.Now;
-                    sice_ar_documentos doc = (from p in contexto.sice_ar_documentos where p.nombre == nombreArchivo && p.ruta == ruta select p).FirstOrDefault();
-                    if(doc != null)
+                    using (var TransactionContexto = new TransactionScope())
                     {
-                        if(doc.estatus == "LIBRE")
+                        DateTime localDate = DateTime.Now;
+                        sice_ar_documentos doc = (from p in contexto.sice_ar_documentos where p.estatus == "LIBRE" select p).FirstOrDefault();
+                        if (doc != null)
                         {
+                            
                             //Asignar
-                            doc.estatus = "OCUPADO";;
+                            doc.estatus = "OCUPADO"; ;
                             doc.updated_at = localDate;
 
                             sice_ar_asignacion newAsig2 = new sice_ar_asignacion();
                             newAsig2.id_documento = doc.id;
                             newAsig2.id_usuario = LoginInfo.id_usuario;
-                            newAsig2.filtro = doc.filtro; 
+                            newAsig2.filtro = doc.filtro;
                             contexto.sice_ar_asignacion.Add(newAsig2);
-
                             contexto.SaveChanges();
-                            return doc.id;
+                            TransactionContexto.Complete();
+                            return doc;
+                            
                         }
-                        else
-                        {
-                            return 0;
-                        }
-                    }
-                    //Guardar nuevo documento
-                    sice_ar_documentos newDoc = new sice_ar_documentos();
-                    newDoc.nombre = nombreArchivo;
-                    newDoc.ruta = ruta;
-                    newDoc.estatus = "OCUPADO";
-                    //newDoc.id_usuario = LoginInfo.id_usuario;
-                    newDoc.filtro = 0;                    
-                    newDoc.create_at = localDate;
-                    newDoc.updated_at = localDate;
-                    contexto.sice_ar_documentos.Add(newDoc);
-                    contexto.SaveChanges();
+                        return doc;
 
-                    sice_ar_asignacion newAsig = new sice_ar_asignacion();
-                    newAsig.id_documento = newDoc.id;
-                    newAsig.id_usuario = LoginInfo.id_usuario;
-                    newAsig.filtro = 0;
-                    contexto.sice_ar_asignacion.Add(newAsig);                    
-                    contexto.SaveChanges();
-                    return newDoc.id;
+                    }
                 }
 
             }

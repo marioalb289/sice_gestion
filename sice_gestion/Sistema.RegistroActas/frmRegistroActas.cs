@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Sistema.Generales;
 using Sistema.DataModel;
+using System.IO;
+using System.Net;
 
 namespace Sistema.RegistroActas
 {
@@ -30,6 +32,7 @@ namespace Sistema.RegistroActas
         private int flagComboCasilla = 0;
         private int idDocumento = 0;
         private int totalCandidatos = 0;
+        string networkPath = @"\\192.168.1.241\sice_archivos\";
 
         #endregion
 
@@ -50,6 +53,28 @@ namespace Sistema.RegistroActas
 
         }
 
+        private void CargarImagen(sice_ar_documentos documento)
+        {
+            try
+            {
+                var networkPath = @"\\192.168.1.146\sice_archivos";
+                var credentials = new NetworkCredential("mario.canales@IEPCDGO.org", "Iepc2018");
+
+                using (new NetworkConnection(networkPath, credentials))
+                {
+                    //Image image1 = Image.FromFile(networkPath + "\\"+documento.nombre, true);
+                    //this.OpenImage(image1);
+                    this.OpenImage(Resources.iepc);
+
+                }
+                    
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
         private void cargarActaYaAsignada()
         {
             //this.ClearDataTable();
@@ -60,6 +85,7 @@ namespace Sistema.RegistroActas
                 this.idDocumento = doc.id;
                 flagCombo = 0;
                 this.cargarComboSeccion();
+                this.CargarImagen(doc);
                 flagCombo++;
                 MessageBox.Show("Acta Asginada");
             }
@@ -72,7 +98,7 @@ namespace Sistema.RegistroActas
             try
             {
                 //Aqui deberia seleccionar una de las imegenes que vengan del repositorio
-                this.OpenImage(Resources.iepc);                
+                //this.OpenImage(Resources.iepc);                
 
                 imageBox.SelectionMode = ImageBoxSelectionMode.Zoom;
                 imageBox.AllowClickZoom = true;
@@ -253,10 +279,15 @@ namespace Sistema.RegistroActas
             try
             {
                 List<sice_ar_votos> lista_votos = new List<sice_ar_votos>();
-                foreach(TextBox datos in this.textBoxes)
+                int id_casilla = Convert.ToInt32(cmbCasilla.SelectedValue);
+                if (id_casilla == 0)
+                    throw new Exception("Selecciona una Casilla");
+                foreach (TextBox datos in this.textBoxes)
                 {
                     double num;
-                    if(double.TryParse(datos.Text, out num))
+                   
+                    
+                    if (double.TryParse(datos.Text, out num))
                     {
                         //Es numero proceder guardar
                         int? id_candidato = null;
@@ -276,7 +307,7 @@ namespace Sistema.RegistroActas
                         }
                         lista_votos.Add(new sice_ar_votos() {
                             id_candidato = id_candidato,
-                            id_casilla = Convert.ToInt32(cmbCasilla.SelectedValue),
+                            id_casilla = id_casilla,
                             votos = Convert.ToInt32(datos.Text),
                             tipo = tipo_voto
                         });
@@ -650,9 +681,6 @@ namespace Sistema.RegistroActas
             {
                 this.ClearDataTable();
             }
-            
-            
-
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
@@ -681,20 +709,24 @@ namespace Sistema.RegistroActas
                  * 
                 */
                 rgActas = new RegistroActasGenerales();
-                int res = rgActas.TomarCasilla("abcd16", "ruta/ruta");
+                //this.buscarArchivos(rgActas);
+                sice_ar_documentos res = rgActas.TomarCasilla();
                 this.btnTomarActa.Enabled = false;
-                if (res == 0)
+                if (res != null)
                 {
-                    throw new Exception("No hay Actas disponibles");
+                    //this.ClearDataTable();
+                    this.idDocumento = res.id;
+                    flagCombo = 0;
+                    this.cargarComboSeccion();
+                    this.CargarImagen(res);
+                    flagCombo++;
+                    MessageBox.Show("Acta Asginada");
                 }                    
                 else
                 {
-                    //this.ClearDataTable();
-                    this.idDocumento = res;
-                    flagCombo = 0;
-                    this.cargarComboSeccion();
-                    flagCombo++;
-                    MessageBox.Show("Acta Asginada");
+                    throw new Exception("No hay Actas disponibles");
+                    btnTomarActa.Enabled = true;
+                   
                 }
                     
 

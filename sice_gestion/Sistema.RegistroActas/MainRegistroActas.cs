@@ -27,10 +27,10 @@ namespace Sistema.RegistroActas
 
         private void btnConsultarActas_Click(object sender, EventArgs e)
         {
-            //Form2 form = new Form2();
-            //form.MdiParent = this.MdiParent;
-            //form.Dock = DockStyle.Fill;
-            //form.Show();
+            frmConsultaActas form = new frmConsultaActas();
+            form.MdiParent = this.MdiParent;
+            form.Dock = DockStyle.Fill;
+            form.Show();
         }
 
         private void btnReportes_Click(object sender, EventArgs e)
