@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -21,6 +22,8 @@ namespace Sistema.RegistroActas
         private List<SeccionCasilla> sc;
         private RegistroActasGenerales rgActas;
         private int flagCombo = 0;
+        Image imageLoad;
+        string nameImageLoad = ""; 
 
         public frmConsultaActas()
         {
@@ -104,13 +107,15 @@ namespace Sistema.RegistroActas
                 sice_ar_documentos documento = rgActas.getDocumentoCasilla(Convert.ToInt32(cmbCasilla.SelectedValue));
                 if(documento != null)
                 {
-                    using (new NetworkConnection(networkPath, credentials))
-                    {
-                        //Image image1 = Image.FromFile(networkPath + "\\"+documento.nombre, true);
-                        //this.OpenImage(image1);
+                    //using (new NetworkConnection(networkPath, credentials))
+                    //{
+                        this.imageLoad = Image.FromFile(networkPath + "\\" + documento.nombre, true);
+                        this.OpenImage(imageLoad);
+                        this.nameImageLoad = documento.nombre;
                         imageBox.Enabled = true;
-                        this.OpenImage(Resources.iepc);
-                    }
+                        btnGuardar.Enabled = true;
+                        //this.OpenImage(Resources.iepc);
+                    //}7
                 }
                 else
                 {
@@ -133,7 +138,32 @@ namespace Sistema.RegistroActas
 
             this.UpdateStatusBar();
             this.UpdatePreviewImage();
-        }      
+        }
+        
+        private void guardarImagencomo()
+        {
+            try
+            {
+                if(this.imageLoad != null)
+                {
+                    SaveFileDialog fichero = new SaveFileDialog();
+                    fichero.Filter = "Images(*.jpg)|*.jpg";
+                    fichero.FileName = this.nameImageLoad;
+                    ImageFormat format = ImageFormat.Png;
+
+                    if (fichero.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    {
+                        imageLoad.Save(fichero.FileName);
+                    }
+                }
+
+
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
 
 
         private void UpdateStatusBar()
@@ -313,6 +343,11 @@ namespace Sistema.RegistroActas
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnGuardar_Click(object sender, EventArgs e)
+        {
+            this.guardarImagencomo();
         }
     }
 }

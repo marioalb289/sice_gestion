@@ -35,10 +35,10 @@ namespace Sistema.RegistroActas
 
         private void btnReportes_Click(object sender, EventArgs e)
         {
-            //frmRegistroActas form = new frmRegistroActas();
-            //form.MdiParent = this.MdiParent;
-            //form.Dock = DockStyle.Fill;
-            //form.Show();
+            Reportes form = new Reportes();
+            form.MdiParent = this.MdiParent;
+            form.Dock = DockStyle.Fill;
+            form.Show();
 
         }
     }

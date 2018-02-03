@@ -10,6 +10,19 @@ namespace Sistema.Generales
 {
     public class RegistroActasGenerales
     {
+        public List<sice_distritos_locales> ListaDistritos()
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext("MYSQLSERVER"))
+                {
+                    return (from d in contexto.sice_distritos_locales select d).ToList();
+                }
+
+            }
+            catch (Exception E)
+            { throw E; }
+        }
         public List<SeccionCasilla> ListaSescciones()
         {
             try
@@ -490,6 +503,49 @@ namespace Sistema.Generales
             }
 
         }
+
+        public List<VotosSeccion> ResultadosSeccion(int id_distrito_local = 0)
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext("MYSQLSERVER"))
+                {
+                    string condicion = "";
+                    if (id_distrito_local != 0)
+                        condicion = " AND C.id_distrito_local = " + id_distrito_local + " ";
+                    string consulta =
+                        "SELECT " +
+                            "C.seccion," +
+                            "RV.id_casilla," +
+                            "C.tipo_casilla as casilla," +
+                            "C.lista_nominal," +
+                            "RV.id_candidato," +
+                            "RV.votos," +
+                            "RV.tipo," +
+                            "CONCAT(CND.nombre, ' ', CND.apellido_paterno, ' ', CND.apellido_materno) as candidato," +
+                            "P.siglas_par as partido," +
+                            "P.img_par as imagen," +
+                            "C.id_distrito_local as distrito_local," +
+                            "M.municipio," +
+                            "M2.municipio AS cabecera_local " +
+                        "FROM sice_ar_votos RV " +
+                        "LEFT JOIN sice_candidatos CND ON CND.id = RV.id_candidato " +
+                        "LEFT JOIN sice_partidos_politicos P ON P.id = CND.fk_partido " +
+                        "JOIN sice_casillas C ON C.id = RV.id_casilla " + condicion +
+                        "JOIN sice_municipios M ON M.id = C.id_municipio " +
+                        "JOIN sice_municipios M2 ON M2.id = C.id_cabecera_local " +
+                        "ORDER BY C.seccion ASC, RV.id_casilla ASC, RV.id_candidato DESC ";
+
+                    return contexto.Database.SqlQuery<VotosSeccion>(consulta).ToList();
+                }
+
+
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 
     public class SeccionCasilla
@@ -518,5 +574,23 @@ namespace Sistema.Generales
         public Nullable<int> id_casilla { get; set; }
         public Nullable<int> votos { get; set; }
         public string tipo { get; set; }
+    }
+
+    public class VotosSeccion
+    {
+        public int seccion { get; set; }
+        public Nullable<int> id_casilla { get; set; }
+        public string casilla { get; set; }
+        public int lista_nominal { get; set; }
+        public Nullable<int> id_candidato { get; set; }        
+        public Nullable<int> votos { get; set; }
+        public string tipo { get; set; }
+        public string candidato { get; set; }
+        public string partido { get; set; }
+        public string imagen { get; set; }
+        public int distrito_local { get; set; }
+        public string municipio { get; set; }
+        public string cabecera_local { get; set; }
+
     }
 }

@@ -58,15 +58,15 @@ namespace Sistema.RegistroActas
             try
             {
                 var networkPath = @"\\192.168.1.146\sice_archivos";
-                var credentials = new NetworkCredential("mario.canales@IEPCDGO.org", "Iepc2018");
+                //var credentials = new NetworkCredential("mario.canales@IEPCDGO.org", "Iepc2018");
 
-                using (new NetworkConnection(networkPath, credentials))
-                {
-                    //Image image1 = Image.FromFile(networkPath + "\\"+documento.nombre, true);
-                    //this.OpenImage(image1);
-                    this.OpenImage(Resources.iepc);
+                //using (new NetworkConnection(networkPath, credentials))
+                //{
+                    Image image1 = Image.FromFile(networkPath + "\\" + documento.nombre, true);
+                    this.OpenImage(image1);
+                    //this.OpenImage(Resources.iepc);
 
-                }
+                //}
                     
             }
             catch(Exception ex)
@@ -724,8 +724,8 @@ namespace Sistema.RegistroActas
                 }                    
                 else
                 {
-                    throw new Exception("No hay Actas disponibles");
                     btnTomarActa.Enabled = true;
+                    throw new Exception("No hay Actas disponibles");                   
                    
                 }
                     

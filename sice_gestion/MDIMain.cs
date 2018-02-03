@@ -37,7 +37,7 @@ namespace sice_gestion
             mod.Dock = DockStyle.Fill;
             //mod.ControlBox = false;
             mod.Show();
-            this.RunWatchFile();
+            //this.RunWatchFile();
         }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
