@@ -31,7 +31,6 @@
             this.picIcono = new System.Windows.Forms.PictureBox();
             this.bttCancelar = new System.Windows.Forms.Button();
             this.bttAceptar = new System.Windows.Forms.Button();
-            this.txtMensaje = new System.Windows.Forms.TextBox();
             this.bttSi = new System.Windows.Forms.Button();
             this.bttNo = new System.Windows.Forms.Button();
             this.bttAbort = new System.Windows.Forms.Button();
@@ -39,6 +38,7 @@
             this.bttIgnore = new System.Windows.Forms.Button();
             this.bttOk = new System.Windows.Forms.Button();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.lblMensaje = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.picIcono)).BeginInit();
             this.SuspendLayout();
             // 
@@ -47,6 +47,7 @@
             this.picIcono.Location = new System.Drawing.Point(9, 34);
             this.picIcono.Name = "picIcono";
             this.picIcono.Size = new System.Drawing.Size(76, 76);
+            this.picIcono.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.picIcono.TabIndex = 0;
             this.picIcono.TabStop = false;
             // 
@@ -68,18 +69,6 @@
             this.bttAceptar.TabIndex = 3;
             this.bttAceptar.Text = "Aceptar";
             this.bttAceptar.Click += new System.EventHandler(this.bttAceptar_Click);
-            // 
-            // txtMensaje
-            // 
-            this.txtMensaje.BackColor = System.Drawing.Color.White;
-            this.txtMensaje.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtMensaje.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMensaje.Location = new System.Drawing.Point(85, 12);
-            this.txtMensaje.Multiline = true;
-            this.txtMensaje.Name = "txtMensaje";
-            this.txtMensaje.ReadOnly = true;
-            this.txtMensaje.Size = new System.Drawing.Size(402, 119);
-            this.txtMensaje.TabIndex = 4;
             // 
             // bttSi
             // 
@@ -141,19 +130,30 @@
             this.bttOk.Text = "Ok";
             this.bttOk.Click += new System.EventHandler(this.bttOk_Click);
             // 
+            // lblMensaje
+            // 
+            this.lblMensaje.BackColor = System.Drawing.SystemColors.Control;
+            this.lblMensaje.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMensaje.Location = new System.Drawing.Point(91, 8);
+            this.lblMensaje.Name = "lblMensaje";
+            this.lblMensaje.Size = new System.Drawing.Size(394, 127);
+            this.lblMensaje.TabIndex = 4;
+            this.lblMensaje.Text = "Registro de Actas";
+            this.lblMensaje.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // MsgBox
             // 
             this.AcceptButton = this.bttAceptar;
             this.CancelButton = this.bttCancelar;
             this.ClientSize = new System.Drawing.Size(490, 201);
             this.ControlBox = false;
+            this.Controls.Add(this.lblMensaje);
             this.Controls.Add(this.bttOk);
             this.Controls.Add(this.bttIgnore);
             this.Controls.Add(this.bttRetry);
             this.Controls.Add(this.bttAbort);
             this.Controls.Add(this.bttNo);
             this.Controls.Add(this.bttSi);
-            this.Controls.Add(this.txtMensaje);
             this.Controls.Add(this.bttAceptar);
             this.Controls.Add(this.bttCancelar);
             this.Controls.Add(this.picIcono);
@@ -167,7 +167,6 @@
             this.Load += new System.EventHandler(this.MsgBox_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picIcono)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -176,7 +175,6 @@
         private System.Windows.Forms.PictureBox picIcono;
         private System.Windows.Forms.Button bttCancelar;
         private System.Windows.Forms.Button bttAceptar;
-        private System.Windows.Forms.TextBox txtMensaje;
         private System.Windows.Forms.Button bttSi;
         private System.Windows.Forms.Button bttNo;
         private System.Windows.Forms.Button bttAbort;
@@ -184,5 +182,6 @@
         private System.Windows.Forms.Button bttIgnore;
         private System.Windows.Forms.Button bttOk;
         private System.Windows.Forms.ColorDialog colorDialog1;
+        private System.Windows.Forms.Label lblMensaje;
     }
 }

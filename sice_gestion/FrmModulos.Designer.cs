@@ -33,9 +33,9 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
+            this.btnComputos = new System.Windows.Forms.Button();
+            this.btnRegistroActas = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -54,8 +54,8 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.Controls.Add(this.label1, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.label2, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.button2, 2, 2);
-            this.tableLayoutPanel1.Controls.Add(this.button1, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.btnComputos, 2, 2);
+            this.tableLayoutPanel1.Controls.Add(this.btnRegistroActas, 1, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -80,39 +80,6 @@
             this.label1.Text = "Sistema de Cómputos Electorales";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // button2
-            // 
-            this.button2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.button2.BackColor = System.Drawing.Color.Transparent;
-            this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
-            this.button2.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.button2.Location = new System.Drawing.Point(420, 353);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(140, 135);
-            this.button2.TabIndex = 14;
-            this.button2.Text = "Cómputos Electorales";
-            this.button2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.button2.UseVisualStyleBackColor = false;
-            // 
-            // button1
-            // 
-            this.button1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.button1.BackColor = System.Drawing.Color.Transparent;
-            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
-            this.button1.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.button1.Location = new System.Drawing.Point(224, 353);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(140, 135);
-            this.button1.TabIndex = 13;
-            this.button1.Text = "Registro de Actas";
-            this.button1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // label2
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
@@ -125,6 +92,39 @@
             this.label2.TabIndex = 16;
             this.label2.Text = "Seleccionar Módulo";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btnComputos
+            // 
+            this.btnComputos.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnComputos.BackColor = System.Drawing.Color.Transparent;
+            this.btnComputos.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnComputos.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnComputos.Image = ((System.Drawing.Image)(resources.GetObject("btnComputos.Image")));
+            this.btnComputos.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnComputos.Location = new System.Drawing.Point(420, 353);
+            this.btnComputos.Name = "btnComputos";
+            this.btnComputos.Size = new System.Drawing.Size(140, 135);
+            this.btnComputos.TabIndex = 14;
+            this.btnComputos.Text = "Cómputos Electorales";
+            this.btnComputos.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnComputos.UseVisualStyleBackColor = false;
+            // 
+            // btnRegistroActas
+            // 
+            this.btnRegistroActas.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnRegistroActas.BackColor = System.Drawing.Color.Transparent;
+            this.btnRegistroActas.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnRegistroActas.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRegistroActas.Image = ((System.Drawing.Image)(resources.GetObject("btnRegistroActas.Image")));
+            this.btnRegistroActas.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnRegistroActas.Location = new System.Drawing.Point(224, 353);
+            this.btnRegistroActas.Name = "btnRegistroActas";
+            this.btnRegistroActas.Size = new System.Drawing.Size(140, 135);
+            this.btnRegistroActas.TabIndex = 13;
+            this.btnRegistroActas.Text = "Registro de Actas";
+            this.btnRegistroActas.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnRegistroActas.UseVisualStyleBackColor = false;
+            this.btnRegistroActas.Click += new System.EventHandler(this.btnRegistroActas_Click);
             // 
             // FrmModulos
             // 
@@ -149,7 +149,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnRegistroActas;
+        private System.Windows.Forms.Button btnComputos;
     }
 }

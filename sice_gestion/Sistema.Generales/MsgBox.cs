@@ -24,7 +24,9 @@ namespace Sistema.Generales
             mdi = mdiParent;
             AdminMensaje(strText, "");
             AdminBotones(MessageBoxButtons.OK);
-            AdminIcon(MessageBoxIcon.None);
+            AdminIcon("None");
+            this.Parent = this.MdiParent;
+            this.StartPosition = FormStartPosition.CenterParent;
         }
 
         public MsgBox(Form mdiParent, string strText, string strCaption)
@@ -34,7 +36,9 @@ namespace Sistema.Generales
             mdi = mdiParent;
             AdminMensaje(strText, strCaption);
             AdminBotones(MessageBoxButtons.OK);
-            AdminIcon(MessageBoxIcon.None);
+            AdminIcon("None");
+            this.Parent = this.MdiParent;
+            this.StartPosition = FormStartPosition.CenterParent;
         }
 
         public MsgBox(Form mdiParent, string strText, string strCaption, MessageBoxButtons enmButtons)
@@ -44,9 +48,11 @@ namespace Sistema.Generales
             mdi = mdiParent;
             AdminMensaje(strText, strCaption);
             AdminBotones(enmButtons);
-            AdminIcon(MessageBoxIcon.None);
+            AdminIcon("None");
+            this.Parent = this.MdiParent;
+            this.StartPosition = FormStartPosition.CenterParent;
         }
-        public MsgBox(Form mdiParent, string strText, MessageBoxButtons enmButtons, MessageBoxIcon enmIcon)
+        public MsgBox(Form mdiParent, string strText, MessageBoxButtons enmButtons, string enmIcon)
         {
             InitializeComponent();
             //  this.MdiParent = mdiParent;
@@ -55,8 +61,10 @@ namespace Sistema.Generales
             AdminBotones(enmButtons);
             AdminIcon(enmIcon);
             this.BringToFront();
+            this.Parent = this.MdiParent;
+            this.StartPosition = FormStartPosition.CenterParent;
         }
-        public MsgBox(Form mdiParent, string strText, string strCaption, MessageBoxButtons enmButtons, MessageBoxIcon enmIcon)
+        public MsgBox(Form mdiParent, string strText, string strCaption, MessageBoxButtons enmButtons, string enmIcon)
         {
             InitializeComponent();
             //  this.MdiParent = mdiParent;
@@ -65,6 +73,8 @@ namespace Sistema.Generales
             AdminBotones(enmButtons);
             AdminIcon(enmIcon);
             this.BringToFront();
+            this.Parent = this.MdiParent;
+            this.StartPosition = FormStartPosition.CenterParent;
         }
 
         //public void Paremetros(string strText, string strCaption)
@@ -88,23 +98,20 @@ namespace Sistema.Generales
         //}
         private void AdminMensaje(string strText, string strCaption)
         {
-            this.txtMensaje.Text = strText;
+            this.lblMensaje.Text = strText;
             this.Text = strCaption;
 
         }
-        private void AdminIcon(MessageBoxIcon enmIcon)
+        private void AdminIcon(string enmIcon)
         {
             try
             {
-                if (MessageBoxIcon.Asterisk == enmIcon) picIcono.Image = Sistema.Generales.Resources.asterisk_59;// new ImageResourceHandle("asterisk_59.png");
-                if (MessageBoxIcon.Error == enmIcon) picIcono.Image = Sistema.Generales.Resources.Error_60;
-                if (MessageBoxIcon.Exclamation == enmIcon) picIcono.Image = Sistema.Generales.Resources.Information_64;
-                if (MessageBoxIcon.Hand == enmIcon) picIcono.Image = Sistema.Generales.Resources.Hand50;
-                if (MessageBoxIcon.Information == enmIcon) picIcono.Image = Sistema.Generales.Resources.Information_64;
-                if (MessageBoxIcon.None == enmIcon) picIcono.Image = null;
-                if (MessageBoxIcon.Question == enmIcon) picIcono.Image = Sistema.Generales.Resources.question64;
-                if (MessageBoxIcon.Stop == enmIcon) picIcono.Image = Sistema.Generales.Resources.Stop_63;
-                if (MessageBoxIcon.Warning == enmIcon) picIcono.Image = Sistema.Generales.Resources.Warning_64;
+                if ("Ok" == enmIcon) picIcono.Image = Sistema.Generales.Resources.ok2;// new ImageResourceHandle("asterisk_59.png");
+                if ("Error" == enmIcon) picIcono.Image = Sistema.Generales.Resources.Error_60;
+                if ("Advertencia" == enmIcon) picIcono.Image = Sistema.Generales.Resources.Warning_64;
+                if ("Question" == enmIcon) picIcono.Image = Sistema.Generales.Resources.Hand50;
+                if ("Informacion" == enmIcon) picIcono.Image = Sistema.Generales.Resources.Information_64;
+                if ("None" == enmIcon) picIcono.Image = null;
 
             }
             catch (Exception ex)

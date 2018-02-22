@@ -130,17 +130,17 @@ namespace sice_gestion
             switch (res)
             {
                 case 0:
-                    msgBox = new MsgBox(this, "Usuario o contraseña Incorrectos \n Intentalo de Nuevo", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    msgBox = new MsgBox(this, "Usuario o contraseña Incorrectos \n Intentalo de Nuevo", "Atención", MessageBoxButtons.OK, "Advertencia");
                     msgBox.ShowDialog(this);
                     break;
                 case 2:
-                    msgBox = new MsgBox(this, "No hay Conexion. \n Trabajndo en modo SIN CONEXIÓN", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    msgBox = new MsgBox(this, "No hay Conexion. \n Trabajndo en modo SIN CONEXIÓN", "Atención", MessageBoxButtons.OK, "Informacion");
                     msgBox.ShowDialog(this);
                     //MessageBox.Show("No hay Conexion. \n Trabajndo en modo SIN CONEXIÓN");
                     //this.recargar();
                     break;
                 case 3:
-                    msgBox = new MsgBox(this, "Error al Accesar. \n Informar al Administrador.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    msgBox = new MsgBox(this, "Error al Accesar. \n Informar al Administrador.", "Atención", MessageBoxButtons.OK, "Error");
                     msgBox.ShowDialog(this);
                     //MessageBox.Show("Error al Guardar los Datos.");
                     break;

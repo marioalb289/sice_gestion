@@ -50,6 +50,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CotejoActas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CotejoActas.Designer.cs">
+      <DependentUpon>CotejoActas.cs</DependentUpon>
+    </Compile>
     <Compile Include="DataSetCasilla.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -86,6 +92,12 @@
     </Compile>
     <Compile Include="Reportes.Designer.cs">
       <DependentUpon>Reportes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RevisionActas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RevisionActas.Designer.cs">
+      <DependentUpon>RevisionActas.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

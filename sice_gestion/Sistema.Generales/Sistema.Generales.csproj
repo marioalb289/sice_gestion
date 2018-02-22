@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="CheckLogin.cs" />
+    <Compile Include="ftp.cs" />
     <Compile Include="LoginInfo.cs" />
     <Compile Include="MsgBox.cs">
       <SubType>Form</SubType>
@@ -84,6 +85,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="MsgBox.resx">
+      <DependentUpon>MsgBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -163,6 +167,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\hist_pagos_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ok.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ok2.PNG" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

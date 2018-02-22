@@ -1,19 +1,14 @@
 ﻿using Cyotek.Windows.Forms;
+using Sistema.DataModel;
+using Sistema.Generales;
 using Sistema.RegistroActas.Properties;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Sistema.Generales;
-using Sistema.DataModel;
-using System.IO;
-using System.Net;
 
 namespace Sistema.RegistroActas
 {
@@ -29,10 +24,11 @@ namespace Sistema.RegistroActas
         private Panel[] panels;
         private Label[] labelsName;
         private int flagCombo = 0;
-        private int flagComboCasilla = 0;
+        //private int flagComboCasilla = 0;
         private int idDocumento = 0;
         private int totalCandidatos = 0;
-        string networkPath = @"\\192.168.1.241\sice_archivos\";
+        private MsgBox msgBox;
+        //string networkPath = @"\\192.168.1.241\sice_archivos\";
 
         #endregion
 
@@ -57,7 +53,8 @@ namespace Sistema.RegistroActas
         {
             try
             {
-                var networkPath = @"\\192.168.1.146\sice_archivos";
+                
+                var networkPath = Configuracion.NetWorkPath;
                 //var credentials = new NetworkCredential("mario.canales@IEPCDGO.org", "Iepc2018");
 
                 //using (new NetworkConnection(networkPath, credentials))
@@ -71,26 +68,35 @@ namespace Sistema.RegistroActas
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
             }
         }
 
         private void cargarActaYaAsignada()
         {
-            //this.ClearDataTable();
-            rgActas = new RegistroActasGenerales();
-            sice_ar_documentos doc = rgActas.BuscarActaAsignada();
-            if(doc != null)
+            try
             {
-                this.idDocumento = doc.id;
-                flagCombo = 0;
-                this.cargarComboSeccion();
-                this.CargarImagen(doc);
-                flagCombo++;
-                MessageBox.Show("Acta Asginada");
-            }
-            
+                //this.ClearDataTable();
+                rgActas = new RegistroActasGenerales();
+                sice_ar_documentos doc = rgActas.BuscarActaAsignada();
+                if (doc != null)
+                {
+                    this.idDocumento = doc.id;
+                    flagCombo = 0;
+                    this.cargarComboSeccion();
+                    this.CargarImagen(doc);
+                    flagCombo++;
+                    msgBox = new MsgBox(this, "Acta Asginada", "Atención", MessageBoxButtons.OK, "Ok");
+                    msgBox.ShowDialog();
+                }
 
+            }
+            catch(Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
         }
 
         private void cargarComboSeccion()
@@ -123,7 +129,8 @@ namespace Sistema.RegistroActas
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
             }
             
 
@@ -151,7 +158,8 @@ namespace Sistema.RegistroActas
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
             }
         }
 
@@ -162,7 +170,8 @@ namespace Sistema.RegistroActas
                 rgActas = new RegistroActasGenerales();
                 if (rgActas.verificarCasillaValida(Convert.ToInt32(cmbCasilla.SelectedValue)))
                 {
-                    MessageBox.Show("Casilla ya Resgistrada y válida");
+                    msgBox = new MsgBox(this, "Casilla ya Registrada y Válda", "Atención", MessageBoxButtons.OK, "Advertencia");
+                    msgBox.ShowDialog(this);
                     cmbCasilla.SelectedIndex = 0;
                     this.btnGuardar.Enabled = false;
                     this.btnLimpiar.Enabled = false;
@@ -176,7 +185,36 @@ namespace Sistema.RegistroActas
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+        }
+
+        private void NoLegible()
+        {
+            try
+            {
+                if (this.idDocumento == 0)
+                    return;
+                rgActas = new RegistroActasGenerales();
+                if (rgActas.EnviarRevision(this.idDocumento, "NO LEGIBLE"))
+                {
+                    msgBox = new MsgBox(this, "Acta marcada como NO LEGIBLE", "Atención", MessageBoxButtons.OK, "Ok");
+                    msgBox.ShowDialog(this);
+                    this.BloquearControles();
+                }                    
+                else{
+                    msgBox = new MsgBox(this,"No se pudo marcar el acata como NO LEGIBLE", "Atención", MessageBoxButtons.OK, "Error");
+                    msgBox.ShowDialog(this);
+                }
+                    
+
+
+            }
+            catch(Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
             }
         }
 
@@ -269,7 +307,8 @@ namespace Sistema.RegistroActas
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
             }
 
         }
@@ -326,16 +365,20 @@ namespace Sistema.RegistroActas
                     switch (res)
                     {
                         case 1:
-                            MessageBox.Show("Datos Guardados correctamente");
+                            msgBox = new MsgBox(this,"Datos Guardados correctamente", "Atención", MessageBoxButtons.OK, "Ok");
+                            msgBox.ShowDialog(this);
                             break;
                         case 2:
-                            MessageBox.Show("Acta enviada a Reivision");
+                            msgBox = new MsgBox(this,"El acta no ha pasado el proceso de validación \nActa enviada a Revision", "Atención", MessageBoxButtons.OK, "Advertencia");
+                            msgBox.ShowDialog(this);
                             break;
                         case 3:
-                            MessageBox.Show("Acta validada correctamente");
+                            msgBox = new MsgBox(this, "Acta validada correctamente", "Atención", MessageBoxButtons.OK, "Ok");
+                            msgBox.ShowDialog(this);
                             break;
                         case 4:
-                            MessageBox.Show("Ya existe un documento Asingado a esta casilla y en proceso de validación. \nEl documento actual será enviado a Revisión para su evaluacion");
+                            msgBox = new MsgBox(this, "Ya existe un documento Asingado a esta casilla y en proceso de validación. \nEl documento actual será enviado a Revisión para su evaluacion", "Atención", MessageBoxButtons.OK, "Advertencia");
+                            msgBox.ShowDialog(this);
                             break;
                             
                     }
@@ -346,7 +389,8 @@ namespace Sistema.RegistroActas
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
             }
         }
 
@@ -455,7 +499,8 @@ namespace Sistema.RegistroActas
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
             }
         }
 
@@ -551,7 +596,8 @@ namespace Sistema.RegistroActas
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
             }
         }
 
@@ -635,7 +681,8 @@ namespace Sistema.RegistroActas
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                        msgBox.ShowDialog(this);
                     }
                 }
             }
@@ -692,7 +739,8 @@ namespace Sistema.RegistroActas
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
             }
         }
 
@@ -720,13 +768,16 @@ namespace Sistema.RegistroActas
                     this.cargarComboSeccion();
                     this.CargarImagen(res);
                     flagCombo++;
-                    MessageBox.Show("Acta Asginada");
+                    msgBox = new MsgBox(this,"Acta Asignada", "Atención", MessageBoxButtons.OK, "Ok");
+                    msgBox.ShowDialog(this);
                 }                    
                 else
                 {
                     btnTomarActa.Enabled = true;
-                    throw new Exception("No hay Actas disponibles");                   
-                   
+                    //throw new Exception("No hay Actas disponibles");                   
+                    msgBox = new MsgBox(this, "No hay actas disponibles", "Atención", MessageBoxButtons.OK, "Advertencia");
+                    msgBox.ShowDialog(this);
+
                 }
                     
 
@@ -734,7 +785,8 @@ namespace Sistema.RegistroActas
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
             }
             
 
@@ -751,13 +803,19 @@ namespace Sistema.RegistroActas
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
             }
         }
 
         private void button1_Click_1(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnLegible_Click(object sender, EventArgs e)
+        {
+            this.NoLegible();
         }
     }
 

@@ -39,8 +39,15 @@
             this.label6 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.label3 = new System.Windows.Forms.Label();
             this.cmbDistrito = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.btnPrimero = new System.Windows.Forms.Button();
+            this.btnUltimo = new System.Windows.Forms.Button();
+            this.lblTotalPag = new System.Windows.Forms.Label();
+            this.btnSiguiente = new System.Windows.Forms.Button();
+            this.btnAnterior = new System.Windows.Forms.Button();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.dgvResultados = new System.Windows.Forms.DataGridView();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -49,6 +56,8 @@
             this.panel4.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
+            this.panel5.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvResultados)).BeginInit();
             this.SuspendLayout();
             // 
@@ -155,6 +164,7 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.dgvResultados);
             this.panel2.Controls.Add(this.tableLayoutPanel2);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 100);
@@ -169,16 +179,27 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.Controls.Add(this.cmbDistrito, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.label3, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.dgvResultados, 0, 2);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 3;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(800, 377);
+            this.tableLayoutPanel2.RowCount = 2;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(800, 110);
             this.tableLayoutPanel2.TabIndex = 0;
+            // 
+            // cmbDistrito
+            // 
+            this.cmbDistrito.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cmbDistrito.Enabled = false;
+            this.cmbDistrito.FormattingEnabled = true;
+            this.cmbDistrito.Location = new System.Drawing.Point(20, 45);
+            this.cmbDistrito.Margin = new System.Windows.Forms.Padding(20, 5, 20, 5);
+            this.cmbDistrito.Name = "cmbDistrito";
+            this.cmbDistrito.Size = new System.Drawing.Size(360, 21);
+            this.cmbDistrito.TabIndex = 16;
+            this.cmbDistrito.SelectedValueChanged += new System.EventHandler(this.cmbDistrito_SelectedValueChanged);
             // 
             // label3
             // 
@@ -186,39 +207,111 @@
             this.label3.AutoSize = true;
             this.label3.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(3, 69);
+            this.label3.Location = new System.Drawing.Point(3, 0);
             this.label3.Name = "label3";
             this.label3.Padding = new System.Windows.Forms.Padding(10);
-            this.label3.Size = new System.Drawing.Size(394, 44);
+            this.label3.Size = new System.Drawing.Size(394, 40);
             this.label3.TabIndex = 7;
             this.label3.Text = "Seleccionar Sección";
             // 
-            // cmbDistrito
+            // panel5
             // 
-            this.cmbDistrito.Dock = System.Windows.Forms.DockStyle.Top;
-            this.cmbDistrito.Enabled = false;
-            this.cmbDistrito.FormattingEnabled = true;
-            this.cmbDistrito.Location = new System.Drawing.Point(20, 118);
-            this.cmbDistrito.Margin = new System.Windows.Forms.Padding(20, 5, 20, 5);
-            this.cmbDistrito.Name = "cmbDistrito";
-            this.cmbDistrito.Size = new System.Drawing.Size(360, 21);
-            this.cmbDistrito.TabIndex = 16;
-            this.cmbDistrito.SelectedValueChanged += new System.EventHandler(this.cmbDistrito_SelectedValueChanged);
+            this.panel5.Controls.Add(this.tableLayoutPanel3);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel5.Location = new System.Drawing.Point(0, 500);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(800, 100);
+            this.panel5.TabIndex = 5;
+            // 
+            // btnPrimero
+            // 
+            this.btnPrimero.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnPrimero.Location = new System.Drawing.Point(190, 25);
+            this.btnPrimero.Name = "btnPrimero";
+            this.btnPrimero.Size = new System.Drawing.Size(100, 50);
+            this.btnPrimero.TabIndex = 40;
+            this.btnPrimero.Text = "Primero";
+            this.btnPrimero.UseVisualStyleBackColor = true;
+            // 
+            // btnUltimo
+            // 
+            this.btnUltimo.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnUltimo.Location = new System.Drawing.Point(670, 25);
+            this.btnUltimo.Name = "btnUltimo";
+            this.btnUltimo.Size = new System.Drawing.Size(100, 50);
+            this.btnUltimo.TabIndex = 39;
+            this.btnUltimo.Text = "Último";
+            this.btnUltimo.UseVisualStyleBackColor = true;
+            // 
+            // lblTotalPag
+            // 
+            this.lblTotalPag.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lblTotalPag.AutoSize = true;
+            this.lblTotalPag.Location = new System.Drawing.Point(377, 43);
+            this.lblTotalPag.Name = "lblTotalPag";
+            this.lblTotalPag.Size = new System.Drawing.Size(45, 13);
+            this.lblTotalPag.TabIndex = 38;
+            this.lblTotalPag.Text = "Páginas";
+            // 
+            // btnSiguiente
+            // 
+            this.btnSiguiente.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnSiguiente.Location = new System.Drawing.Point(510, 25);
+            this.btnSiguiente.Name = "btnSiguiente";
+            this.btnSiguiente.Size = new System.Drawing.Size(100, 50);
+            this.btnSiguiente.TabIndex = 37;
+            this.btnSiguiente.Text = "Siguiente";
+            this.btnSiguiente.UseVisualStyleBackColor = true;
+            // 
+            // btnAnterior
+            // 
+            this.btnAnterior.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnAnterior.Location = new System.Drawing.Point(30, 25);
+            this.btnAnterior.Name = "btnAnterior";
+            this.btnAnterior.Size = new System.Drawing.Size(100, 50);
+            this.btnAnterior.TabIndex = 36;
+            this.btnAnterior.Text = "Anterior";
+            this.btnAnterior.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 5;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel3.Controls.Add(this.btnAnterior, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.btnUltimo, 4, 0);
+            this.tableLayoutPanel3.Controls.Add(this.btnPrimero, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.lblTotalPag, 2, 0);
+            this.tableLayoutPanel3.Controls.Add(this.btnSiguiente, 3, 0);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 1;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(800, 100);
+            this.tableLayoutPanel3.TabIndex = 41;
             // 
             // dgvResultados
             // 
+            this.dgvResultados.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvResultados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tableLayoutPanel2.SetColumnSpan(this.dgvResultados, 2);
-            this.dgvResultados.Location = new System.Drawing.Point(3, 229);
+            this.dgvResultados.Location = new System.Drawing.Point(20, 151);
             this.dgvResultados.Name = "dgvResultados";
-            this.dgvResultados.Size = new System.Drawing.Size(794, 145);
-            this.dgvResultados.TabIndex = 17;
+            this.dgvResultados.ReadOnly = true;
+            this.dgvResultados.Size = new System.Drawing.Size(761, 217);
+            this.dgvResultados.TabIndex = 18;
             // 
             // Reportes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 600);
+            this.Controls.Add(this.panel5);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -232,6 +325,9 @@
             this.panel2.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
+            this.panel5.ResumeLayout(false);
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvResultados)).EndInit();
             this.ResumeLayout(false);
 
@@ -251,6 +347,13 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cmbDistrito;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Button btnPrimero;
+        private System.Windows.Forms.Button btnUltimo;
+        private System.Windows.Forms.Label lblTotalPag;
+        private System.Windows.Forms.Button btnSiguiente;
+        private System.Windows.Forms.Button btnAnterior;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.DataGridView dgvResultados;
     }
 }

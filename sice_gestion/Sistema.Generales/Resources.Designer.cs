@@ -223,6 +223,16 @@ namespace Sistema.Generales {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ok2 {
+            get {
+                object obj = ResourceManager.GetObject("ok2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap question64 {
             get {
                 object obj = ResourceManager.GetObject("question64", resourceCulture);

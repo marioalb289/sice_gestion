@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sistema.Generales;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,6 +17,7 @@ namespace sice_gestion
     {
         private int childFormNumber = 0;
         private int flagWatcher = 0;
+        private MsgBox msgBox;
 
         public MDIMain()
         {
@@ -107,7 +109,8 @@ namespace sice_gestion
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
             }
         }
 
@@ -123,7 +126,8 @@ namespace sice_gestion
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
             }
         }
 
@@ -139,7 +143,8 @@ namespace sice_gestion
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
             }
 
         }

@@ -16,4 +16,9 @@ namespace Sistema.Generales
         public static int estado;
         public static int id_municipio;
     }
+
+    public static class Configuracion
+    {
+        public const string NetWorkPath = @"\\192.168.1.67\sice_archivos";
+    }
 }

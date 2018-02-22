@@ -170,6 +170,69 @@ namespace Sistema.Generales
             catch (Exception E)
             { throw E; }
         }
+        public List<CandidatosVotos> ListaResultadosCasilla(int casilla)
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext("MYSQLSERVER"))
+                {
+                    string consulta =
+                        "SELECT " +
+                        "V.id,	" +
+                        "V.id_casilla as id_casilla, " +
+                        "V.tipo as tipo, " +
+                        "V.votos as votos, " +
+                        "CASE WHEN V.tipo = 'VOTO' THEN V.id_candidato WHEN V.tipo = 'NULO' THEN -2 WHEN V.tipo = 'NO REGISTRADO' THEN -1 END as id_candidato, " +
+                        "CONCAT(C.nombre,' ',C.apellido_paterno,' ',C.apellido_materno)as candidato, " +
+                        "CD.nombre_candidatura, " +
+                        "P.siglas_par as partido, " +
+                        "P.img_par as imagen " +
+                        "FROM sice_ar_votos V " +
+                        "LEFT JOIN sice_candidatos C ON C.id = V.id_candidato " +
+                        "LEFT JOIN sice_candidaturas CD ON CD.id = C.fk_cargo AND CD.titular = 1 " + //"AND CD.id_distrito =" + distrito +
+                        "LEFT JOIN sice_partidos_politicos P ON P.id = C.fk_partido " +
+                        "WHERE V.id_casilla = " + casilla + " " +
+                        "ORDER BY id_candidato DESC";
+                    return contexto.Database.SqlQuery<CandidatosVotos>(consulta).ToList();
+                }
+
+            }
+            catch (Exception E)
+            { throw E; }
+        }
+
+        public bool EnviarRevision(int id_documento, string motivo, int? id_casilla = null)
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext("MYSQLSERVER"))
+                {
+                    //Enviar a Revision
+                    sice_ar_documentos doc = (from d in contexto.sice_ar_documentos where d.id == id_documento select d).FirstOrDefault();
+                    if(doc != null)
+                    {
+                        doc.estatus = "REVISION";
+
+                        sice_ar_reserva revision = new sice_ar_reserva();
+                        revision.id_casilla = id_casilla;
+                        revision.id_documento = id_documento;
+                        revision.tipo_reserva = motivo;
+                        contexto.sice_ar_reserva.Add(revision);
+
+                        contexto.SaveChanges();
+
+                        return true;
+                    }
+                    return false;
+                    
+                }
+
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public sice_ar_documentos TomarCasilla()
         {
@@ -181,13 +244,30 @@ namespace Sistema.Generales
                     using (var TransactionContexto = new TransactionScope())
                     {
                         DateTime localDate = DateTime.Now;
-                        sice_ar_documentos doc = (from p in contexto.sice_ar_documentos where p.estatus == "LIBRE" select p).FirstOrDefault();
+
+                        string consulta =
+                            "SELECT " +
+	                            "doc.* " +
+                            "FROM sice_ar_documentos doc " +
+                            "LEFT JOIN sice_ar_asignacion asg ON asg.id_documento = doc.id " +
+                            "WHERE " +
+	                            "(doc.estatus = 'LIBRE' " +
+		                            "AND asg.id_documento NOT IN ( " +
+			                            "SELECT tempAsg.id_documento " +
+			                            "FROM sice_ar_asignacion tempAsg " +
+			                            "WHERE tempAsg.id_usuario =  " + LoginInfo.id_usuario + " ) " +
+	                            ") " +
+                            "OR ( " +
+	                            "doc.estatus = 'LIBRE' " +
+	                            "AND asg.id_documento IS NULL ) ";
+                        sice_ar_documentos doc = contexto.Database.SqlQuery<sice_ar_documentos>(consulta).FirstOrDefault();
                         if (doc != null)
                         {
-                            
+                            sice_ar_documentos tmp = (from d in contexto.sice_ar_documentos where d.id == doc.id select d).FirstOrDefault();
                             //Asignar
-                            doc.estatus = "OCUPADO"; ;
-                            doc.updated_at = localDate;
+                            tmp.estatus = "OCUPADO"; ;
+                            tmp.updated_at = localDate;
+                            contexto.SaveChanges();
 
                             sice_ar_asignacion newAsig2 = new sice_ar_asignacion();
                             newAsig2.id_documento = doc.id;
@@ -294,17 +374,31 @@ namespace Sistema.Generales
                                 }
                                 break;
                         }
-                        this.LiberarActa(contexto, doc);
+                        //this.LiberarActa(contexto, doc);
 
-                        if((int)doc.filtro == 3)
+                        if((int)doc.filtro == 2)
                         {
-                            res = this.ValidarRegistro(contexto, doc,id_casilla,totalCandidatos);
+                            if( this.ValidarCaptura1(contexto, doc, id_casilla, totalCandidatos) == 1)
+                            {
+                                res = 3; //Datos validados
+                            }
+                            else
+                            {
+                                res = 1;
+                                this.LiberarActa(contexto, doc);
+                            }
                         }
-
+                        else if((int)doc.filtro == 3)
+                        {
+                            res = this.ValidarCaptura2(contexto, doc, id_casilla, totalCandidatos);
+                        }
+                        else
+                        {
+                            res = 1;
+                            this.LiberarActa(contexto, doc);
+                        }
                         TransactionContexto.Complete();
-
                         return res;
-
                     }
                     catch (Exception ex)
                     {
@@ -315,7 +409,83 @@ namespace Sistema.Generales
             }
         }
 
-        public int ValidarRegistro(DatabaseContext contexto, sice_ar_documentos documento,int id_casilla, int totalCandidatos)
+        public int ValidarCaptura1(DatabaseContext contexto, sice_ar_documentos documento, int id_casilla, int totalCandidatos)
+        {
+            try
+            {
+                int resp = 0;
+                List<TempArVotos> v1 = (from p in contexto.sice_ar_votos_valida1
+                                        where p.id_documento == documento.id
+                                        orderby p.id_candidato ascending, p.tipo ascending
+                                        select new TempArVotos()
+                                        {
+                                            id_candidato = p.id_candidato,
+                                            id_casilla = p.id_casilla,
+                                            votos = p.votos,
+                                            tipo = p.tipo
+                                        }).ToList();
+
+                List<TempArVotos> v2 = (from p in contexto.sice_ar_votos_valida2
+                                        where p.id_documento == documento.id
+                                        orderby p.id_candidato ascending, p.tipo ascending
+                                        select new TempArVotos
+                                        {
+                                            id_candidato = p.id_candidato,
+                                            id_casilla = p.id_casilla,
+                                            votos = p.votos,
+                                            tipo = p.tipo
+                                        }).ToList();
+                int errs = 0;
+
+                //Validar las tres tablas donde se guardan los datos
+                for (int x = 0; x < totalCandidatos + 2; x++)
+                {
+                    if ((v1.Count == 0 || v2.Count == 0) || (v1.Count != v2.Count))
+                    {
+                        errs = 1;
+                    }
+                    else
+                    {
+                        if (v1[x].id_candidato != v2[x].id_candidato ||
+                            v1[x].id_casilla != v2[x].id_casilla ||
+                            v1[x].votos != v2[x].votos)
+                        {
+                            errs = 1;
+                        }
+                    }                    
+                }
+                if(errs == 0)
+                {
+                    //Vaciar Datos a tablas de conteo oficial
+                    sice_ar_votos votosNew = new sice_ar_votos();
+                    foreach (TempArVotos votos in v1)
+                    {
+                        votosNew.id_candidato = votos.id_candidato;
+                        votosNew.id_casilla = votos.id_casilla;
+                        votosNew.tipo = votos.tipo;
+                        votosNew.votos = votos.votos;
+                        contexto.sice_ar_votos.Add(votosNew);
+                        contexto.SaveChanges();
+                    }
+                    //Modificar el Documento para establecer a que casilla pertence
+                    documento.id_casilla = id_casilla;
+                    documento.estatus = "VALIDO";
+                    contexto.SaveChanges();
+
+                    resp = 1;
+
+                }
+
+                return resp;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+        }
+
+        public int ValidarCaptura2(DatabaseContext contexto, sice_ar_documentos documento,int id_casilla, int totalCandidatos)
         {
             try
             {
@@ -555,6 +725,20 @@ namespace Sistema.Generales
         public string casilla { get; set; }
         public int distrito { get; set; }
         public int municipio { get; set; }
+    }
+
+    public class CandidatosVotos
+    {
+        public int id { get; set; }        
+        public Nullable<int> id_casilla { get; set; }
+        public string tipo { get; set; }
+        public Nullable<int> votos { get; set; }        
+        public Nullable<int> id_candidato { get; set; }
+        public string candidato { get; set; }
+        public string nombre_candidatura { get; set; }
+        public string partido { get; set; }
+        public string imagen { get; set; }
+
     }
 
     public class Candidatos
