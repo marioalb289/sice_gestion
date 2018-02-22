@@ -817,6 +817,11 @@ namespace Sistema.RegistroActas
         {
             this.NoLegible();
         }
+
+        private void panel5_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 
 }
