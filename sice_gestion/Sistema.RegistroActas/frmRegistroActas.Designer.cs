@@ -272,8 +272,8 @@
             this.tblPanaelPartidos.Name = "tblPanaelPartidos";
             this.tblPanaelPartidos.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.tblPanaelPartidos.RowCount = 1;
-            this.tblPanaelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 78F));
-            this.tblPanaelPartidos.Size = new System.Drawing.Size(342, 82);
+            this.tblPanaelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 86F));
+            this.tblPanaelPartidos.Size = new System.Drawing.Size(342, 90);
             this.tblPanaelPartidos.TabIndex = 6;
             // 
             // pnlTableTitulo
@@ -283,7 +283,7 @@
             this.pnlTableTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableTitulo.Location = new System.Drawing.Point(15, 5);
             this.pnlTableTitulo.Name = "pnlTableTitulo";
-            this.pnlTableTitulo.Size = new System.Drawing.Size(152, 72);
+            this.pnlTableTitulo.Size = new System.Drawing.Size(152, 80);
             this.pnlTableTitulo.TabIndex = 39;
             // 
             // label4
@@ -305,7 +305,7 @@
             this.pnlTableVotos.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableVotos.Location = new System.Drawing.Point(175, 5);
             this.pnlTableVotos.Name = "pnlTableVotos";
-            this.pnlTableVotos.Size = new System.Drawing.Size(152, 72);
+            this.pnlTableVotos.Size = new System.Drawing.Size(152, 80);
             this.pnlTableVotos.TabIndex = 41;
             // 
             // label5
@@ -434,6 +434,8 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "frmRegistroActas";
             this.Text = "frmRegistroActas";
+            this.Load += new System.EventHandler(this.frmRegistroActas_Load);
+            this.Shown += new System.EventHandler(this.frmRegistroActas_Shown);
             this.panel1.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
@@ -459,8 +461,6 @@
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox cmbSeccion;
         private Cyotek.Windows.Forms.ImageBox imageBox;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label label1;
@@ -473,12 +473,14 @@
         private System.Windows.Forms.Button btnLimpiar;
         private System.Windows.Forms.Button btnLegible;
         private System.Windows.Forms.Button btnGuardar;
-        private System.Windows.Forms.ComboBox cmbCasilla;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TableLayoutPanel tblPanaelPartidos;
         private System.Windows.Forms.Panel pnlTableTitulo;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Panel pnlTableVotos;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox cmbCasilla;
+        private System.Windows.Forms.ComboBox cmbSeccion;
+        private System.Windows.Forms.Label label2;
     }
 }

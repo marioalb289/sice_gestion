@@ -64,13 +64,17 @@ namespace Sistema.RegistroActas
         {
             try
             {
+                //this.MdiParent.WindowState = FormWindowState.Maximized;
+                //this.MdiParent.Hide();
+                
                 switch (LoginInfo.privilegios)
                 {
                     case 1:
-                        frmRegistroActas form = new frmRegistroActas();
+                        frmRegistroActas form = new frmRegistroActas();                        
                         form.MdiParent = this.MdiParent;
                         form.Dock = DockStyle.Fill;
                         form.Show();
+                        form.FormClosed += Form_FormClosed;
                         break;
                     case 2:
                         RevisionActas form2 = new RevisionActas();
@@ -85,7 +89,23 @@ namespace Sistema.RegistroActas
                         form3.Show();
                         break;
                 }
+                //this.MdiParent.WindowState = FormWindowState.Maximized;
+                //this.MdiParent.Show();
 
+            }
+            catch(Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+        }
+
+        private void Form_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            try
+            {
+                this.Show();
+                this.MdiParent.WindowState = FormWindowState.Normal;
             }
             catch(Exception ex)
             {
@@ -96,10 +116,27 @@ namespace Sistema.RegistroActas
 
         private void btnConsultarActas_Click(object sender, EventArgs e)
         {
+
+            this.Hide();
+            
+
             frmConsultaActas form = new frmConsultaActas();
+            form.Load += Form_Load;
             form.MdiParent = this.MdiParent;
             form.Dock = DockStyle.Fill;
             form.Show();
+            form.FormClosed += Form_FormClosed;
+
+
+            //this.MdiParent.Show();
+            //this.MdiParent.WindowState = FormWindowState.Maximized;
+        }
+
+        private void Form_Load(object sender, EventArgs e)
+        {
+            
+            this.MdiParent.WindowState = FormWindowState.Maximized;
+            //this.MdiParent.Show();
         }
 
         private void btnReportes_Click(object sender, EventArgs e)
@@ -109,6 +146,12 @@ namespace Sistema.RegistroActas
             form.Dock = DockStyle.Fill;
             form.Show();
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            this.Dispose();
         }
     }
 }

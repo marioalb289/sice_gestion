@@ -35,11 +35,21 @@ namespace Sistema.RegistroActas
         public frmRegistroActas()
         {
             InitializeComponent();
-            imageBox.MouseWheel += new MouseEventHandler(DoNothing_MouseWheel);
-            this.cargarActaYaAsignada();
+           
             //MessageBox.Show(LoginInfo.nombre);
         }
-        
+
+        private void frmRegistroActas_Load(object sender, EventArgs e)
+        {            
+            imageBox.MouseWheel += new MouseEventHandler(DoNothing_MouseWheel);
+            this.cargarActaYaAsignada();
+        }
+
+        private void frmRegistroActas_Shown(object sender, EventArgs e)
+        {
+            this.MdiParent.WindowState = FormWindowState.Maximized;
+        }
+
 
         private void DoNothing_MouseWheel(object sender, MouseEventArgs e)
         {
@@ -511,17 +521,17 @@ namespace Sistema.RegistroActas
 
         #region Overridden Methods
 
-        protected override void OnLoad(EventArgs e)
-        {
-            //base.OnLoad(e);
+        //protected override void OnLoad(EventArgs e)
+        //{
+        //    //base.OnLoad(e);
 
-            //this.FillZoomLevels();
+        //    //this.FillZoomLevels();
             
-            //this.OpenImage(Resources.iepc);
+        //    //this.OpenImage(Resources.iepc);
 
-            //imageBox.SelectionMode = ImageBoxSelectionMode.Zoom;
-            //imageBox.AllowClickZoom = true;
-        }
+        //    //imageBox.SelectionMode = ImageBoxSelectionMode.Zoom;
+        //    //imageBox.AllowClickZoom = true;
+        //}
 
         #endregion
 
@@ -822,6 +832,8 @@ namespace Sistema.RegistroActas
         {
 
         }
+
+        
     }
 
 }

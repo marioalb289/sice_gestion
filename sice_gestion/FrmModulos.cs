@@ -42,10 +42,25 @@ namespace sice_gestion
 
         private void btnRegistroActas_Click(object sender, EventArgs e)
         {
+            this.Hide();
             Sistema.RegistroActas.MainRegistroActas form = new Sistema.RegistroActas.MainRegistroActas();
             form.MdiParent = this.MdiParent;
             form.Dock = DockStyle.Fill;
             form.Show();
+            form.FormClosed += Form_FormClosed;
+        }
+
+        private void Form_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            try
+            {
+                this.Show();
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog();
+            }
         }
     }
 }

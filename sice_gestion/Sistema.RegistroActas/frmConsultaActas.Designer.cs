@@ -374,6 +374,8 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "frmConsultaActas";
             this.Text = "frmConsultaActas";
+            this.Load += new System.EventHandler(this.frmConsultaActas_Load);
+            this.Shown += new System.EventHandler(this.frmConsultaActas_Shown);
             this.panel2.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();

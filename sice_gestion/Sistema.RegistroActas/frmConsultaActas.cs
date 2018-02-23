@@ -32,7 +32,14 @@ namespace Sistema.RegistroActas
 
         public frmConsultaActas()
         {
+
+            //this.MdiParent.WindowState = FormWindowState.Maximized;
             InitializeComponent();
+            
+        }
+        private void frmConsultaActas_Load(object sender, EventArgs e)
+        {
+            
             imageBox.MouseWheel += new MouseEventHandler(DoNothing_MouseWheel);
             this.cargarComboSeccion();
         }
@@ -512,6 +519,7 @@ namespace Sistema.RegistroActas
         {
             try
             {
+                this.ClearDataTable(true);
                 this.ClearImage();
                 this.cargarComboCasilla();
             }
@@ -539,6 +547,11 @@ namespace Sistema.RegistroActas
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             this.guardarImagencomo();
+        }
+
+        private void frmConsultaActas_Shown(object sender, EventArgs e)
+        {
+            this.MdiParent.WindowState = FormWindowState.Maximized;
         }
     }
 }
