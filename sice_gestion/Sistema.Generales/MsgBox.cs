@@ -109,7 +109,7 @@ namespace Sistema.Generales
                 if ("Ok" == enmIcon) picIcono.Image = Sistema.Generales.Resources.ok2;// new ImageResourceHandle("asterisk_59.png");
                 if ("Error" == enmIcon) picIcono.Image = Sistema.Generales.Resources.Error_60;
                 if ("Advertencia" == enmIcon) picIcono.Image = Sistema.Generales.Resources.Warning_64;
-                if ("Question" == enmIcon) picIcono.Image = Sistema.Generales.Resources.Hand50;
+                if ("Question" == enmIcon) picIcono.Image = Sistema.Generales.Resources.question64;
                 if ("Informacion" == enmIcon) picIcono.Image = Sistema.Generales.Resources.Information_64;
                 if ("None" == enmIcon) picIcono.Image = null;
 

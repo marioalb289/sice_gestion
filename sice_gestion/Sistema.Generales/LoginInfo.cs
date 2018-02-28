@@ -20,5 +20,9 @@ namespace Sistema.Generales
     public static class Configuracion
     {
         public const string NetWorkPath = @"\\192.168.1.67\sice_archivos";
+        public const string NetworkFtp = @"ftp://192.168.1.67/";
+        public const string User = "iepc_ftp_centos";
+        public const string Pass = "$i$t3m4s2018utc";
+        public const string Repo = "sice_archivos";
     }
 }

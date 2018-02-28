@@ -31,11 +31,21 @@ namespace sice_gestion
             label3.Parent = pctFondo;
             panel1.Parent = pctFondo;
             panel1.BackColor = Color.FromArgb(100, 255, 255, 255);
+            txtUsuario.KeyPress += KeyPress;
+            txtContrasena.KeyPress += KeyPress;
             //btnAcceso.BackColor = Color.FromArgb(1, 154, 0, 0);
 
 
             //this.FormBorderStyle = FormBorderStyle.None;
             //Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 20, 20));
+        }
+
+        private void KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)13)
+            {
+                this.Validar();
+            }
         }
 
         private void Login_Load(object sender, EventArgs e)
@@ -97,32 +107,53 @@ namespace sice_gestion
 
         private void btnAcceso_Click(object sender, EventArgs e)
         {
-            
-            CheckLogin chk = new CheckLogin();
-            string usuario = "";
-            string pass = "";
-            using (MD5 md5Hash = MD5.Create())
+            this.Validar();
+        }
+
+        private void Validar()
+        {
+            try
             {
-                usuario = CheckLogin.GetMd5Hash(md5Hash, txtUsuario.Text);
-                pass = CheckLogin.GetMd5Hash(md5Hash, txtContrasena.Text);
-            }
+                if(txtUsuario.Text == "" || txtUsuario.Text == "Correo Electronico")
+                {
+                    msgBox = new MsgBox(this, "Introduce Usuario", "Atención", MessageBoxButtons.OK, "Advertencia");
+                    msgBox.ShowDialog(this);
+                    return;
+                }
+                if (txtContrasena.Text == "" || txtContrasena.Text == "Contraseña")
+                {
+                    msgBox = new MsgBox(this, "Introduce Contraseña", "Atención", MessageBoxButtons.OK, "Advertencia");
+                    msgBox.ShowDialog(this);
+                    return;
+                }
 
-            int res = chk.check(usuario, pass);
-            if( res == 1)
+                CheckLogin chk = new CheckLogin();
+                string usuario = "";
+                string pass = "";
+                using (MD5 md5Hash = MD5.Create())
+                {
+                    usuario = CheckLogin.GetMd5Hash(md5Hash, txtUsuario.Text);
+                    pass = CheckLogin.GetMd5Hash(md5Hash, txtContrasena.Text);
+                }
+
+                int res = chk.check(usuario, pass);
+                if (res == 1)
+                {
+                    this.Hide();
+
+                    MDIMain mod = new MDIMain();
+                    mod.FormClosed += FormClosedEventHandler;
+                    mod.Show();
+                }
+                else
+                {
+                    messageRes(res);
+                }
+            }
+            catch(Exception ex)
             {
-                this.Hide();
 
-                MDIMain mod = new MDIMain();
-                mod.FormClosed += FormClosedEventHandler;
-                mod.Show();
             }
-            else
-            {
-                messageRes(res);
-            }
-
-
-
         }
 
         public void messageRes(int res)

@@ -23,6 +23,11 @@
           <Property Name="ruta" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="estatus" Type="enum" />
           <Property Name="filtro" Type="int" />
+          <Property Name="estatus_filtro1" Type="int" />
+          <Property Name="estatus_filtro2" Type="int" />
+          <Property Name="estatus_filtro3" Type="int" />
+          <Property Name="estatus_revisor" Type="int" />
+          <Property Name="estatus_cotejador" Type="int" />
           <Property Name="id_casilla" Type="int" />
           <Property Name="create_at" Type="datetime" Precision="0" Nullable="false" />
           <Property Name="updated_at" Type="datetime" Precision="0" Nullable="false" />
@@ -36,6 +41,11 @@
           <Property Name="ruta" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="estatus" Type="enum" />
           <Property Name="filtro" Type="int" />
+          <Property Name="estatus_filtro1" Type="int" />
+          <Property Name="estatus_filtro2" Type="int" />
+          <Property Name="estatus_filtro3" Type="int" />
+          <Property Name="estatus_revisor" Type="int" />
+          <Property Name="estatus_cotejador" Type="int" />
           <Property Name="id_casilla" Type="int" />
           <Property Name="importado" Type="int" />
           <Property Name="create_at" Type="datetime" Precision="0" Nullable="false" />
@@ -291,8 +301,8 @@
           <EntitySet Name="sice_ar_votos_valida1" EntityType="sice_pruebasModel.sice_ar_votos_valida1" />
           <EntitySet Name="sice_ar_votos_valida2" EntityType="sice_pruebasModel.sice_ar_votos_valida2" />
           <EntitySet Name="sice_ar_votos_valida3" EntityType="sice_pruebasModel.sice_ar_votos_valida3" />
-          <EntitySet Name="sice_ar_documentos" EntityType="sice_pruebasModel.sice_ar_documentos" />
           <EntitySet Name="sice_ar_documentos_local" EntityType="sice_pruebasModel.sice_ar_documentos_local" />
+          <EntitySet Name="sice_ar_documentos" EntityType="sice_pruebasModel.sice_ar_documentos" />
         </EntityContainer>
         <EntityType Name="sice_ar_asignacion">
           <Key>
@@ -504,19 +514,6 @@
           <Property Name="votos" Type="Int32" />
           <Property Name="tipo" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="sice_ar_documentos">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="nombre" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="ruta" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="estatus" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" />
-          <Property Name="filtro" Type="Int32" />
-          <Property Name="id_casilla" Type="Int32" />
-          <Property Name="create_at" Type="DateTime" Nullable="false" />
-          <Property Name="updated_at" Type="DateTime" Nullable="false" />
-        </EntityType>
         <EntityType Name="sice_ar_documentos_local">
           <Key>
             <PropertyRef Name="id" />
@@ -528,6 +525,29 @@
           <Property Name="filtro" Type="Int32" />
           <Property Name="id_casilla" Type="Int32" />
           <Property Name="importado" Type="Int32" />
+          <Property Name="create_at" Type="DateTime" Nullable="false" />
+          <Property Name="updated_at" Type="DateTime" Nullable="false" />
+          <Property Name="estatus_filtro1" Type="Int32" />
+          <Property Name="estatus_filtro2" Type="Int32" />
+          <Property Name="estatus_filtro3" Type="Int32" />
+          <Property Name="estatus_revisor" Type="Int32" />
+          <Property Name="estatus_cotejador" Type="Int32" />
+        </EntityType>
+        <EntityType Name="sice_ar_documentos">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ruta" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="estatus" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" />
+          <Property Name="filtro" Type="Int32" />
+          <Property Name="estatus_filtro1" Type="Int32" />
+          <Property Name="estatus_filtro2" Type="Int32" />
+          <Property Name="estatus_filtro3" Type="Int32" />
+          <Property Name="estatus_revisor" Type="Int32" />
+          <Property Name="estatus_cotejador" Type="Int32" />
+          <Property Name="id_casilla" Type="Int32" />
           <Property Name="create_at" Type="DateTime" Nullable="false" />
           <Property Name="updated_at" Type="DateTime" Nullable="false" />
         </EntityType>
@@ -733,11 +753,17 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="sice_ar_documentos">
-            <EntityTypeMapping TypeName="sice_pruebasModel.sice_ar_documentos">
-              <MappingFragment StoreEntitySet="sice_ar_documentos">
+          <EntitySetMapping Name="sice_ar_documentos_local">
+            <EntityTypeMapping TypeName="sice_pruebasModel.sice_ar_documentos_local">
+              <MappingFragment StoreEntitySet="sice_ar_documentos_local">
+                <ScalarProperty Name="estatus_cotejador" ColumnName="estatus_cotejador" />
+                <ScalarProperty Name="estatus_revisor" ColumnName="estatus_revisor" />
+                <ScalarProperty Name="estatus_filtro3" ColumnName="estatus_filtro3" />
+                <ScalarProperty Name="estatus_filtro2" ColumnName="estatus_filtro2" />
+                <ScalarProperty Name="estatus_filtro1" ColumnName="estatus_filtro1" />
                 <ScalarProperty Name="updated_at" ColumnName="updated_at" />
                 <ScalarProperty Name="create_at" ColumnName="create_at" />
+                <ScalarProperty Name="importado" ColumnName="importado" />
                 <ScalarProperty Name="id_casilla" ColumnName="id_casilla" />
                 <ScalarProperty Name="filtro" ColumnName="filtro" />
                 <ScalarProperty Name="estatus" ColumnName="estatus" />
@@ -747,13 +773,17 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="sice_ar_documentos_local">
-            <EntityTypeMapping TypeName="sice_pruebasModel.sice_ar_documentos_local">
-              <MappingFragment StoreEntitySet="sice_ar_documentos_local">
+          <EntitySetMapping Name="sice_ar_documentos">
+            <EntityTypeMapping TypeName="sice_pruebasModel.sice_ar_documentos">
+              <MappingFragment StoreEntitySet="sice_ar_documentos">
                 <ScalarProperty Name="updated_at" ColumnName="updated_at" />
                 <ScalarProperty Name="create_at" ColumnName="create_at" />
-                <ScalarProperty Name="importado" ColumnName="importado" />
                 <ScalarProperty Name="id_casilla" ColumnName="id_casilla" />
+                <ScalarProperty Name="estatus_cotejador" ColumnName="estatus_cotejador" />
+                <ScalarProperty Name="estatus_revisor" ColumnName="estatus_revisor" />
+                <ScalarProperty Name="estatus_filtro3" ColumnName="estatus_filtro3" />
+                <ScalarProperty Name="estatus_filtro2" ColumnName="estatus_filtro2" />
+                <ScalarProperty Name="estatus_filtro1" ColumnName="estatus_filtro1" />
                 <ScalarProperty Name="filtro" ColumnName="filtro" />
                 <ScalarProperty Name="estatus" ColumnName="estatus" />
                 <ScalarProperty Name="ruta" ColumnName="ruta" />

@@ -24,19 +24,15 @@ namespace Sistema.RegistroActas
         private Panel[] panels;
         private Label[] labelsName;
         private int flagCombo = 0;
-        //private int flagComboCasilla = 0;
         private int idDocumento = 0;
         private int totalCandidatos = 0;
         private MsgBox msgBox;
-        //string networkPath = @"\\192.168.1.241\sice_archivos\";
 
         #endregion
 
         public frmRegistroActas()
         {
             InitializeComponent();
-           
-            //MessageBox.Show(LoginInfo.nombre);
         }
 
         private void frmRegistroActas_Load(object sender, EventArgs e)
@@ -63,23 +59,14 @@ namespace Sistema.RegistroActas
         {
             try
             {
-                
-                var networkPath = Configuracion.NetWorkPath;
-                //var credentials = new NetworkCredential("mario.canales@IEPCDGO.org", "Iepc2018");
+                ftp ftpClient = new ftp(Configuracion.NetworkFtp, Configuracion.User, Configuracion.Pass);
+                Image imagen = ftpClient.downloadImage(Configuracion.Repo+"/"+documento.nombre);
+                this.OpenImage(imagen);
 
-                //using (new NetworkConnection(networkPath, credentials))
-                //{
-                    Image image1 = Image.FromFile(networkPath + "\\" + documento.nombre, true);
-                    this.OpenImage(image1);
-                    //this.OpenImage(Resources.iepc);
-
-                //}
-                    
             }
             catch(Exception ex)
             {
-                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
-                msgBox.ShowDialog(this);
+                throw new Exception("Error al Cargar imagen");
             }
         }
 
@@ -87,7 +74,6 @@ namespace Sistema.RegistroActas
         {
             try
             {
-                //this.ClearDataTable();
                 rgActas = new RegistroActasGenerales();
                 sice_ar_documentos doc = rgActas.BuscarActaAsignada();
                 if (doc != null)
@@ -112,9 +98,7 @@ namespace Sistema.RegistroActas
         private void cargarComboSeccion()
         {
             try
-            {
-                //Aqui deberia seleccionar una de las imegenes que vengan del repositorio
-                //this.OpenImage(Resources.iepc);                
+            {       
 
                 imageBox.SelectionMode = ImageBoxSelectionMode.Zoom;
                 imageBox.AllowClickZoom = true;
@@ -139,8 +123,7 @@ namespace Sistema.RegistroActas
             }
             catch(Exception ex)
             {
-                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
-                msgBox.ShowDialog(this);
+                throw ex;
             }
             
 
@@ -157,13 +140,14 @@ namespace Sistema.RegistroActas
                     cmbCasilla.DisplayMember = "casilla";
                     cmbCasilla.ValueMember = "id";
                     var caGp = (from p in this.sc where p.seccion == Convert.ToInt32(cmbSeccion.SelectedValue) select p).ToList();
+                    int distrito = caGp[0].distrito;
                     caGp.Insert(0, new SeccionCasilla() { id = 0, casilla = "Seleccionar Casilla" });
                     cmbCasilla.DataSource = caGp;
                     //cmbCasilla.SelectedIndex = 1;
                     cmbCasilla.Enabled = true;
 
                     cmbCasilla.Enabled = true;
-                    this.cargarCandidatosResultados(caGp[0].distrito);
+                    this.cargarCandidatosResultados(distrito);
                 }
             }
             catch(Exception ex)
@@ -178,18 +162,29 @@ namespace Sistema.RegistroActas
             try
             {
                 rgActas = new RegistroActasGenerales();
-                if (rgActas.verificarCasillaValida(Convert.ToInt32(cmbCasilla.SelectedValue)))
+                int res = rgActas.verificarCasillaValida(Convert.ToInt32(cmbCasilla.SelectedValue));
+                if (res == 0)
                 {
-                    msgBox = new MsgBox(this, "Casilla ya Registrada y Válda", "Atención", MessageBoxButtons.OK, "Advertencia");
+                    this.btnGuardar.Enabled = true;
+                    this.btnLimpiar.Enabled = true;
+                    this.btnLegible.Enabled = true;
+                    
+                }
+                else
+                {
+                    string estatus = "";
+                    if (res == 1)
+                        estatus = "COTEJO";
+                    else
+                        estatus = "VÁLIDO";
+                    msgBox = new MsgBox(this, "Casilla ya Registrada y en estatus: "+estatus, "Atención", MessageBoxButtons.OK, "Advertencia");
                     msgBox.ShowDialog(this);
                     cmbCasilla.SelectedIndex = 0;
                     this.btnGuardar.Enabled = false;
                     this.btnLimpiar.Enabled = false;
                     this.btnLegible.Enabled = false;
                 }
-                this.btnGuardar.Enabled = true;
-                this.btnLimpiar.Enabled = true;
-                this.btnLegible.Enabled = true;
+                
 
 
             }
@@ -436,6 +431,22 @@ namespace Sistema.RegistroActas
 
             imageBox.Image = null;
 
+        }
+
+        private void ReiniciarCeros()
+        {
+            try
+            {
+                foreach (TextBox datos in this.textBoxes)
+                {
+                    datos.Text = "0";
+                }
+
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private void ClearDataTable(bool soloBloq = false)
@@ -744,7 +755,15 @@ namespace Sistema.RegistroActas
         {
             try
             {
-                this.guardarRegistroVotos();
+                int id_casilla = Convert.ToInt32(cmbCasilla.SelectedValue);
+                if (id_casilla == 0)
+                    throw new Exception("Selecciona una Casilla");
+                msgBox = new MsgBox(this.MdiParent, "¿Guardar datos del Acta?", "Atención", MessageBoxButtons.YesNo, "Question");
+                DialogResult result = msgBox.ShowDialog(this);
+                if (result == DialogResult.Yes)
+                {
+                    this.guardarRegistroVotos();
+                }
 
             }
             catch(Exception ex)
@@ -795,6 +814,7 @@ namespace Sistema.RegistroActas
             }
             catch(Exception ex)
             {
+                this.BloquearControles();
                 msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
                 msgBox.ShowDialog(this);
             }
@@ -825,7 +845,21 @@ namespace Sistema.RegistroActas
 
         private void btnLegible_Click(object sender, EventArgs e)
         {
-            this.NoLegible();
+            try
+            {
+                msgBox = new MsgBox(this.MdiParent, "¿Marcar acta como no Legible?\nSera enviada a revisión", "Atención", MessageBoxButtons.YesNo, "Question");
+                DialogResult result = msgBox.ShowDialog(this);
+                if (result == DialogResult.Yes)
+                {
+                    this.NoLegible();
+                }
+            }
+            catch(Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+            
         }
 
         private void panel5_Paint(object sender, PaintEventArgs e)
@@ -833,7 +867,18 @@ namespace Sistema.RegistroActas
 
         }
 
-        
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.ReiniciarCeros();
+            }
+            catch(Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+        }
     }
 
 }

@@ -23,5 +23,10 @@ namespace Sistema.DataModel
         public Nullable<int> importado { get; set; }
         public System.DateTime create_at { get; set; }
         public System.DateTime updated_at { get; set; }
+        public Nullable<int> estatus_filtro1 { get; set; }
+        public Nullable<int> estatus_filtro2 { get; set; }
+        public Nullable<int> estatus_filtro3 { get; set; }
+        public Nullable<int> estatus_revisor { get; set; }
+        public Nullable<int> estatus_cotejador { get; set; }
     }
 }

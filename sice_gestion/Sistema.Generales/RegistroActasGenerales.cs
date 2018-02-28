@@ -76,21 +76,22 @@ namespace Sistema.Generales
             { throw E; }
         }
 
-        public bool verificarCasillaValida(int id_casilla)
+        public int verificarCasillaValida(int id_casilla)
         {
             try
             {
                 using (DatabaseContext contexto = new DatabaseContext("MYSQLSERVER"))
                 {
-                    sice_ar_documentos casilla = (from doc in contexto.sice_ar_documentos where doc.id_casilla == id_casilla && doc.estatus == "VALIDO" select doc).FirstOrDefault();
+                    sice_ar_documentos casilla = (from doc in contexto.sice_ar_documentos where doc.id_casilla == id_casilla && (doc.estatus == "VALIDO" || doc.estatus == "COTEJO") select doc).FirstOrDefault();
                     if(casilla != null)
                     {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                        if(casilla.estatus=="COTEJO")
+                            return 1;
+                        if (casilla.estatus == "VALIDO")
+                            return 2;
+
+                    } 
+                    return 0;
                     //return contexto.sice_casillas.Select(x => new SeccionCasilla { id = x.id, seccion = (int)x.seccion, casilla = (string)x.tipo_casilla }).ToList();
                 }
 
@@ -384,7 +385,7 @@ namespace Sistema.Generales
                             }
                             else
                             {
-                                res = 1;
+                                res = 1;//No pasa validacion pasar al filtro 3
                                 this.LiberarActa(contexto, doc);
                             }
                         }
@@ -469,7 +470,10 @@ namespace Sistema.Generales
                     }
                     //Modificar el Documento para establecer a que casilla pertence
                     documento.id_casilla = id_casilla;
-                    documento.estatus = "VALIDO";
+                    //Marcar que no fue necesario el filtro 3 ni el filtro revisor
+                    documento.estatus_filtro3 = 2;
+                    documento.estatus_revisor = 2;
+                    documento.estatus = "COTEJO";
                     contexto.SaveChanges();
 
                     resp = 1;
@@ -599,6 +603,8 @@ namespace Sistema.Generales
 
                     contexto.SaveChanges();
 
+                    //marcar aqui como fallo en filtro 3
+                    documento.estatus_filtro3 = 1;
                     documento.estatus = "REVISION";
 
                     contexto.SaveChanges();
@@ -639,7 +645,9 @@ namespace Sistema.Generales
                     }
                     //Modificar el Documento para establecer a que casilla pertence
                     documento.id_casilla = id_casilla;
-                    documento.estatus = "VALIDO";
+                    documento.estatus = "COTEJO";
+                    //Marcar que no fue necesario el filtro revisor
+                    documento.estatus_revisor = 2;
                     contexto.SaveChanges();
 
                     resp = 3;
@@ -662,6 +670,12 @@ namespace Sistema.Generales
                 int filtro_actual = (int)documento.filtro;
 
                 documento.estatus = "LIBRE";
+                //Marcar filtro 1 siempre como valido
+                if (filtro_actual == 1)
+                    documento.estatus_filtro1 = 0;
+                //Marcar filtro 2 como no valido, ya que no paso la validacion
+                if (filtro_actual == 2)
+                    documento.estatus_filtro2 = 1;
 
                 contexto.SaveChanges();
 

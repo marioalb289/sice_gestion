@@ -16,8 +16,8 @@ namespace Sistema.Generales
             try
             {
                 //return 1;
-                usuario = "5390db054a81ba9121daa299dc28abc7";
-                contrasena = "e10adc3949ba59abbe56e057f20f883e";
+               // usuario = "23636b9887b68ebaaaf7b25e1af762e4";
+               //contrasena = "e10adc3949ba59abbe56e057f20f883e";
                 using (DatabaseContext contexto = new DatabaseContext("MYSQLSERVER"))
                 {
                     sice_usuarios usr = (from i in contexto.sice_usuarios where i.correo == usuario && i.contrasena == contrasena select i).FirstOrDefault();
