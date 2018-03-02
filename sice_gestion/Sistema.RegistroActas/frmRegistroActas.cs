@@ -27,23 +27,36 @@ namespace Sistema.RegistroActas
         private int idDocumento = 0;
         private int totalCandidatos = 0;
         private MsgBox msgBox;
+        private Loading Loadingbox;
 
         #endregion
 
         public frmRegistroActas()
         {
             InitializeComponent();
+            this.Activated += FrmRegistroActas_Activated;
+        }
+
+        private void FrmRegistroActas_Activated(object sender, EventArgs e)
+        {
+            if(Loadingbox != null)
+            {
+                Loadingbox.Activate();
+                Loadingbox.Focus();
+            }
+            
         }
 
         private void frmRegistroActas_Load(object sender, EventArgs e)
         {            
             imageBox.MouseWheel += new MouseEventHandler(DoNothing_MouseWheel);
-            this.cargarActaYaAsignada();
+            
         }
 
         private void frmRegistroActas_Shown(object sender, EventArgs e)
         {
             this.MdiParent.WindowState = FormWindowState.Maximized;
+            this.cargarActaYaAsignada();
         }
 
 
@@ -74,6 +87,8 @@ namespace Sistema.RegistroActas
         {
             try
             {
+                Loadingbox = new Loading(this,"Cargando");
+                Loadingbox.Show(this);
                 rgActas = new RegistroActasGenerales();
                 sice_ar_documentos doc = rgActas.BuscarActaAsignada();
                 if (doc != null)
@@ -82,14 +97,18 @@ namespace Sistema.RegistroActas
                     flagCombo = 0;
                     this.cargarComboSeccion();
                     this.CargarImagen(doc);
+                    Loadingbox.Close();
                     flagCombo++;
                     msgBox = new MsgBox(this, "Acta Asginada", "Atención", MessageBoxButtons.OK, "Ok");
                     msgBox.ShowDialog();
                 }
-
+                Loadingbox.Close();
+                this.tableLayoutPanel2.Enabled = true;
             }
             catch(Exception ex)
             {
+                Loadingbox.Close();
+                this.tableLayoutPanel2.Enabled = true;
                 msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
                 msgBox.ShowDialog(this);
             }
@@ -322,6 +341,9 @@ namespace Sistema.RegistroActas
         {
             try
             {
+                Loadingbox = new Loading(this, "Guardando");
+                Loadingbox.Show(this);
+                this.tableLayoutPanel2.Enabled = false;
                 List<sice_ar_votos> lista_votos = new List<sice_ar_votos>();
                 int id_casilla = Convert.ToInt32(cmbCasilla.SelectedValue);
                 if (id_casilla == 0)
@@ -367,6 +389,7 @@ namespace Sistema.RegistroActas
                 {
                     rgActas = new RegistroActasGenerales();
                     int res = rgActas.guardarDatosVotos(lista_votos, this.idDocumento, Convert.ToInt32(cmbCasilla.SelectedValue),this.totalCandidatos);
+                    Loadingbox.Close();
                     switch (res)
                     {
                         case 1:
@@ -394,6 +417,8 @@ namespace Sistema.RegistroActas
             }
             catch(Exception ex)
             {
+                Loadingbox.Close();
+                this.tableLayoutPanel2.Enabled = true;
                 msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
                 msgBox.ShowDialog(this);
             }
@@ -421,6 +446,7 @@ namespace Sistema.RegistroActas
 
         private void BloquearControles()
         {
+            this.tableLayoutPanel2.Enabled = true;
             this.ClearDataTable(true);
             this.btnGuardar.Enabled = false;
             this.btnLimpiar.Enabled = false;
@@ -779,14 +805,9 @@ namespace Sistema.RegistroActas
         {
             try
             {
-                /*Aqui se debe programar la logica para buscar el archivo
-                 * 
-                 * 
-                 * 
-                 * 
-                */
+                Loadingbox = new Loading(this, "Cargando");
+                Loadingbox.Show(this);
                 rgActas = new RegistroActasGenerales();
-                //this.buscarArchivos(rgActas);
                 sice_ar_documentos res = rgActas.TomarCasilla();
                 this.btnTomarActa.Enabled = false;
                 if (res != null)
@@ -796,24 +817,27 @@ namespace Sistema.RegistroActas
                     flagCombo = 0;
                     this.cargarComboSeccion();
                     this.CargarImagen(res);
+                    Loadingbox.Close();
                     flagCombo++;
-                    msgBox = new MsgBox(this,"Acta Asignada", "Atención", MessageBoxButtons.OK, "Ok");
+                    msgBox = new MsgBox(this, "Acta Asignada", "Atención", MessageBoxButtons.OK, "Ok");
                     msgBox.ShowDialog(this);
-                }                    
+                }
                 else
                 {
                     btnTomarActa.Enabled = true;
+                    Loadingbox.Close();
                     //throw new Exception("No hay Actas disponibles");                   
                     msgBox = new MsgBox(this, "No hay actas disponibles", "Atención", MessageBoxButtons.OK, "Advertencia");
                     msgBox.ShowDialog(this);
 
                 }
-                    
+
 
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
+                Loadingbox.Close();
                 this.BloquearControles();
                 msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
                 msgBox.ShowDialog(this);
@@ -878,6 +902,11 @@ namespace Sistema.RegistroActas
                 msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
                 msgBox.ShowDialog(this);
             }
+        }
+
+        private void Loadingbox_Activated(object sender, EventArgs e)
+        {
+            Loadingbox.Activate();
         }
     }
 

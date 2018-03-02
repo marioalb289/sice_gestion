@@ -260,6 +260,7 @@
             // tblPanaelPartidos
             // 
             this.tblPanaelPartidos.AutoSize = true;
+            this.tblPanaelPartidos.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.tblPanaelPartidos.BackColor = System.Drawing.Color.Transparent;
             this.tblPanaelPartidos.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Inset;
             this.tblPanaelPartidos.ColumnCount = 2;
@@ -272,8 +273,8 @@
             this.tblPanaelPartidos.Name = "tblPanaelPartidos";
             this.tblPanaelPartidos.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.tblPanaelPartidos.RowCount = 1;
-            this.tblPanaelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 88F));
-            this.tblPanaelPartidos.Size = new System.Drawing.Size(342, 92);
+            this.tblPanaelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 98F));
+            this.tblPanaelPartidos.Size = new System.Drawing.Size(342, 102);
             this.tblPanaelPartidos.TabIndex = 6;
             // 
             // pnlTableTitulo
@@ -283,7 +284,7 @@
             this.pnlTableTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableTitulo.Location = new System.Drawing.Point(15, 5);
             this.pnlTableTitulo.Name = "pnlTableTitulo";
-            this.pnlTableTitulo.Size = new System.Drawing.Size(152, 82);
+            this.pnlTableTitulo.Size = new System.Drawing.Size(152, 92);
             this.pnlTableTitulo.TabIndex = 39;
             // 
             // label4
@@ -305,7 +306,7 @@
             this.pnlTableVotos.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableVotos.Location = new System.Drawing.Point(175, 5);
             this.pnlTableVotos.Name = "pnlTableVotos";
-            this.pnlTableVotos.Size = new System.Drawing.Size(152, 82);
+            this.pnlTableVotos.Size = new System.Drawing.Size(152, 92);
             this.pnlTableVotos.TabIndex = 41;
             // 
             // label5
@@ -428,7 +429,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(1157, 600);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);

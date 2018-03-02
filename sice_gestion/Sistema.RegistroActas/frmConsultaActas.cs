@@ -115,24 +115,18 @@ namespace Sistema.RegistroActas
         {
             try
             {
-                var networkPath = Configuracion.NetWorkPath;
-                //iepcdgo.org\mario.canales
-                //var credentials = new NetworkCredential("mario.canales@IEPCDGO.org", "Iepc2018");
                 rgActas = new RegistroActasGenerales();
                 sice_ar_documentos documento = rgActas.getDocumentoCasilla(Convert.ToInt32(cmbCasilla.SelectedValue));
                 if(documento != null)
                 {
-                    //using (new NetworkConnection(networkPath, credentials))
-                    //{
-                        this.imageLoad = Image.FromFile(networkPath + "\\" + documento.nombre, true);
-                        this.OpenImage(imageLoad);
-                        this.nameImageLoad = documento.nombre;
-                        imageBox.Enabled = true;
-                        btnGuardar.Enabled = true;
-                        //Limpiar tablas y cargar datos de votos
-                        this.ClearDataTable();
-                    //this.OpenImage(Resources.iepc);
-                    //}
+                    ftp ftpClient = new ftp(Configuracion.NetworkFtp, Configuracion.User, Configuracion.Pass);
+                    Image imagen = ftpClient.downloadImage(Configuracion.Repo + "/" + documento.nombre);
+                    this.OpenImage(imagen);
+                    this.nameImageLoad = documento.nombre;
+                    imageBox.Enabled = true;
+                    btnGuardar.Enabled = true;
+                    //Limpiar tablas y cargar datos de votos
+                    this.ClearDataTable();
                 }
                 else
                 {
