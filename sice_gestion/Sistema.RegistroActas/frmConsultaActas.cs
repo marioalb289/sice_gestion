@@ -29,6 +29,7 @@ namespace Sistema.RegistroActas
         private TextBox[] textBoxes;
         private Panel[] panels;
         private Label[] labelsName;
+        private Loading Loadingbox;
 
         public frmConsultaActas()
         {
@@ -109,27 +110,41 @@ namespace Sistema.RegistroActas
             imageBox.Image = null;
             imageBox.Enabled = false;
             this.btnGuardar.Enabled = false;
+
+            imgCap1.Image = Resources.time;
+            imgCap2.Image = Resources.time;
+            imgCap3.Image = Resources.time;
+            imgRev.Image = Resources.time;
+            imgCot.Image = Resources.time;
         }
 
         private void cargarImagen()
         {
             try
             {
+                //iepcdgo.org\mario.canales
+                //var credentials = new NetworkCredential("mario.canales@IEPCDGO.org", "Iepc2018");
+                Loadingbox = new Loading(this, "Cargando");
+                Loadingbox.Show(this);
                 rgActas = new RegistroActasGenerales();
                 sice_ar_documentos documento = rgActas.getDocumentoCasilla(Convert.ToInt32(cmbCasilla.SelectedValue));
                 if(documento != null)
                 {
                     ftp ftpClient = new ftp(Configuracion.NetworkFtp, Configuracion.User, Configuracion.Pass);
-                    Image imagen = ftpClient.downloadImage(Configuracion.Repo + "/" + documento.nombre);
-                    this.OpenImage(imagen);
+                    imageLoad = ftpClient.downloadImage(Configuracion.Repo + "/" + documento.nombre);
+                    this.OpenImage(imageLoad);
                     this.nameImageLoad = documento.nombre;
                     imageBox.Enabled = true;
                     btnGuardar.Enabled = true;
                     //Limpiar tablas y cargar datos de votos
                     this.ClearDataTable();
+                    //Cargar imagenes de los filtros
+                    this.cargarFiltros(documento);
+                    Loadingbox.Close();
                 }
                 else
                 {
+                    Loadingbox.Close();
                     msgBox = new MsgBox(this,"Acta No Registrada", "Atención", MessageBoxButtons.OK, "Advertencia");
                     msgBox.ShowDialog(this);
                     //Limpiar tablas
@@ -141,8 +156,56 @@ namespace Sistema.RegistroActas
             }
             catch (Exception ex)
             {
+                Loadingbox.Close();
                 msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
                 msgBox.ShowDialog(this);
+            }
+        }
+
+        private void cargarFiltros(sice_ar_documentos documento)
+        {
+            try
+            {
+                if(documento != null)
+                {
+                    imgCap1.Image = this.selectImagen((int)documento.estatus_filtro1);
+                    imgCap2.Image = this.selectImagen((int)documento.estatus_filtro2);
+                    imgCap3.Image = this.selectImagen((int)documento.estatus_filtro3);
+                    imgRev.Image = this.selectImagen((int)documento.estatus_revisor);
+                    imgCot.Image = this.selectImagen((int)documento.estatus_cotejador);
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private Image selectImagen(int tipo)
+        {
+            try
+            {
+                Image imagen = null;
+                switch (tipo)
+                {
+                    case 0:
+                        imagen = Resources.ok;
+                        break;
+                    case 1:
+                        imagen = Resources.cancel;
+                        break;
+                    case 2:
+                        imagen = Resources.time;
+                        break;
+                    default:
+                        imagen = Resources.time;
+                        break;
+                }
+                return imagen;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -313,8 +376,7 @@ namespace Sistema.RegistroActas
             }
             catch (Exception ex)
             {
-                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
-                msgBox.ShowDialog(this);
+                throw ex;
             }
         }
 
