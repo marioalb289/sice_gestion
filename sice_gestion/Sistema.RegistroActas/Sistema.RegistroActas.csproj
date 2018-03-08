@@ -134,6 +134,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="RevisionActas.resx">
+      <DependentUpon>RevisionActas.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="DataSetCasilla.xsc">
       <DependentUpon>DataSetCasilla.xsd</DependentUpon>
     </None>

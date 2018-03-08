@@ -219,7 +219,7 @@ namespace Sistema.RegistroActas
             try
             {
                 if (this.idDocumento == 0)
-                    return;
+                    throw new Exception("No se pudo marcar el acata como NO LEGIBLE");
                 rgActas = new RegistroActasGenerales();
                 if (rgActas.EnviarRevision(this.idDocumento, "NO LEGIBLE"))
                 {
