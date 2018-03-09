@@ -34,6 +34,7 @@ namespace Sistema.RegistroActas
         private int totalCandidatos;
         private string motivo = "";
         private int flagResvotos = 0; //0 no hay datos; 1 cotejo fallo; 2 captura fallo
+        private int flagResIdCasilla = 0;
 
         public RevisionActas()
         {
@@ -141,7 +142,7 @@ namespace Sistema.RegistroActas
                 if (lista_votos.Count > 0)
                 {
                     rgActas = new RegistroActasGenerales();
-                    int res = rgActas.guardarDatosRevision(lista_votos, this.idDocumento, Convert.ToInt32(cmbCasilla.SelectedValue), this.flagResvotos);
+                    int res = rgActas.guardarDatosRevision(lista_votos, this.idDocumento, Convert.ToInt32(cmbCasilla.SelectedValue), this.flagResvotos,this.flagResIdCasilla);
                     Loadingbox.Close();
                     switch (res)
                     {
@@ -155,6 +156,8 @@ namespace Sistema.RegistroActas
                             break;
 
                     }
+                    this.flagResvotos = 0;
+                    this.flagResIdCasilla = 0;
                     this.BloquearControles();
 
                 }
@@ -449,6 +452,7 @@ namespace Sistema.RegistroActas
                     this.cmbSeccion.SelectedItem = tempSec.seccion;
                     this.cargarComboCasilla();
                     this.cmbCasilla.SelectedValue = tempSec.id;
+                    this.flagResIdCasilla = (int)cs.id_casilla;
 
 
 
@@ -555,7 +559,7 @@ namespace Sistema.RegistroActas
                     this.panels = new Panel[lsCandidatos.Count + 2];
                     this.labelsName = new Label[lsCandidatos.Count + 2];
                     this.tblPanaelPartidos.RowCount = 1;
-                    this.flagResvotos = 0;
+                    //this.flagResvotos = 0;
 
                     for (int i = 0; i < lsCandidatos.Count + 2; i++)
                     {
