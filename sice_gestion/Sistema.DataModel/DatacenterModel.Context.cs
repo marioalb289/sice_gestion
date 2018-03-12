@@ -41,5 +41,6 @@ namespace Sistema.DataModel
         public DbSet<sice_ar_votos_valida3> sice_ar_votos_valida3 { get; set; }
         public DbSet<sice_ar_documentos_local> sice_ar_documentos_local { get; set; }
         public DbSet<sice_ar_documentos> sice_ar_documentos { get; set; }
+        public DbSet<sice_ar_votos_cotejo> sice_ar_votos_cotejo { get; set; }
     }
 }

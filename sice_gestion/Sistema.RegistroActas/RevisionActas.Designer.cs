@@ -206,8 +206,8 @@
             this.tblPanaelPartidos.Name = "tblPanaelPartidos";
             this.tblPanaelPartidos.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.tblPanaelPartidos.RowCount = 1;
-            this.tblPanaelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 109F));
-            this.tblPanaelPartidos.Size = new System.Drawing.Size(343, 113);
+            this.tblPanaelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 115F));
+            this.tblPanaelPartidos.Size = new System.Drawing.Size(343, 119);
             this.tblPanaelPartidos.TabIndex = 13;
             // 
             // pnlTableTitulo
@@ -217,7 +217,7 @@
             this.pnlTableTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableTitulo.Location = new System.Drawing.Point(15, 5);
             this.pnlTableTitulo.Name = "pnlTableTitulo";
-            this.pnlTableTitulo.Size = new System.Drawing.Size(152, 103);
+            this.pnlTableTitulo.Size = new System.Drawing.Size(152, 109);
             this.pnlTableTitulo.TabIndex = 39;
             // 
             // label4
@@ -239,7 +239,7 @@
             this.pnlTableVotos.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableVotos.Location = new System.Drawing.Point(175, 5);
             this.pnlTableVotos.Name = "pnlTableVotos";
-            this.pnlTableVotos.Size = new System.Drawing.Size(153, 103);
+            this.pnlTableVotos.Size = new System.Drawing.Size(153, 109);
             this.pnlTableVotos.TabIndex = 41;
             // 
             // label5
@@ -607,7 +607,7 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(899, 44);
             this.label6.TabIndex = 0;
-            this.label6.Text = "Actas Registradas";
+            this.label6.Text = "Revision Actas Registradas";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panel4

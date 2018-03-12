@@ -101,16 +101,46 @@ namespace Sistema.Generales
             catch (Exception E)
             { throw E; }
         }
-
-        public void CasillaDisponible(int id_casilla)
+        public sice_ar_documentos BuscarActaAsignadaCotejo()
         {
             try
             {
                 using (DatabaseContext contexto = new DatabaseContext("MYSQLSERVER"))
                 {
-                    sice_casillas casilla = (from c in contexto.sice_casillas join doc in contexto.sice_ar_documentos on c.id equals doc.id_casilla where c.id == id_casilla select c).FirstOrDefault();
-                    
-                    //return contexto.sice_casillas.Select(x => new SeccionCasilla { id = x.id, seccion = (int)x.seccion, casilla = (string)x.tipo_casilla }).ToList();
+                    sice_ar_documentos d = null;
+                    d = (from doc in contexto.sice_ar_documentos join asig in contexto.sice_ar_asignacion on doc.id equals asig.id_documento where doc.estatus == "OCUPADO" && asig.id_usuario == LoginInfo.id_usuario && doc.filtro == 4 select doc).FirstOrDefault();
+                    return d;
+                }
+
+            }
+            catch (Exception E)
+            { throw E; }
+        }
+
+        public CasillaInfo BuscarCasilla(int id_casilla)
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext("MYSQLSERVER"))
+                {
+
+                    CasillaInfo casilla = null;
+                    casilla = (from c in contexto.sice_casillas
+                               join m in contexto.sice_municipios on c.id_municipio equals m.id
+                               join d in contexto.sice_distritos_locales on c.id_distrito_local equals d.id
+                               where c.id == id_casilla
+                               select new CasillaInfo {
+                                   id = c.id,
+                                   seccion = (int)c.seccion,
+                                   casilla = c.casilla,
+                                    id_distrito = (int)c.id_distrito_local,
+                                    id_municipio = (int)c.id_municipio,
+                                    distrito = d.distrito,
+                                    municipio = m.municipio
+                     }).FirstOrDefault();
+                    return casilla;
+
+
                 }
 
             }
@@ -275,30 +305,36 @@ namespace Sistema.Generales
             { throw E; }
         }
 
-        public bool EnviarRevision(int id_documento, string motivo, int? id_casilla = null)
+        public bool EnviarRevision(int id_documento, string motivo, int? id_casilla = null, int cotejo_failo = 0)
         {
             try
             {
                 using (DatabaseContext contexto = new DatabaseContext("MYSQLSERVER"))
                 {
-                    //Enviar a Revision
-                    sice_ar_documentos doc = (from d in contexto.sice_ar_documentos where d.id == id_documento select d).FirstOrDefault();
-                    if(doc != null)
+                    using (var TransactionContexto = new TransactionScope())
                     {
-                        doc.estatus = "REVISION";
+                        //Enviar a Revision
+                        sice_ar_documentos doc = (from d in contexto.sice_ar_documentos where d.id == id_documento select d).FirstOrDefault();
+                        if (doc != null)
+                        {
+                            doc.estatus = "REVISION";
+                            if (cotejo_failo != 0)
+                                doc.estatus_cotejador = 1;
 
-                        sice_ar_reserva revision = new sice_ar_reserva();
-                        revision.id_casilla = id_casilla;
-                        revision.id_documento = id_documento;
-                        revision.tipo_reserva = motivo;
-                        contexto.sice_ar_reserva.Add(revision);
+                            sice_ar_reserva revision = new sice_ar_reserva();
+                            revision.id_casilla = id_casilla;
+                            revision.id_documento = id_documento;
+                            revision.tipo_reserva = motivo;
+                            contexto.sice_ar_reserva.Add(revision);
 
-                        contexto.SaveChanges();
+                            contexto.SaveChanges();
 
-                        return true;
-                    }
-                    return false;
-                    
+                            TransactionContexto.Complete();
+
+                            return true;
+                        }
+                        return false;
+                    }                                            
                 }
 
             }
@@ -316,6 +352,7 @@ namespace Sistema.Generales
                 {
                     //Enviar a Revision
                     sice_ar_documentos doc = (from d in contexto.sice_ar_documentos where d.id == id_documento select d).FirstOrDefault();
+                    List<sice_ar_reserva> reserva = (from r in contexto.sice_ar_reserva where r.id_documento == id_documento select r).ToList();
                     if (doc != null)
                     {
                         doc.estatus = "CANCELADO";
@@ -323,6 +360,11 @@ namespace Sistema.Generales
                         contexto.SaveChanges();
 
                         return true;
+                    }
+                    if(reserva.Count > 0)
+                    {
+                        reserva.ForEach(a => a.tipo_reserva = "ATENDIDO");
+                        contexto.SaveChanges();
                     }
                     return false;
 
@@ -404,7 +446,7 @@ namespace Sistema.Generales
                     {
                         DocumentoReserva doc = null;
                         DateTime localDate = DateTime.Now;
-                        doc = (from d in contexto.sice_ar_documentos join r in contexto.sice_ar_reserva on d.id equals r.id_documento where d.estatus == "REVISION" select new DocumentoReserva {
+                        doc = (from d in contexto.sice_ar_documentos join r in contexto.sice_ar_reserva on d.id equals r.id_documento where d.estatus == "REVISION" && r.tipo_reserva != "ATENDIDO" select new DocumentoReserva {
                             id = d.id,
                             nombre = d.nombre,
                             ruta = d.ruta,
@@ -464,6 +506,60 @@ namespace Sistema.Generales
             }
 
         }
+        public sice_ar_documentos TomarActaCotejo()
+        {
+            try
+            {
+                //Buscar que el arcivo no se encuentre ya registrado
+                using (DatabaseContext contexto = new DatabaseContext("MYSQLSERVER"))
+                {
+                    using (var TransactionContexto = new TransactionScope())
+                    {
+                        sice_ar_documentos doc = null;
+                        DateTime localDate = DateTime.Now;
+                        doc = (from d in contexto.sice_ar_documentos where d.estatus == "COTEJO" && d.id_casilla != null select d).FirstOrDefault();
+                        if (doc != null)
+                        {
+                            //Asignar
+                            doc.estatus = "OCUPADO"; ;
+                            doc.updated_at = localDate;
+                            doc.filtro = 4; //filtro 4 cotejo
+                            contexto.SaveChanges();
+
+
+                            sice_ar_asignacion asig = (from asg in contexto.sice_ar_asignacion where asg.id_documento == doc.id && asg.filtro == 4 select asg).FirstOrDefault();
+                            if (asig == null)
+                            {
+                                sice_ar_asignacion newAsig2 = new sice_ar_asignacion();
+                                newAsig2.id_documento = doc.id;
+                                newAsig2.id_usuario = LoginInfo.id_usuario;
+                                newAsig2.filtro = 4; //filtro 3 revision
+                                contexto.sice_ar_asignacion.Add(newAsig2);
+                                contexto.SaveChanges();
+                            }
+                            else
+                            {
+                                asig.id_usuario = LoginInfo.id_usuario;
+                                contexto.SaveChanges();
+
+                            }
+
+                            TransactionContexto.Complete();
+                            return doc;
+
+                        }
+                        return doc;
+
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
 
         public int guardarDatosVotos(List<sice_ar_votos> listaVotos,int id_documento,int id_casilla, int totalCandidatos)
         {
@@ -481,7 +577,7 @@ namespace Sistema.Generales
                             "sice_ar_votos_valida1 v1 "+
                             "JOIN sice_ar_documentos doc ON doc.id = v1.id_documento "+
                             "WHERE "+
-                            "doc.estatus NOT IN('VALIDO', 'REVISION','COTEJO') " +
+                            "doc.estatus NOT IN('VALIDO', 'REVISION','COTEJO','CANCELADO') " +
                             "AND v1.id_casilla = " +id_casilla;
                         sice_ar_votos_valida1 v1Temp = contexto.Database.SqlQuery<sice_ar_votos_valida1>(consulta).FirstOrDefault();
                         if (v1Temp != null && doc.id != v1Temp.id_documento)
@@ -491,7 +587,7 @@ namespace Sistema.Generales
                             sice_ar_reserva revision = new sice_ar_reserva();
                             revision.id_casilla = id_casilla;
                             revision.id_documento = doc.id;
-                            revision.tipo_reserva = "REVISION";
+                            revision.tipo_reserva = "DUPLICADO";
                             contexto.sice_ar_reserva.Add(revision);
 
                             contexto.SaveChanges();
@@ -645,6 +741,7 @@ namespace Sistema.Generales
                     //Marcar que no fue necesario el filtro 3 ni el filtro revisor
                     documento.estatus_filtro3 = 2;
                     documento.estatus_revisor = 2;
+                    documento.estatus_cotejador = 2;
                     documento.estatus = "COTEJO";
                     contexto.SaveChanges();
 
@@ -823,6 +920,7 @@ namespace Sistema.Generales
                     documento.estatus = "COTEJO";
                     //Marcar que no fue necesario el filtro revisor
                     documento.estatus_revisor = 2;
+                    documento.estatus_cotejador = 2;
                     contexto.SaveChanges();
 
                     resp = 3;
@@ -1013,6 +1111,45 @@ namespace Sistema.Generales
                 throw ex;
             }
         }
+
+        public int guardarActasCotejo(List<sice_ar_votos> listaVotosCaptura, int id_documento, int id_casillaCapturar)
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext("MYSQLSERVER"))
+                {
+                    using (var TransactionContexto = new TransactionScope())
+                    {
+                        DateTime localDate = DateTime.Now;
+                        sice_ar_votos_cotejo v1 = new sice_ar_votos_cotejo();
+                        foreach (sice_ar_votos voto in listaVotosCaptura)
+                        {
+                            v1.id_candidato = voto.id_candidato;
+                            v1.id_casilla = voto.id_casilla;
+                            v1.tipo = voto.tipo;
+                            v1.votos = voto.votos;
+                            contexto.sice_ar_votos_cotejo.Add(v1);
+                            contexto.SaveChanges();
+                        }
+
+                        //Liberar Documento
+                        sice_ar_documentos doc = (from d in contexto.sice_ar_documentos where d.id == id_documento select d).FirstOrDefault();
+                        doc.estatus = "VALIDO";
+                        doc.estatus_cotejador= 1;
+                        doc.id_casilla = id_casillaCapturar;
+                        doc.updated_at = localDate;
+                        contexto.SaveChanges();
+                        TransactionContexto.Complete();
+                        return 1;
+                    }
+                }
+                        
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 
     public class SeccionCasilla
@@ -1022,6 +1159,17 @@ namespace Sistema.Generales
         public string casilla { get; set; }
         public int distrito { get; set; }
         public int municipio { get; set; }
+    }
+
+    public class CasillaInfo
+    {
+        public int id { get; set; }
+        public int seccion { get; set; }
+        public string casilla { get; set; }
+        public int id_distrito { get; set; }
+        public int id_municipio { get; set; }
+        public string distrito { get; set; }
+        public string municipio { get; set; }
     }
 
     public class CandidatosVotos

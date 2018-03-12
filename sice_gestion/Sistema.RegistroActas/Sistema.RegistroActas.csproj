@@ -104,6 +104,9 @@
     <Compile Include="RevisionActas.Designer.cs">
       <DependentUpon>RevisionActas.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="CotejoActas.resx">
+      <DependentUpon>CotejoActas.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
