@@ -33,7 +33,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.btnConsultarActas = new System.Windows.Forms.Button();
-            this.btnRegistrarActas = new System.Windows.Forms.Button();
+            this.btnRecuentoVotos = new System.Windows.Forms.Button();
             this.btnReportes = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
@@ -54,7 +54,7 @@
             this.tableLayoutPanel1.Controls.Add(this.label1, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.label2, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.btnConsultarActas, 2, 2);
-            this.tableLayoutPanel1.Controls.Add(this.btnRegistrarActas, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.btnRecuentoVotos, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.btnReportes, 3, 2);
             this.tableLayoutPanel1.Controls.Add(this.pictureBox1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.pictureBox2, 4, 0);
@@ -106,24 +106,25 @@
             this.btnConsultarActas.Name = "btnConsultarActas";
             this.btnConsultarActas.Size = new System.Drawing.Size(136, 135);
             this.btnConsultarActas.TabIndex = 14;
-            this.btnConsultarActas.Text = "Actas Reservadas";
+            this.btnConsultarActas.Text = "Casillas Reservadas";
             this.btnConsultarActas.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnConsultarActas.UseVisualStyleBackColor = false;
             // 
-            // btnRegistrarActas
+            // btnRecuentoVotos
             // 
-            this.btnRegistrarActas.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnRegistrarActas.BackColor = System.Drawing.Color.Transparent;
-            this.btnRegistrarActas.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnRegistrarActas.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRegistrarActas.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnRegistrarActas.Location = new System.Drawing.Point(172, 352);
-            this.btnRegistrarActas.Name = "btnRegistrarActas";
-            this.btnRegistrarActas.Size = new System.Drawing.Size(136, 135);
-            this.btnRegistrarActas.TabIndex = 13;
-            this.btnRegistrarActas.Text = "Registro de Cómputos";
-            this.btnRegistrarActas.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnRegistrarActas.UseVisualStyleBackColor = false;
+            this.btnRecuentoVotos.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnRecuentoVotos.BackColor = System.Drawing.Color.Transparent;
+            this.btnRecuentoVotos.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnRecuentoVotos.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRecuentoVotos.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnRecuentoVotos.Location = new System.Drawing.Point(172, 352);
+            this.btnRecuentoVotos.Name = "btnRecuentoVotos";
+            this.btnRecuentoVotos.Size = new System.Drawing.Size(136, 135);
+            this.btnRecuentoVotos.TabIndex = 13;
+            this.btnRecuentoVotos.Text = "Recuento de Votos";
+            this.btnRecuentoVotos.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnRecuentoVotos.UseVisualStyleBackColor = false;
+            this.btnRecuentoVotos.Click += new System.EventHandler(this.btnRecuentoVotos_Click);
             // 
             // btnReportes
             // 
@@ -185,7 +186,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnConsultarActas;
-        private System.Windows.Forms.Button btnRegistrarActas;
+        private System.Windows.Forms.Button btnRecuentoVotos;
         private System.Windows.Forms.Button btnReportes;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;

@@ -10,6 +10,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -30,6 +31,11 @@ namespace Sistema.RegistroActas
         private Panel[] panels;
         private Label[] labelsName;
         private Loading Loadingbox;
+
+        const int SB_HORZ = 0;
+        [DllImport("user32.dll")]
+
+        static extern bool ShowScrollBar(IntPtr hWnd, int wBar, bool bShow);
 
         public frmConsultaActas()
         {
@@ -214,7 +220,7 @@ namespace Sistema.RegistroActas
             try
             {
                 rgActas = new RegistroActasGenerales();
-                List<CandidatosVotos> lsCandidatosVotos = rgActas.ListaResultadosCasilla(Convert.ToInt32(cmbCasilla.SelectedValue));
+                List<CandidatosVotos> lsCandidatosVotos = rgActas.ListaResultadosCasilla(Convert.ToInt32(cmbCasilla.SelectedValue), "sice_ar_votos_cotejo");
                 System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
                 if (lsCandidatosVotos != null)
                 {
@@ -294,6 +300,7 @@ namespace Sistema.RegistroActas
                     this.tblPanaelPartidos.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
                     this.tblPanaelPartidos.ResumeLayout(false);
                     this.tblPanaelPartidos.Visible = true;
+                    ShowScrollBar(this.tableLayoutPanel2.Handle, SB_HORZ, false);
                 }
 
             }

@@ -434,7 +434,7 @@ namespace Sistema.RegistroActas
                         textBoxes[i].KeyPress += FrmRegistroActas_KeyPress;
                         //Votos nulos 0 Candidato no registrado -1
 
-                        textBoxes[i].Tag = lsCandidatosVotos[i].tipo == "VOTO" ? lsCandidatosVotos[i].id.ToString() : lsCandidatosVotos[i].tipo == "NO REGISTRADO" ? "-1" : "0";
+                        textBoxes[i].Tag = lsCandidatosVotos[i].tipo == "VOTO" ? lsCandidatosVotos[i].id_candidato.ToString() : lsCandidatosVotos[i].tipo == "NO REGISTRADO" ? "-1" : "0";
                         textBoxes[i].MaxLength = 3;
                         textBoxes[i].Text = lsCandidatosVotos[i].votos.ToString();
                         textBoxes[i].TextAlign = HorizontalAlignment.Center;

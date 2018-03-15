@@ -29,7 +29,7 @@ namespace Sistema.DataModel
         public string casilla { get; set; }
         public string tipo_casilla { get; set; }
         public string domicilio { get; set; }
-        public string ubicación { get; set; }
+        public string ubicacion { get; set; }
         public string referencia { get; set; }
     }
 }

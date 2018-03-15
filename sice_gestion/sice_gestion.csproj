@@ -123,6 +123,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Cyotek.Windows.Forms.ImageBox\Cyotek.Windows.Forms.ImageBox.csproj">
+      <Project>{4159C8D3-C18D-4BED-8BE6-9BAD1B0CA4F6}</Project>
+      <Name>Cyotek.Windows.Forms.ImageBox</Name>
+    </ProjectReference>
     <ProjectReference Include="Sistema.ComputosElectorales\Sistema.ComputosElectorales.csproj">
       <Project>{f726191d-ead7-483d-b92c-22783c6ff2d2}</Project>
       <Name>Sistema.ComputosElectorales</Name>

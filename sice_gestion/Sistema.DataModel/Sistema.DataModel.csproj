@@ -111,10 +111,13 @@
     <Compile Include="sice_partidos_politicos.cs">
       <DependentUpon>DatacenterModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="sice_reserva.cs">
+    <Compile Include="sice_reserva_captura.cs">
       <DependentUpon>DatacenterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="sice_usuarios.cs">
+      <DependentUpon>DatacenterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sice_votos.cs">
       <DependentUpon>DatacenterModel.tt</DependentUpon>
     </Compile>
   </ItemGroup>

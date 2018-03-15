@@ -33,14 +33,15 @@ namespace Sistema.DataModel
         public DbSet<sice_distritos_locales> sice_distritos_locales { get; set; }
         public DbSet<sice_municipios> sice_municipios { get; set; }
         public DbSet<sice_partidos_politicos> sice_partidos_politicos { get; set; }
-        public DbSet<sice_reserva> sice_reserva { get; set; }
         public DbSet<sice_usuarios> sice_usuarios { get; set; }
-        public DbSet<sice_casillas> sice_casillas { get; set; }
         public DbSet<sice_ar_votos_valida1> sice_ar_votos_valida1 { get; set; }
         public DbSet<sice_ar_votos_valida2> sice_ar_votos_valida2 { get; set; }
         public DbSet<sice_ar_votos_valida3> sice_ar_votos_valida3 { get; set; }
         public DbSet<sice_ar_documentos_local> sice_ar_documentos_local { get; set; }
         public DbSet<sice_ar_documentos> sice_ar_documentos { get; set; }
         public DbSet<sice_ar_votos_cotejo> sice_ar_votos_cotejo { get; set; }
+        public DbSet<sice_reserva_captura> sice_reserva_captura { get; set; }
+        public DbSet<sice_votos> sice_votos { get; set; }
+        public DbSet<sice_casillas> sice_casillas { get; set; }
     }
 }

@@ -15,6 +15,7 @@ namespace Sistema.Generales
         public static int privilegios;
         public static int estado;
         public static int id_municipio;
+        public static int id_cabecera_local;
     }
 
     public static class Configuracion

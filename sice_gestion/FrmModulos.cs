@@ -62,5 +62,15 @@ namespace sice_gestion
                 msgBox.ShowDialog();
             }
         }
+
+        private void btnComputos_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Sistema.ComputosElectorales.MainComputosElectorales form = new Sistema.ComputosElectorales.MainComputosElectorales();
+            form.MdiParent = this.MdiParent;
+            form.Dock = DockStyle.Fill;
+            form.Show();
+            form.FormClosed += Form_FormClosed;
+        }
     }
 }

@@ -80,12 +80,14 @@ namespace Sistema.RegistroActas
                         RevisionActas form2 = new RevisionActas();
                         form2.MdiParent = this.MdiParent;
                         form2.Dock = DockStyle.Fill;
+                        form2.FormClosed += Form_FormClosed;
                         form2.Show();
                         break;
                     case 3:
                         CotejoActas form3 = new CotejoActas();
                         form3.MdiParent = this.MdiParent;
                         form3.Dock = DockStyle.Fill;
+                        form3.FormClosed += Form_FormClosed;
                         form3.Show();
                         break;
                 }

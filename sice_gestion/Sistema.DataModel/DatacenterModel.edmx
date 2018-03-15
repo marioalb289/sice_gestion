@@ -173,7 +173,7 @@
           <Property Name="casilla" Type="varchar" MaxLength="50" />
           <Property Name="tipo_casilla" Type="varchar" MaxLength="50" />
           <Property Name="domicilio" Type="text" />
-          <Property Name="ubicación" Type="text" />
+          <Property Name="ubicacion" Type="text" />
           <Property Name="referencia" Type="text" />
         </EntityType>
         <EntityType Name="sice_distritos_locales">
@@ -204,7 +204,7 @@
           <Property Name="estado" Type="int" Nullable="false" />
           <Property Name="info_creado" Type="text" Nullable="false" />
         </EntityType>
-        <EntityType Name="sice_reserva">
+        <EntityType Name="sice_reserva_captura">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -234,7 +234,17 @@
           <Property Name="updated_by" Type="int" />
           <Property Name="updated_at" Type="datetime" Precision="0" />
         </EntityType>
-        <Association Name="CARGOFK">
+        <EntityType Name="sice_votos">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_candidato" Type="int" />
+          <Property Name="id_casilla" Type="int" />
+          <Property Name="votos" Type="int" />
+          <Property Name="tipo" Type="enum" />
+        </EntityType>
+        <Association Name="sice_candidatos_ibfk_1">
           <End Role="sice_candidaturas" Type="Self.sice_candidaturas" Multiplicity="0..1" />
           <End Role="sice_candidatos" Type="Self.sice_candidatos" Multiplicity="*" />
           <ReferentialConstraint>
@@ -246,7 +256,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="PARTIDOFK">
+        <Association Name="sice_candidatos_ibfk_2">
           <End Role="sice_partidos_politicos" Type="Self.sice_partidos_politicos" Multiplicity="1" />
           <End Role="sice_candidatos" Type="Self.sice_candidatos" Multiplicity="*" />
           <ReferentialConstraint>
@@ -274,13 +284,14 @@
           <EntitySet Name="sice_distritos_locales" EntityType="Self.sice_distritos_locales" Schema="sice_pruebas" store:Type="Tables" />
           <EntitySet Name="sice_municipios" EntityType="Self.sice_municipios" Schema="sice_pruebas" store:Type="Tables" />
           <EntitySet Name="sice_partidos_politicos" EntityType="Self.sice_partidos_politicos" Schema="sice_pruebas" store:Type="Tables" />
-          <EntitySet Name="sice_reserva" EntityType="Self.sice_reserva" Schema="sice_pruebas" store:Type="Tables" />
+          <EntitySet Name="sice_reserva_captura" EntityType="Self.sice_reserva_captura" Schema="sice_pruebas" store:Type="Tables" />
           <EntitySet Name="sice_usuarios" EntityType="Self.sice_usuarios" Schema="sice_pruebas" store:Type="Tables" />
-          <AssociationSet Name="CARGOFK" Association="Self.CARGOFK">
+          <EntitySet Name="sice_votos" EntityType="Self.sice_votos" Schema="sice_pruebas" store:Type="Tables" />
+          <AssociationSet Name="sice_candidatos_ibfk_1" Association="Self.sice_candidatos_ibfk_1">
             <End Role="sice_candidaturas" EntitySet="sice_candidaturas" />
             <End Role="sice_candidatos" EntitySet="sice_candidatos" />
           </AssociationSet>
-          <AssociationSet Name="PARTIDOFK" Association="Self.PARTIDOFK">
+          <AssociationSet Name="sice_candidatos_ibfk_2" Association="Self.sice_candidatos_ibfk_2">
             <End Role="sice_partidos_politicos" EntitySet="sice_partidos_politicos" />
             <End Role="sice_candidatos" EntitySet="sice_candidatos" />
           </AssociationSet>
@@ -298,7 +309,6 @@
           <EntitySet Name="sice_distritos_locales" EntityType="sice_pruebasModel.sice_distritos_locales" />
           <EntitySet Name="sice_municipios" EntityType="sice_pruebasModel.sice_municipios" />
           <EntitySet Name="sice_partidos_politicos" EntityType="sice_pruebasModel.sice_partidos_politicos" />
-          <EntitySet Name="sice_reserva" EntityType="sice_pruebasModel.sice_reserva" />
           <EntitySet Name="sice_usuarios" EntityType="sice_pruebasModel.sice_usuarios" />
           <AssociationSet Name="CARGOFK" Association="sice_pruebasModel.CARGOFK">
             <End Role="sice_candidaturas" EntitySet="sice_candidaturas" />
@@ -308,13 +318,15 @@
             <End Role="sice_partidos_politicos" EntitySet="sice_partidos_politicos" />
             <End Role="sice_candidatos" EntitySet="sice_candidatos" />
           </AssociationSet>
-          <EntitySet Name="sice_casillas" EntityType="sice_pruebasModel.sice_casillas" />
           <EntitySet Name="sice_ar_votos_valida1" EntityType="sice_pruebasModel.sice_ar_votos_valida1" />
           <EntitySet Name="sice_ar_votos_valida2" EntityType="sice_pruebasModel.sice_ar_votos_valida2" />
           <EntitySet Name="sice_ar_votos_valida3" EntityType="sice_pruebasModel.sice_ar_votos_valida3" />
           <EntitySet Name="sice_ar_documentos_local" EntityType="sice_pruebasModel.sice_ar_documentos_local" />
           <EntitySet Name="sice_ar_documentos" EntityType="sice_pruebasModel.sice_ar_documentos" />
           <EntitySet Name="sice_ar_votos_cotejo" EntityType="sice_pruebasModel.sice_ar_votos_cotejo" />
+          <EntitySet Name="sice_reserva_captura" EntityType="sice_pruebasModel.sice_reserva_captura" />
+          <EntitySet Name="sice_votos" EntityType="sice_pruebasModel.sice_votos" />
+          <EntitySet Name="sice_casillas" EntityType="sice_pruebasModel.sice_casillas" />
         </EntityContainer>
         <EntityType Name="sice_ar_asignacion">
           <Key>
@@ -417,14 +429,6 @@
           <Property Name="info_creado" Type="String" Nullable="false" MaxLength="65535" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="sice_candidatos" Relationship="sice_pruebasModel.PARTIDOFK" FromRole="sice_partidos_politicos" ToRole="sice_candidatos" />
         </EntityType>
-        <EntityType Name="sice_reserva">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_casilla" Type="Int32" />
-          <Property Name="tipo_reserva" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="sice_usuarios">
           <Key>
             <PropertyRef Name="id" />
@@ -471,28 +475,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="sice_casillas">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="consecutivo_total" Type="Int32" />
-          <Property Name="consecutivo_municipio" Type="Int32" />
-          <Property Name="id_distrito_federal" Type="Int32" />
-          <Property Name="cabecera_federal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="id_distrito_local" Type="Int32" />
-          <Property Name="id_cabecera_local" Type="Int32" />
-          <Property Name="id_municipio" Type="Int64" />
-          <Property Name="seccion" Type="Int32" />
-          <Property Name="tipo_seccion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="padron_electoral" Type="Int32" />
-          <Property Name="lista_nominal" Type="Int32" />
-          <Property Name="casilla" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="tipo_casilla" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="domicilio" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
-          <Property Name="ubicación" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
-          <Property Name="referencia" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="sice_ar_votos_valida1">
           <Key>
             <PropertyRef Name="id" />
@@ -572,6 +554,46 @@
           <Property Name="id_casilla" Type="Int32" />
           <Property Name="votos" Type="Int32" />
           <Property Name="tipo" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="sice_reserva_captura">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_casilla" Type="Int32" />
+          <Property Name="tipo_reserva" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="sice_votos">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_candidato" Type="Int32" />
+          <Property Name="id_casilla" Type="Int32" />
+          <Property Name="votos" Type="Int32" />
+          <Property Name="tipo" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="sice_casillas">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="consecutivo_total" Type="Int32" />
+          <Property Name="consecutivo_municipio" Type="Int32" />
+          <Property Name="id_distrito_federal" Type="Int32" />
+          <Property Name="cabecera_federal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="id_distrito_local" Type="Int32" />
+          <Property Name="id_cabecera_local" Type="Int32" />
+          <Property Name="id_municipio" Type="Int64" />
+          <Property Name="seccion" Type="Int32" />
+          <Property Name="tipo_seccion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="padron_electoral" Type="Int32" />
+          <Property Name="lista_nominal" Type="Int32" />
+          <Property Name="casilla" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="tipo_casilla" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="domicilio" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="ubicacion" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="referencia" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -684,15 +706,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="sice_reserva">
-            <EntityTypeMapping TypeName="sice_pruebasModel.sice_reserva">
-              <MappingFragment StoreEntitySet="sice_reserva">
-                <ScalarProperty Name="tipo_reserva" ColumnName="tipo_reserva" />
-                <ScalarProperty Name="id_casilla" ColumnName="id_casilla" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="sice_usuarios">
             <EntityTypeMapping TypeName="sice_pruebasModel.sice_usuarios">
               <MappingFragment StoreEntitySet="sice_usuarios">
@@ -712,29 +725,6 @@
                 <ScalarProperty Name="apellido" ColumnName="apellido" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
                 <ScalarProperty Name="nombre_formal" ColumnName="nombre_formal" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sice_casillas">
-            <EntityTypeMapping TypeName="sice_pruebasModel.sice_casillas">
-              <MappingFragment StoreEntitySet="sice_casillas">
-                <ScalarProperty Name="referencia" ColumnName="referencia" />
-                <ScalarProperty Name="ubicación" ColumnName="ubicación" />
-                <ScalarProperty Name="domicilio" ColumnName="domicilio" />
-                <ScalarProperty Name="tipo_casilla" ColumnName="tipo_casilla" />
-                <ScalarProperty Name="casilla" ColumnName="casilla" />
-                <ScalarProperty Name="lista_nominal" ColumnName="lista_nominal" />
-                <ScalarProperty Name="padron_electoral" ColumnName="padron_electoral" />
-                <ScalarProperty Name="tipo_seccion" ColumnName="tipo_seccion" />
-                <ScalarProperty Name="seccion" ColumnName="seccion" />
-                <ScalarProperty Name="id_municipio" ColumnName="id_municipio" />
-                <ScalarProperty Name="id_cabecera_local" ColumnName="id_cabecera_local" />
-                <ScalarProperty Name="id_distrito_local" ColumnName="id_distrito_local" />
-                <ScalarProperty Name="cabecera_federal" ColumnName="cabecera_federal" />
-                <ScalarProperty Name="id_distrito_federal" ColumnName="id_distrito_federal" />
-                <ScalarProperty Name="consecutivo_municipio" ColumnName="consecutivo_municipio" />
-                <ScalarProperty Name="consecutivo_total" ColumnName="consecutivo_total" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -821,6 +811,49 @@
                 <ScalarProperty Name="votos" ColumnName="votos" />
                 <ScalarProperty Name="id_casilla" ColumnName="id_casilla" />
                 <ScalarProperty Name="id_candidato" ColumnName="id_candidato" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sice_reserva_captura">
+            <EntityTypeMapping TypeName="sice_pruebasModel.sice_reserva_captura">
+              <MappingFragment StoreEntitySet="sice_reserva_captura">
+                <ScalarProperty Name="tipo_reserva" ColumnName="tipo_reserva" />
+                <ScalarProperty Name="id_casilla" ColumnName="id_casilla" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sice_votos">
+            <EntityTypeMapping TypeName="sice_pruebasModel.sice_votos">
+              <MappingFragment StoreEntitySet="sice_votos">
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+                <ScalarProperty Name="votos" ColumnName="votos" />
+                <ScalarProperty Name="id_casilla" ColumnName="id_casilla" />
+                <ScalarProperty Name="id_candidato" ColumnName="id_candidato" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sice_casillas">
+            <EntityTypeMapping TypeName="sice_pruebasModel.sice_casillas">
+              <MappingFragment StoreEntitySet="sice_casillas">
+                <ScalarProperty Name="referencia" ColumnName="referencia" />
+                <ScalarProperty Name="ubicacion" ColumnName="ubicacion" />
+                <ScalarProperty Name="domicilio" ColumnName="domicilio" />
+                <ScalarProperty Name="tipo_casilla" ColumnName="tipo_casilla" />
+                <ScalarProperty Name="casilla" ColumnName="casilla" />
+                <ScalarProperty Name="lista_nominal" ColumnName="lista_nominal" />
+                <ScalarProperty Name="padron_electoral" ColumnName="padron_electoral" />
+                <ScalarProperty Name="tipo_seccion" ColumnName="tipo_seccion" />
+                <ScalarProperty Name="seccion" ColumnName="seccion" />
+                <ScalarProperty Name="id_municipio" ColumnName="id_municipio" />
+                <ScalarProperty Name="id_cabecera_local" ColumnName="id_cabecera_local" />
+                <ScalarProperty Name="id_distrito_local" ColumnName="id_distrito_local" />
+                <ScalarProperty Name="cabecera_federal" ColumnName="cabecera_federal" />
+                <ScalarProperty Name="id_distrito_federal" ColumnName="id_distrito_federal" />
+                <ScalarProperty Name="consecutivo_municipio" ColumnName="consecutivo_municipio" />
+                <ScalarProperty Name="consecutivo_total" ColumnName="consecutivo_total" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

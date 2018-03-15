@@ -132,7 +132,7 @@ namespace Sistema.Generales
                                select new CasillaInfo {
                                    id = c.id,
                                    seccion = (int)c.seccion,
-                                   casilla = c.casilla,
+                                   casilla = c.tipo_casilla,
                                     id_distrito = (int)c.id_distrito_local,
                                     id_municipio = (int)c.id_municipio,
                                     distrito = d.distrito,
@@ -243,12 +243,14 @@ namespace Sistema.Generales
             catch (Exception E)
             { throw E; }
         }
-        public List<CandidatosVotos> ListaResultadosCasilla(int casilla)
+        public List<CandidatosVotos> ListaResultadosCasilla(int casilla,string tabla = "")
         {
             try
             {
                 using (DatabaseContext contexto = new DatabaseContext("MYSQLSERVER"))
                 {
+                    if (tabla == "")
+                        tabla = "sice_ar_votos";
                     string consulta =
                         "SELECT " +
                         "V.id,	" +
@@ -260,7 +262,7 @@ namespace Sistema.Generales
                         "CD.nombre_candidatura, " +
                         "P.siglas_par as partido, " +
                         "P.img_par as imagen " +
-                        "FROM sice_ar_votos V " +
+                        "FROM " +tabla +" V " +
                         "LEFT JOIN sice_candidatos C ON C.id = V.id_candidato " +
                         "LEFT JOIN sice_candidaturas CD ON CD.id = C.fk_cargo AND CD.titular = 1 " + //"AND CD.id_distrito =" + distrito +
                         "LEFT JOIN sice_partidos_politicos P ON P.id = C.fk_partido " +
@@ -454,7 +456,7 @@ namespace Sistema.Generales
                             filtro = d.filtro,
                             estatus_filtro1 = d.estatus_filtro1,
                             estatus_filtro2 = d.estatus_filtro2,
-                            estatus_filtro3 = d.estatus_filtro2,
+                            estatus_filtro3 = d.estatus_filtro3,
                             estatus_revisor = d.estatus_revisor,
                             estatus_cotejador = d.estatus_cotejador,
                             id_casilla = d.id_casilla,
@@ -985,7 +987,7 @@ namespace Sistema.Generales
                             "C.id_distrito_local as distrito_local," +
                             "M.municipio," +
                             "M2.municipio AS cabecera_local " +
-                        "FROM sice_ar_votos RV " +
+                        "FROM sice_ar_votos_cotejo RV " +
                         "LEFT JOIN sice_candidatos CND ON CND.id = RV.id_candidato " +
                         "LEFT JOIN sice_partidos_politicos P ON P.id = CND.fk_partido " +
                         "JOIN sice_casillas C ON C.id = RV.id_casilla " + condicion +
@@ -1135,7 +1137,7 @@ namespace Sistema.Generales
                         //Liberar Documento
                         sice_ar_documentos doc = (from d in contexto.sice_ar_documentos where d.id == id_documento select d).FirstOrDefault();
                         doc.estatus = "VALIDO";
-                        doc.estatus_cotejador= 1;
+                        doc.estatus_cotejador= 0;
                         doc.id_casilla = id_casillaCapturar;
                         doc.updated_at = localDate;
                         contexto.SaveChanges();

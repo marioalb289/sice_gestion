@@ -12,7 +12,7 @@ namespace Sistema.DataModel
     using System;
     using System.Collections.Generic;
     
-    public partial class sice_reserva
+    public partial class sice_reserva_captura
     {
         public int id { get; set; }
         public Nullable<int> id_casilla { get; set; }

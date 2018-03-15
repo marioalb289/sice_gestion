@@ -28,6 +28,7 @@ namespace Sistema.Generales
                         LoginInfo.apellido = usr.apellido;
                         LoginInfo.id_municipio = usr.id_municipio;
                         LoginInfo.privilegios = usr.privilegios;
+                        LoginInfo.id_cabecera_local = usr.id_municipio;
                         return 1;
                     }
 

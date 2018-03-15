@@ -59,6 +59,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RecuentoVotos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RecuentoVotos.Designer.cs">
+      <DependentUpon>RecuentoVotos.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -73,7 +79,11 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="RecuentoVotos.resx">
+      <DependentUpon>RecuentoVotos.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -86,6 +96,78 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Cyotek.Windows.Forms.ImageBox\Cyotek.Windows.Forms.ImageBox.csproj">
+      <Project>{4159c8d3-c18d-4bed-8be6-9bad1b0ca4f6}</Project>
+      <Name>Cyotek.Windows.Forms.ImageBox</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sistema.DataModel\Sistema.DataModel.csproj">
+      <Project>{b69062f0-b514-40d3-8ce3-4c288dff5103}</Project>
+      <Name>Sistema.DataModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sistema.Generales\Sistema.Generales.csproj">
+      <Project>{bede632c-0cbc-4e75-8430-8c405496fd35}</Project>
+      <Name>Sistema.Generales</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sistema.RegistroActas\Sistema.RegistroActas.csproj">
+      <Project>{fc984da1-adb9-4350-971d-ab70ab608f16}</Project>
+      <Name>Sistema.RegistroActas</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cancel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Error_60.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iepc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Information_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\no-regis.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\nulos.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ok.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ok2.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\time.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cancel1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Error_601.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iepc1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Information_641.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\no-regis1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\nulos1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ok1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ok21.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\time1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

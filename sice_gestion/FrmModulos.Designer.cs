@@ -28,9 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmModulos));
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -108,6 +107,7 @@
             this.btnComputos.Text = "Cómputos Electorales";
             this.btnComputos.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnComputos.UseVisualStyleBackColor = false;
+            this.btnComputos.Click += new System.EventHandler(this.btnComputos_Click);
             // 
             // btnRegistroActas
             // 
