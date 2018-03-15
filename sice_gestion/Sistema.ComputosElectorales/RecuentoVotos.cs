@@ -20,7 +20,7 @@ namespace Sistema.ComputosElectorales
     public partial class RecuentoVotos : Form
     {
         private Image _previewImage;
-        private List<SeccionCasilla> sc;
+        private List<SeccionCasillaConsecutivo> sc;
         private ComputosElectoralesGenerales CompElec;
         private int flagCombo = 0;
         Image imageLoad;
@@ -49,7 +49,7 @@ namespace Sistema.ComputosElectorales
         }
         private void RecuentoVotos_Load(object sender, EventArgs e)
         {
-            this.cargarComboSeccion();
+            //this.cargarComboSeccion();
             this.cmbCasilla.Enabled = false;
             this.cmbSeccion.Enabled = false;
 
@@ -62,10 +62,11 @@ namespace Sistema.ComputosElectorales
         {
             try
             {
-                List<SeccionCasilla> tmp = this.sc;
+                List<SeccionCasillaConsecutivo> tmp = this.sc;
                 if (PosActual + 1 > this.sc.Count)
                     throw new Exception("No hay mas Casillas disponibles");
-                SeccionCasilla tempSec = this.sc[PosActual];
+                SeccionCasillaConsecutivo tempSec = this.sc[PosActual];
+                this.txtConsecutivo.Text = tempSec.consecutivo.ToString();
                 this.flagCombo = 0; //Evita que se ejecute el evento de seleccion del combo
                 this.cmbSeccion.SelectedItem = tempSec.seccion;
                 //this.cargarComboCasilla();
@@ -79,6 +80,81 @@ namespace Sistema.ComputosElectorales
             }
             catch(Exception ex)
             {
+                throw ex;
+            }
+        }
+
+        private void guardarRegistroVotos()
+        {
+            try
+            {
+                this.tableLayoutPanel2.Enabled = false;
+                List<sice_votos> lista_votos = new List<sice_votos>();
+                int id_casilla = Convert.ToInt32(cmbCasilla.SelectedValue);
+                if (id_casilla == 0)
+                    throw new Exception("Error al guardar los datos");
+                foreach (TextBox datos in this.textBoxes)
+                {
+                    double num;
+
+
+                    if (double.TryParse(datos.Text, out num))
+                    {
+                        //Es numero proceder guardar
+                        int? id_candidato = null;
+                        string tipo_voto = "VOTO";
+                        int tempIdCandidato = Convert.ToInt32(datos.Tag);
+                        if (tempIdCandidato > 0)
+                        {
+                            id_candidato = tempIdCandidato;
+                        }
+                        else if (tempIdCandidato == 0)
+                        {
+                            tipo_voto = "NULO";
+                        }
+                        else
+                        {
+                            tipo_voto = "NO REGISTRADO";
+                        }
+                        lista_votos.Add(new sice_votos()
+                        {
+                            id_candidato = id_candidato,
+                            id_casilla = id_casilla,
+                            votos = Convert.ToInt32(datos.Text),
+                            tipo = tipo_voto
+                        });
+
+                    }
+                    else
+                    {
+                        throw new Exception("Solo se Permiten Numeros");
+                    }
+
+                }
+                if (lista_votos.Count > 0)
+                {
+                    CompElec = new ComputosElectoralesGenerales();
+                    int res = CompElec.guardarDatosVotos(lista_votos, Convert.ToInt32(cmbCasilla.SelectedValue), this.totalCandidatos);
+                    if(res == 1)
+                    {
+                        this.tableLayoutPanel2.Enabled = true;
+                        msgBox = new MsgBox(this, "Datos Guardados correctamente", "Atención", MessageBoxButtons.OK, "Ok");
+                        msgBox.ShowDialog(this);
+                        this.BloquearControles();
+                    }
+                    else
+                    {
+                        throw new Exception("Error al guardar Datos");
+                    }
+                }
+                else
+                {
+                    throw new Exception("Error al guardar Datos");
+                }
+            }
+            catch (Exception ex)
+            {
+                this.tableLayoutPanel2.Enabled = true;
                 throw ex;
             }
         }
@@ -145,7 +221,7 @@ namespace Sistema.ComputosElectorales
                     cmbCasilla.ValueMember = "id";
                     var caGp = (from p in this.sc where p.seccion == Convert.ToInt32(cmbSeccion.SelectedValue) select p).ToList();
                     this.distritoActual = caGp[0].distrito;
-                    caGp.Insert(0, new SeccionCasilla() { id = 0, casilla = "Seleccionar Casilla" });
+                    caGp.Insert(0, new SeccionCasillaConsecutivo() { id = 0, casilla = "Seleccionar Casilla" });
                     cmbCasilla.DataSource = caGp;
                     //cmbCasilla.SelectedIndex = 1;
                 }
@@ -432,6 +508,25 @@ namespace Sistema.ComputosElectorales
                 if (result == DialogResult.Yes)
                 {
                     this.ReservarCasilla("NO CONTABILIZABLE");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+        }
+
+        private void btnGuardar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                msgBox = new MsgBox(this.MdiParent, "¿Guardar datos del Acta?\nLos cambios no se pueden deshacer", "Atención", MessageBoxButtons.YesNo, "Advertencia");
+                DialogResult result = msgBox.ShowDialog(this);
+                if (result == DialogResult.Yes)
+                {
+                    this.guardarRegistroVotos();
                 }
 
             }

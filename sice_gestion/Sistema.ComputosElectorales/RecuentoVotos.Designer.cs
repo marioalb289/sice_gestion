@@ -53,6 +53,8 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtConsecutivo = new System.Windows.Forms.TextBox();
             this.panel2.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tblPanaelPartidos.SuspendLayout();
@@ -112,8 +114,8 @@
             this.tblPanaelPartidos.Name = "tblPanaelPartidos";
             this.tblPanaelPartidos.Padding = new System.Windows.Forms.Padding(40, 0, 40, 0);
             this.tblPanaelPartidos.RowCount = 1;
-            this.tblPanaelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 93F));
-            this.tblPanaelPartidos.Size = new System.Drawing.Size(1018, 97);
+            this.tblPanaelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 97F));
+            this.tblPanaelPartidos.Size = new System.Drawing.Size(1018, 101);
             this.tblPanaelPartidos.TabIndex = 13;
             // 
             // pnlTableTitulo
@@ -123,7 +125,7 @@
             this.pnlTableTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableTitulo.Location = new System.Drawing.Point(45, 5);
             this.pnlTableTitulo.Name = "pnlTableTitulo";
-            this.pnlTableTitulo.Size = new System.Drawing.Size(460, 87);
+            this.pnlTableTitulo.Size = new System.Drawing.Size(460, 91);
             this.pnlTableTitulo.TabIndex = 39;
             // 
             // label4
@@ -145,7 +147,7 @@
             this.pnlTableVotos.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableVotos.Location = new System.Drawing.Point(513, 5);
             this.pnlTableVotos.Name = "pnlTableVotos";
-            this.pnlTableVotos.Size = new System.Drawing.Size(460, 87);
+            this.pnlTableVotos.Size = new System.Drawing.Size(460, 91);
             this.pnlTableVotos.TabIndex = 41;
             // 
             // label5
@@ -162,15 +164,18 @@
             // 
             // tableLayoutPanel3
             // 
-            this.tableLayoutPanel3.ColumnCount = 3;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tableLayoutPanel3.ColumnCount = 4;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this.tableLayoutPanel3.Controls.Add(this.label7, 2, 0);
             this.tableLayoutPanel3.Controls.Add(this.cmbCasilla, 1, 1);
             this.tableLayoutPanel3.Controls.Add(this.cmbSeccion, 0, 1);
-            this.tableLayoutPanel3.Controls.Add(this.panel5, 2, 1);
+            this.tableLayoutPanel3.Controls.Add(this.panel5, 3, 1);
             this.tableLayoutPanel3.Controls.Add(this.label2, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.label3, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.txtConsecutivo, 2, 1);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Top;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
@@ -183,24 +188,26 @@
             // cmbCasilla
             // 
             this.cmbCasilla.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cmbCasilla.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbCasilla.Enabled = false;
             this.cmbCasilla.FormattingEnabled = true;
-            this.cmbCasilla.Location = new System.Drawing.Point(327, 55);
+            this.cmbCasilla.Location = new System.Drawing.Point(224, 55);
             this.cmbCasilla.Margin = new System.Windows.Forms.Padding(20, 5, 20, 5);
             this.cmbCasilla.Name = "cmbCasilla";
-            this.cmbCasilla.Size = new System.Drawing.Size(267, 21);
+            this.cmbCasilla.Size = new System.Drawing.Size(164, 21);
             this.cmbCasilla.TabIndex = 16;
             this.cmbCasilla.SelectedValueChanged += new System.EventHandler(this.cmbCasilla_SelectedValueChanged_1);
             // 
             // cmbSeccion
             // 
             this.cmbSeccion.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cmbSeccion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbSeccion.Enabled = false;
             this.cmbSeccion.FormattingEnabled = true;
             this.cmbSeccion.Location = new System.Drawing.Point(20, 55);
             this.cmbSeccion.Margin = new System.Windows.Forms.Padding(20, 5, 20, 5);
             this.cmbSeccion.Name = "cmbSeccion";
-            this.cmbSeccion.Size = new System.Drawing.Size(267, 21);
+            this.cmbSeccion.Size = new System.Drawing.Size(164, 21);
             this.cmbSeccion.TabIndex = 15;
             this.cmbSeccion.SelectedValueChanged += new System.EventHandler(this.cmbSeccion_SelectedValueChanged);
             // 
@@ -211,15 +218,15 @@
             this.panel5.Controls.Add(this.btnGuardar);
             this.panel5.Controls.Add(this.btnSiguiente);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel5.Location = new System.Drawing.Point(617, 53);
+            this.panel5.Location = new System.Drawing.Point(615, 53);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(404, 44);
+            this.panel5.Size = new System.Drawing.Size(406, 44);
             this.panel5.TabIndex = 14;
             // 
             // btnReserva
             // 
             this.btnReserva.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnReserva.Location = new System.Drawing.Point(64, 0);
+            this.btnReserva.Location = new System.Drawing.Point(66, 0);
             this.btnReserva.Name = "btnReserva";
             this.btnReserva.Size = new System.Drawing.Size(85, 44);
             this.btnReserva.TabIndex = 31;
@@ -232,7 +239,7 @@
             // btnNoConta
             // 
             this.btnNoConta.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnNoConta.Location = new System.Drawing.Point(149, 0);
+            this.btnNoConta.Location = new System.Drawing.Point(151, 0);
             this.btnNoConta.Name = "btnNoConta";
             this.btnNoConta.Size = new System.Drawing.Size(85, 44);
             this.btnNoConta.TabIndex = 30;
@@ -245,7 +252,7 @@
             // btnGuardar
             // 
             this.btnGuardar.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnGuardar.Location = new System.Drawing.Point(234, 0);
+            this.btnGuardar.Location = new System.Drawing.Point(236, 0);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(85, 44);
             this.btnGuardar.TabIndex = 29;
@@ -253,11 +260,12 @@
             this.btnGuardar.Tag = "tomarActa";
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = true;
+            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
             // btnSiguiente
             // 
             this.btnSiguiente.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnSiguiente.Location = new System.Drawing.Point(319, 0);
+            this.btnSiguiente.Location = new System.Drawing.Point(321, 0);
             this.btnSiguiente.Name = "btnSiguiente";
             this.btnSiguiente.Size = new System.Drawing.Size(85, 44);
             this.btnSiguiente.TabIndex = 28;
@@ -272,12 +280,12 @@
             this.label2.AutoSize = true;
             this.label2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(310, 6);
+            this.label2.Location = new System.Drawing.Point(207, 6);
             this.label2.Name = "label2";
             this.label2.Padding = new System.Windows.Forms.Padding(10);
-            this.label2.Size = new System.Drawing.Size(301, 44);
+            this.label2.Size = new System.Drawing.Size(198, 44);
             this.label2.TabIndex = 7;
-            this.label2.Text = "Seleccionar Casilla";
+            this.label2.Text = "Casilla";
             this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // label3
@@ -289,9 +297,9 @@
             this.label3.Location = new System.Drawing.Point(3, 6);
             this.label3.Name = "label3";
             this.label3.Padding = new System.Windows.Forms.Padding(10);
-            this.label3.Size = new System.Drawing.Size(301, 44);
+            this.label3.Size = new System.Drawing.Size(198, 44);
             this.label3.TabIndex = 6;
-            this.label3.Text = "Seleccionar Sección";
+            this.label3.Text = "Sección";
             this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // label6
@@ -395,6 +403,29 @@
             this.panel1.Size = new System.Drawing.Size(1024, 100);
             this.panel1.TabIndex = 2;
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(411, 6);
+            this.label7.Name = "label7";
+            this.label7.Padding = new System.Windows.Forms.Padding(10);
+            this.label7.Size = new System.Drawing.Size(198, 44);
+            this.label7.TabIndex = 17;
+            this.label7.Text = "Consecutivo";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            // 
+            // txtConsecutivo
+            // 
+            this.txtConsecutivo.Dock = System.Windows.Forms.DockStyle.Top;
+            this.txtConsecutivo.Enabled = false;
+            this.txtConsecutivo.Location = new System.Drawing.Point(428, 55);
+            this.txtConsecutivo.Margin = new System.Windows.Forms.Padding(20, 5, 20, 5);
+            this.txtConsecutivo.Name = "txtConsecutivo";
+            this.txtConsecutivo.Size = new System.Drawing.Size(164, 20);
+            this.txtConsecutivo.TabIndex = 18;
+            // 
             // RecuentoVotos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -452,5 +483,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Panel pnlTableVotos;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox txtConsecutivo;
     }
 }

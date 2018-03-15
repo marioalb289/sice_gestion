@@ -10,7 +10,7 @@ namespace Sistema.Generales
 {
     public class ComputosElectoralesGenerales
     {
-        public List<SeccionCasilla> ListaSescciones()
+        public List<SeccionCasillaConsecutivo> ListaSescciones()
         {
             try
             {
@@ -22,11 +22,12 @@ namespace Sistema.Generales
                         "WHERE RC.id IS NULL"+ " AND C.id_cabecera_local = " +LoginInfo.id_municipio;
                     List<sice_casillas> lsCasilla = contexto.Database.SqlQuery<sice_casillas>(consulta).ToList();
                     return (from p in lsCasilla
-                            select new SeccionCasilla
+                            select new SeccionCasillaConsecutivo
                             {
                                 id = p.id,
                                 seccion = (int)p.seccion,
                                 casilla = p.tipo_casilla,
+                                consecutivo = (int)p.consecutivo_total,
                                 distrito = (int)p.id_distrito_local,
                                 municipio = (int)p.id_municipio
                             }).ToList();
@@ -81,5 +82,59 @@ namespace Sistema.Generales
                 throw E;
             }
         }
+
+        public int guardarDatosVotos(List<sice_votos> listaVotos, int id_casilla, int totalCandidatos)
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext("MYSQLOCAL"))
+                {
+                    using (var TransactionContexto = new TransactionScope())
+                    {
+                        sice_votos v1 = new sice_votos();
+                        foreach (sice_votos voto in listaVotos)
+                        {
+                            v1.id_candidato = voto.id_candidato;
+                            v1.id_casilla = voto.id_casilla;
+                            v1.tipo = voto.tipo;
+                            v1.votos = voto.votos;
+                            contexto.sice_votos.Add(v1);
+                            contexto.SaveChanges();
+                        }
+
+                        sice_reserva_captura rc = (from p in contexto.sice_reserva_captura where p.id_casilla == id_casilla select p).FirstOrDefault();
+                        if(rc != null)
+                        {
+                            rc.tipo_reserva = "CAPTURADA";
+                        }
+                        else
+                        {
+                            rc = new sice_reserva_captura();
+                            rc.id_casilla = id_casilla;
+                            rc.tipo_reserva = "CAPTURADA";
+                            contexto.sice_reserva_captura.Add(rc);
+                        }
+                        contexto.SaveChanges();
+                        TransactionContexto.Complete();
+                        return 1;
+                    }
+                }
+
+            }
+            catch(Exception E)
+            {
+                throw E;
+            }             
+        }
+    }
+
+    public class SeccionCasillaConsecutivo
+    {
+        public int id { get; set; }
+        public int consecutivo { get; set; }
+        public int seccion { get; set; }
+        public string casilla { get; set; }
+        public int distrito { get; set; }
+        public int municipio { get; set; }
     }
 }
