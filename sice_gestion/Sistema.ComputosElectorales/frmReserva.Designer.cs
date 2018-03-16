@@ -1,6 +1,6 @@
 ﻿namespace Sistema.ComputosElectorales
 {
-    partial class RecuentoVotos
+    partial class frmReserva
     {
         /// <summary>
         /// Required designer variable.
@@ -36,27 +36,23 @@
             this.pnlTableVotos = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.label7 = new System.Windows.Forms.Label();
+            this.cmbCasilla = new System.Windows.Forms.ComboBox();
+            this.cmbSeccion = new System.Windows.Forms.ComboBox();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.btnReserva = new System.Windows.Forms.Button();
             this.btnNoConta = new System.Windows.Forms.Button();
             this.btnGuardar = new System.Windows.Forms.Button();
-            this.btnSiguiente = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.txtConsecutivo = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.label7 = new System.Windows.Forms.Label();
-            this.lblConsecutivo = new System.Windows.Forms.Label();
-            this.lblSeccion = new System.Windows.Forms.Label();
-            this.lblCasilla = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.lblListaNominal = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.panel2.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tblPanaelPartidos.SuspendLayout();
@@ -67,8 +63,8 @@
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel2
@@ -166,23 +162,18 @@
             // 
             // tableLayoutPanel3
             // 
-            this.tableLayoutPanel3.ColumnCount = 7;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Controls.Add(this.lblListaNominal, 0, 1);
-            this.tableLayoutPanel3.Controls.Add(this.label8, 0, 1);
-            this.tableLayoutPanel3.Controls.Add(this.lblCasilla, 3, 0);
-            this.tableLayoutPanel3.Controls.Add(this.lblSeccion, 1, 0);
-            this.tableLayoutPanel3.Controls.Add(this.lblConsecutivo, 5, 0);
-            this.tableLayoutPanel3.Controls.Add(this.label7, 4, 0);
-            this.tableLayoutPanel3.Controls.Add(this.panel5, 6, 1);
-            this.tableLayoutPanel3.Controls.Add(this.label2, 2, 0);
+            this.tableLayoutPanel3.ColumnCount = 4;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this.tableLayoutPanel3.Controls.Add(this.label7, 2, 0);
+            this.tableLayoutPanel3.Controls.Add(this.cmbCasilla, 1, 1);
+            this.tableLayoutPanel3.Controls.Add(this.cmbSeccion, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.panel5, 3, 1);
+            this.tableLayoutPanel3.Controls.Add(this.label2, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.label3, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.txtConsecutivo, 2, 1);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Top;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
@@ -192,35 +183,57 @@
             this.tableLayoutPanel3.Size = new System.Drawing.Size(1024, 100);
             this.tableLayoutPanel3.TabIndex = 9;
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(411, 6);
+            this.label7.Name = "label7";
+            this.label7.Padding = new System.Windows.Forms.Padding(10);
+            this.label7.Size = new System.Drawing.Size(198, 44);
+            this.label7.TabIndex = 17;
+            this.label7.Text = "Consecutivo";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            // 
+            // cmbCasilla
+            // 
+            this.cmbCasilla.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cmbCasilla.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbCasilla.FormattingEnabled = true;
+            this.cmbCasilla.Location = new System.Drawing.Point(224, 55);
+            this.cmbCasilla.Margin = new System.Windows.Forms.Padding(20, 5, 20, 5);
+            this.cmbCasilla.Name = "cmbCasilla";
+            this.cmbCasilla.Size = new System.Drawing.Size(164, 21);
+            this.cmbCasilla.TabIndex = 16;
+            this.cmbCasilla.SelectedValueChanged += new System.EventHandler(this.cmbCasilla_SelectedValueChanged_1);
+            // 
+            // cmbSeccion
+            // 
+            this.cmbSeccion.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cmbSeccion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbSeccion.FormattingEnabled = true;
+            this.cmbSeccion.Location = new System.Drawing.Point(20, 55);
+            this.cmbSeccion.Margin = new System.Windows.Forms.Padding(20, 5, 20, 5);
+            this.cmbSeccion.Name = "cmbSeccion";
+            this.cmbSeccion.Size = new System.Drawing.Size(164, 21);
+            this.cmbSeccion.TabIndex = 15;
+            this.cmbSeccion.SelectedValueChanged += new System.EventHandler(this.cmbSeccion_SelectedValueChanged);
+            // 
             // panel5
             // 
-            this.panel5.Controls.Add(this.btnReserva);
             this.panel5.Controls.Add(this.btnNoConta);
             this.panel5.Controls.Add(this.btnGuardar);
-            this.panel5.Controls.Add(this.btnSiguiente);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel5.Location = new System.Drawing.Point(521, 53);
+            this.panel5.Location = new System.Drawing.Point(615, 53);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(500, 44);
+            this.panel5.Size = new System.Drawing.Size(406, 44);
             this.panel5.TabIndex = 14;
-            // 
-            // btnReserva
-            // 
-            this.btnReserva.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnReserva.Location = new System.Drawing.Point(160, 0);
-            this.btnReserva.Name = "btnReserva";
-            this.btnReserva.Size = new System.Drawing.Size(85, 44);
-            this.btnReserva.TabIndex = 31;
-            this.btnReserva.TabStop = false;
-            this.btnReserva.Tag = "tomarActa";
-            this.btnReserva.Text = "Reservar Casilla";
-            this.btnReserva.UseVisualStyleBackColor = true;
-            this.btnReserva.Click += new System.EventHandler(this.btnReserva_Click);
             // 
             // btnNoConta
             // 
             this.btnNoConta.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnNoConta.Location = new System.Drawing.Point(245, 0);
+            this.btnNoConta.Location = new System.Drawing.Point(236, 0);
             this.btnNoConta.Name = "btnNoConta";
             this.btnNoConta.Size = new System.Drawing.Size(85, 44);
             this.btnNoConta.TabIndex = 30;
@@ -233,7 +246,7 @@
             // btnGuardar
             // 
             this.btnGuardar.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnGuardar.Location = new System.Drawing.Point(330, 0);
+            this.btnGuardar.Location = new System.Drawing.Point(321, 0);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(85, 44);
             this.btnGuardar.TabIndex = 29;
@@ -243,45 +256,42 @@
             this.btnGuardar.UseVisualStyleBackColor = true;
             this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
-            // btnSiguiente
-            // 
-            this.btnSiguiente.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnSiguiente.Location = new System.Drawing.Point(415, 0);
-            this.btnSiguiente.Name = "btnSiguiente";
-            this.btnSiguiente.Size = new System.Drawing.Size(85, 44);
-            this.btnSiguiente.TabIndex = 28;
-            this.btnSiguiente.TabStop = false;
-            this.btnSiguiente.Tag = "tomarActa";
-            this.btnSiguiente.Text = "Siguiente";
-            this.btnSiguiente.UseVisualStyleBackColor = true;
-            this.btnSiguiente.Click += new System.EventHandler(this.btnSiguiente_Click);
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(196, 10);
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(207, 6);
             this.label2.Name = "label2";
             this.label2.Padding = new System.Windows.Forms.Padding(10);
-            this.label2.Size = new System.Drawing.Size(79, 40);
+            this.label2.Size = new System.Drawing.Size(198, 44);
             this.label2.TabIndex = 7;
-            this.label2.Text = "Casilla:";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label2.Text = "Casilla";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // label3
             // 
             this.label3.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
             this.label3.AutoSize = true;
             this.label3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(3, 10);
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(3, 6);
             this.label3.Name = "label3";
             this.label3.Padding = new System.Windows.Forms.Padding(10);
-            this.label3.Size = new System.Drawing.Size(128, 40);
+            this.label3.Size = new System.Drawing.Size(198, 44);
             this.label3.TabIndex = 6;
-            this.label3.Text = "Sección:";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label3.Text = "Sección";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            // 
+            // txtConsecutivo
+            // 
+            this.txtConsecutivo.Dock = System.Windows.Forms.DockStyle.Top;
+            this.txtConsecutivo.Enabled = false;
+            this.txtConsecutivo.Location = new System.Drawing.Point(428, 55);
+            this.txtConsecutivo.Margin = new System.Windows.Forms.Padding(20, 5, 20, 5);
+            this.txtConsecutivo.Name = "txtConsecutivo";
+            this.txtConsecutivo.Size = new System.Drawing.Size(164, 20);
+            this.txtConsecutivo.TabIndex = 18;
             // 
             // label6
             // 
@@ -329,6 +339,18 @@
             this.panel4.Size = new System.Drawing.Size(791, 44);
             this.panel4.TabIndex = 43;
             // 
+            // button1
+            // 
+            this.button1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.button1.Image = global::Sistema.ComputosElectorales.Properties.Resources.button1;
+            this.button1.Location = new System.Drawing.Point(752, 0);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(39, 44);
+            this.button1.TabIndex = 25;
+            this.button1.TabStop = false;
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 3;
@@ -348,116 +370,6 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1024, 100);
             this.tableLayoutPanel1.TabIndex = 4;
             // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.Color.Transparent;
-            this.panel1.Controls.Add(this.tableLayoutPanel1);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1024, 100);
-            this.panel1.TabIndex = 2;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(336, 10);
-            this.label7.Name = "label7";
-            this.label7.Padding = new System.Windows.Forms.Padding(10);
-            this.label7.Size = new System.Drawing.Size(120, 40);
-            this.label7.TabIndex = 17;
-            this.label7.Text = "Consecutivo:";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lblConsecutivo
-            // 
-            this.lblConsecutivo.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
-            this.lblConsecutivo.AutoSize = true;
-            this.lblConsecutivo.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.lblConsecutivo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblConsecutivo.ForeColor = System.Drawing.Color.DarkRed;
-            this.lblConsecutivo.Location = new System.Drawing.Point(462, 10);
-            this.lblConsecutivo.Name = "lblConsecutivo";
-            this.lblConsecutivo.Padding = new System.Windows.Forms.Padding(10);
-            this.lblConsecutivo.Size = new System.Drawing.Size(53, 40);
-            this.lblConsecutivo.TabIndex = 18;
-            this.lblConsecutivo.Text = "No.";
-            this.lblConsecutivo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lblSeccion
-            // 
-            this.lblSeccion.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
-            this.lblSeccion.AutoSize = true;
-            this.lblSeccion.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.lblSeccion.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSeccion.ForeColor = System.Drawing.Color.DarkRed;
-            this.lblSeccion.Location = new System.Drawing.Point(137, 10);
-            this.lblSeccion.Name = "lblSeccion";
-            this.lblSeccion.Padding = new System.Windows.Forms.Padding(10);
-            this.lblSeccion.Size = new System.Drawing.Size(53, 40);
-            this.lblSeccion.TabIndex = 19;
-            this.lblSeccion.Text = "No.";
-            this.lblSeccion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lblCasilla
-            // 
-            this.lblCasilla.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
-            this.lblCasilla.AutoSize = true;
-            this.lblCasilla.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.lblCasilla.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCasilla.ForeColor = System.Drawing.Color.DarkRed;
-            this.lblCasilla.Location = new System.Drawing.Point(281, 10);
-            this.lblCasilla.Name = "lblCasilla";
-            this.lblCasilla.Padding = new System.Windows.Forms.Padding(10);
-            this.lblCasilla.Size = new System.Drawing.Size(49, 40);
-            this.lblCasilla.TabIndex = 20;
-            this.lblCasilla.Text = "----";
-            this.lblCasilla.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label8
-            // 
-            this.label8.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
-            this.label8.AutoSize = true;
-            this.label8.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(3, 60);
-            this.label8.Name = "label8";
-            this.label8.Padding = new System.Windows.Forms.Padding(10);
-            this.label8.Size = new System.Drawing.Size(128, 40);
-            this.label8.TabIndex = 21;
-            this.label8.Text = "Lista Nominal:";
-            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lblListaNominal
-            // 
-            this.lblListaNominal.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
-            this.lblListaNominal.AutoSize = true;
-            this.lblListaNominal.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.lblListaNominal.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblListaNominal.ForeColor = System.Drawing.Color.DarkRed;
-            this.lblListaNominal.Location = new System.Drawing.Point(137, 60);
-            this.lblListaNominal.Name = "lblListaNominal";
-            this.lblListaNominal.Padding = new System.Windows.Forms.Padding(10);
-            this.lblListaNominal.Size = new System.Drawing.Size(53, 40);
-            this.lblListaNominal.TabIndex = 22;
-            this.lblListaNominal.Text = "No.";
-            this.lblListaNominal.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // button1
-            // 
-            this.button1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.button1.Image = global::Sistema.ComputosElectorales.Properties.Resources.button1;
-            this.button1.Location = new System.Drawing.Point(752, 0);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(39, 44);
-            this.button1.TabIndex = 25;
-            this.button1.TabStop = false;
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // pictureBox4
             // 
             this.pictureBox4.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -471,7 +383,18 @@
             this.pictureBox4.TabIndex = 2;
             this.pictureBox4.TabStop = false;
             // 
-            // RecuentoVotos
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.Transparent;
+            this.panel1.Controls.Add(this.tableLayoutPanel1);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1024, 100);
+            this.panel1.TabIndex = 2;
+            // 
+            // frmReserva
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -479,10 +402,10 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "RecuentoVotos";
-            this.Text = "RecuentoVotos";
-            this.Load += new System.EventHandler(this.RecuentoVotos_Load);
-            this.Shown += new System.EventHandler(this.RecuentoVotos_Shown);
+            this.Name = "frmReserva";
+            this.Text = "frmReserva";
+            this.Load += new System.EventHandler(this.frmReserva_Load);
+            this.Shown += new System.EventHandler(this.frmReserva_Shown);
             this.panel2.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
@@ -495,8 +418,8 @@
             this.panel3.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -513,13 +436,13 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.ComboBox cmbCasilla;
+        private System.Windows.Forms.ComboBox cmbSeccion;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button btnReserva;
         private System.Windows.Forms.Button btnNoConta;
         private System.Windows.Forms.Button btnGuardar;
-        private System.Windows.Forms.Button btnSiguiente;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.TableLayoutPanel tblPanaelPartidos;
         private System.Windows.Forms.Panel pnlTableTitulo;
@@ -527,10 +450,6 @@
         private System.Windows.Forms.Panel pnlTableVotos;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label lblCasilla;
-        private System.Windows.Forms.Label lblSeccion;
-        private System.Windows.Forms.Label lblConsecutivo;
-        private System.Windows.Forms.Label lblListaNominal;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox txtConsecutivo;
     }
 }

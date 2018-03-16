@@ -50,5 +50,40 @@ namespace Sistema.ComputosElectorales
                 msgBox.ShowDialog(this);
             }
         }
+
+        private void btnConsultarActas_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                frmReserva form = new frmReserva();
+                form.MdiParent = this.MdiParent;
+                form.Dock = DockStyle.Fill;
+                form.FormClosed += Form_FormClosed;
+                form.Show();
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+        }
+
+        private void btnReportes_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Reportes form = new Reportes();
+                form.MdiParent = this.MdiParent;
+                form.Dock = DockStyle.Fill;
+                form.FormClosed += Form_FormClosed;
+                form.Show();
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+
+        }
     }
 }

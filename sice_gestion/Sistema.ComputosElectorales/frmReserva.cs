@@ -17,7 +17,7 @@ using System.Windows.Forms;
 
 namespace Sistema.ComputosElectorales
 {
-    public partial class RecuentoVotos : Form
+    public partial class frmReserva : Form
     {
         private Image _previewImage;
         private List<SeccionCasillaConsecutivo> sc;
@@ -32,77 +32,35 @@ namespace Sistema.ComputosElectorales
         private Label[] labelsName;
         private Loading Loadingbox;
         private int distritoActual = 0;
-        private int idCasillaActual = 0;
         private int totalCandidatos;
-        private int PosActual = 0;
 
         const int SB_HORZ = 0;
         [DllImport("user32.dll")]
 
         static extern bool ShowScrollBar(IntPtr hWnd, int wBar, bool bShow);
 
-        public RecuentoVotos()
+        public frmReserva()
         {
 
             //this.MdiParent.WindowState = FormWindowState.Maximized;
             InitializeComponent();
 
         }
-        private void RecuentoVotos_Load(object sender, EventArgs e)
+        private void frmReserva_Load(object sender, EventArgs e)
         {
-            //this.cargarComboSeccion();
+            
 
             this.btnGuardar.Enabled = false;
             this.btnNoConta.Enabled = false;
-            this.btnReserva.Enabled = false;
-        }
-
-        private void AsginarCasilla()
-        {
-            try
-            {
-                CompElec = new ComputosElectoralesGenerales();
-                if (this.sc == null)
-                {
-                    this.sc = CompElec.ListaSescciones();
-                    this.PosActual = 0;
-                }
-
-                if (PosActual + 1 > this.sc.Count)
-                    throw new Exception("No hay mas Casillas disponibles");
-
-                SeccionCasillaConsecutivo tempSec = this.sc[PosActual];
-                this.lblConsecutivo.Text = tempSec.consecutivo.ToString();
-                this.lblSeccion.Text = tempSec.seccion.ToString();             
-                this.lblCasilla.Text = tempSec.casilla;
-                this.distritoActual = tempSec.distrito;
-                this.lblListaNominal.Text = tempSec.listaNominal.ToString();
-                this.idCasillaActual = tempSec.id;
-
-                this.ClearDataTable();
-
-                this.PosActual++;
-
-                this.btnGuardar.Enabled = true;
-                this.btnNoConta.Enabled = true;
-                this.btnReserva.Enabled = true;
-                this.btnSiguiente.Enabled = false;
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
         }
 
         private void guardarRegistroVotos()
         {
             try
             {
-                CompElec = new ComputosElectoralesGenerales();
                 this.tableLayoutPanel2.Enabled = false;
                 List<sice_votos> lista_votos = new List<sice_votos>();
-                int id_casilla = this.idCasillaActual;
-                int totalVotacionEmitida = 0;
+                int id_casilla = Convert.ToInt32(cmbCasilla.SelectedValue);
                 if (id_casilla == 0)
                     throw new Exception("Error al guardar los datos");
                 foreach (TextBox datos in this.textBoxes)
@@ -135,7 +93,6 @@ namespace Sistema.ComputosElectorales
                             votos = Convert.ToInt32(datos.Text),
                             tipo = tipo_voto
                         });
-                        totalVotacionEmitida += Convert.ToInt32(datos.Text);
 
                     }
                     else
@@ -146,66 +103,19 @@ namespace Sistema.ComputosElectorales
                 }
                 if (lista_votos.Count > 0)
                 {
-                    //Diferencia entre el primero y segundo
-                    lista_votos = (from p in lista_votos orderby p.votos descending select p).ToList();
-                    int Primero = (int)lista_votos[0].votos;
-                    int Seegundo = (int)lista_votos[1].votos;
-                    decimal diferencia = 0;
-                    if (totalVotacionEmitida > 0)
+                    CompElec = new ComputosElectoralesGenerales();
+                    int res = CompElec.guardarDatosVotos(lista_votos, Convert.ToInt32(cmbCasilla.SelectedValue), this.totalCandidatos);
+                    if (res == 1)
                     {
-                        decimal Porcentaje1 = Math.Round((Convert.ToDecimal(Primero) * 100) / totalVotacionEmitida, 2);
-                        decimal Porcentaje2 = Math.Round((Convert.ToDecimal(Seegundo) * 100) / totalVotacionEmitida, 2);
-                        diferencia = Porcentaje1 - Porcentaje2;
-                    }
-                    if(diferencia < 2)
-                    {
-                        msgBox = new MsgBox(this.MdiParent, "La diferencia entre 1° y 2° Lugar es menor al 2%\n¿Enviar casilla a Revisión?", "Atención", MessageBoxButtons.YesNoCancel, "Advertencia");
-                        DialogResult result = msgBox.ShowDialog(this);
-                        if (result == DialogResult.Yes)
-                        {
-                            this.tableLayoutPanel2.Enabled = true;
-                            this.ReservarCasilla("RESERVA");
-                        }
-                        else if(result == DialogResult.No)
-                        {
-                            
-                            int res1 = CompElec.guardarDatosVotos(lista_votos, id_casilla, this.totalCandidatos);
-                            if (res1 == 1)
-                            {
-                                this.tableLayoutPanel2.Enabled = true;
-                                msgBox = new MsgBox(this, "Datos Guardados correctamente", "Atención", MessageBoxButtons.OK, "Ok");
-                                msgBox.ShowDialog(this);
-                                this.BloquearControles();
-                            }
-                            else
-                            {
-                                throw new Exception("Error al guardar Datos");
-                            }
-                        }
-                        else
-                        {
-                            this.tableLayoutPanel2.Enabled = true;
-                            return;
-                        }
+                        this.tableLayoutPanel2.Enabled = true;
+                        msgBox = new MsgBox(this, "Datos Guardados correctamente", "Atención", MessageBoxButtons.OK, "Ok");
+                        msgBox.ShowDialog(this);
+                        this.BloquearControles();
                     }
                     else
                     {
-                        int res2 = CompElec.guardarDatosVotos(lista_votos, id_casilla, this.totalCandidatos);
-                        if (res2 == 1)
-                        {
-                            this.tableLayoutPanel2.Enabled = true;
-                            msgBox = new MsgBox(this, "Datos Guardados correctamente", "Atención", MessageBoxButtons.OK, "Ok");
-                            msgBox.ShowDialog(this);
-                            this.BloquearControles();
-                        }
-                        else
-                        {
-                            throw new Exception("Error al guardar Datos");
-                        }
+                        throw new Exception("Error al guardar Datos");
                     }
-                    
-
-
                 }
                 else
                 {
@@ -224,30 +134,84 @@ namespace Sistema.ComputosElectorales
             try
             {
                 string mensaje = motivo == "NO CONTABILIZABLE" ? "Acta marcada como NO CONTABILIZABLE" : "Acta enviada a Reserva";
-                int id_casilla = this.idCasillaActual;
+                int id_casilla = Convert.ToInt32(cmbCasilla.SelectedValue);
                 if (id_casilla == 0)
                     throw new Exception("Error al Reservar Casilla");
                 CompElec = new ComputosElectoralesGenerales();
                 if (CompElec.CasillaReserva(id_casilla, motivo) == 1)
                 {
-                    msgBox = new MsgBox(this, "Datos Guardados correctamente.\n"+mensaje, "Atención", MessageBoxButtons.OK, "Ok");
+                    msgBox = new MsgBox(this, "Datos Guardados correctamente.\n" + mensaje, "Atención", MessageBoxButtons.OK, "Ok");
                     msgBox.ShowDialog(this);
 
                     this.BloquearControles();
                 }
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
         }
 
-        private void cargarCandidatosResultados()
+        private void cargarComboSeccion()
+        {
+            try
+            {
+                cmbSeccion.DataSource = null;
+                cmbSeccion.DisplayMember = "Seccion";
+                cmbSeccion.ValueMember = "Seccion";
+                CompElec = new ComputosElectoralesGenerales();
+                this.sc = CompElec.ListaSesccionesReserva();
+                if(this.sc.Count < 1)
+                {
+                    msgBox = new MsgBox(this, "No hay Actas en Reserva", "Atención", MessageBoxButtons.OK, "Advertencia");
+                    msgBox.ShowDialog(this);
+                    return;
+                }
+                var seGp = sc.GroupBy(x => x.seccion, x => x.id, (seccion, idSe) => new { IdSeccion = idSe, Seccion = seccion }).Select(g => g.Seccion).ToList();
+                cmbSeccion.DataSource = seGp;
+                cmbSeccion.Enabled = true;
+
+                this.cargarComboCasilla();
+
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+        }
+
+        private void cargarComboCasilla()
+        {
+            try
+            {
+                if (sc != null)
+                {
+                    cmbCasilla.DataSource = null;
+                    cmbCasilla.DisplayMember = "casilla";
+                    cmbCasilla.ValueMember = "id";
+                    var caGp = (from p in this.sc where p.seccion == Convert.ToInt32(cmbSeccion.SelectedValue) select p).ToList();
+                    if(caGp.Count > 0)
+                        this.distritoActual = caGp[0].distrito;
+                    caGp.Insert(0, new SeccionCasillaConsecutivo() { id = 0, casilla = "Seleccionar Casilla" });
+                    cmbCasilla.DataSource = caGp;
+                    //cmbCasilla.SelectedIndex = 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+        }
+
+        private void cargarResultadosVotos()
         {
             try
             {
                 CompElec = new ComputosElectoralesGenerales();
+
                 if (this.distritoActual == 0)
                     throw new Exception("No se pudo cargar lista de Candidatos");
                 List<Candidatos> lsCandidatos = CompElec.ListaCandidatos(this.distritoActual);
@@ -259,6 +223,11 @@ namespace Sistema.ComputosElectorales
                     this.panels = new Panel[lsCandidatos.Count + 2];
                     this.labelsName = new Label[lsCandidatos.Count + 2];
                     this.tblPanaelPartidos.RowCount = 1;
+                    this.btnGuardar.Enabled = true;
+                    this.btnNoConta.Enabled = true;
+
+                    SeccionCasillaConsecutivo tempSec = (from p in this.sc where p.id == Convert.ToInt32(cmbCasilla.SelectedValue) select p).FirstOrDefault();
+                    this.txtConsecutivo.Text = tempSec.consecutivo.ToString();
 
                     for (int i = 0; i < lsCandidatos.Count + 2; i++)
                     {
@@ -397,7 +366,7 @@ namespace Sistema.ComputosElectorales
 
                 if (!soloBloq)
                 {
-                    this.cargarCandidatosResultados();
+                    this.cargarResultadosVotos();
                 }
 
                 else
@@ -419,15 +388,8 @@ namespace Sistema.ComputosElectorales
             this.ClearDataTable(true);
             this.btnGuardar.Enabled = false;
             this.btnNoConta.Enabled = false;
-            this.btnReserva.Enabled = false;
-            this.btnSiguiente.Enabled = true;
+            this.cargarComboSeccion();
 
-            this.lblCasilla.Text = "----";
-            this.lblConsecutivo.Text = "No.";
-            this.lblSeccion.Text = "No.";
-            this.lblListaNominal.Text = "No.";
-
-            
         }
 
 
@@ -451,46 +413,37 @@ namespace Sistema.ComputosElectorales
             }
         }
 
+        private void cmbSeccion_SelectedValueChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                this.ClearDataTable(true);
+                this.cargarComboCasilla();
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+
+        }
+
+        private void cmbCasilla_SelectedValueChanged_1(object sender, EventArgs e)
+        {
+            int? selected = Convert.ToInt32(cmbCasilla.SelectedValue);
+            if (selected != null && selected != 0)
+                this.ClearDataTable(); //Limpia tabla y carga lista de candidatos
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void RecuentoVotos_Shown(object sender, EventArgs e)
+        private void frmReserva_Shown(object sender, EventArgs e)
         {
             //this.MdiParent.WindowState = FormWindowState.Maximized;
-        }
-
-        private void btnSiguiente_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                this.AsginarCasilla();
-            }
-            catch (Exception ex)
-            {
-                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
-                msgBox.ShowDialog(this);
-            }
-        }
-
-        private void btnReserva_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                msgBox = new MsgBox(this.MdiParent, "¿Enviar la casilla a Reserva?", "Atención", MessageBoxButtons.YesNo, "Question");
-                DialogResult result = msgBox.ShowDialog(this);
-                if (result == DialogResult.Yes)
-                {
-                    this.ReservarCasilla("RESERVA");
-                }
-
-            }
-            catch (Exception ex)
-            {
-                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
-                msgBox.ShowDialog(this);
-            }
+            this.cargarComboSeccion();
         }
 
         private void btnNoConta_Click(object sender, EventArgs e)
@@ -532,3 +485,4 @@ namespace Sistema.ComputosElectorales
         }
     }
 }
+

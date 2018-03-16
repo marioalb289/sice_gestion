@@ -109,6 +109,7 @@
             this.btnConsultarActas.Text = "Casillas Reservadas";
             this.btnConsultarActas.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnConsultarActas.UseVisualStyleBackColor = false;
+            this.btnConsultarActas.Click += new System.EventHandler(this.btnConsultarActas_Click);
             // 
             // btnRecuentoVotos
             // 
@@ -140,6 +141,7 @@
             this.btnReportes.Text = "Reportes";
             this.btnReportes.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnReportes.UseVisualStyleBackColor = false;
+            this.btnReportes.Click += new System.EventHandler(this.btnReportes_Click);
             // 
             // pictureBox1
             // 
