@@ -15,6 +15,9 @@ namespace Sistema.ComputosElectorales
     public partial class Reportes : Form
     {
         private ComputosElectoralesGenerales CompElec;
+        private MsgBox msgBox;
+        private int pageNumber = 1;
+        int totalPages = 0;
         public Reportes()
         {
             InitializeComponent();
@@ -38,16 +41,41 @@ namespace Sistema.ComputosElectorales
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
             }
         }
 
-        private void cargarResultados(int? distrito)
+        private void InicializarPaginador(int? distrito,int pageNumber = 1, int pageSize = 10)
         {
             try
             {
                 CompElec = new ComputosElectoralesGenerales();
-                List<VotosSeccion> vSeccion = CompElec.ResultadosSeccion((int)distrito);
+                int totalCandidatos = CompElec.ListaCandidatos((int)distrito).Count+2;
+                totalPages = CompElec.ResultadosSeccion(0,0,(int)distrito).Count / totalCandidatos;
+                if(totalPages > 0)
+                {
+                    double res = (double)totalPages / (double)pageSize;
+                    double flor = Math.Ceiling(res);
+                    totalPages = Convert.ToInt32(flor);
+                }
+                int y = 0;
+                int pz = pageSize * totalCandidatos;
+                int pn = pz * (pageNumber - 1);
+                cargarResultados(distrito,pn, pz);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void cargarResultados(int? distrito, int pageNumber, int pageSize)
+        {
+            try
+            {
+                CompElec = new ComputosElectoralesGenerales();
+                List<VotosSeccion> vSeccion = CompElec.ResultadosSeccion(pageNumber, pageSize,(int)distrito);
                 List<Candidatos> candidatos = CompElec.ListaCandidatos((int)distrito);
                 dgvResultados.Columns.Clear();
                 dgvResultados.DataSource = null;
@@ -167,7 +195,7 @@ namespace Sistema.ComputosElectorales
                         if (cont == vSeccion.Count)
                         {
                             //Agregar Columnas
-                            row.Cells[0].Value = fila + 1;
+                            row.Cells[0].Value = v.id_casilla;
                             row.Cells[1].Value = v.seccion;
                             row.Cells[2].Value = v.casilla;
 
@@ -210,7 +238,7 @@ namespace Sistema.ComputosElectorales
                     }
 
                     //Agregar Columnas
-                    row.Cells[0].Value = fila + 1;
+                    row.Cells[0].Value = v.id_casilla;
                     row.Cells[1].Value = v.seccion;
                     row.Cells[2].Value = v.casilla;
                     Lnominal = v.lista_nominal;
@@ -244,8 +272,40 @@ namespace Sistema.ComputosElectorales
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                throw ex;
             }
+        }
+
+        private bool IsFirstPage()
+        {
+            if (pageNumber == 1)
+                return true;
+            else
+                return false;
+        }
+
+        private bool IsLastPage()
+        {
+            if (pageNumber == totalPages)
+                return true;
+            else
+                return false;
+        }
+
+        private bool HasPreviousPage()
+        {
+            if (pageNumber - 1 > 0 && pageNumber <= totalPages)
+                return true;
+            else
+                return false;
+        }
+
+        private bool HasNextPage()
+        {
+            if (pageNumber + 1 <= totalPages)
+                return true;
+            else
+                return false;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -257,14 +317,116 @@ namespace Sistema.ComputosElectorales
         {
             try
             {
+                this.pageNumber = 1;
                 int? selected = Convert.ToInt32(cmbDistrito.SelectedValue);
                 if (selected > 0 && selected != null)
-                    this.cargarResultados(selected);
+                {
+                    this.InicializarPaginador(selected);
+                    btnPrimero.Enabled = !this.IsFirstPage();
+                    btnUltimo.Enabled = !this.IsLastPage();
+                    btnAnterior.Enabled = this.HasPreviousPage();
+                    btnSiguiente.Enabled = this.HasNextPage();
+
+                    lblTotalPag.Text = string.Format("Pág {0}/{1}", pageNumber, totalPages);
+                }
+                    
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
             }
+        }
+
+        private void btnAnterior_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (this.HasPreviousPage())
+                {
+                    this.InicializarPaginador(Convert.ToInt32(cmbDistrito.SelectedValue), --pageNumber);
+                    btnPrimero.Enabled = !this.IsFirstPage();
+                    btnUltimo.Enabled = true;
+                    btnAnterior.Enabled = this.HasPreviousPage();
+                    btnSiguiente.Enabled = this.HasNextPage();
+
+                    lblTotalPag.Text = string.Format("Pág {0}/{1}", pageNumber, totalPages);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+        }
+
+        private void btnSiguiente_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (this.HasNextPage())
+                {
+                    this.InicializarPaginador(Convert.ToInt32(cmbDistrito.SelectedValue), ++pageNumber);
+                    btnPrimero.Enabled = true;
+                    btnUltimo.Enabled = !this.IsLastPage();
+                    btnAnterior.Enabled = this.HasPreviousPage();
+                    btnSiguiente.Enabled = this.HasNextPage();
+
+                    lblTotalPag.Text = string.Format("Pág {0}/{1}", pageNumber, totalPages);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+        }
+
+        private void btnPrimero_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                btnPrimero.Enabled = false;
+                btnUltimo.Enabled = true;
+                pageNumber = 1;
+
+                this.InicializarPaginador(Convert.ToInt32(cmbDistrito.SelectedValue), pageNumber);
+                btnAnterior.Enabled = this.HasPreviousPage();
+                btnSiguiente.Enabled = this.HasNextPage();
+
+                lblTotalPag.Text = string.Format("Pág {0}/{1}", pageNumber, totalPages);
+
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+        }
+
+        private void btnUltimo_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                btnUltimo.Enabled = false;
+                btnPrimero.Enabled = true;
+                pageNumber = totalPages;
+
+                this.InicializarPaginador(Convert.ToInt32(cmbDistrito.SelectedValue), pageNumber);
+                btnAnterior.Enabled = this.HasPreviousPage();
+                btnSiguiente.Enabled = this.HasNextPage();
+
+                lblTotalPag.Text = string.Format("Pág {0}/{1}", pageNumber, totalPages);
+
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+
         }
     }
 }

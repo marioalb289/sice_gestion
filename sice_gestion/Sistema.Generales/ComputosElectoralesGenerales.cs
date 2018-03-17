@@ -23,13 +23,16 @@ namespace Sistema.Generales
             catch (Exception E)
             { throw E; }
         }
-        public List<VotosSeccion> ResultadosSeccion(int id_distrito_local = 0)
+        public List<VotosSeccion> ResultadosSeccion(int pageNumber =0, int pageSize=0,int id_distrito_local = 0)
         {
             try
             {
                 using (DatabaseContext contexto = new DatabaseContext("MYSQLOCAL"))
                 {
                     string condicion = "";
+                    string limit = "";
+                    if (pageSize != 0)
+                        limit = "LIMIT " + pageNumber + "," + pageSize;
                     if (id_distrito_local != 0)
                         condicion = " AND C.id_distrito_local = " + id_distrito_local + " ";
                     string consulta =
@@ -53,7 +56,9 @@ namespace Sistema.Generales
                         "JOIN sice_casillas C ON C.id = RV.id_casilla " + condicion +
                         "JOIN sice_municipios M ON M.id = C.id_municipio " +
                         "JOIN sice_municipios M2 ON M2.id = C.id_cabecera_local " +
-                        "ORDER BY C.seccion ASC, RV.id_casilla ASC, RV.id_candidato DESC ";
+                        "ORDER BY C.seccion ASC, RV.id_casilla ASC, RV.id_candidato DESC " +
+                        limit;
+                        
 
                     return contexto.Database.SqlQuery<VotosSeccion>(consulta).ToList();
                 }
