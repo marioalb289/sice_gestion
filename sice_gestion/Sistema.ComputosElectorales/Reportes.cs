@@ -17,7 +17,7 @@ namespace Sistema.ComputosElectorales
         private ComputosElectoralesGenerales CompElec;
         private MsgBox msgBox;
         private int pageNumber = 1;
-        int totalPages = 0;
+        private int totalPages = 0;
         public Reportes()
         {
             InitializeComponent();
@@ -276,6 +276,15 @@ namespace Sistema.ComputosElectorales
             }
         }
 
+        private void bloquearControles()
+        {
+            this.btnAnterior.Enabled = false;
+            this.btnSiguiente.Enabled = false;
+            this.btnPrimero.Enabled = false;
+            this.btnUltimo.Enabled = false;
+            this.lblTotalPag.Text = "Páginas";
+        }
+
         private bool IsFirstPage()
         {
             if (pageNumber == 1)
@@ -322,12 +331,20 @@ namespace Sistema.ComputosElectorales
                 if (selected > 0 && selected != null)
                 {
                     this.InicializarPaginador(selected);
-                    btnPrimero.Enabled = !this.IsFirstPage();
-                    btnUltimo.Enabled = !this.IsLastPage();
-                    btnAnterior.Enabled = this.HasPreviousPage();
-                    btnSiguiente.Enabled = this.HasNextPage();
+                    if(this.totalPages > 0)
+                    {
+                        btnPrimero.Enabled = !this.IsFirstPage();
+                        btnUltimo.Enabled = !this.IsLastPage();
+                        btnAnterior.Enabled = this.HasPreviousPage();
+                        btnSiguiente.Enabled = this.HasNextPage();
 
-                    lblTotalPag.Text = string.Format("Pág {0}/{1}", pageNumber, totalPages);
+                        lblTotalPag.Text = string.Format("Pág {0}/{1}", pageNumber, totalPages);
+                    }
+                    else
+                    {
+                        bloquearControles();
+                    }
+                    
                 }
                     
             }
