@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Sistema.DataModel;
 using System.Transactions;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace Sistema.Generales
 {
@@ -49,8 +50,10 @@ namespace Sistema.Generales
                             "P.img_par as imagen," +
                             "C.id_distrito_local as distrito_local," +
                             "M.municipio," +
-                            "M2.municipio AS cabecera_local " +
+                            "M2.municipio AS cabecera_local, " +
+                            "RC.tipo_reserva as estatus " +
                         "FROM sice_votos RV " +
+                        "LEFT JOIN sice_reserva_captura RC ON RC.id_casilla = RV.id_casilla " +
                         "LEFT JOIN sice_candidatos CND ON CND.id = RV.id_candidato " +
                         "LEFT JOIN sice_partidos_politicos P ON P.id = CND.fk_partido " +
                         "JOIN sice_casillas C ON C.id = RV.id_casilla " + condicion +
@@ -193,27 +196,44 @@ namespace Sistema.Generales
                 {
                     using (var TransactionContexto = new TransactionScope())
                     {
-                        sice_votos v1 = new sice_votos();
+                        sice_votos v1 = null;
                         foreach (sice_votos voto in listaVotos)
                         {
-                            v1.id_candidato = voto.id_candidato;
-                            v1.id_casilla = voto.id_casilla;
-                            v1.tipo = voto.tipo;
-                            v1.votos = voto.votos;
-                            contexto.sice_votos.Add(v1);
-                            contexto.SaveChanges();
+                            if (voto.id_candidato != null)
+                            {
+                                v1 = (from d in contexto.sice_votos where d.id_candidato == voto.id_candidato && d.id_casilla == voto.id_casilla select d).FirstOrDefault();
+                            }
+                            else
+                            {
+                                if (voto.tipo == "NULO")
+                                    v1 = (from d in contexto.sice_votos where d.tipo == "NULO" && d.id_casilla == voto.id_casilla select d).FirstOrDefault();
+                                else if (voto.tipo == "NO REGISTRADO")
+                                    v1 = (from d in contexto.sice_votos where d.tipo == "NO REGISTRADO" && d.id_casilla == voto.id_casilla select d).FirstOrDefault();
+                            }
+
+                            if (v1 != null)
+                            {
+                                v1.id_candidato = voto.id_candidato;
+                                v1.id_casilla = voto.id_casilla;
+                                v1.tipo = voto.tipo;
+                                v1.votos = voto.votos;
+                                v1.importado = 0;
+                                contexto.SaveChanges();
+                            }
                         }
 
                         sice_reserva_captura rc = (from p in contexto.sice_reserva_captura where p.id_casilla == id_casilla select p).FirstOrDefault();
                         if(rc != null)
                         {
                             rc.tipo_reserva = "CAPTURADA";
+                            rc.importado = 0;
                         }
                         else
                         {
                             rc = new sice_reserva_captura();
                             rc.id_casilla = id_casilla;
                             rc.tipo_reserva = "CAPTURADA";
+                            rc.importado = 0;
                             contexto.sice_reserva_captura.Add(rc);
                         }
                         contexto.SaveChanges();
@@ -227,6 +247,189 @@ namespace Sistema.Generales
             {
                 throw E;
             }             
+        }
+
+        public int generarExcel(int distrito)
+        {
+            try
+            {
+                Excel.Application excel = new Excel.Application();
+                Excel._Workbook libro = null;
+                Excel._Worksheet hoja = null;
+                Excel.Range rango = null;
+
+                //creamos un libro nuevo y la hoja con la que vamos a trabajar
+                libro = (Excel._Workbook)excel.Workbooks.Add(Excel.XlWBATemplate.xlWBATWorksheet);
+                hoja = (Excel._Worksheet)libro.Worksheets.Add();
+                hoja.Name = "EJEMPLO";  //Aqui debe ir el nombre del distrito
+                ((Excel.Worksheet)excel.ActiveWorkbook.Sheets["Hoja1"]).Delete();   //Borramos la hoja que crea en el libro por defecto
+                List<VotosSeccion> vSeccion = this.ResultadosSeccion(0, 0, (int)distrito);
+                List<Candidatos> candidatos = this.ListaCandidatos((int)distrito);
+
+                //Montamos las cabeceras 
+                CrearEncabezados(3, ref hoja,vSeccion,candidatos,1);
+
+
+                //Agregar Datos
+                int fila = 4;
+                int idCasillaActual = 0;
+                int cont = 1;
+                int contCand = 6;
+                //row.Cells[0].Value = 1;
+                //dgvResultados.Rows.Add(row);
+                List<int> vLst = new List<int>();
+                int Noregynulo = 0;
+                int Lnominal = 0;
+
+
+                foreach (VotosSeccion v in vSeccion)
+                {
+                    //idCasillaActual = (int)v.id_casilla;
+                    //Agregar Columnas
+
+                    if ((idCasillaActual != (int)v.id_casilla && idCasillaActual > 0) || cont == vSeccion.Count)
+                    {
+                        //Agregar Ultima columna
+                        if (cont == vSeccion.Count)
+                        {
+                            //Agregar Columnas
+                            hoja.Cells[fila, 1] = v.id_casilla;
+                            hoja.Cells[fila, 2] = v.seccion;
+                            hoja.Cells[fila, 3] = v.casilla;
+                            hoja.Cells[fila, 4] = (v.estatus != null) ? v.estatus : "NO CAPTURADA";
+
+                            hoja.Cells[fila,contCand].Value = v.votos;
+                            vLst.Add((int)v.votos);
+                            contCand++;
+                        }
+
+                        //Diferencia entre el primero y segundo
+                        vLst.Sort();
+                        int Primero = vLst[vLst.Count - 1];
+                        int Seegundo = vLst[vLst.Count - 2];
+                        int totalVotacionEmitida = vLst.Sum() + Noregynulo;
+                        decimal diferencia = 0;
+                        if (totalVotacionEmitida > 0)
+                        {
+                            decimal Porcentaje1 = Math.Round((Convert.ToDecimal(Primero) * 100) / totalVotacionEmitida, 2);
+                            decimal Porcentaje2 = Math.Round((Convert.ToDecimal(Seegundo) * 100) / totalVotacionEmitida, 2);
+                            diferencia = Porcentaje1 - Porcentaje2;
+                        }
+                        hoja.Cells[fila,5] = diferencia + "%";
+
+                        //Votacion Emitida
+                        hoja.Cells[fila,contCand] = totalVotacionEmitida;
+
+                        //Lista Nominal
+                        hoja.Cells[fila,contCand + 1] = Lnominal;
+
+                        //Porcentaje de Participacion
+                        if (totalVotacionEmitida == 0)
+                            hoja.Cells[fila,contCand + 2] = 0 + "%";
+                        else
+                            hoja.Cells[fila,contCand + 2] = Math.Round((Convert.ToDecimal(totalVotacionEmitida) * 100) / Lnominal, 2) + "%";
+
+                        //Agregar fila
+                        fila++;
+                        contCand = 6;
+                        vLst = new List<int>();
+                        Noregynulo = 0;
+                        //Inrementar filla
+                    }
+
+                    //Agregar Columnas
+                    hoja.Cells[fila,1] = v.id_casilla;
+                    hoja.Cells[fila,2] = v.seccion;
+                    hoja.Cells[fila,3] = v.casilla;
+                    hoja.Cells[fila,4] = (v.estatus != null) ? v.estatus : "NO CAPTURADA";
+                    Lnominal = v.lista_nominal;
+
+                    hoja.Cells[fila,contCand] = v.votos;
+                    if (v.tipo == "VOTO")
+                        vLst.Add((int)v.votos);
+                    else
+                        Noregynulo += (int)v.votos;
+
+                    idCasillaActual = (int)v.id_casilla;
+                    cont++;
+                    contCand++;
+
+                    //if(cont == vSeccion.Count){
+                    //    dgvResultados.Rows.Add(row);
+                    //}
+
+
+                }
+
+                libro.Saved = true;
+                libro.SaveAs(Environment.CurrentDirectory + @"\Ejemplo2.xlsx");  // Si es un libro nuevo
+
+                libro.Close();
+
+                excel.UserControl = false;
+                excel.Quit();
+
+                return 1;
+            }
+            catch(Exception E)
+            {
+                throw E;
+            }
+        }
+
+        private void CrearEncabezados(int fila, ref Excel._Worksheet hoja, List<VotosSeccion> vSeccion, List<Candidatos> candidatos, int columnaInicial = 1)
+        {
+            try
+            {
+                Excel.Range rango;
+
+                //** Montamos el título en la línea 1 **
+                hoja.Cells[1, 2] = "LISTA DE RESULTADOS";
+                char columnaLetra = 'A';
+
+                List<int> widths = new List<int>();
+
+                //Agregar encabezados
+                hoja.Cells[3, columnaInicial] = "No."; columnaInicial++; columnaLetra++; widths.Add(10);
+                hoja.Cells[3, columnaInicial] = "Sección"; columnaInicial++; columnaLetra++; widths.Add(20);
+                hoja.Cells[3, columnaInicial] = "Casilla"; columnaInicial++; columnaLetra++; widths.Add(30);
+                hoja.Cells[3, columnaInicial] = "Estatus"; columnaInicial++; columnaLetra++; widths.Add(20);
+                hoja.Cells[3, columnaInicial] = "Diferencia entre 1° y 2° Lugar"; columnaInicial++; columnaLetra++; widths.Add(30);
+
+
+                //Agregar Columnas Caniddatos y Partidos
+                foreach (Candidatos c in candidatos)
+                {
+                    hoja.Cells[3, columnaInicial] = c.partido; columnaInicial++; columnaLetra++; widths.Add(20);
+                }
+                //Agregar columnas adicionales
+                hoja.Cells[3, columnaInicial] = "No Registrados"; columnaInicial++; columnaLetra++; widths.Add(20);
+                hoja.Cells[3, columnaInicial] = "Nulos"; columnaInicial++; columnaLetra++; widths.Add(20);
+                hoja.Cells[3, columnaInicial] = "Votación total Emitida"; columnaInicial++; columnaLetra++; widths.Add(30);
+                hoja.Cells[3, columnaInicial] = "L. Nominal"; columnaInicial++; columnaLetra++; widths.Add(20);
+                hoja.Cells[3, columnaInicial] = "Porcentaje Participación"; widths.Add(20);
+
+                //Ponemos borde a las celdas
+                string letra = columnaLetra.ToString()+3;
+                rango = hoja.Range["A3", letra];
+                rango.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                //Centramos los textos
+                rango = hoja.Rows[3];
+                rango.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+
+                //Modificamos los anchos de las columnas
+                int cont = 1;
+                foreach(int widh in widths)
+                {
+                    rango = hoja.Columns[cont];
+                    rango.ColumnWidth = widh;
+                    cont++;
+                }
+            }
+            catch (Exception E)
+            {
+                throw E;
+            }
         }
     }
 

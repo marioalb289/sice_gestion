@@ -28,9 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmModulos));
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnConf = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.btnComputos = new System.Windows.Forms.Button();
@@ -51,6 +53,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.Controls.Add(this.btnConf, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.label1, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.label2, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.btnComputos, 2, 2);
@@ -64,6 +67,24 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(784, 561);
             this.tableLayoutPanel1.TabIndex = 6;
+            // 
+            // btnConf
+            // 
+            this.btnConf.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnConf.BackColor = System.Drawing.Color.Transparent;
+            this.btnConf.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnConf.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnConf.Image = ((System.Drawing.Image)(resources.GetObject("btnConf.Image")));
+            this.btnConf.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnConf.Location = new System.Drawing.Point(28, 353);
+            this.btnConf.Name = "btnConf";
+            this.btnConf.Size = new System.Drawing.Size(140, 135);
+            this.btnConf.TabIndex = 17;
+            this.btnConf.Text = "Configuracion";
+            this.btnConf.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnConf.UseVisualStyleBackColor = false;
+            this.btnConf.Visible = false;
+            this.btnConf.Click += new System.EventHandler(this.btnConf_Click);
             // 
             // label1
             // 
@@ -151,5 +172,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnRegistroActas;
         private System.Windows.Forms.Button btnComputos;
+        private System.Windows.Forms.Button btnConf;
     }
 }

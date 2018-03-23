@@ -43,5 +43,6 @@ namespace Sistema.DataModel
         public DbSet<sice_reserva_captura> sice_reserva_captura { get; set; }
         public DbSet<sice_votos> sice_votos { get; set; }
         public DbSet<sice_casillas> sice_casillas { get; set; }
+        public DbSet<sice_votos_test> sice_votos_test { get; set; }
     }
 }

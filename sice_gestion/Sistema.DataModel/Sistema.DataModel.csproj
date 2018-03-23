@@ -120,6 +120,9 @@
     <Compile Include="sice_votos.cs">
       <DependentUpon>DatacenterModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="sice_votos_test.cs">
+      <DependentUpon>DatacenterModel.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="DatacenterModel.edmx">

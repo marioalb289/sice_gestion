@@ -1127,15 +1127,30 @@ namespace Sistema.Generales
                     using (var TransactionContexto = new TransactionScope())
                     {
                         DateTime localDate = DateTime.Now;
-                        sice_ar_votos_cotejo v1 = new sice_ar_votos_cotejo();
+                        sice_ar_votos_cotejo v1 = null;
                         foreach (sice_ar_votos voto in listaVotosCaptura)
                         {
-                            v1.id_candidato = voto.id_candidato;
-                            v1.id_casilla = voto.id_casilla;
-                            v1.tipo = voto.tipo;
-                            v1.votos = voto.votos;
-                            contexto.sice_ar_votos_cotejo.Add(v1);
-                            contexto.SaveChanges();
+                            if (voto.id_candidato != null)
+                            {
+                                v1 = (from d in contexto.sice_ar_votos_cotejo where d.id_candidato == voto.id_candidato && d.id_casilla == voto.id_casilla select d).FirstOrDefault();
+                            }
+                            else
+                            {
+                                if (voto.tipo == "NULO")
+                                    v1 = (from d in contexto.sice_ar_votos_cotejo where d.tipo == "NULO" && d.id_casilla == voto.id_casilla select d).FirstOrDefault();
+                                else if (voto.tipo == "NO REGISTRADO")
+                                    v1 = (from d in contexto.sice_ar_votos_cotejo where d.tipo == "NO REGISTRADO" && d.id_casilla == voto.id_casilla select d).FirstOrDefault();
+                            }
+
+                            if (v1 != null)
+                            {
+                                v1.id_candidato = voto.id_candidato;
+                                v1.id_casilla = voto.id_casilla;
+                                v1.tipo = voto.tipo;
+                                v1.votos = voto.votos;
+                                contexto.SaveChanges();
+                            }
+
                         }
 
                         //Liberar Documento
@@ -1226,6 +1241,7 @@ namespace Sistema.Generales
         public int distrito_local { get; set; }
         public string municipio { get; set; }
         public string cabecera_local { get; set; }
+        public string estatus { get; set; }
 
     }
 

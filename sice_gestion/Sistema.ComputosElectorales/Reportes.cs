@@ -103,6 +103,13 @@ namespace Sistema.ComputosElectorales
                 casillaColumna.Width = 100;
                 dgvResultados.Columns.Add(casillaColumna);
 
+                DataGridViewTextBoxColumn estatusColumna = new DataGridViewTextBoxColumn();
+                estatusColumna.Name = "estatus";
+                estatusColumna.HeaderText = "Estatus";
+                estatusColumna.ValueType = typeof(string);
+                estatusColumna.Width = 135;
+                dgvResultados.Columns.Add(estatusColumna);
+
                 DataGridViewTextBoxColumn DferenciaColumna = new DataGridViewTextBoxColumn();
                 DferenciaColumna.Name = "diferencia";
                 DferenciaColumna.HeaderText = "Diferencia entre 1° y 2° Lugar";
@@ -175,7 +182,7 @@ namespace Sistema.ComputosElectorales
                 int fila = 0;
                 int idCasillaActual = 0;
                 int cont = 1;
-                int contCand = 4;
+                int contCand = 5;
                 DataGridViewRow row = (DataGridViewRow)dgvResultados.Rows[fila].Clone();
                 //row.Cells[0].Value = 1;
                 //dgvResultados.Rows.Add(row);
@@ -198,6 +205,7 @@ namespace Sistema.ComputosElectorales
                             row.Cells[0].Value = v.id_casilla;
                             row.Cells[1].Value = v.seccion;
                             row.Cells[2].Value = v.casilla;
+                            row.Cells[3].Value = (v.estatus != null) ? v.estatus : "NO CAPTURADA";
 
                             row.Cells[contCand].Value = v.votos;
                             vLst.Add((int)v.votos);
@@ -216,7 +224,7 @@ namespace Sistema.ComputosElectorales
                             decimal Porcentaje2 = Math.Round((Convert.ToDecimal(Seegundo) * 100) / totalVotacionEmitida, 2);
                             diferencia = Porcentaje1 - Porcentaje2;
                         }
-                        row.Cells[3].Value = diferencia + "%";
+                        row.Cells[4].Value = diferencia + "%";
 
                         //Votacion Emitida
                         row.Cells[contCand].Value = totalVotacionEmitida;
@@ -225,13 +233,16 @@ namespace Sistema.ComputosElectorales
                         row.Cells[contCand + 1].Value = Lnominal;
 
                         //Porcentaje de Participacion
-                        row.Cells[contCand + 2].Value = Math.Round((Convert.ToDecimal(totalVotacionEmitida) * 100) / Lnominal, 2) + "%";
+                        if (totalVotacionEmitida == 0)
+                            row.Cells[contCand + 2].Value = 0 + "%";
+                        else
+                            row.Cells[contCand + 2].Value = Math.Round((Convert.ToDecimal(totalVotacionEmitida) * 100) / Lnominal, 2) + "%";
 
                         //Agregar fila
                         dgvResultados.Rows.Add(row);
                         fila++;
                         row = (DataGridViewRow)dgvResultados.Rows[fila].Clone();
-                        contCand = 4;
+                        contCand = 5;
                         vLst = new List<int>();
                         Noregynulo = 0;
                         //Inrementar filla
@@ -241,6 +252,7 @@ namespace Sistema.ComputosElectorales
                     row.Cells[0].Value = v.id_casilla;
                     row.Cells[1].Value = v.seccion;
                     row.Cells[2].Value = v.casilla;
+                    row.Cells[3].Value = (v.estatus != null ) ? v.estatus: "NO CAPTURADA";
                     Lnominal = v.lista_nominal;
 
                     row.Cells[contCand].Value = v.votos;
@@ -271,6 +283,28 @@ namespace Sistema.ComputosElectorales
 
             }
             catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void generarExcel()
+        {
+            try
+            {
+                int? selected = Convert.ToInt32(cmbDistrito.SelectedValue);
+                if (selected > 0 && selected != null)
+                {
+                    CompElec = new ComputosElectoralesGenerales();
+                    if (CompElec.generarExcel((int)selected) == 1)
+                    {
+                        msgBox = new MsgBox(this, "Archivo generado Exitosamente", "Atención", MessageBoxButtons.OK, "Ok");
+                        msgBox.ShowDialog(this);
+                    }
+                }
+
+            }
+            catch(Exception ex)
             {
                 throw ex;
             }
@@ -444,6 +478,19 @@ namespace Sistema.ComputosElectorales
                 msgBox.ShowDialog(this);
             }
 
+        }
+
+        private void btnGenerarExcel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.generarExcel();
+            }
+            catch(Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
         }
     }
 }

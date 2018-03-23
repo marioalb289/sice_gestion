@@ -25,6 +25,7 @@
         <EntityTypeShape EntityType="sice_pruebasModel.sice_reserva_captura" Width="1.5" PointX="12.75" PointY="8.75" />
         <EntityTypeShape EntityType="sice_pruebasModel.sice_votos" Width="1.5" PointX="0.75" PointY="13.75" />
         <EntityTypeShape EntityType="sice_pruebasModel.sice_casillas" Width="1.5" PointX="7.375" PointY="11.75" />
+        <EntityTypeShape EntityType="sice_pruebasModel.sice_votos_test" Width="1.5" PointX="7.375" PointY="5.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

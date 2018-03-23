@@ -211,6 +211,7 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="id_casilla" Type="int" />
           <Property Name="tipo_reserva" Type="enum" />
+          <Property Name="importado" Type="int" />
         </EntityType>
         <EntityType Name="sice_usuarios">
           <Key>
@@ -235,6 +236,17 @@
           <Property Name="updated_at" Type="datetime" Precision="0" />
         </EntityType>
         <EntityType Name="sice_votos">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_candidato" Type="int" />
+          <Property Name="id_casilla" Type="int" />
+          <Property Name="votos" Type="int" />
+          <Property Name="tipo" Type="enum" />
+          <Property Name="importado" Type="int" />
+        </EntityType>
+        <EntityType Name="sice_votos_test">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -287,6 +299,7 @@
           <EntitySet Name="sice_reserva_captura" EntityType="Self.sice_reserva_captura" Schema="sice_pruebas" store:Type="Tables" />
           <EntitySet Name="sice_usuarios" EntityType="Self.sice_usuarios" Schema="sice_pruebas" store:Type="Tables" />
           <EntitySet Name="sice_votos" EntityType="Self.sice_votos" Schema="sice_pruebas" store:Type="Tables" />
+          <EntitySet Name="sice_votos_test" EntityType="Self.sice_votos_test" Schema="sice_pruebas" store:Type="Tables" />
           <AssociationSet Name="sice_candidatos_ibfk_1" Association="Self.sice_candidatos_ibfk_1">
             <End Role="sice_candidaturas" EntitySet="sice_candidaturas" />
             <End Role="sice_candidatos" EntitySet="sice_candidatos" />
@@ -327,6 +340,7 @@
           <EntitySet Name="sice_reserva_captura" EntityType="sice_pruebasModel.sice_reserva_captura" />
           <EntitySet Name="sice_votos" EntityType="sice_pruebasModel.sice_votos" />
           <EntitySet Name="sice_casillas" EntityType="sice_pruebasModel.sice_casillas" />
+          <EntitySet Name="sice_votos_test" EntityType="sice_pruebasModel.sice_votos_test" />
         </EntityContainer>
         <EntityType Name="sice_ar_asignacion">
           <Key>
@@ -562,6 +576,7 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="id_casilla" Type="Int32" />
           <Property Name="tipo_reserva" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" />
+          <Property Name="importado" Type="Int32" />
         </EntityType>
         <EntityType Name="sice_votos">
           <Key>
@@ -572,6 +587,7 @@
           <Property Name="id_casilla" Type="Int32" />
           <Property Name="votos" Type="Int32" />
           <Property Name="tipo" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" />
+          <Property Name="importado" Type="Int32" />
         </EntityType>
         <EntityType Name="sice_casillas">
           <Key>
@@ -594,6 +610,16 @@
           <Property Name="domicilio" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
           <Property Name="ubicacion" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
           <Property Name="referencia" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="sice_votos_test">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_candidato" Type="Int32" />
+          <Property Name="id_casilla" Type="Int32" />
+          <Property Name="votos" Type="Int32" />
+          <Property Name="tipo" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -818,6 +844,7 @@
           <EntitySetMapping Name="sice_reserva_captura">
             <EntityTypeMapping TypeName="sice_pruebasModel.sice_reserva_captura">
               <MappingFragment StoreEntitySet="sice_reserva_captura">
+                <ScalarProperty Name="importado" ColumnName="importado" />
                 <ScalarProperty Name="tipo_reserva" ColumnName="tipo_reserva" />
                 <ScalarProperty Name="id_casilla" ColumnName="id_casilla" />
                 <ScalarProperty Name="id" ColumnName="id" />
@@ -827,6 +854,7 @@
           <EntitySetMapping Name="sice_votos">
             <EntityTypeMapping TypeName="sice_pruebasModel.sice_votos">
               <MappingFragment StoreEntitySet="sice_votos">
+                <ScalarProperty Name="importado" ColumnName="importado" />
                 <ScalarProperty Name="tipo" ColumnName="tipo" />
                 <ScalarProperty Name="votos" ColumnName="votos" />
                 <ScalarProperty Name="id_casilla" ColumnName="id_casilla" />
@@ -854,6 +882,17 @@
                 <ScalarProperty Name="id_distrito_federal" ColumnName="id_distrito_federal" />
                 <ScalarProperty Name="consecutivo_municipio" ColumnName="consecutivo_municipio" />
                 <ScalarProperty Name="consecutivo_total" ColumnName="consecutivo_total" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sice_votos_test">
+            <EntityTypeMapping TypeName="sice_pruebasModel.sice_votos_test">
+              <MappingFragment StoreEntitySet="sice_votos_test">
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+                <ScalarProperty Name="votos" ColumnName="votos" />
+                <ScalarProperty Name="id_casilla" ColumnName="id_casilla" />
+                <ScalarProperty Name="id_candidato" ColumnName="id_candidato" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

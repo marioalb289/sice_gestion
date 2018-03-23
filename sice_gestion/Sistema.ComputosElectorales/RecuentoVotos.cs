@@ -168,7 +168,6 @@ namespace Sistema.ComputosElectorales
                         }
                         else if(result == DialogResult.No)
                         {
-                            
                             int res1 = CompElec.guardarDatosVotos(lista_votos, id_casilla, this.totalCandidatos);
                             if (res1 == 1)
                             {

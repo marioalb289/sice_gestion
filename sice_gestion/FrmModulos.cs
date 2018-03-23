@@ -72,5 +72,15 @@ namespace sice_gestion
             form.Show();
             form.FormClosed += Form_FormClosed;
         }
+
+        private void btnConf_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Configuracion form = new Configuracion();
+            form.MdiParent = this.MdiParent;
+            form.Dock = DockStyle.Fill;
+            form.Show();
+            form.FormClosed += Form_FormClosed;
+        }
     }
 }

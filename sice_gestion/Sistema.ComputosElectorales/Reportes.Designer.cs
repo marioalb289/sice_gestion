@@ -43,11 +43,12 @@
             this.label3 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnSiguiente = new System.Windows.Forms.Button();
             this.btnAnterior = new System.Windows.Forms.Button();
-            this.btnUltimo = new System.Windows.Forms.Button();
             this.btnPrimero = new System.Windows.Forms.Button();
             this.lblTotalPag = new System.Windows.Forms.Label();
-            this.btnSiguiente = new System.Windows.Forms.Button();
+            this.btnUltimo = new System.Windows.Forms.Button();
+            this.btnGenerarExcel = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -188,6 +189,7 @@
             this.tableLayoutPanel2.ColumnCount = 2;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Controls.Add(this.btnGenerarExcel, 1, 1);
             this.tableLayoutPanel2.Controls.Add(this.cmbDistrito, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.label3, 0, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Top;
@@ -252,9 +254,21 @@
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(800, 100);
             this.tableLayoutPanel3.TabIndex = 41;
+            // 
+            // btnSiguiente
+            // 
+            this.btnSiguiente.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnSiguiente.Enabled = false;
+            this.btnSiguiente.Location = new System.Drawing.Point(670, 25);
+            this.btnSiguiente.Name = "btnSiguiente";
+            this.btnSiguiente.Size = new System.Drawing.Size(100, 50);
+            this.btnSiguiente.TabIndex = 41;
+            this.btnSiguiente.Text = "Siguiente";
+            this.btnSiguiente.UseVisualStyleBackColor = true;
+            this.btnSiguiente.Click += new System.EventHandler(this.btnSiguiente_Click);
             // 
             // btnAnterior
             // 
@@ -267,18 +281,6 @@
             this.btnAnterior.Text = "Anterior";
             this.btnAnterior.UseVisualStyleBackColor = true;
             this.btnAnterior.Click += new System.EventHandler(this.btnAnterior_Click);
-            // 
-            // btnUltimo
-            // 
-            this.btnUltimo.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnUltimo.Enabled = false;
-            this.btnUltimo.Location = new System.Drawing.Point(510, 25);
-            this.btnUltimo.Name = "btnUltimo";
-            this.btnUltimo.Size = new System.Drawing.Size(100, 50);
-            this.btnUltimo.TabIndex = 39;
-            this.btnUltimo.Text = "Último";
-            this.btnUltimo.UseVisualStyleBackColor = true;
-            this.btnUltimo.Click += new System.EventHandler(this.btnUltimo_Click);
             // 
             // btnPrimero
             // 
@@ -302,17 +304,28 @@
             this.lblTotalPag.TabIndex = 38;
             this.lblTotalPag.Text = "Páginas";
             // 
-            // btnSiguiente
+            // btnUltimo
             // 
-            this.btnSiguiente.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnSiguiente.Enabled = false;
-            this.btnSiguiente.Location = new System.Drawing.Point(670, 25);
-            this.btnSiguiente.Name = "btnSiguiente";
-            this.btnSiguiente.Size = new System.Drawing.Size(100, 50);
-            this.btnSiguiente.TabIndex = 41;
-            this.btnSiguiente.Text = "Siguiente";
-            this.btnSiguiente.UseVisualStyleBackColor = true;
-            this.btnSiguiente.Click += new System.EventHandler(this.btnSiguiente_Click);
+            this.btnUltimo.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnUltimo.Enabled = false;
+            this.btnUltimo.Location = new System.Drawing.Point(510, 25);
+            this.btnUltimo.Name = "btnUltimo";
+            this.btnUltimo.Size = new System.Drawing.Size(100, 50);
+            this.btnUltimo.TabIndex = 39;
+            this.btnUltimo.Text = "Último";
+            this.btnUltimo.UseVisualStyleBackColor = true;
+            this.btnUltimo.Click += new System.EventHandler(this.btnUltimo_Click);
+            // 
+            // btnGenerarExcel
+            // 
+            this.btnGenerarExcel.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnGenerarExcel.Location = new System.Drawing.Point(550, 50);
+            this.btnGenerarExcel.Name = "btnGenerarExcel";
+            this.btnGenerarExcel.Size = new System.Drawing.Size(100, 50);
+            this.btnGenerarExcel.TabIndex = 37;
+            this.btnGenerarExcel.Text = "Generar Excel";
+            this.btnGenerarExcel.UseVisualStyleBackColor = true;
+            this.btnGenerarExcel.Click += new System.EventHandler(this.btnGenerarExcel_Click);
             // 
             // Reportes
             // 
@@ -363,5 +376,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.DataGridView dgvResultados;
         private System.Windows.Forms.Button btnSiguiente;
+        private System.Windows.Forms.Button btnGenerarExcel;
     }
 }

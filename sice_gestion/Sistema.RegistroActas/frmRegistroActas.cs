@@ -312,6 +312,7 @@ namespace Sistema.RegistroActas
                         //Votos nulos 0 Candidato no registrado -1
                         textBoxes[i].Tag =   (i > lsCandidatos.Count - 1) ? i == lsCandidatos.Count ? "-1" : "0" : lsCandidatos[i].id_candidato.ToString();
                         textBoxes[i].KeyPress += FrmRegistroActas_KeyPress;
+                        textBoxes[i].KeyDown += FrmRegistroActas_KeyDown;
                         textBoxes[i].MaxLength = 3;
                         textBoxes[i].Text = "0";
                         textBoxes[i].TextAlign = HorizontalAlignment.Center;
@@ -335,7 +336,7 @@ namespace Sistema.RegistroActas
                 msgBox.ShowDialog(this);
             }
 
-        }
+        }        
 
         private void guardarRegistroVotos()
         {
@@ -426,6 +427,7 @@ namespace Sistema.RegistroActas
 
         private void FrmRegistroActas_KeyPress(object sender, KeyPressEventArgs e)
         {
+
             if (Char.IsDigit(e.KeyChar))
             {
                 e.Handled = false;
@@ -441,6 +443,14 @@ namespace Sistema.RegistroActas
             else
             {
                 e.Handled = true;
+            }
+        }
+
+        private void FrmRegistroActas_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Enter)
+            {
+                this.SelectNextControl((Control)sender, true, true, true, true);
             }
         }
 

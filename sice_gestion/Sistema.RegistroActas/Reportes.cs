@@ -224,7 +224,10 @@ namespace Sistema.RegistroActas
                         row.Cells[contCand + 1].Value = Lnominal;
 
                         //Porcentaje de Participacion
-                        row.Cells[contCand + 2].Value = Math.Round( (Convert.ToDecimal(totalVotacionEmitida) * 100) / Lnominal,2) + "%";
+                        if (totalVotacionEmitida == 0)
+                            row.Cells[contCand + 2].Value = 0 +"%";
+                        else
+                            row.Cells[contCand + 2].Value = Math.Round( (Convert.ToDecimal(totalVotacionEmitida) * 100) / Lnominal,2) + "%";
 
                         //Agregar fila
                         dgvResultados.Rows.Add(row);

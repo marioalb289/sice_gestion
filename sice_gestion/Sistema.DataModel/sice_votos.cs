@@ -19,5 +19,6 @@ namespace Sistema.DataModel
         public Nullable<int> id_casilla { get; set; }
         public Nullable<int> votos { get; set; }
         public string tipo { get; set; }
+        public Nullable<int> importado { get; set; }
     }
 }
