@@ -249,21 +249,60 @@ namespace Sistema.Generales
             }             
         }
 
-        public int generarExcel(int distrito)
+        public int generarExcel(int distrito, bool completo = false)
         {
             try
             {
                 Excel.Application excel = new Excel.Application();
                 Excel._Workbook libro = null;
+
+                //creamos un libro nuevo y la hoja con la que vamos a trabajar
+                libro = (Excel._Workbook)excel.Workbooks.Add(Excel.XlWBATemplate.xlWBATWorksheet);
+
+                if (completo)
+                {
+                    List<sice_distritos_locales> distritos = this.ListaDistritos();                    
+                    foreach(sice_distritos_locales ds in distritos.OrderByDescending(x => x.id))
+                    {
+                        Console.WriteLine("Insetando Libro: " + ds.distrito);
+                        this.generaHoja(ds.id, libro);
+                    }
+                }
+                else
+                {
+                    this.generaHoja(distrito, libro);
+                }
+
+                ((Excel.Worksheet)excel.ActiveWorkbook.Sheets["Hoja1"]).Delete();   //Borramos la hoja que crea en el libro por defecto
+
+
+                libro.Saved = true;
+                libro.SaveAs(Environment.CurrentDirectory + @"\Ejemplo2.xlsx");  // Si es un libro nuevo
+
+                libro.Close();
+
+                excel.UserControl = false;
+                excel.Quit();
+
+                return 1;
+            }
+            catch (Exception E)
+            {
+                throw E;
+            }
+        }
+
+        public void generaHoja(int distrito, Excel._Workbook libro)
+        {
+            try
+            {
                 Excel._Worksheet hoja = null;
                 Excel.Range rango = null;
                 int filaInicialTabla = 5;
 
                 //creamos un libro nuevo y la hoja con la que vamos a trabajar
-                libro = (Excel._Workbook)excel.Workbooks.Add(Excel.XlWBATemplate.xlWBATWorksheet);
                 hoja = (Excel._Worksheet)libro.Worksheets.Add();
-                hoja.Name = "EJEMPLO";  //Aqui debe ir el nombre del distrito
-                ((Excel.Worksheet)excel.ActiveWorkbook.Sheets["Hoja1"]).Delete();   //Borramos la hoja que crea en el libro por defecto
+                hoja.Name = "DISTRITO "+distrito;  //Aqui debe ir el nombre del distrito
                 List<VotosSeccion> vSeccion = this.ResultadosSeccion(0, 0, (int)distrito);
                 List<Candidatos> candidatos = this.ListaCandidatos((int)distrito);
 
@@ -336,6 +375,7 @@ namespace Sistema.Generales
                         rango = hoja.Range[x, y];
                         rango.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
 
+                        //Console.WriteLine("Ins")
                         fila++;
                         contCand = 6;
                         vLst = new List<int>();
@@ -366,16 +406,6 @@ namespace Sistema.Generales
 
 
                 }
-
-                libro.Saved = true;
-                libro.SaveAs(Environment.CurrentDirectory + @"\Ejemplo2.xlsx");  // Si es un libro nuevo
-
-                libro.Close();
-
-                excel.UserControl = false;
-                excel.Quit();
-
-                return 1;
             }
             catch(Exception E)
             {

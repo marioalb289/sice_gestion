@@ -48,7 +48,9 @@
             this.btnPrimero = new System.Windows.Forms.Button();
             this.lblTotalPag = new System.Windows.Forms.Label();
             this.btnUltimo = new System.Windows.Forms.Button();
+            this.panel6 = new System.Windows.Forms.Panel();
             this.btnGenerarExcel = new System.Windows.Forms.Button();
+            this.btnGenerarExcelTodo = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -59,6 +61,7 @@
             this.tableLayoutPanel2.SuspendLayout();
             this.panel5.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
+            this.panel6.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -189,9 +192,9 @@
             this.tableLayoutPanel2.ColumnCount = 2;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Controls.Add(this.btnGenerarExcel, 1, 1);
             this.tableLayoutPanel2.Controls.Add(this.cmbDistrito, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.label3, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.panel6, 1, 1);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -199,7 +202,7 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(800, 110);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(800, 100);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // cmbDistrito
@@ -316,16 +319,37 @@
             this.btnUltimo.UseVisualStyleBackColor = true;
             this.btnUltimo.Click += new System.EventHandler(this.btnUltimo_Click);
             // 
+            // panel6
+            // 
+            this.panel6.Controls.Add(this.btnGenerarExcelTodo);
+            this.panel6.Controls.Add(this.btnGenerarExcel);
+            this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel6.Location = new System.Drawing.Point(403, 43);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(394, 54);
+            this.panel6.TabIndex = 17;
+            // 
             // btnGenerarExcel
             // 
-            this.btnGenerarExcel.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnGenerarExcel.Location = new System.Drawing.Point(550, 50);
+            this.btnGenerarExcel.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnGenerarExcel.Location = new System.Drawing.Point(294, 0);
             this.btnGenerarExcel.Name = "btnGenerarExcel";
-            this.btnGenerarExcel.Size = new System.Drawing.Size(100, 50);
-            this.btnGenerarExcel.TabIndex = 37;
+            this.btnGenerarExcel.Size = new System.Drawing.Size(100, 54);
+            this.btnGenerarExcel.TabIndex = 38;
             this.btnGenerarExcel.Text = "Generar Excel";
             this.btnGenerarExcel.UseVisualStyleBackColor = true;
             this.btnGenerarExcel.Click += new System.EventHandler(this.btnGenerarExcel_Click);
+            // 
+            // btnGenerarExcelTodo
+            // 
+            this.btnGenerarExcelTodo.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnGenerarExcelTodo.Location = new System.Drawing.Point(194, 0);
+            this.btnGenerarExcelTodo.Name = "btnGenerarExcelTodo";
+            this.btnGenerarExcelTodo.Size = new System.Drawing.Size(100, 54);
+            this.btnGenerarExcelTodo.TabIndex = 39;
+            this.btnGenerarExcelTodo.Text = "Generar Excel Todo";
+            this.btnGenerarExcelTodo.UseVisualStyleBackColor = true;
+            this.btnGenerarExcelTodo.Click += new System.EventHandler(this.btnGenerarExcelTodo_Click);
             // 
             // Reportes
             // 
@@ -350,6 +374,7 @@
             this.panel5.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
+            this.panel6.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -376,6 +401,8 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.DataGridView dgvResultados;
         private System.Windows.Forms.Button btnSiguiente;
+        private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.Button btnGenerarExcel;
+        private System.Windows.Forms.Button btnGenerarExcelTodo;
     }
 }

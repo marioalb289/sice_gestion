@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Sistema.DataModel;
+using System.Threading;
 
 namespace Sistema.ComputosElectorales
 {
@@ -288,20 +289,13 @@ namespace Sistema.ComputosElectorales
             }
         }
 
-        private void generarExcel()
+        private void generarExcel(int distrito = 0,bool completo = false)
         {
             try
             {
-                int? selected = Convert.ToInt32(cmbDistrito.SelectedValue);
-                if (selected > 0 && selected != null)
-                {
-                    CompElec = new ComputosElectoralesGenerales();
-                    if (CompElec.generarExcel((int)selected) == 1)
-                    {
-                        msgBox = new MsgBox(this, "Archivo generado Exitosamente", "Atención", MessageBoxButtons.OK, "Ok");
-                        msgBox.ShowDialog(this);
-                    }
-                }
+                CompElec = new ComputosElectoralesGenerales();
+                CompElec.generarExcel(distrito, completo);
+                
 
             }
             catch(Exception ex)
@@ -484,9 +478,49 @@ namespace Sistema.ComputosElectorales
         {
             try
             {
-                this.generarExcel();
+                int? selected = Convert.ToInt32(cmbDistrito.SelectedValue);
+                if (selected > 0 && selected != null)
+                {
+                    //Creamos el delegado 
+                    ThreadStart delegado = new ThreadStart(() => generarExcel((int)selected,false));
+                    delegado += () =>
+                    {
+                        // Do what you want in the callback
+                        MessageBox.Show("Finish!");
+                    };
+
+                    //Creamos la instancia del hilo 
+                    Thread hilo = new Thread(delegado) { IsBackground = true };
+                    //Iniciamos el hilo 
+                    hilo.Start();
+                }
+                
             }
             catch(Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+        }
+
+        private void btnGenerarExcelTodo_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //Creamos el delegado 
+                ThreadStart delegado = new ThreadStart(() => generarExcel(0, true));
+                delegado += () =>
+                {
+                    // Do what you want in the callback
+                    MessageBox.Show("Finish!");
+                };
+
+                //Creamos la instancia del hilo 
+                Thread hilo = new Thread(delegado) { IsBackground = true };
+                //Iniciamos el hilo 
+                hilo.Start();
+            }
+            catch (Exception ex)
             {
                 msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
                 msgBox.ShowDialog(this);
