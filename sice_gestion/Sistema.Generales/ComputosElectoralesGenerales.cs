@@ -257,6 +257,7 @@ namespace Sistema.Generales
                 Excel._Workbook libro = null;
                 Excel._Worksheet hoja = null;
                 Excel.Range rango = null;
+                int filaInicialTabla = 5;
 
                 //creamos un libro nuevo y la hoja con la que vamos a trabajar
                 libro = (Excel._Workbook)excel.Workbooks.Add(Excel.XlWBATemplate.xlWBATWorksheet);
@@ -267,11 +268,11 @@ namespace Sistema.Generales
                 List<Candidatos> candidatos = this.ListaCandidatos((int)distrito);
 
                 //Montamos las cabeceras 
-                CrearEncabezados(3, ref hoja,vSeccion,candidatos,1);
+                char letraFinal = CrearEncabezados(filaInicialTabla, ref hoja,vSeccion,candidatos,1);
 
 
                 //Agregar Datos
-                int fila = 4;
+                int fila = filaInicialTabla+1;
                 int idCasillaActual = 0;
                 int cont = 1;
                 int contCand = 6;
@@ -330,6 +331,11 @@ namespace Sistema.Generales
                             hoja.Cells[fila,contCand + 2] = Math.Round((Convert.ToDecimal(totalVotacionEmitida) * 100) / Lnominal, 2) + "%";
 
                         //Agregar fila
+                        string x = "A" + (fila).ToString();
+                        string y = letraFinal.ToString() + (fila).ToString();
+                        rango = hoja.Range[x, y];
+                        rango.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+
                         fila++;
                         contCand = 6;
                         vLst = new List<int>();
@@ -377,7 +383,7 @@ namespace Sistema.Generales
             }
         }
 
-        private void CrearEncabezados(int fila, ref Excel._Worksheet hoja, List<VotosSeccion> vSeccion, List<Candidatos> candidatos, int columnaInicial = 1)
+        private char CrearEncabezados(int fila, ref Excel._Worksheet hoja, List<VotosSeccion> vSeccion, List<Candidatos> candidatos, int columnaInicial = 1)
         {
             try
             {
@@ -390,31 +396,31 @@ namespace Sistema.Generales
                 List<int> widths = new List<int>();
 
                 //Agregar encabezados
-                hoja.Cells[3, columnaInicial] = "No."; columnaInicial++; columnaLetra++; widths.Add(10);
-                hoja.Cells[3, columnaInicial] = "Sección"; columnaInicial++; columnaLetra++; widths.Add(20);
-                hoja.Cells[3, columnaInicial] = "Casilla"; columnaInicial++; columnaLetra++; widths.Add(30);
-                hoja.Cells[3, columnaInicial] = "Estatus"; columnaInicial++; columnaLetra++; widths.Add(20);
-                hoja.Cells[3, columnaInicial] = "Diferencia entre 1° y 2° Lugar"; columnaInicial++; columnaLetra++; widths.Add(30);
+                hoja.Cells[fila, columnaInicial] = "No."; columnaInicial++; columnaLetra++; widths.Add(10);
+                hoja.Cells[fila, columnaInicial] = "Sección"; columnaInicial++; columnaLetra++; widths.Add(20);
+                hoja.Cells[fila, columnaInicial] = "Casilla"; columnaInicial++; columnaLetra++; widths.Add(30);
+                hoja.Cells[fila, columnaInicial] = "Estatus"; columnaInicial++; columnaLetra++; widths.Add(20);
+                hoja.Cells[fila, columnaInicial] = "Diferencia entre 1° y 2° Lugar"; columnaInicial++; columnaLetra++; widths.Add(30);
 
 
                 //Agregar Columnas Caniddatos y Partidos
                 foreach (Candidatos c in candidatos)
                 {
-                    hoja.Cells[3, columnaInicial] = c.partido; columnaInicial++; columnaLetra++; widths.Add(20);
+                    hoja.Cells[fila, columnaInicial] = c.partido; columnaInicial++; columnaLetra++; widths.Add(20);
                 }
                 //Agregar columnas adicionales
-                hoja.Cells[3, columnaInicial] = "No Registrados"; columnaInicial++; columnaLetra++; widths.Add(20);
-                hoja.Cells[3, columnaInicial] = "Nulos"; columnaInicial++; columnaLetra++; widths.Add(20);
-                hoja.Cells[3, columnaInicial] = "Votación total Emitida"; columnaInicial++; columnaLetra++; widths.Add(30);
-                hoja.Cells[3, columnaInicial] = "L. Nominal"; columnaInicial++; columnaLetra++; widths.Add(20);
-                hoja.Cells[3, columnaInicial] = "Porcentaje Participación"; widths.Add(20);
+                hoja.Cells[fila, columnaInicial] = "No Registrados"; columnaInicial++; columnaLetra++; widths.Add(20);
+                hoja.Cells[fila, columnaInicial] = "Nulos"; columnaInicial++; columnaLetra++; widths.Add(20);
+                hoja.Cells[fila, columnaInicial] = "Votación total Emitida"; columnaInicial++; columnaLetra++; widths.Add(30);
+                hoja.Cells[fila, columnaInicial] = "L. Nominal"; columnaInicial++; columnaLetra++; widths.Add(20);
+                hoja.Cells[fila, columnaInicial] = "Porcentaje Participación"; widths.Add(20);
 
                 //Ponemos borde a las celdas
-                string letra = columnaLetra.ToString()+3;
-                rango = hoja.Range["A3", letra];
+                string letra = columnaLetra.ToString()+fila;
+                rango = hoja.Range["A"+fila, letra];
                 rango.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
                 //Centramos los textos
-                rango = hoja.Rows[3];
+                rango = hoja.Rows[fila];
                 rango.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
 
                 //Modificamos los anchos de las columnas
@@ -425,6 +431,7 @@ namespace Sistema.Generales
                     rango.ColumnWidth = widh;
                     cont++;
                 }
+                return columnaLetra++;
             }
             catch (Exception E)
             {
