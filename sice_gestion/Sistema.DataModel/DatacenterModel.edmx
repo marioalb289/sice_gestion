@@ -31,6 +31,7 @@
           <Property Name="id_casilla" Type="int" />
           <Property Name="create_at" Type="datetime" Precision="0" Nullable="false" />
           <Property Name="updated_at" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="importado" Type="int" />
         </EntityType>
         <EntityType Name="sice_ar_documentos_local">
           <Key>
@@ -59,6 +60,7 @@
           <Property Name="id_casilla" Type="int" />
           <Property Name="id_documento" Type="int" />
           <Property Name="tipo_reserva" Type="enum" />
+          <Property Name="importado" Type="int" />
         </EntityType>
         <EntityType Name="sice_ar_votos">
           <Key>
@@ -79,6 +81,7 @@
           <Property Name="id_casilla" Type="int" />
           <Property Name="votos" Type="int" />
           <Property Name="tipo" Type="enum" />
+          <Property Name="importado" Type="int" />
         </EntityType>
         <EntityType Name="sice_ar_votos_valida1">
           <Key>
@@ -336,11 +339,11 @@
           <EntitySet Name="sice_ar_votos_valida3" EntityType="sice_pruebasModel.sice_ar_votos_valida3" />
           <EntitySet Name="sice_ar_documentos_local" EntityType="sice_pruebasModel.sice_ar_documentos_local" />
           <EntitySet Name="sice_ar_documentos" EntityType="sice_pruebasModel.sice_ar_documentos" />
-          <EntitySet Name="sice_ar_votos_cotejo" EntityType="sice_pruebasModel.sice_ar_votos_cotejo" />
           <EntitySet Name="sice_reserva_captura" EntityType="sice_pruebasModel.sice_reserva_captura" />
           <EntitySet Name="sice_votos" EntityType="sice_pruebasModel.sice_votos" />
           <EntitySet Name="sice_casillas" EntityType="sice_pruebasModel.sice_casillas" />
           <EntitySet Name="sice_votos_test" EntityType="sice_pruebasModel.sice_votos_test" />
+          <EntitySet Name="sice_ar_votos_cotejo" EntityType="sice_pruebasModel.sice_ar_votos_cotejo" />
         </EntityContainer>
         <EntityType Name="sice_ar_asignacion">
           <Key>
@@ -359,6 +362,7 @@
           <Property Name="id_casilla" Type="Int32" />
           <Property Name="tipo_reserva" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" />
           <Property Name="id_documento" Type="Int32" />
+          <Property Name="importado" Type="Int32" />
         </EntityType>
         <EntityType Name="sice_ar_votos">
           <Key>
@@ -558,16 +562,7 @@
           <Property Name="id_casilla" Type="Int32" />
           <Property Name="create_at" Type="DateTime" Nullable="false" />
           <Property Name="updated_at" Type="DateTime" Nullable="false" />
-        </EntityType>
-        <EntityType Name="sice_ar_votos_cotejo">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_candidato" Type="Int32" />
-          <Property Name="id_casilla" Type="Int32" />
-          <Property Name="votos" Type="Int32" />
-          <Property Name="tipo" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" />
+          <Property Name="importado" Type="Int32" />
         </EntityType>
         <EntityType Name="sice_reserva_captura">
           <Key>
@@ -621,6 +616,17 @@
           <Property Name="votos" Type="Int32" />
           <Property Name="tipo" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="sice_ar_votos_cotejo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_candidato" Type="Int32" />
+          <Property Name="id_casilla" Type="Int32" />
+          <Property Name="votos" Type="Int32" />
+          <Property Name="tipo" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" />
+          <Property Name="importado" Type="Int32" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -640,6 +646,7 @@
           <EntitySetMapping Name="sice_ar_reserva">
             <EntityTypeMapping TypeName="sice_pruebasModel.sice_ar_reserva">
               <MappingFragment StoreEntitySet="sice_ar_reserva">
+                <ScalarProperty Name="importado" ColumnName="importado" />
                 <ScalarProperty Name="id_documento" ColumnName="id_documento" />
                 <ScalarProperty Name="tipo_reserva" ColumnName="tipo_reserva" />
                 <ScalarProperty Name="id_casilla" ColumnName="id_casilla" />
@@ -814,6 +821,7 @@
           <EntitySetMapping Name="sice_ar_documentos">
             <EntityTypeMapping TypeName="sice_pruebasModel.sice_ar_documentos">
               <MappingFragment StoreEntitySet="sice_ar_documentos">
+                <ScalarProperty Name="importado" ColumnName="importado" />
                 <ScalarProperty Name="updated_at" ColumnName="updated_at" />
                 <ScalarProperty Name="create_at" ColumnName="create_at" />
                 <ScalarProperty Name="id_casilla" ColumnName="id_casilla" />
@@ -826,17 +834,6 @@
                 <ScalarProperty Name="estatus" ColumnName="estatus" />
                 <ScalarProperty Name="ruta" ColumnName="ruta" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sice_ar_votos_cotejo">
-            <EntityTypeMapping TypeName="sice_pruebasModel.sice_ar_votos_cotejo">
-              <MappingFragment StoreEntitySet="sice_ar_votos_cotejo">
-                <ScalarProperty Name="tipo" ColumnName="tipo" />
-                <ScalarProperty Name="votos" ColumnName="votos" />
-                <ScalarProperty Name="id_casilla" ColumnName="id_casilla" />
-                <ScalarProperty Name="id_candidato" ColumnName="id_candidato" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -889,6 +886,18 @@
           <EntitySetMapping Name="sice_votos_test">
             <EntityTypeMapping TypeName="sice_pruebasModel.sice_votos_test">
               <MappingFragment StoreEntitySet="sice_votos_test">
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+                <ScalarProperty Name="votos" ColumnName="votos" />
+                <ScalarProperty Name="id_casilla" ColumnName="id_casilla" />
+                <ScalarProperty Name="id_candidato" ColumnName="id_candidato" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sice_ar_votos_cotejo">
+            <EntityTypeMapping TypeName="sice_pruebasModel.sice_ar_votos_cotejo">
+              <MappingFragment StoreEntitySet="sice_ar_votos_cotejo">
+                <ScalarProperty Name="importado" ColumnName="importado" />
                 <ScalarProperty Name="tipo" ColumnName="tipo" />
                 <ScalarProperty Name="votos" ColumnName="votos" />
                 <ScalarProperty Name="id_casilla" ColumnName="id_casilla" />

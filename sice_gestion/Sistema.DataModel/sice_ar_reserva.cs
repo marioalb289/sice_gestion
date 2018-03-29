@@ -18,5 +18,6 @@ namespace Sistema.DataModel
         public Nullable<int> id_casilla { get; set; }
         public string tipo_reserva { get; set; }
         public Nullable<int> id_documento { get; set; }
+        public Nullable<int> importado { get; set; }
     }
 }

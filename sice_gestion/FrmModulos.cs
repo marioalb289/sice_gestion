@@ -27,7 +27,7 @@ namespace sice_gestion
             try
             {
                 //throw new Exception("Pribando");
-                if(LoginInfo.privilegios < 4)
+                if(LoginInfo.privilegios == 1 || LoginInfo.privilegios == 2 || LoginInfo.privilegios == 3 || LoginInfo.privilegios == 5 || LoginInfo.privilegios == 6)
                 {
                     this.btnRegistroActas.Enabled = true;
                     this.btnComputos.Enabled = false;
@@ -43,11 +43,22 @@ namespace sice_gestion
         private void btnRegistroActas_Click(object sender, EventArgs e)
         {
             this.Hide();
-            Sistema.RegistroActas.MainRegistroActas form = new Sistema.RegistroActas.MainRegistroActas();
-            form.MdiParent = this.MdiParent;
-            form.Dock = DockStyle.Fill;
-            form.Show();
-            form.FormClosed += Form_FormClosed;
+            if (LoginInfo.privilegios == 5 || LoginInfo.privilegios == 6)
+            {
+                Sistema.RegistroActasLocal.MainRegistroLocal form = new Sistema.RegistroActasLocal.MainRegistroLocal();
+                form.MdiParent = this.MdiParent;
+                form.Dock = DockStyle.Fill;
+                form.Show();
+                form.FormClosed += Form_FormClosed;
+            }
+            else if(LoginInfo.privilegios == 1 || LoginInfo.privilegios == 2 || LoginInfo.privilegios == 3 )
+            {
+                Sistema.RegistroActas.MainRegistroActas form = new Sistema.RegistroActas.MainRegistroActas();
+                form.MdiParent = this.MdiParent;
+                form.Dock = DockStyle.Fill;
+                form.Show();
+                form.FormClosed += Form_FormClosed;
+            }
         }
 
         private void Form_FormClosed(object sender, FormClosedEventArgs e)

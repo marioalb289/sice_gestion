@@ -1,6 +1,6 @@
-﻿namespace Sistema.RegistroActas
+﻿namespace Sistema.RegistroActasLocal
 {
-    partial class frmRegistroActas
+    partial class IdentificarActas
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmRegistroActas));
             this.panel1 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -52,7 +51,6 @@
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.panel5 = new System.Windows.Forms.Panel();
             this.btnTomarActa = new System.Windows.Forms.Button();
-            this.btnLimpiar = new System.Windows.Forms.Button();
             this.btnLegible = new System.Windows.Forms.Button();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
@@ -126,7 +124,7 @@
             // pictureBox4
             // 
             this.pictureBox4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
+            this.pictureBox4.Image = global::Sistema.RegistroActasLocal.Properties.Resources.iepc;
             this.pictureBox4.Location = new System.Drawing.Point(0, 0);
             this.pictureBox4.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox4.Name = "pictureBox4";
@@ -150,7 +148,7 @@
             // button1
             // 
             this.button1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
+            this.button1.Image = global::Sistema.RegistroActasLocal.Properties.Resources.button1;
             this.button1.Location = new System.Drawing.Point(855, 0);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(39, 44);
@@ -224,7 +222,6 @@
             // cmbCasilla
             // 
             this.cmbCasilla.Dock = System.Windows.Forms.DockStyle.Top;
-            this.cmbCasilla.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbCasilla.Enabled = false;
             this.cmbCasilla.FormattingEnabled = true;
             this.cmbCasilla.Location = new System.Drawing.Point(829, 130);
@@ -237,7 +234,6 @@
             // cmbSeccion
             // 
             this.cmbSeccion.Dock = System.Windows.Forms.DockStyle.Top;
-            this.cmbSeccion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbSeccion.Enabled = false;
             this.cmbSeccion.FormattingEnabled = true;
             this.cmbSeccion.Location = new System.Drawing.Point(829, 55);
@@ -275,8 +271,8 @@
             this.tblPanaelPartidos.Name = "tblPanaelPartidos";
             this.tblPanaelPartidos.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.tblPanaelPartidos.RowCount = 1;
-            this.tblPanaelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 106F));
-            this.tblPanaelPartidos.Size = new System.Drawing.Size(342, 110);
+            this.tblPanaelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 108F));
+            this.tblPanaelPartidos.Size = new System.Drawing.Size(342, 112);
             this.tblPanaelPartidos.TabIndex = 6;
             // 
             // pnlTableTitulo
@@ -286,7 +282,7 @@
             this.pnlTableTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableTitulo.Location = new System.Drawing.Point(15, 5);
             this.pnlTableTitulo.Name = "pnlTableTitulo";
-            this.pnlTableTitulo.Size = new System.Drawing.Size(152, 100);
+            this.pnlTableTitulo.Size = new System.Drawing.Size(152, 102);
             this.pnlTableTitulo.TabIndex = 39;
             // 
             // label4
@@ -308,7 +304,7 @@
             this.pnlTableVotos.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableVotos.Location = new System.Drawing.Point(175, 5);
             this.pnlTableVotos.Name = "pnlTableVotos";
-            this.pnlTableVotos.Size = new System.Drawing.Size(152, 100);
+            this.pnlTableVotos.Size = new System.Drawing.Size(152, 102);
             this.pnlTableVotos.TabIndex = 41;
             // 
             // label5
@@ -364,7 +360,6 @@
             // panel5
             // 
             this.panel5.Controls.Add(this.btnTomarActa);
-            this.panel5.Controls.Add(this.btnLimpiar);
             this.panel5.Controls.Add(this.btnLegible);
             this.panel5.Controls.Add(this.btnGuardar);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -377,7 +372,7 @@
             // btnTomarActa
             // 
             this.btnTomarActa.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnTomarActa.Location = new System.Drawing.Point(851, 0);
+            this.btnTomarActa.Location = new System.Drawing.Point(926, 0);
             this.btnTomarActa.Name = "btnTomarActa";
             this.btnTomarActa.Size = new System.Drawing.Size(75, 44);
             this.btnTomarActa.TabIndex = 27;
@@ -386,19 +381,6 @@
             this.btnTomarActa.Text = "Tomar Acta";
             this.btnTomarActa.UseVisualStyleBackColor = true;
             this.btnTomarActa.Click += new System.EventHandler(this.btnTomarActa_Click);
-            // 
-            // btnLimpiar
-            // 
-            this.btnLimpiar.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnLimpiar.Enabled = false;
-            this.btnLimpiar.Location = new System.Drawing.Point(926, 0);
-            this.btnLimpiar.Name = "btnLimpiar";
-            this.btnLimpiar.Size = new System.Drawing.Size(75, 44);
-            this.btnLimpiar.TabIndex = 26;
-            this.btnLimpiar.TabStop = false;
-            this.btnLimpiar.Text = "Limpiar";
-            this.btnLimpiar.UseVisualStyleBackColor = true;
-            this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
             // 
             // btnLegible
             // 
@@ -426,7 +408,7 @@
             this.btnGuardar.UseVisualStyleBackColor = true;
             this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
-            // frmRegistroActas
+            // IdentificarActas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -435,10 +417,10 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "frmRegistroActas";
-            this.Text = "frmRegistroActas";
-            this.Load += new System.EventHandler(this.frmRegistroActas_Load);
-            this.Shown += new System.EventHandler(this.frmRegistroActas_Shown);
+            this.Name = "IdentificarActas";
+            this.Text = "IdentificarActas";
+            this.Load += new System.EventHandler(this.IdentificarActas_Load);
+            this.Shown += new System.EventHandler(this.IdentificarActas_Shown);
             this.panel1.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
@@ -473,7 +455,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Button btnTomarActa;
-        private System.Windows.Forms.Button btnLimpiar;
         private System.Windows.Forms.Button btnLegible;
         private System.Windows.Forms.Button btnGuardar;
         private System.Windows.Forms.TableLayoutPanel tblPanaelPartidos;

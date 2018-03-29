@@ -31,7 +31,7 @@ namespace Sistema.Generales
                 FtpWebRequest request = (FtpWebRequest)WebRequest.Create(host + "/" + remoteFile);
                 request.Method = WebRequestMethods.Ftp.DownloadFile;
                 request.Timeout = 30000;
-                request.KeepAlive = false;
+                request.KeepAlive = true;
 
                 // This example assumes the FTP site uses anonymous logon.  
                 request.Credentials = new NetworkCredential(user, pass);
