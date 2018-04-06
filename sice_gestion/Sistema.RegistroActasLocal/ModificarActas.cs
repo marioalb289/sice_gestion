@@ -7,12 +7,13 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
 namespace Sistema.RegistroActasLocal
 {
-    public partial class IdentificarActas : Form
+    public partial class ModificarActas : Form
     {
         #region Instance Fields
 
@@ -28,16 +29,18 @@ namespace Sistema.RegistroActasLocal
         private int totalCandidatos = 0;
         private MsgBox msgBox;
         private Loading Loadingbox;
+        Image imageLoad;
 
         #endregion
 
-        public IdentificarActas()
+        public ModificarActas()
         {
             InitializeComponent();
-            this.Activated += IdentificarActas_Activated;
+            this.Activated += ModificarActas_Activated;
+            this.cargarComboSeccion();
         }
 
-        private void IdentificarActas_Activated(object sender, EventArgs e)
+        private void ModificarActas_Activated(object sender, EventArgs e)
         {
             if (Loadingbox != null)
             {
@@ -47,16 +50,15 @@ namespace Sistema.RegistroActasLocal
 
         }
 
-        private void IdentificarActas_Load(object sender, EventArgs e)
+        private void ModificarActas_Load(object sender, EventArgs e)
         {
             imageBox.MouseWheel += new MouseEventHandler(DoNothing_MouseWheel);
 
         }
 
-        private void IdentificarActas_Shown(object sender, EventArgs e)
+        private void ModificarActas_Shown(object sender, EventArgs e)
         {
             this.MdiParent.WindowState = FormWindowState.Maximized;
-            this.cargarActaYaAsignada();
         }
 
 
@@ -68,53 +70,53 @@ namespace Sistema.RegistroActasLocal
 
         }
 
-        private void cargarActaYaAsignada()
+        private void cargarImagen()
         {
             try
             {
+                //iepcdgo.org\mario.canales
+                //var credentials = new NetworkCredential("mario.canales@IEPCDGO.org", "Iepc2018");
                 Loadingbox = new Loading(this, "Cargando");
                 Loadingbox.Show(this);
                 rgActas = new RegistroLocalGenerales();
-                sice_ar_documentos doc = rgActas.BuscarActaAsignada();
-                if (doc != null)
+                sice_ar_documentos documento = rgActas.getDocumentoCasilla(Convert.ToInt32(cmbCasilla.SelectedValue));
+                if (documento != null)
                 {
-                    this.btnTomarActa.Enabled = false;
-                    this.idDocumento = doc.id;
-                    flagCombo = 0;
-                    this.cargarComboSeccion();
-                    this.CargarImagen(doc);
+                    //ftp ftpClient = new ftp(Configuracion.NetworkFtp, Configuracion.User, Configuracion.Pass);
+                    imageLoad = null;
+                    this.idDocumento = documento.id;
+                    string curFile = @documento.ruta + documento.nombre;
+                    if (File.Exists(curFile))
+                    {
+                        imageLoad = new Bitmap(@documento.ruta + documento.nombre);
+                    }
+                    else
+                    {
+                        ftp ftpClient = new ftp(Configuracion.NetworkFtp, Configuracion.User, Configuracion.Pass);
+                        imageLoad = ftpClient.downloadImage(Configuracion.Repo + "/" + documento.nombre);
+                    }
+                    this.OpenImage(imageLoad);
+                    imageBox.Enabled = true;
+                    //Cargar imagenes de los filtros
                     Loadingbox.Close();
-                    flagCombo++;
-                    msgBox = new MsgBox(this, "Acta Asginada", "Atención", MessageBoxButtons.OK, "Ok");
-                    msgBox.ShowDialog();
+
+                    this.cargarComboSeccionNuevo();
                 }
-                Loadingbox.Close();
-                this.tableLayoutPanel2.Enabled = true;
+                else
+                {
+                    Loadingbox.Close();
+                    msgBox = new MsgBox(this, "Acta No Registrada", "Atención", MessageBoxButtons.OK, "Advertencia");
+                    msgBox.ShowDialog(this);
+                }
+
+
+
             }
             catch (Exception ex)
             {
                 Loadingbox.Close();
-                this.tableLayoutPanel2.Enabled = true;
                 msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
                 msgBox.ShowDialog(this);
-            }
-        }
-
-        private void CargarImagen(sice_ar_documentos documento)
-        {
-            try
-            {
-                //ftp ftpClient = new ftp(Configuracion.NetworkFtp, Configuracion.User, Configuracion.Pass);
-                Image imagen = new Bitmap(@documento.ruta+documento.nombre);
-                this.OpenImage(imagen);
-
-                this.btnGuardar.Enabled = true;
-                this.btnLegible.Enabled = true;
-
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al Cargar imagen");
             }
         }
 
@@ -147,11 +149,30 @@ namespace Sistema.RegistroActasLocal
             }
             catch (Exception ex)
             {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+        }
+
+        private void cargarComboSeccionNuevo()
+        {
+            try
+            {
+                cmbSeccionNuevo.DataSource = null;
+                cmbSeccionNuevo.DisplayMember = "Seccion";
+                cmbSeccionNuevo.ValueMember = "Seccion";
+
+                var seGp = sc.GroupBy(x => x.seccion, x => x.id, (seccion, idSe) => new { IdSeccion = idSe, Seccion = seccion }).Select(g => g.Seccion).ToList();
+                cmbSeccionNuevo.DataSource = seGp;
+                cmbSeccionNuevo.Enabled = true;
+
+                this.cargarComboCasillaNuevo();
+
+            }
+            catch (Exception ex)
+            {
                 throw ex;
             }
-
-
-
         }
 
         private void cargarComboCasilla()
@@ -169,8 +190,33 @@ namespace Sistema.RegistroActasLocal
                     cmbCasilla.DataSource = caGp;
                     //cmbCasilla.SelectedIndex = 1;
                     cmbCasilla.Enabled = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
-                    cmbCasilla.Enabled = true;
+        private void cargarComboCasillaNuevo()
+        {
+            try
+            {
+                if (sc != null)
+                {
+                    cmbCasillaNuevo.DataSource = null;
+                    cmbCasillaNuevo.DisplayMember = "casilla";
+                    cmbCasillaNuevo.ValueMember = "id";
+                    var caGp = (from p in this.sc where p.seccion == Convert.ToInt32(cmbSeccionNuevo.SelectedValue) select p).ToList();
+                    if(caGp.Count > 0)
+                    {
+                        int distrito = caGp[0].distrito;
+                        caGp.Insert(0, new SeccionCasillaConsecutivo() { id = 0, casilla = "Seleccionar Casilla" });
+                        cmbCasillaNuevo.DataSource = caGp;
+                        //cmbCasilla.SelectedIndex = 1;
+                        cmbCasillaNuevo.Enabled = true;
+                    }
+                    
                 }
             }
             catch (Exception ex)
@@ -184,34 +230,43 @@ namespace Sistema.RegistroActasLocal
         {
             try
             {
-                rgActas = new RegistroLocalGenerales();
-                int res = rgActas.verificarCasillaValida(Convert.ToInt32(cmbCasilla.SelectedValue));
-                if(res != 0)
+                int? casillaNuevoSel = Convert.ToInt32(cmbCasillaNuevo.SelectedValue);
+                int casillaActual = Convert.ToInt32(cmbCasilla.SelectedValue);
+                if (Convert.ToInt32(cmbCasillaNuevo.SelectedValue) == casillaActual)
                 {
-                    string estatus = "";
-                    if (res == 1)
-                        estatus = "COTEJO";
-                    else
-                        estatus = "VALIDO";
-                    msgBox = new MsgBox(this.MdiParent, "Casilla ya Registrada y en estatus: " + estatus+"\n¿Asginar esta casilla al documento Actual?", "Atención", MessageBoxButtons.YesNo, "Advertencia");
-                    DialogResult result = msgBox.ShowDialog(this);
-                    if (result == DialogResult.No)
+                    cmbCasillaNuevo.SelectedIndex = 0;
+                    throw new Exception("Debe seleccionar una casilla diferente a la original del Acta");
+                }
+                    
+                rgActas = new RegistroLocalGenerales();
+                if(casillaNuevoSel != 0)
+                {
+                    int res = rgActas.verificarCasillaValida((int)casillaNuevoSel);
+                    if (res != 0)
                     {
-                        cmbCasilla.SelectedIndex = 0;
-                        this.btnGuardar.Enabled = false;
-                        this.btnLegible.Enabled = false;
+                        string estatus = "";
+                        if (res == 1)
+                            estatus = "COTEJO";
+                        else
+                            estatus = "VALIDO";
+                        msgBox = new MsgBox(this.MdiParent, "Casilla ya Registrada y en estatus: " + estatus + "\n¿Asginar esta casilla al documento Actual?", "Atención", MessageBoxButtons.YesNo, "Advertencia");
+                        DialogResult result = msgBox.ShowDialog(this);
+                        if (result == DialogResult.No)
+                        {
+                            cmbCasillaNuevo.SelectedIndex = 0;
+                            this.btnGuardar.Enabled = false;
+                        }
+                        else
+                        {
+                            this.btnGuardar.Enabled = true;
+                        }
                     }
                     else
                     {
                         this.btnGuardar.Enabled = true;
-                        this.btnLegible.Enabled = true;
                     }
                 }
-                else
-                {
-                    this.btnGuardar.Enabled = true;
-                    this.btnLegible.Enabled = true;
-                }
+                
             }
             catch (Exception ex)
             {
@@ -249,16 +304,16 @@ namespace Sistema.RegistroActasLocal
             }
         }
 
-        
+
 
         private void guardarRegistroVotos()
         {
             try
-            {                
-                int id_casilla = Convert.ToInt32(cmbCasilla.SelectedValue);
+            {
+                int id_casilla = Convert.ToInt32(cmbCasillaNuevo.SelectedValue);
                 if (id_casilla == 0)
-                    throw new Exception("Selecciona una Casilla");                
-                
+                    throw new Exception("Selecciona una Casilla");
+
                 rgActas = new RegistroLocalGenerales();
                 int res = rgActas.IdentificarActa(this.idDocumento, id_casilla);
                 switch (res)
@@ -273,7 +328,7 @@ namespace Sistema.RegistroActasLocal
                 }
                 this.BloquearControles();
 
-                
+
 
             }
             catch (Exception ex)
@@ -287,16 +342,15 @@ namespace Sistema.RegistroActasLocal
 
         private void BloquearControles()
         {
+            cmbSeccion.SelectedIndex = 0;
             this.btnGuardar.Enabled = false;
-            this.btnLegible.Enabled = false;
-            this.btnTomarActa.Enabled = true;
-            this.cmbCasilla.Enabled = false;
-            this.cmbSeccion.Enabled = false;
+            this.cmbCasillaNuevo.Enabled = false;
+            this.cmbSeccionNuevo.Enabled = false;
             imageBox.Image = null;
 
         }
 
-        
+
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -517,19 +571,20 @@ namespace Sistema.RegistroActasLocal
 
         private void cmbSeccion_SelectedValueChanged(object sender, EventArgs e)
         {
-            //this.cargarComboCasilla();
-            if (flagCombo > 0)
-            {
-                //this.ClearDataTable();
-                this.cargarComboCasilla();
-            }
+            cmbSeccionNuevo.Enabled = false;
+            cmbCasillaNuevo.Enabled = false;
+            var data = cmbSeccionNuevo.DataSource;
+            if(data != null)
+                cmbSeccionNuevo.SelectedIndex = 0;
+            this.cargarComboCasilla();
+
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             try
             {
-                int id_casilla = Convert.ToInt32(cmbCasilla.SelectedValue);
+                int id_casilla = Convert.ToInt32(cmbCasillaNuevo.SelectedValue);
                 if (id_casilla == 0)
                     throw new Exception("Selecciona una Casilla");
                 msgBox = new MsgBox(this.MdiParent, "¿Guardar datos del Acta?", "Atención", MessageBoxButtons.YesNo, "Question");
@@ -548,60 +603,20 @@ namespace Sistema.RegistroActasLocal
         }
 
         #endregion
-
-        private void btnTomarActa_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Loadingbox = new Loading(this, "Cargando");
-                Loadingbox.Show(this);
-                rgActas = new RegistroLocalGenerales();
-                sice_ar_documentos res = rgActas.TomarActa();
-                this.btnTomarActa.Enabled = false;
-                if (res != null)
-                {
-                    //this.ClearDataTable();
-                    this.idDocumento = res.id;
-                    flagCombo = 0;
-                    this.cargarComboSeccion();
-                    this.CargarImagen(res);
-                    Loadingbox.Close();
-                    flagCombo++;
-                    msgBox = new MsgBox(this, "Acta Asignada", "Atención", MessageBoxButtons.OK, "Ok");
-                    msgBox.ShowDialog(this);
-                }
-                else
-                {
-                    btnTomarActa.Enabled = true;
-                    Loadingbox.Close();
-                    //throw new Exception("No hay Actas disponibles");                   
-                    msgBox = new MsgBox(this, "No hay actas disponibles", "Atención", MessageBoxButtons.OK, "Advertencia");
-                    msgBox.ShowDialog(this);
-
-                }
-
-
-
-            }
-            catch (Exception ex)
-            {
-                Loadingbox.Close();
-                this.BloquearControles();
-                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
-                msgBox.ShowDialog(this);
-            }
-
-
-
-        }
+        
 
         private void cmbCasilla_SelectedValueChanged_1(object sender, EventArgs e)
         {
             try
             {
+                //int? selected = Convert.ToInt32(cmbCasilla.SelectedValue);
+                //if (selected != null && selected != 0)
+                //    this.verificarCasilla();
+                imageBox.Image = null;
+                imageBox.Enabled = false;
                 int? selected = Convert.ToInt32(cmbCasilla.SelectedValue);
                 if (selected != null && selected != 0)
-                    this.verificarCasilla();
+                    this.cargarImagen();
             }
             catch (Exception ex)
             {
@@ -642,6 +657,27 @@ namespace Sistema.RegistroActasLocal
         private void Loadingbox_Activated(object sender, EventArgs e)
         {
             Loadingbox.Activate();
+        }
+
+        private void cmbSeccionNuevo_SelectedValueChanged(object sender, EventArgs e)
+        {
+            this.cargarComboCasillaNuevo();
+        }
+
+        private void cmbSeccionNueva_SelectedValueChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                this.btnGuardar.Enabled = false;
+                int? selected = Convert.ToInt32(cmbCasilla.SelectedValue);
+                if (selected != null && selected != 0)
+                    this.verificarCasilla();
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
         }
     }
 

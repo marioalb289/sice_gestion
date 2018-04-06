@@ -10,11 +10,24 @@ namespace Sistema.Generales
 {
     public class RegistroLocalGenerales
     {
+        private string con = "MYSQLOCAL";
+
+        public RegistroLocalGenerales()
+        {
+            if (LoginInfo.privilegios == 6)
+            {
+                con = "MYSQLSERVER";
+            }
+            else
+            {
+                con = "MYSQLOCAL";
+            }
+        }
         public List<SeccionCasillaConsecutivo> ListaSescciones()
         {
             try
             {
-                using (DatabaseContext contexto = new DatabaseContext("MYSQLOCAL"))
+                using (DatabaseContext contexto = new DatabaseContext(con))
                 {
                     string consulta =
                         "SELECT C.* FROM sice_casillas C " +
@@ -40,11 +53,25 @@ namespace Sistema.Generales
             { throw E; }
         }
 
+        public List<sice_distritos_locales> ListaDistritos()
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    return (from d in contexto.sice_distritos_locales select d).ToList();
+                }
+
+            }
+            catch (Exception E)
+            { throw E; }
+        }
+
         public sice_ar_documentos BuscarActaAsignada()
         {
             try
             {
-                using (DatabaseContext contexto = new DatabaseContext("MYSQLOCAL"))
+                using (DatabaseContext contexto = new DatabaseContext(con))
                 {
                     sice_ar_documentos documento = (from doc in contexto.sice_ar_documentos join asig in contexto.sice_ar_asignacion on doc.id equals asig.id_documento where doc.estatus == "OCUPADO" && asig.id_usuario == LoginInfo.id_usuario select doc).FirstOrDefault();
                     return documento;
@@ -60,7 +87,7 @@ namespace Sistema.Generales
         {
             try
             {
-                using (DatabaseContext contexto = new DatabaseContext("MYSQLOCAL"))
+                using (DatabaseContext contexto = new DatabaseContext(con))
                 {
                     sice_ar_documentos casilla = (from doc in contexto.sice_ar_documentos where doc.id_casilla == id_casilla && (doc.estatus == "VALIDO" || doc.estatus == "COTEJO") select doc).FirstOrDefault();
                     if (casilla != null)
@@ -84,8 +111,8 @@ namespace Sistema.Generales
         public int verificarCasillaRegistrada(int id_casilla)
         {
             try
-            {
-                using (DatabaseContext contexto = new DatabaseContext("MYSQLOCAL"))
+            {                
+                using (DatabaseContext contexto = new DatabaseContext(con))
                 {
                     sice_ar_reserva reserva = (from r in contexto.sice_ar_reserva where (r.tipo_reserva == "ATENDIDO" || r.tipo_reserva == "NO LEGIBLE") && r.id_casilla == id_casilla select r).FirstOrDefault();
                     if (reserva != null)
@@ -107,7 +134,7 @@ namespace Sistema.Generales
         {
             try
             {
-                using (DatabaseContext contexto = new DatabaseContext("MYSQLOCAL"))
+                using (DatabaseContext contexto = new DatabaseContext(con))
                 {
                     return (from p in contexto.sice_ar_documentos where p.id_casilla == id_casilla select p).FirstOrDefault();
                     //return contexto.sice_casillas.Select(x => new SeccionCasilla { id = x.id, seccion = (int)x.seccion, casilla = (string)x.tipo_casilla }).ToList();
@@ -123,7 +150,7 @@ namespace Sistema.Generales
         {
             try
             {
-                using (DatabaseContext contexto = new DatabaseContext("MYSQLOCAL"))
+                using (DatabaseContext contexto = new DatabaseContext(con))
                 {
                     string consulta =
                         "SELECT " +
@@ -143,11 +170,89 @@ namespace Sistema.Generales
             { throw E; }
         }
 
+        public List<VotosSeccion> ResultadosSeccionCaptura(int pageNumber = 0, int pageSize = 0, int id_distrito_local = 0)
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    string condicion = "";
+                    string limit = "";
+                    if (pageSize != 0)
+                        limit = "LIMIT " + pageNumber + "," + pageSize;
+                    if (id_distrito_local != 0)
+                        condicion = " AND C.id_distrito_local = " + id_distrito_local + " ";
+                    string consulta =
+                        "SELECT " +
+                            "C.seccion," +
+                            "RV.id_casilla," +
+                            "C.tipo_casilla as casilla," +
+                            "C.lista_nominal," +
+                            "RV.id_candidato," +
+                            "RV.votos," +
+                            "RV.tipo," +
+                            "CONCAT(CND.nombre, ' ', CND.apellido_paterno, ' ', CND.apellido_materno) as candidato," +
+                            "P.siglas_par as partido," +
+                            "P.img_par as imagen," +
+                            "C.id_distrito_local as distrito_local," +
+                            "M.municipio," +
+                            "M2.municipio AS cabecera_local " +
+                        "FROM sice_ar_votos_cotejo RV " +
+                        "LEFT JOIN sice_candidatos CND ON CND.id = RV.id_candidato " +
+                        "LEFT JOIN sice_partidos_politicos P ON P.id = CND.fk_partido " +
+                        "JOIN sice_casillas C ON C.id = RV.id_casilla " + condicion +
+                        "JOIN sice_municipios M ON M.id = C.id_municipio " +
+                        "JOIN sice_municipios M2 ON M2.id = C.id_cabecera_local " +
+                        "ORDER BY C.seccion ASC, RV.id_casilla ASC, RV.id_candidato DESC " +
+                        limit;
+
+                    return contexto.Database.SqlQuery<VotosSeccion>(consulta).ToList();
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public int ResultadosSeccionCapturaTotal(int pageNumber = 0, int pageSize = 0, int id_distrito_local = 0)
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    string condicion = "";
+                    if (id_distrito_local != 0)
+                        condicion = " AND C.id_distrito_local = " + id_distrito_local + " ";
+                    string consulta =
+                        "SELECT " +
+                            "COUNT(RV.id) as total " +
+                        "FROM sice_ar_votos_cotejo RV " +
+                        "LEFT JOIN sice_candidatos CND ON CND.id = RV.id_candidato " +
+                        "LEFT JOIN sice_partidos_politicos P ON P.id = CND.fk_partido " +
+                        "JOIN sice_casillas C ON C.id = RV.id_casilla " + condicion +
+                        "JOIN sice_municipios M ON M.id = C.id_municipio " +
+                        "JOIN sice_municipios M2 ON M2.id = C.id_cabecera_local " +
+                        "ORDER BY C.seccion ASC, RV.id_casilla ASC, RV.id_candidato DESC ";
+
+                    return contexto.Database.SqlQuery<int>(consulta).FirstOrDefault();
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public List<CandidatosVotos> ListaResultadosCasilla(int casilla, string tabla = "")
         {
             try
             {
-                using (DatabaseContext contexto = new DatabaseContext("MYSQLOCAL"))
+                using (DatabaseContext contexto = new DatabaseContext(con))
                 {
                     if (tabla == "")
                         tabla = "sice_ar_votos";
@@ -181,7 +286,7 @@ namespace Sistema.Generales
             try
             {
                 //Buscar que el arcivo no se encuentre ya registrado
-                using (DatabaseContext contexto = new DatabaseContext("MYSQLOCAL"))
+                using (DatabaseContext contexto = new DatabaseContext(con))
                 {
                     using (var TransactionContexto = new TransactionScope())
                     {
@@ -222,7 +327,7 @@ namespace Sistema.Generales
         {
             try
             {
-                using (DatabaseContext contexto = new DatabaseContext("MYSQLOCAL"))
+                using (DatabaseContext contexto = new DatabaseContext(con))
                 {
                     using (var TransactionContexto = new TransactionScope())
                     {
@@ -273,7 +378,7 @@ namespace Sistema.Generales
         {
             try
             {
-                using (DatabaseContext contexto = new DatabaseContext("MYSQLOCAL"))
+                using (DatabaseContext contexto = new DatabaseContext(con))
                 {
                     using (var TransactionContexto = new TransactionScope())
                     {
@@ -329,6 +434,18 @@ namespace Sistema.Generales
 
             }
             catch (Exception E)
+            {
+                throw E;
+            }
+        }
+
+        public int DescargarDatos(int distrito)
+        {
+            try
+            {
+                return 1;
+            }
+            catch(Exception E)
             {
                 throw E;
             }

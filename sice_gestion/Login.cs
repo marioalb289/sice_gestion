@@ -136,7 +136,9 @@ namespace sice_gestion
                     pass = CheckLogin.GetMd5Hash(md5Hash, txtContrasena.Text);
                 }
 
-                int res = chk.check(usuario, pass);
+                int res = chk.checkLocal(usuario, pass);
+                if (res == 4)
+                    res = chk.checkServer(usuario,pass);
                 if (res == 1)
                 {
                     this.Hide();
@@ -165,7 +167,7 @@ namespace sice_gestion
                     msgBox.ShowDialog(this);
                     break;
                 case 2:
-                    msgBox = new MsgBox(this, "No hay Conexion. \n Trabajndo en modo SIN CONEXIÓN", "Atención", MessageBoxButtons.OK, "Informacion");
+                    msgBox = new MsgBox(this, "Error al conectar con la Base de Datos", "Atención", MessageBoxButtons.OK, "Error");
                     msgBox.ShowDialog(this);
                     //MessageBox.Show("No hay Conexion. \n Trabajndo en modo SIN CONEXIÓN");
                     //this.recargar();

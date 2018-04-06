@@ -9,12 +9,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Sistema.DataModel;
+using System.Threading;
 
 namespace Sistema.RegistroActasLocal
 {
     public partial class Reportes : Form
     {
-        private RegistroActasGenerales rgActas;
+        private RegistroLocalGenerales rgActas;
         private MsgBox msgBox;
         private int pageNumber = 1;
         private int totalPages = 0;
@@ -25,11 +26,25 @@ namespace Sistema.RegistroActasLocal
             this.cargarComboDistrito();
         }
 
+        private int EjecutarProceso(int distrito)
+        {
+            try
+            {
+                Thread.Sleep(5000);
+                rgActas = new RegistroLocalGenerales();
+                return rgActas.DescargarDatos(distrito);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         private void cargarComboDistrito()
         {
             try
             {
-                rgActas = new RegistroActasGenerales();
+                rgActas = new RegistroLocalGenerales();
                 List<sice_distritos_locales> ds = rgActas.ListaDistritos();
                 ds.Insert(0, new sice_distritos_locales() { id = 0, distrito = "Seleccionar Distrito" });
                 //ds.Insert(1, new sice_distritos_locales() { id = 0, distrito = "TODOS" });
@@ -50,9 +65,9 @@ namespace Sistema.RegistroActasLocal
         {
             try
             {
-                rgActas = new RegistroActasGenerales();
+                rgActas = new RegistroLocalGenerales();
                 int totalCandidatos = rgActas.ListaCandidatos((int)distrito).Count + 2;
-                totalPages = rgActas.ResultadosSeccion(0, 0, (int)distrito).Count / totalCandidatos;
+                totalPages = rgActas.ResultadosSeccionCapturaTotal(0, 0, (int)distrito) / totalCandidatos;
                 if (totalPages > 0)
                 {
                     double res = (double)totalPages / (double)pageSize;
@@ -74,7 +89,7 @@ namespace Sistema.RegistroActasLocal
         {
             try
             {
-                List<VotosSeccion> vSeccion = rgActas.ResultadosSeccion(pageNumber, pageSize, (int)distrito);
+                List<VotosSeccion> vSeccion = rgActas.ResultadosSeccionCaptura(pageNumber, pageSize, (int)distrito);
                 List<Candidatos> candidatos = rgActas.ListaCandidatos((int)distrito);
                 dgvResultados.Columns.Clear();
                 dgvResultados.DataSource = null;
@@ -444,6 +459,91 @@ namespace Sistema.RegistroActasLocal
                 msgBox.ShowDialog(this);
             }
 
+        }
+
+        int res_descarga = 0;
+
+        public void buscarControl(Control.ControlCollection controles)
+        {
+            try
+            {
+                foreach (Control item in controles)
+                {
+                    string name = item.Name.ToString();
+                    if(name == "lblDescarga")
+                    {
+                        item.Text = "Descargando Datos";
+                        Console.WriteLine("Texto: "+item.Text);
+                        break;
+                    }
+
+                    if (item.HasChildren)
+                        buscarControl(item.Controls);
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        private void btnDescargar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Control.ControlCollection controles = null;
+                controles = this.MdiParent.Controls;
+                this.buscarControl(controles);
+                
+
+                int? selected = Convert.ToInt32(cmbDistrito.SelectedValue);
+                if (selected > 0 && selected != null)
+                {
+                    //btnDescargar.Enabled = false;
+                    ////Creamos el delegado 
+                    //ThreadStart delegado = new ThreadStart(() => EjecutarProceso((int)selected));
+                    //delegado += () => {
+                    //    // Do what you want in the callback
+                    //    //this.btnDescargar.Enabled = true;
+                    //    msgBox = new MsgBox(this, "Proceso de Descarga Completo: ", "Atención", MessageBoxButtons.OK, "Advertencia");
+                    //    msgBox.ShowDialog(this);
+                    //};
+                    ////Creamos la instancia del hilo 
+                    //Thread hilo = new Thread(delegado) { IsBackground = true };
+                    ////Iniciamos el hilo 
+                    //hilo.Start();
+
+                    Thread thread = new Thread(() =>
+                    {
+                        res_descarga = EjecutarProceso(1);
+                        // Action delegate points to SetLabelTextProperty method
+                        // Signature of SetLabelTextProperty() method should match
+                        // with the signature of Action delegate
+                        Action action = new Action(showMesage);
+                        this.BeginInvoke(action);
+                    });
+                    thread.Start();
+
+                    msgBox = new MsgBox(this, "Descargando datos", "Atención", MessageBoxButtons.OK, "Error");
+                    msgBox.ShowDialog(this);
+
+
+                }
+                    
+
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }           
+        }
+
+        private void showMesage()
+        {
+            msgBox = new MsgBox(this, "Descarga Completa", "Atención", MessageBoxButtons.OK, "Error");
+            msgBox.ShowDialog(this);
         }
     }
 }

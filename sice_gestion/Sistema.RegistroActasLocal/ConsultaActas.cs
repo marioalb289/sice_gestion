@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Printing;
 using System.IO;
@@ -125,6 +126,8 @@ namespace Sistema.RegistroActasLocal
             imageBox.Image = null;
             imageBox.Enabled = false;
             this.btnGuardar.Enabled = false;
+            this.btnImprimir.Enabled = false;
+            this.btnGirar.Enabled = false;
             
         }
 
@@ -142,7 +145,7 @@ namespace Sistema.RegistroActasLocal
                 {
                     //ftp ftpClient = new ftp(Configuracion.NetworkFtp, Configuracion.User, Configuracion.Pass);
                     imageLoad = null;
-                    string curFile = @documento.ruta +"hola"+ documento.nombre;
+                    string curFile = @documento.ruta + documento.nombre;
                     if (File.Exists(curFile))
                     {
                         imageLoad = new Bitmap(@documento.ruta + documento.nombre);
@@ -151,11 +154,13 @@ namespace Sistema.RegistroActasLocal
                     {
                         ftp ftpClient = new ftp(Configuracion.NetworkFtp, Configuracion.User, Configuracion.Pass);
                         imageLoad = ftpClient.downloadImage(Configuracion.Repo + "/" + documento.nombre);
-                    }
+                    }   
                     this.OpenImage(imageLoad);
                     this.nameImageLoad = documento.nombre;
                     imageBox.Enabled = true;
                     btnGuardar.Enabled = true;
+                    btnGirar.Enabled = true;
+                    btnImprimir.Enabled = true;
                     //Limpiar tablas y cargar datos de votos
                     this.ClearDataTable();
                     //Cargar imagenes de los filtros
@@ -351,7 +356,6 @@ namespace Sistema.RegistroActasLocal
                 throw ex;
             }
         }
-
 
         private void OpenImage(Image image)
         {
@@ -594,21 +598,96 @@ namespace Sistema.RegistroActasLocal
 
         private void ConsultaActas_Shown(object sender, EventArgs e)
         {
-            this.MdiParent.WindowState = FormWindowState.Maximized;
+            //this.MdiParent.WindowState = FormWindowState.Maximized;
         }
+
+        Bitmap bmp;
 
         private void btnImprimir_Click(object sender, EventArgs e)
         {
             try
             {
-                PrintDocument pd = new PrintDocument();
-                pd.PrintPage += PrintPage;
-                pd.Print();
+                Graphics g = this.CreateGraphics();
+                bmp = (Bitmap)this.imageLoad;
+                if(bmp.Width < bmp.Height)
+                {
+                    bmp.RotateFlip(RotateFlipType.Rotate90FlipXY);
+                }
+
+                PrinterSettings ps_Current = new PrinterSettings();
+
+                Graphics ng = Graphics.FromImage(bmp);
+                this.printDocument1.DefaultPageSettings.Landscape = true;
+                this.printDocument1.DefaultPageSettings.PaperSize = new PaperSize("Legal",800,1350);
+                this.printDocument1.DefaultPageSettings.Margins.Left = 5;
+                //ng.CopyFromScreen(this.Location.X, this.Location.Y,0,0, this.Size);
+
+                ToolStripButton b = new ToolStripButton();
+                b.ToolTipText = "Imprimir";
+                b.Image = Properties.Resources.print2;
+                b.DisplayStyle = ToolStripItemDisplayStyle.Image;
+                b.Click += printPreview_PrintClick;
+                ((ToolStrip)(printPreviewDialog2.Controls[1])).Items.RemoveAt(0);
+                ((ToolStrip)(printPreviewDialog2.Controls[1])).Items.Insert(0, b);
+
+                ((Form)printPreviewDialog2).WindowState = FormWindowState.Maximized;
+                printPreviewDialog2.ShowDialog();
             }
             catch(Exception ex)
             {
                 msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
                 msgBox.ShowDialog(this);
+            }
+        }
+
+        private void printPreview_PrintClick(object sender, EventArgs e)
+        {
+            try
+            {
+                printDialog1.Document = printDocument1;
+                if (printDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    printDocument1.Print();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ToString());
+            }
+        }
+
+        private void printDocument1_PrintPage(object sender, PrintPageEventArgs e)
+        {
+            try
+            {
+                //Se ajusta la imagen para que quepa en hoja 
+                double cmToUnits = 100 / 2.54;
+                e.Graphics.DrawImage(bmp, 20, 10, (float)(34 * cmToUnits), (float)(18 * cmToUnits));
+
+                //e.Graphics.DrawImage(bmp,20,10);
+            }
+            catch(Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+
+            
+        }
+
+        private void btnGirar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                imageLoad.RotateFlip(RotateFlipType.Rotate90FlipXY);
+
+
+                if (imageLoad != null)
+                    this.OpenImage(imageLoad);
+            }
+            catch(Exception ex)
+            {
+
             }
         }
     }

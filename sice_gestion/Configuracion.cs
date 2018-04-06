@@ -52,10 +52,7 @@ namespace sice_gestion
                 //Creamos la instancia del hilo 
                 Thread hilo = new Thread(delegado) { IsBackground = true };
                 //Iniciamos el hilo 
-                hilo.Start();
-
-                
-                
+                hilo.Start();                
                 
             }
             catch(Exception ex)

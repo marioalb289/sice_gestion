@@ -11,13 +11,57 @@ namespace Sistema.Generales
 {
     public class CheckLogin
     {
-        public int check(string usuario, string contrasena)
+        public int checkLocal(string usuario, string contrasena)
         {
             try
             {
                 //return 1;
                // usuario = "23636b9887b68ebaaaf7b25e1af762e4";
                //contrasena = "e10adc3949ba59abbe56e057f20f883e";
+                using (DatabaseContext contexto = new DatabaseContext("MYSQLOCAL"))
+                {
+                    sice_usuarios usr = (from i in contexto.sice_usuarios where i.correo == usuario && i.contrasena == contrasena select i).FirstOrDefault();
+                    if (usr != null)
+                    {
+                        LoginInfo.id_usuario = usr.id;
+                        LoginInfo.nombre = usr.nombre;
+                        LoginInfo.apellido = usr.apellido;
+                        LoginInfo.id_municipio = usr.id_municipio;
+                        LoginInfo.privilegios = usr.privilegios;
+                        LoginInfo.id_cabecera_local = usr.id_municipio;
+                        return 1;
+                    }
+
+                    return 0;
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                string innerEx = ex.InnerException.Message;
+                //if (innerEx == "Unable to connect to any of the specified MySQL hosts.")
+                //{
+                //    return 2;
+                //}
+                //else
+                //{
+                //    return 3;
+                //}
+                return 4;
+
+
+            }
+
+        }
+
+        public int checkServer(string usuario, string contrasena)
+        {
+            try
+            {
+                //return 1;
+                // usuario = "23636b9887b68ebaaaf7b25e1af762e4";
+                //contrasena = "e10adc3949ba59abbe56e057f20f883e";
                 using (DatabaseContext contexto = new DatabaseContext("MYSQLSERVER"))
                 {
                     sice_usuarios usr = (from i in contexto.sice_usuarios where i.correo == usuario && i.contrasena == contrasena select i).FirstOrDefault();
@@ -29,6 +73,9 @@ namespace Sistema.Generales
                         LoginInfo.id_municipio = usr.id_municipio;
                         LoginInfo.privilegios = usr.privilegios;
                         LoginInfo.id_cabecera_local = usr.id_municipio;
+
+                        if (usr.privilegios == 5 || usr.privilegios == 4)
+                            return 2;
                         return 1;
                     }
 

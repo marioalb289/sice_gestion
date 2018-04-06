@@ -37,7 +37,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.lblListaNominal = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
+            this.lblNominal = new System.Windows.Forms.Label();
             this.cmbCasilla = new System.Windows.Forms.ComboBox();
             this.cmbSeccion = new System.Windows.Forms.ComboBox();
             this.panel5 = new System.Windows.Forms.Panel();
@@ -112,8 +112,8 @@
             this.tblPanaelPartidos.Name = "tblPanaelPartidos";
             this.tblPanaelPartidos.Padding = new System.Windows.Forms.Padding(40, 0, 40, 0);
             this.tblPanaelPartidos.RowCount = 1;
-            this.tblPanaelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 111F));
-            this.tblPanaelPartidos.Size = new System.Drawing.Size(1018, 115);
+            this.tblPanaelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 113F));
+            this.tblPanaelPartidos.Size = new System.Drawing.Size(1018, 117);
             this.tblPanaelPartidos.TabIndex = 13;
             // 
             // pnlTableTitulo
@@ -123,7 +123,7 @@
             this.pnlTableTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableTitulo.Location = new System.Drawing.Point(45, 5);
             this.pnlTableTitulo.Name = "pnlTableTitulo";
-            this.pnlTableTitulo.Size = new System.Drawing.Size(460, 105);
+            this.pnlTableTitulo.Size = new System.Drawing.Size(460, 107);
             this.pnlTableTitulo.TabIndex = 39;
             // 
             // label4
@@ -145,7 +145,7 @@
             this.pnlTableVotos.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableVotos.Location = new System.Drawing.Point(513, 5);
             this.pnlTableVotos.Name = "pnlTableVotos";
-            this.pnlTableVotos.Size = new System.Drawing.Size(460, 105);
+            this.pnlTableVotos.Size = new System.Drawing.Size(460, 107);
             this.pnlTableVotos.TabIndex = 41;
             // 
             // label5
@@ -168,7 +168,7 @@
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
             this.tableLayoutPanel3.Controls.Add(this.lblListaNominal, 2, 1);
-            this.tableLayoutPanel3.Controls.Add(this.label7, 2, 0);
+            this.tableLayoutPanel3.Controls.Add(this.lblNominal, 2, 0);
             this.tableLayoutPanel3.Controls.Add(this.cmbCasilla, 1, 1);
             this.tableLayoutPanel3.Controls.Add(this.cmbSeccion, 0, 1);
             this.tableLayoutPanel3.Controls.Add(this.panel5, 3, 1);
@@ -197,18 +197,18 @@
             this.lblListaNominal.TabIndex = 23;
             this.lblListaNominal.Text = "No.";
             // 
-            // label7
+            // lblNominal
             // 
-            this.label7.AutoSize = true;
-            this.label7.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(411, 6);
-            this.label7.Name = "label7";
-            this.label7.Padding = new System.Windows.Forms.Padding(10);
-            this.label7.Size = new System.Drawing.Size(198, 44);
-            this.label7.TabIndex = 17;
-            this.label7.Text = "L. Nominal:";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.lblNominal.AutoSize = true;
+            this.lblNominal.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lblNominal.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNominal.Location = new System.Drawing.Point(411, 6);
+            this.lblNominal.Name = "lblNominal";
+            this.lblNominal.Padding = new System.Windows.Forms.Padding(10);
+            this.lblNominal.Size = new System.Drawing.Size(198, 44);
+            this.lblNominal.TabIndex = 17;
+            this.lblNominal.Text = "L. Nominal:";
+            this.lblNominal.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // cmbCasilla
             // 
@@ -455,7 +455,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Panel pnlTableVotos;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label lblListaNominal;
+        public System.Windows.Forms.Label lblNominal;
     }
 }

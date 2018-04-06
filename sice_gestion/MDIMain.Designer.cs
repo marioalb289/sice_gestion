@@ -28,61 +28,48 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MDIMain));
-            this.statusStrip = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.notifyActas = new System.Windows.Forms.NotifyIcon(this.components);
-            this.statusStrip.SuspendLayout();
+            this.lblDescarga = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // statusStrip
+            // lblDescarga
             // 
-            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel});
-            this.statusStrip.Location = new System.Drawing.Point(0, 707);
-            this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(1008, 22);
-            this.statusStrip.TabIndex = 2;
-            this.statusStrip.Text = "StatusStrip";
+            this.lblDescarga.AutoSize = true;
+            this.lblDescarga.Location = new System.Drawing.Point(436, 9);
+            this.lblDescarga.Name = "lblDescarga";
+            this.lblDescarga.Size = new System.Drawing.Size(40, 13);
+            this.lblDescarga.TabIndex = 0;
+            this.lblDescarga.Text = "Espera";
             // 
-            // toolStripStatusLabel
+            // panel1
             // 
-            this.toolStripStatusLabel.Name = "toolStripStatusLabel";
-            this.toolStripStatusLabel.Size = new System.Drawing.Size(42, 17);
-            this.toolStripStatusLabel.Text = "Estado";
-            // 
-            // notifyActas
-            // 
-            this.notifyActas.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyActas.Icon")));
-            this.notifyActas.Text = "notifyIcon1";
-            this.notifyActas.Visible = true;
-            this.notifyActas.Click += new System.EventHandler(this.notifyActas_Click_1);
-            this.notifyActas.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyActas_MouseDoubleClick);
+            this.panel1.Controls.Add(this.lblDescarga);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1008, 32);
+            this.panel1.TabIndex = 4;
             // 
             // MDIMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1008, 729);
-            this.Controls.Add(this.statusStrip);
+            this.Controls.Add(this.panel1);
             this.IsMdiContainer = true;
             this.Name = "MDIMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MDIMain";
             this.Load += new System.EventHandler(this.MDIMain_Load);
-            this.statusStrip.ResumeLayout(false);
-            this.statusStrip.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
         #endregion
-        private System.Windows.Forms.StatusStrip statusStrip;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
-        private System.Windows.Forms.ToolTip toolTip;
-        private System.Windows.Forms.NotifyIcon notifyActas;
+        public System.Windows.Forms.Label lblDescarga;
+        private System.Windows.Forms.Panel panel1;
     }
 }
 

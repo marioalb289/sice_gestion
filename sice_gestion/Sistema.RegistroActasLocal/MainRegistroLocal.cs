@@ -28,10 +28,6 @@ namespace Sistema.RegistroActasLocal
                 {
                     case 5:
                         this.btnIdentificar.Enabled = true;
-                        this.btnRegistrarActas.Enabled = false;
-                        break;
-                    case 6:
-                        this.btnIdentificar.Enabled = false;
                         this.btnRegistrarActas.Enabled = true;
                         break;
                     default:
@@ -131,7 +127,7 @@ namespace Sistema.RegistroActasLocal
         private void btnIdentificar_Click(object sender, EventArgs e)
         {
             this.Hide();
-            IdentificarActas form3 = new IdentificarActas();
+            MainIdentificarActas form3 = new MainIdentificarActas();
             form3.MdiParent = this.MdiParent;
             form3.Dock = DockStyle.Fill;
             form3.FormClosed += Form_FormClosed;

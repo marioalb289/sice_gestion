@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConsultaActas));
             this.panel2 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tblPanaelPartidos = new System.Windows.Forms.TableLayoutPanel();
@@ -40,6 +41,7 @@
             this.cmbCasilla = new System.Windows.Forms.ComboBox();
             this.cmbSeccion = new System.Windows.Forms.ComboBox();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.btnGirar = new System.Windows.Forms.Button();
             this.btnImprimir = new System.Windows.Forms.Button();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
@@ -52,6 +54,9 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.printDocument1 = new System.Drawing.Printing.PrintDocument();
+            this.printPreviewDialog2 = new System.Windows.Forms.PrintPreviewDialog();
+            this.printDialog1 = new System.Windows.Forms.PrintDialog();
             this.panel2.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tblPanaelPartidos.SuspendLayout();
@@ -86,14 +91,14 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.tableLayoutPanel2.Controls.Add(this.tblPanaelPartidos, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.tblPanaelPartidos, 2, 0);
             this.tableLayoutPanel2.Controls.Add(this.imageBox, 0, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 100);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 612F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 632F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(1163, 494);
             this.tableLayoutPanel2.TabIndex = 14;
             // 
@@ -113,8 +118,8 @@
             this.tblPanaelPartidos.Name = "tblPanaelPartidos";
             this.tblPanaelPartidos.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.tblPanaelPartidos.RowCount = 1;
-            this.tblPanaelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 99F));
-            this.tblPanaelPartidos.Size = new System.Drawing.Size(321, 103);
+            this.tblPanaelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 111F));
+            this.tblPanaelPartidos.Size = new System.Drawing.Size(321, 115);
             this.tblPanaelPartidos.TabIndex = 13;
             // 
             // pnlTableTitulo
@@ -124,7 +129,7 @@
             this.pnlTableTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableTitulo.Location = new System.Drawing.Point(15, 5);
             this.pnlTableTitulo.Name = "pnlTableTitulo";
-            this.pnlTableTitulo.Size = new System.Drawing.Size(141, 93);
+            this.pnlTableTitulo.Size = new System.Drawing.Size(141, 105);
             this.pnlTableTitulo.TabIndex = 39;
             // 
             // label4
@@ -146,7 +151,7 @@
             this.pnlTableVotos.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableVotos.Location = new System.Drawing.Point(164, 5);
             this.pnlTableVotos.Name = "pnlTableVotos";
-            this.pnlTableVotos.Size = new System.Drawing.Size(142, 93);
+            this.pnlTableVotos.Size = new System.Drawing.Size(142, 105);
             this.pnlTableVotos.TabIndex = 41;
             // 
             // label5
@@ -171,7 +176,7 @@
             this.imageBox.GridColorAlternate = System.Drawing.Color.Empty;
             this.imageBox.Location = new System.Drawing.Point(3, 3);
             this.imageBox.Name = "imageBox";
-            this.imageBox.Size = new System.Drawing.Size(808, 606);
+            this.imageBox.Size = new System.Drawing.Size(808, 626);
             this.imageBox.TabIndex = 12;
             this.imageBox.Selected += new System.EventHandler<System.EventArgs>(this.imageBox_Selected);
             this.imageBox.SelectionRegionChanged += new System.EventHandler(this.imageBox_SelectionRegionChanged);
@@ -231,6 +236,7 @@
             // 
             // panel5
             // 
+            this.panel5.Controls.Add(this.btnGirar);
             this.panel5.Controls.Add(this.btnImprimir);
             this.panel5.Controls.Add(this.btnGuardar);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -239,9 +245,23 @@
             this.panel5.Size = new System.Drawing.Size(343, 44);
             this.panel5.TabIndex = 14;
             // 
+            // btnGirar
+            // 
+            this.btnGirar.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnGirar.Enabled = false;
+            this.btnGirar.Location = new System.Drawing.Point(118, 0);
+            this.btnGirar.Name = "btnGirar";
+            this.btnGirar.Size = new System.Drawing.Size(75, 44);
+            this.btnGirar.TabIndex = 26;
+            this.btnGirar.TabStop = false;
+            this.btnGirar.Text = "Girar Imagen";
+            this.btnGirar.UseVisualStyleBackColor = true;
+            this.btnGirar.Click += new System.EventHandler(this.btnGirar_Click);
+            // 
             // btnImprimir
             // 
             this.btnImprimir.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnImprimir.Enabled = false;
             this.btnImprimir.Location = new System.Drawing.Point(193, 0);
             this.btnImprimir.Name = "btnImprimir";
             this.btnImprimir.Size = new System.Drawing.Size(75, 44);
@@ -390,6 +410,26 @@
             this.panel1.Size = new System.Drawing.Size(1163, 100);
             this.panel1.TabIndex = 2;
             // 
+            // printDocument1
+            // 
+            this.printDocument1.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printDocument1_PrintPage);
+            // 
+            // printPreviewDialog2
+            // 
+            this.printPreviewDialog2.AutoScrollMargin = new System.Drawing.Size(0, 0);
+            this.printPreviewDialog2.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+            this.printPreviewDialog2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.printPreviewDialog2.ClientSize = new System.Drawing.Size(400, 300);
+            this.printPreviewDialog2.Document = this.printDocument1;
+            this.printPreviewDialog2.Enabled = true;
+            this.printPreviewDialog2.Icon = ((System.Drawing.Icon)(resources.GetObject("printPreviewDialog2.Icon")));
+            this.printPreviewDialog2.Name = "printPreviewDialog2";
+            this.printPreviewDialog2.Visible = false;
+            // 
+            // printDialog1
+            // 
+            this.printDialog1.UseEXDialog = true;
+            // 
             // ConsultaActas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -446,5 +486,9 @@
         private System.Windows.Forms.Label label5;
         private Cyotek.Windows.Forms.ImageBox imageBox;
         private System.Windows.Forms.Button btnImprimir;
+        private System.Drawing.Printing.PrintDocument printDocument1;
+        private System.Windows.Forms.PrintPreviewDialog printPreviewDialog2;
+        private System.Windows.Forms.Button btnGirar;
+        private System.Windows.Forms.PrintDialog printDialog1;
     }
 }
