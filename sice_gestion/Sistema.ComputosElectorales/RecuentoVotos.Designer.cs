@@ -36,6 +36,12 @@
             this.pnlTableVotos = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.lblListaNominal = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.lblCasilla = new System.Windows.Forms.Label();
+            this.lblSeccion = new System.Windows.Forms.Label();
+            this.lblConsecutivo = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
             this.btnReserva = new System.Windows.Forms.Button();
             this.btnNoConta = new System.Windows.Forms.Button();
@@ -47,16 +53,9 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label7 = new System.Windows.Forms.Label();
-            this.lblConsecutivo = new System.Windows.Forms.Label();
-            this.lblSeccion = new System.Windows.Forms.Label();
-            this.lblCasilla = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.lblListaNominal = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.panel2.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tblPanaelPartidos.SuspendLayout();
@@ -68,7 +67,6 @@
             this.panel4.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.SuspendLayout();
             // 
             // panel2
@@ -116,8 +114,8 @@
             this.tblPanaelPartidos.Name = "tblPanaelPartidos";
             this.tblPanaelPartidos.Padding = new System.Windows.Forms.Padding(40, 0, 40, 0);
             this.tblPanaelPartidos.RowCount = 1;
-            this.tblPanaelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 99F));
-            this.tblPanaelPartidos.Size = new System.Drawing.Size(1018, 103);
+            this.tblPanaelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 101F));
+            this.tblPanaelPartidos.Size = new System.Drawing.Size(1018, 105);
             this.tblPanaelPartidos.TabIndex = 13;
             // 
             // pnlTableTitulo
@@ -127,7 +125,7 @@
             this.pnlTableTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableTitulo.Location = new System.Drawing.Point(45, 5);
             this.pnlTableTitulo.Name = "pnlTableTitulo";
-            this.pnlTableTitulo.Size = new System.Drawing.Size(460, 93);
+            this.pnlTableTitulo.Size = new System.Drawing.Size(460, 95);
             this.pnlTableTitulo.TabIndex = 39;
             // 
             // label4
@@ -149,7 +147,7 @@
             this.pnlTableVotos.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableVotos.Location = new System.Drawing.Point(513, 5);
             this.pnlTableVotos.Name = "pnlTableVotos";
-            this.pnlTableVotos.Size = new System.Drawing.Size(460, 93);
+            this.pnlTableVotos.Size = new System.Drawing.Size(460, 95);
             this.pnlTableVotos.TabIndex = 41;
             // 
             // label5
@@ -191,6 +189,93 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(1024, 100);
             this.tableLayoutPanel3.TabIndex = 9;
+            // 
+            // lblListaNominal
+            // 
+            this.lblListaNominal.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
+            this.lblListaNominal.AutoSize = true;
+            this.lblListaNominal.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lblListaNominal.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblListaNominal.ForeColor = System.Drawing.Color.DarkRed;
+            this.lblListaNominal.Location = new System.Drawing.Point(137, 60);
+            this.lblListaNominal.Name = "lblListaNominal";
+            this.lblListaNominal.Padding = new System.Windows.Forms.Padding(10);
+            this.lblListaNominal.Size = new System.Drawing.Size(53, 40);
+            this.lblListaNominal.TabIndex = 22;
+            this.lblListaNominal.Text = "No.";
+            this.lblListaNominal.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label8
+            // 
+            this.label8.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
+            this.label8.AutoSize = true;
+            this.label8.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(3, 60);
+            this.label8.Name = "label8";
+            this.label8.Padding = new System.Windows.Forms.Padding(10);
+            this.label8.Size = new System.Drawing.Size(128, 40);
+            this.label8.TabIndex = 21;
+            this.label8.Text = "Lista Nominal:";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lblCasilla
+            // 
+            this.lblCasilla.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
+            this.lblCasilla.AutoSize = true;
+            this.lblCasilla.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lblCasilla.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCasilla.ForeColor = System.Drawing.Color.DarkRed;
+            this.lblCasilla.Location = new System.Drawing.Point(281, 10);
+            this.lblCasilla.Name = "lblCasilla";
+            this.lblCasilla.Padding = new System.Windows.Forms.Padding(10);
+            this.lblCasilla.Size = new System.Drawing.Size(49, 40);
+            this.lblCasilla.TabIndex = 20;
+            this.lblCasilla.Text = "----";
+            this.lblCasilla.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblSeccion
+            // 
+            this.lblSeccion.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
+            this.lblSeccion.AutoSize = true;
+            this.lblSeccion.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lblSeccion.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSeccion.ForeColor = System.Drawing.Color.DarkRed;
+            this.lblSeccion.Location = new System.Drawing.Point(137, 10);
+            this.lblSeccion.Name = "lblSeccion";
+            this.lblSeccion.Padding = new System.Windows.Forms.Padding(10);
+            this.lblSeccion.Size = new System.Drawing.Size(53, 40);
+            this.lblSeccion.TabIndex = 19;
+            this.lblSeccion.Text = "No.";
+            this.lblSeccion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblConsecutivo
+            // 
+            this.lblConsecutivo.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
+            this.lblConsecutivo.AutoSize = true;
+            this.lblConsecutivo.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lblConsecutivo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblConsecutivo.ForeColor = System.Drawing.Color.DarkRed;
+            this.lblConsecutivo.Location = new System.Drawing.Point(462, 10);
+            this.lblConsecutivo.Name = "lblConsecutivo";
+            this.lblConsecutivo.Padding = new System.Windows.Forms.Padding(10);
+            this.lblConsecutivo.Size = new System.Drawing.Size(53, 40);
+            this.lblConsecutivo.TabIndex = 18;
+            this.lblConsecutivo.Text = "No.";
+            this.lblConsecutivo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(336, 10);
+            this.label7.Name = "label7";
+            this.label7.Padding = new System.Windows.Forms.Padding(10);
+            this.label7.Size = new System.Drawing.Size(120, 40);
+            this.label7.TabIndex = 17;
+            this.label7.Text = "Consecutivo:";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // panel5
             // 
@@ -289,7 +374,7 @@
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(0, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(791, 44);
+            this.label6.Size = new System.Drawing.Size(1018, 44);
             this.label6.TabIndex = 0;
             this.label6.Text = "Recuento de Votos";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -297,13 +382,13 @@
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(158)))), ((int)(((byte)(150)))));
-            this.tableLayoutPanel1.SetColumnSpan(this.panel3, 2);
+            this.tableLayoutPanel1.SetColumnSpan(this.panel3, 3);
             this.panel3.Controls.Add(this.label1);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(227, 50);
+            this.panel3.Location = new System.Drawing.Point(0, 0);
             this.panel3.Margin = new System.Windows.Forms.Padding(0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(797, 50);
+            this.panel3.Size = new System.Drawing.Size(1024, 50);
             this.panel3.TabIndex = 42;
             // 
             // label1
@@ -313,21 +398,33 @@
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(797, 50);
+            this.label1.Size = new System.Drawing.Size(1024, 50);
             this.label1.TabIndex = 0;
             this.label1.Text = "DIPUTACIONES LOCALES";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panel4
             // 
-            this.tableLayoutPanel1.SetColumnSpan(this.panel4, 2);
+            this.tableLayoutPanel1.SetColumnSpan(this.panel4, 3);
             this.panel4.Controls.Add(this.button1);
             this.panel4.Controls.Add(this.label6);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel4.Location = new System.Drawing.Point(230, 3);
+            this.panel4.Location = new System.Drawing.Point(3, 53);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(791, 44);
+            this.panel4.Size = new System.Drawing.Size(1018, 44);
             this.panel4.TabIndex = 43;
+            // 
+            // button1
+            // 
+            this.button1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.button1.Image = global::Sistema.ComputosElectorales.Properties.Resources.button1;
+            this.button1.Location = new System.Drawing.Point(979, 0);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(39, 44);
+            this.button1.TabIndex = 25;
+            this.button1.TabStop = false;
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // tableLayoutPanel1
             // 
@@ -335,9 +432,8 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.22222F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 66.66666F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.tableLayoutPanel1.Controls.Add(this.panel3, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.pictureBox4, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.panel4, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.panel3, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.panel4, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
@@ -358,118 +454,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1024, 100);
             this.panel1.TabIndex = 2;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(336, 10);
-            this.label7.Name = "label7";
-            this.label7.Padding = new System.Windows.Forms.Padding(10);
-            this.label7.Size = new System.Drawing.Size(120, 40);
-            this.label7.TabIndex = 17;
-            this.label7.Text = "Consecutivo:";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lblConsecutivo
-            // 
-            this.lblConsecutivo.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
-            this.lblConsecutivo.AutoSize = true;
-            this.lblConsecutivo.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.lblConsecutivo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblConsecutivo.ForeColor = System.Drawing.Color.DarkRed;
-            this.lblConsecutivo.Location = new System.Drawing.Point(462, 10);
-            this.lblConsecutivo.Name = "lblConsecutivo";
-            this.lblConsecutivo.Padding = new System.Windows.Forms.Padding(10);
-            this.lblConsecutivo.Size = new System.Drawing.Size(53, 40);
-            this.lblConsecutivo.TabIndex = 18;
-            this.lblConsecutivo.Text = "No.";
-            this.lblConsecutivo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lblSeccion
-            // 
-            this.lblSeccion.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
-            this.lblSeccion.AutoSize = true;
-            this.lblSeccion.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.lblSeccion.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSeccion.ForeColor = System.Drawing.Color.DarkRed;
-            this.lblSeccion.Location = new System.Drawing.Point(137, 10);
-            this.lblSeccion.Name = "lblSeccion";
-            this.lblSeccion.Padding = new System.Windows.Forms.Padding(10);
-            this.lblSeccion.Size = new System.Drawing.Size(53, 40);
-            this.lblSeccion.TabIndex = 19;
-            this.lblSeccion.Text = "No.";
-            this.lblSeccion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lblCasilla
-            // 
-            this.lblCasilla.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
-            this.lblCasilla.AutoSize = true;
-            this.lblCasilla.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.lblCasilla.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCasilla.ForeColor = System.Drawing.Color.DarkRed;
-            this.lblCasilla.Location = new System.Drawing.Point(281, 10);
-            this.lblCasilla.Name = "lblCasilla";
-            this.lblCasilla.Padding = new System.Windows.Forms.Padding(10);
-            this.lblCasilla.Size = new System.Drawing.Size(49, 40);
-            this.lblCasilla.TabIndex = 20;
-            this.lblCasilla.Text = "----";
-            this.lblCasilla.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label8
-            // 
-            this.label8.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
-            this.label8.AutoSize = true;
-            this.label8.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(3, 60);
-            this.label8.Name = "label8";
-            this.label8.Padding = new System.Windows.Forms.Padding(10);
-            this.label8.Size = new System.Drawing.Size(128, 40);
-            this.label8.TabIndex = 21;
-            this.label8.Text = "Lista Nominal:";
-            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lblListaNominal
-            // 
-            this.lblListaNominal.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
-            this.lblListaNominal.AutoSize = true;
-            this.lblListaNominal.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.lblListaNominal.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblListaNominal.ForeColor = System.Drawing.Color.DarkRed;
-            this.lblListaNominal.Location = new System.Drawing.Point(137, 60);
-            this.lblListaNominal.Name = "lblListaNominal";
-            this.lblListaNominal.Padding = new System.Windows.Forms.Padding(10);
-            this.lblListaNominal.Size = new System.Drawing.Size(53, 40);
-            this.lblListaNominal.TabIndex = 22;
-            this.lblListaNominal.Text = "No.";
-            this.lblListaNominal.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // button1
-            // 
-            this.button1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.button1.Image = global::Sistema.ComputosElectorales.Properties.Resources.button1;
-            this.button1.Location = new System.Drawing.Point(752, 0);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(39, 44);
-            this.button1.TabIndex = 25;
-            this.button1.TabStop = false;
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // pictureBox4
-            // 
-            this.pictureBox4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox4.Image = global::Sistema.ComputosElectorales.Properties.Resources.iepc1;
-            this.pictureBox4.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox4.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBox4.Name = "pictureBox4";
-            this.tableLayoutPanel1.SetRowSpan(this.pictureBox4, 2);
-            this.pictureBox4.Size = new System.Drawing.Size(227, 100);
-            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox4.TabIndex = 2;
-            this.pictureBox4.TabStop = false;
             // 
             // RecuentoVotos
             // 
@@ -496,7 +480,6 @@
             this.panel4.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -508,7 +491,6 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel1;

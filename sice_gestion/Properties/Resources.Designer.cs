@@ -63,6 +63,16 @@ namespace sice_gestion.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap basic {
+            get {
+                object obj = ResourceManager.GetObject("basic", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap iepc1 {
             get {
                 object obj = ResourceManager.GetObject("iepc1", resourceCulture);

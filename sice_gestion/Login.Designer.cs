@@ -46,7 +46,7 @@
             // txtContrasena
             // 
             this.txtContrasena.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtContrasena.Location = new System.Drawing.Point(47, 186);
+            this.txtContrasena.Location = new System.Drawing.Point(47, 165);
             this.txtContrasena.Name = "txtContrasena";
             this.txtContrasena.PasswordChar = '*';
             this.txtContrasena.Size = new System.Drawing.Size(200, 26);
@@ -59,15 +59,15 @@
             this.pctLogo1.Image = ((System.Drawing.Image)(resources.GetObject("pctLogo1.Image")));
             this.pctLogo1.Location = new System.Drawing.Point(50, 15);
             this.pctLogo1.Name = "pctLogo1";
-            this.pctLogo1.Size = new System.Drawing.Size(200, 100);
-            this.pctLogo1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pctLogo1.Size = new System.Drawing.Size(200, 84);
+            this.pctLogo1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pctLogo1.TabIndex = 5;
             this.pctLogo1.TabStop = false;
             // 
             // txtUsuario
             // 
             this.txtUsuario.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtUsuario.Location = new System.Drawing.Point(47, 141);
+            this.txtUsuario.Location = new System.Drawing.Point(47, 120);
             this.txtUsuario.MaxLength = 50;
             this.txtUsuario.Name = "txtUsuario";
             this.txtUsuario.Size = new System.Drawing.Size(200, 26);
@@ -94,7 +94,7 @@
             this.btnAcceso.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAcceso.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAcceso.ForeColor = System.Drawing.Color.White;
-            this.btnAcceso.Location = new System.Drawing.Point(47, 237);
+            this.btnAcceso.Location = new System.Drawing.Point(47, 220);
             this.btnAcceso.Name = "btnAcceso";
             this.btnAcceso.Size = new System.Drawing.Size(200, 33);
             this.btnAcceso.TabIndex = 6;

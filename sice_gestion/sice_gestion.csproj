@@ -166,5 +166,8 @@
   <ItemGroup>
     <None Include="Sistema.RegistroActas\Resources\iepc1.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\basic.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

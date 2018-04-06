@@ -29,6 +29,7 @@ namespace Sistema.Generales
                         LoginInfo.id_municipio = usr.id_municipio;
                         LoginInfo.privilegios = usr.privilegios;
                         LoginInfo.id_cabecera_local = usr.id_municipio;
+                        LoginInfo.nombre_formal = usr.nombre_formal;
                         return 1;
                     }
 
@@ -73,6 +74,7 @@ namespace Sistema.Generales
                         LoginInfo.id_municipio = usr.id_municipio;
                         LoginInfo.privilegios = usr.privilegios;
                         LoginInfo.id_cabecera_local = usr.id_municipio;
+                        LoginInfo.nombre_formal = usr.nombre_formal;
 
                         if (usr.privilegios == 5 || usr.privilegios == 4)
                             return 2;

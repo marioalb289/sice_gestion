@@ -32,7 +32,6 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.panel4 = new System.Windows.Forms.Panel();
             this.button1 = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
@@ -41,6 +40,9 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.cmbDistrito = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.panel6 = new System.Windows.Forms.Panel();
+            this.btnGenerarExcelTodo = new System.Windows.Forms.Button();
+            this.btnGenerarExcel = new System.Windows.Forms.Button();
             this.panel5 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.btnSiguiente = new System.Windows.Forms.Button();
@@ -48,20 +50,16 @@
             this.btnPrimero = new System.Windows.Forms.Button();
             this.lblTotalPag = new System.Windows.Forms.Label();
             this.btnUltimo = new System.Windows.Forms.Button();
-            this.panel6 = new System.Windows.Forms.Panel();
-            this.btnGenerarExcel = new System.Windows.Forms.Button();
-            this.btnGenerarExcelTodo = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.panel4.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvResultados)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
+            this.panel6.SuspendLayout();
             this.panel5.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
-            this.panel6.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -81,9 +79,8 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.22222F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 66.66666F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.tableLayoutPanel1.Controls.Add(this.panel3, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.pictureBox4, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.panel4, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.panel3, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.panel4, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
@@ -97,13 +94,13 @@
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(158)))), ((int)(((byte)(150)))));
-            this.tableLayoutPanel1.SetColumnSpan(this.panel3, 2);
+            this.tableLayoutPanel1.SetColumnSpan(this.panel3, 3);
             this.panel3.Controls.Add(this.label1);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(177, 50);
+            this.panel3.Location = new System.Drawing.Point(0, 0);
             this.panel3.Margin = new System.Windows.Forms.Padding(0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(623, 50);
+            this.panel3.Size = new System.Drawing.Size(800, 50);
             this.panel3.TabIndex = 42;
             // 
             // label1
@@ -113,40 +110,27 @@
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(623, 50);
+            this.label1.Size = new System.Drawing.Size(800, 50);
             this.label1.TabIndex = 0;
             this.label1.Text = "DIPUTACIONES LOCALES";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // pictureBox4
-            // 
-            this.pictureBox4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox4.Image = global::Sistema.ComputosElectorales.Properties.Resources.iepc1;
-            this.pictureBox4.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox4.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBox4.Name = "pictureBox4";
-            this.tableLayoutPanel1.SetRowSpan(this.pictureBox4, 2);
-            this.pictureBox4.Size = new System.Drawing.Size(177, 100);
-            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox4.TabIndex = 2;
-            this.pictureBox4.TabStop = false;
-            // 
             // panel4
             // 
-            this.tableLayoutPanel1.SetColumnSpan(this.panel4, 2);
+            this.tableLayoutPanel1.SetColumnSpan(this.panel4, 3);
             this.panel4.Controls.Add(this.button1);
             this.panel4.Controls.Add(this.label6);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel4.Location = new System.Drawing.Point(180, 3);
+            this.panel4.Location = new System.Drawing.Point(3, 53);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(617, 44);
+            this.panel4.Size = new System.Drawing.Size(794, 44);
             this.panel4.TabIndex = 43;
             // 
             // button1
             // 
             this.button1.Dock = System.Windows.Forms.DockStyle.Right;
             this.button1.Image = global::Sistema.ComputosElectorales.Properties.Resources.button1;
-            this.button1.Location = new System.Drawing.Point(578, 0);
+            this.button1.Location = new System.Drawing.Point(755, 0);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(39, 44);
             this.button1.TabIndex = 25;
@@ -160,7 +144,7 @@
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(0, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(617, 44);
+            this.label6.Size = new System.Drawing.Size(794, 44);
             this.label6.TabIndex = 0;
             this.label6.Text = "Informe de Captura";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -208,6 +192,7 @@
             // cmbDistrito
             // 
             this.cmbDistrito.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cmbDistrito.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbDistrito.Enabled = false;
             this.cmbDistrito.FormattingEnabled = true;
             this.cmbDistrito.Location = new System.Drawing.Point(20, 45);
@@ -229,6 +214,38 @@
             this.label3.Size = new System.Drawing.Size(394, 40);
             this.label3.TabIndex = 7;
             this.label3.Text = "Seleccionar Distrito";
+            // 
+            // panel6
+            // 
+            this.panel6.Controls.Add(this.btnGenerarExcelTodo);
+            this.panel6.Controls.Add(this.btnGenerarExcel);
+            this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel6.Location = new System.Drawing.Point(403, 43);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(394, 54);
+            this.panel6.TabIndex = 17;
+            // 
+            // btnGenerarExcelTodo
+            // 
+            this.btnGenerarExcelTodo.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnGenerarExcelTodo.Location = new System.Drawing.Point(194, 0);
+            this.btnGenerarExcelTodo.Name = "btnGenerarExcelTodo";
+            this.btnGenerarExcelTodo.Size = new System.Drawing.Size(100, 54);
+            this.btnGenerarExcelTodo.TabIndex = 39;
+            this.btnGenerarExcelTodo.Text = "Generar Excel Todo";
+            this.btnGenerarExcelTodo.UseVisualStyleBackColor = true;
+            this.btnGenerarExcelTodo.Click += new System.EventHandler(this.btnGenerarExcelTodo_Click);
+            // 
+            // btnGenerarExcel
+            // 
+            this.btnGenerarExcel.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnGenerarExcel.Location = new System.Drawing.Point(294, 0);
+            this.btnGenerarExcel.Name = "btnGenerarExcel";
+            this.btnGenerarExcel.Size = new System.Drawing.Size(100, 54);
+            this.btnGenerarExcel.TabIndex = 38;
+            this.btnGenerarExcel.Text = "Generar Excel";
+            this.btnGenerarExcel.UseVisualStyleBackColor = true;
+            this.btnGenerarExcel.Click += new System.EventHandler(this.btnGenerarExcel_Click);
             // 
             // panel5
             // 
@@ -319,38 +336,6 @@
             this.btnUltimo.UseVisualStyleBackColor = true;
             this.btnUltimo.Click += new System.EventHandler(this.btnUltimo_Click);
             // 
-            // panel6
-            // 
-            this.panel6.Controls.Add(this.btnGenerarExcelTodo);
-            this.panel6.Controls.Add(this.btnGenerarExcel);
-            this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel6.Location = new System.Drawing.Point(403, 43);
-            this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(394, 54);
-            this.panel6.TabIndex = 17;
-            // 
-            // btnGenerarExcel
-            // 
-            this.btnGenerarExcel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnGenerarExcel.Location = new System.Drawing.Point(294, 0);
-            this.btnGenerarExcel.Name = "btnGenerarExcel";
-            this.btnGenerarExcel.Size = new System.Drawing.Size(100, 54);
-            this.btnGenerarExcel.TabIndex = 38;
-            this.btnGenerarExcel.Text = "Generar Excel";
-            this.btnGenerarExcel.UseVisualStyleBackColor = true;
-            this.btnGenerarExcel.Click += new System.EventHandler(this.btnGenerarExcel_Click);
-            // 
-            // btnGenerarExcelTodo
-            // 
-            this.btnGenerarExcelTodo.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnGenerarExcelTodo.Location = new System.Drawing.Point(194, 0);
-            this.btnGenerarExcelTodo.Name = "btnGenerarExcelTodo";
-            this.btnGenerarExcelTodo.Size = new System.Drawing.Size(100, 54);
-            this.btnGenerarExcelTodo.TabIndex = 39;
-            this.btnGenerarExcelTodo.Text = "Generar Excel Todo";
-            this.btnGenerarExcelTodo.UseVisualStyleBackColor = true;
-            this.btnGenerarExcelTodo.Click += new System.EventHandler(this.btnGenerarExcelTodo_Click);
-            // 
             // Reportes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -365,16 +350,15 @@
             this.panel1.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.panel4.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvResultados)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
+            this.panel6.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
-            this.panel6.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -385,7 +369,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label6;

@@ -34,6 +34,7 @@ namespace sice_gestion
 
         private void MDIMain_Load(object sender, EventArgs e)
         {
+            this.lblUsuario.Text = LoginInfo.nombre_formal;
             FrmModulos mod = new FrmModulos();
             mod.MdiParent = this;
             mod.Dock = DockStyle.Fill;

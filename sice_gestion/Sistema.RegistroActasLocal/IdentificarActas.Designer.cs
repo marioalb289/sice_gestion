@@ -32,7 +32,6 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.panel4 = new System.Windows.Forms.Panel();
             this.button1 = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
@@ -48,23 +47,14 @@
             this.btnTomarActa = new System.Windows.Forms.Button();
             this.btnLegible = new System.Windows.Forms.Button();
             this.btnGuardar = new System.Windows.Forms.Button();
-            this.pnlTableVotos = new System.Windows.Forms.Panel();
-            this.label5 = new System.Windows.Forms.Label();
-            this.pnlTableTitulo = new System.Windows.Forms.Panel();
-            this.label4 = new System.Windows.Forms.Label();
-            this.tblPanaelPartidos = new System.Windows.Forms.TableLayoutPanel();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.panel4.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.panel5.SuspendLayout();
-            this.pnlTableVotos.SuspendLayout();
-            this.pnlTableTitulo.SuspendLayout();
-            this.tblPanaelPartidos.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -84,9 +74,8 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.22222F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 66.66666F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.tableLayoutPanel1.Controls.Add(this.panel3, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.pictureBox4, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.panel4, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.panel3, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.panel4, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
@@ -100,13 +89,13 @@
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(158)))), ((int)(((byte)(150)))));
-            this.tableLayoutPanel1.SetColumnSpan(this.panel3, 2);
+            this.tableLayoutPanel1.SetColumnSpan(this.panel3, 3);
             this.panel3.Controls.Add(this.label1);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(257, 50);
+            this.panel3.Location = new System.Drawing.Point(0, 0);
             this.panel3.Margin = new System.Windows.Forms.Padding(0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(900, 50);
+            this.panel3.Size = new System.Drawing.Size(1157, 50);
             this.panel3.TabIndex = 42;
             // 
             // label1
@@ -116,40 +105,27 @@
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(900, 50);
+            this.label1.Size = new System.Drawing.Size(1157, 50);
             this.label1.TabIndex = 0;
             this.label1.Text = "DIPUTACIONES LOCALES";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // pictureBox4
-            // 
-            this.pictureBox4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox4.Image = global::Sistema.RegistroActasLocal.Properties.Resources.iepc;
-            this.pictureBox4.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox4.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBox4.Name = "pictureBox4";
-            this.tableLayoutPanel1.SetRowSpan(this.pictureBox4, 2);
-            this.pictureBox4.Size = new System.Drawing.Size(257, 100);
-            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox4.TabIndex = 2;
-            this.pictureBox4.TabStop = false;
-            // 
             // panel4
             // 
-            this.tableLayoutPanel1.SetColumnSpan(this.panel4, 2);
+            this.tableLayoutPanel1.SetColumnSpan(this.panel4, 3);
             this.panel4.Controls.Add(this.button1);
             this.panel4.Controls.Add(this.label6);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel4.Location = new System.Drawing.Point(260, 3);
+            this.panel4.Location = new System.Drawing.Point(3, 53);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(894, 44);
+            this.panel4.Size = new System.Drawing.Size(1151, 44);
             this.panel4.TabIndex = 43;
             // 
             // button1
             // 
             this.button1.Dock = System.Windows.Forms.DockStyle.Right;
             this.button1.Image = global::Sistema.RegistroActasLocal.Properties.Resources.button1;
-            this.button1.Location = new System.Drawing.Point(855, 0);
+            this.button1.Location = new System.Drawing.Point(1112, 0);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(39, 44);
             this.button1.TabIndex = 25;
@@ -163,9 +139,9 @@
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(0, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(894, 44);
+            this.label6.Size = new System.Drawing.Size(1151, 44);
             this.label6.TabIndex = 0;
-            this.label6.Text = "Registro de Actas";
+            this.label6.Text = "Identificar Actas";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panel2
@@ -191,7 +167,6 @@
             this.tableLayoutPanel2.Controls.Add(this.cmbCasilla, 1, 3);
             this.tableLayoutPanel2.Controls.Add(this.cmbSeccion, 1, 1);
             this.tableLayoutPanel2.Controls.Add(this.label2, 1, 2);
-            this.tableLayoutPanel2.Controls.Add(this.tblPanaelPartidos, 1, 4);
             this.tableLayoutPanel2.Controls.Add(this.imageBox, 0, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 50);
@@ -222,6 +197,7 @@
             // cmbCasilla
             // 
             this.cmbCasilla.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cmbCasilla.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbCasilla.Enabled = false;
             this.cmbCasilla.FormattingEnabled = true;
             this.cmbCasilla.Location = new System.Drawing.Point(829, 130);
@@ -234,6 +210,7 @@
             // cmbSeccion
             // 
             this.cmbSeccion.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cmbSeccion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbSeccion.Enabled = false;
             this.cmbSeccion.FormattingEnabled = true;
             this.cmbSeccion.Location = new System.Drawing.Point(829, 55);
@@ -344,70 +321,6 @@
             this.btnGuardar.UseVisualStyleBackColor = true;
             this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
-            // pnlTableVotos
-            // 
-            this.pnlTableVotos.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(158)))), ((int)(((byte)(150)))));
-            this.pnlTableVotos.Controls.Add(this.label5);
-            this.pnlTableVotos.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlTableVotos.Location = new System.Drawing.Point(175, 5);
-            this.pnlTableVotos.Name = "pnlTableVotos";
-            this.pnlTableVotos.Size = new System.Drawing.Size(152, 104);
-            this.pnlTableVotos.TabIndex = 41;
-            // 
-            // label5
-            // 
-            this.label5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(0, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(152, 32);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "RESULTADOS ELECTORALES";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // pnlTableTitulo
-            // 
-            this.pnlTableTitulo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(158)))), ((int)(((byte)(150)))));
-            this.pnlTableTitulo.Controls.Add(this.label4);
-            this.pnlTableTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlTableTitulo.Location = new System.Drawing.Point(15, 5);
-            this.pnlTableTitulo.Name = "pnlTableTitulo";
-            this.pnlTableTitulo.Size = new System.Drawing.Size(152, 104);
-            this.pnlTableTitulo.TabIndex = 39;
-            // 
-            // label4
-            // 
-            this.label4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(0, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(152, 44);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "PARTIDO, COALICIÓN O CANDIDATURA";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // tblPanaelPartidos
-            // 
-            this.tblPanaelPartidos.AutoSize = true;
-            this.tblPanaelPartidos.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.tblPanaelPartidos.BackColor = System.Drawing.Color.Transparent;
-            this.tblPanaelPartidos.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Inset;
-            this.tblPanaelPartidos.ColumnCount = 2;
-            this.tblPanaelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tblPanaelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tblPanaelPartidos.Controls.Add(this.pnlTableTitulo, 0, 0);
-            this.tblPanaelPartidos.Controls.Add(this.pnlTableVotos, 1, 0);
-            this.tblPanaelPartidos.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tblPanaelPartidos.Location = new System.Drawing.Point(812, 159);
-            this.tblPanaelPartidos.Name = "tblPanaelPartidos";
-            this.tblPanaelPartidos.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-            this.tblPanaelPartidos.RowCount = 1;
-            this.tblPanaelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 110F));
-            this.tblPanaelPartidos.Size = new System.Drawing.Size(342, 114);
-            this.tblPanaelPartidos.TabIndex = 6;
-            // 
             // IdentificarActas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -424,16 +337,12 @@
             this.panel1.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.panel4.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.tableLayoutPanel3.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
-            this.pnlTableVotos.ResumeLayout(false);
-            this.pnlTableTitulo.ResumeLayout(false);
-            this.tblPanaelPartidos.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -443,7 +352,6 @@
 
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private Cyotek.Windows.Forms.ImageBox imageBox;
@@ -461,10 +369,5 @@
         private System.Windows.Forms.ComboBox cmbCasilla;
         private System.Windows.Forms.ComboBox cmbSeccion;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TableLayoutPanel tblPanaelPartidos;
-        private System.Windows.Forms.Panel pnlTableTitulo;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Panel pnlTableVotos;
-        private System.Windows.Forms.Label label5;
     }
 }
