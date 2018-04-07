@@ -169,5 +169,8 @@
   <ItemGroup>
     <None Include="Resources\basic.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Sistema.Generales\Resources\loadingdatacenter1.gif" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

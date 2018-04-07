@@ -34,11 +34,16 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.lblUsuario = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pnlDescarga = new System.Windows.Forms.Panel();
+            this.lblDescargando = new System.Windows.Forms.Label();
+            this.pictureDownload = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.pnlDescarga.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureDownload)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -59,11 +64,13 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.Controls.Add(this.pictureBox1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.panel2, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.pnlDescarga, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1004, 71);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
@@ -110,6 +117,39 @@
             this.pictureBox2.TabIndex = 0;
             this.pictureBox2.TabStop = false;
             // 
+            // pnlDescarga
+            // 
+            this.pnlDescarga.Controls.Add(this.lblDescargando);
+            this.pnlDescarga.Controls.Add(this.pictureDownload);
+            this.pnlDescarga.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlDescarga.Location = new System.Drawing.Point(254, 3);
+            this.pnlDescarga.Name = "pnlDescarga";
+            this.pnlDescarga.Size = new System.Drawing.Size(496, 65);
+            this.pnlDescarga.TabIndex = 2;
+            this.pnlDescarga.Visible = false;
+            // 
+            // lblDescargando
+            // 
+            this.lblDescargando.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblDescargando.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDescargando.Location = new System.Drawing.Point(0, 0);
+            this.lblDescargando.Name = "lblDescargando";
+            this.lblDescargando.Size = new System.Drawing.Size(396, 65);
+            this.lblDescargando.TabIndex = 4;
+            this.lblDescargando.Text = "Descargando Datos";
+            this.lblDescargando.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // pictureDownload
+            // 
+            this.pictureDownload.Dock = System.Windows.Forms.DockStyle.Right;
+            this.pictureDownload.Image = global::sice_gestion.Properties.Resources.loadingdatacenter1;
+            this.pictureDownload.Location = new System.Drawing.Point(396, 0);
+            this.pictureDownload.Name = "pictureDownload";
+            this.pictureDownload.Size = new System.Drawing.Size(100, 65);
+            this.pictureDownload.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureDownload.TabIndex = 3;
+            this.pictureDownload.TabStop = false;
+            // 
             // MDIMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -119,13 +159,15 @@
             this.IsMdiContainer = true;
             this.Name = "MDIMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "MDIMain";
+            this.Text = "Sistema de Cómputos Electorales";
             this.Load += new System.EventHandler(this.MDIMain_Load);
             this.panel1.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.pnlDescarga.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureDownload)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -136,6 +178,9 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label lblUsuario;
         private System.Windows.Forms.PictureBox pictureBox2;
+        public System.Windows.Forms.Panel pnlDescarga;
+        public System.Windows.Forms.Label lblDescargando;
+        public System.Windows.Forms.PictureBox pictureDownload;
     }
 }
 

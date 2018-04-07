@@ -470,11 +470,9 @@ namespace Sistema.RegistroActasLocal
                 foreach (Control item in controles)
                 {
                     string name = item.Name.ToString();
-                    if(name == "lblDescarga")
+                    if(name == "pnlDescarga")
                     {
-                        item.Text = "Descargando Datos";
-                        Console.WriteLine("Texto: "+item.Text);
-                        break;
+                        item.Visible = true;
                     }
 
                     if (item.HasChildren)
@@ -524,11 +522,7 @@ namespace Sistema.RegistroActasLocal
                         this.BeginInvoke(action);
                     });
                     thread.Start();
-
-                    msgBox = new MsgBox(this, "Descargando datos", "Atención", MessageBoxButtons.OK, "Error");
-                    msgBox.ShowDialog(this);
-
-
+                    
                 }
                     
 

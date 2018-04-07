@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using Sistema.Generales;
 using System.Drawing.Drawing2D;
 using System.Security.Cryptography;
+using sice_gestion.Properties;
 
 namespace sice_gestion
 {
@@ -33,6 +34,7 @@ namespace sice_gestion
             panel1.BackColor = Color.FromArgb(100, 255, 255, 255);
             txtUsuario.KeyPress += KeyPress;
             txtContrasena.KeyPress += KeyPress;
+            this.Icon = Resources.logo;
             //btnAcceso.BackColor = Color.FromArgb(1, 154, 0, 0);
 
 

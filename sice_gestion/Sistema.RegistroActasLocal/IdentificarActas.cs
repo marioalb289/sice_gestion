@@ -28,6 +28,7 @@ namespace Sistema.RegistroActasLocal
         private int totalCandidatos = 0;
         private MsgBox msgBox;
         private Loading Loadingbox;
+        private Image imageLoad;
 
         #endregion
 
@@ -105,11 +106,12 @@ namespace Sistema.RegistroActasLocal
             try
             {
                 //ftp ftpClient = new ftp(Configuracion.NetworkFtp, Configuracion.User, Configuracion.Pass);
-                Image imagen = new Bitmap(@documento.ruta+documento.nombre);
-                this.OpenImage(imagen);
+                imageLoad = new Bitmap(@documento.ruta+documento.nombre);
+                this.OpenImage(imageLoad);
 
                 this.btnGuardar.Enabled = true;
                 this.btnLegible.Enabled = true;
+                this.btnGirar.Enabled = true;
 
             }
             catch (Exception ex)
@@ -293,6 +295,7 @@ namespace Sistema.RegistroActasLocal
             this.cmbCasilla.Enabled = false;
             this.cmbSeccion.Enabled = false;
             imageBox.Image = null;
+            this.btnGirar.Enabled = false;
 
         }
 
@@ -642,6 +645,23 @@ namespace Sistema.RegistroActasLocal
         private void Loadingbox_Activated(object sender, EventArgs e)
         {
             Loadingbox.Activate();
+        }
+
+        private void btnGirar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                imageLoad.RotateFlip(RotateFlipType.Rotate90FlipXY);
+
+
+                if (imageLoad != null)
+                    this.OpenImage(imageLoad);
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
         }
     }
 

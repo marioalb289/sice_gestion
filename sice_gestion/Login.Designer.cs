@@ -140,7 +140,7 @@
             this.MaximizeBox = false;
             this.Name = "Login";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Login";
+            this.Text = "Sistema de Cómputos Electorales: Login";
             this.Load += new System.EventHandler(this.Login_Load);
             this.Resize += new System.EventHandler(this.Login_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.pctLogo1)).EndInit();

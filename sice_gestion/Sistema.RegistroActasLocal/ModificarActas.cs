@@ -95,6 +95,7 @@ namespace Sistema.RegistroActasLocal
                         ftp ftpClient = new ftp(Configuracion.NetworkFtp, Configuracion.User, Configuracion.Pass);
                         imageLoad = ftpClient.downloadImage(Configuracion.Repo + "/" + documento.nombre);
                     }
+                    this.btnGirar.Enabled = true;
                     this.OpenImage(imageLoad);
                     imageBox.Enabled = true;
                     //Cargar imagenes de los filtros
@@ -347,6 +348,7 @@ namespace Sistema.RegistroActasLocal
             this.cmbCasillaNuevo.Enabled = false;
             this.cmbSeccionNuevo.Enabled = false;
             imageBox.Image = null;
+            this.btnGirar.Enabled = false;
 
         }
 
@@ -672,6 +674,23 @@ namespace Sistema.RegistroActasLocal
                 int? selected = Convert.ToInt32(cmbCasilla.SelectedValue);
                 if (selected != null && selected != 0)
                     this.verificarCasilla();
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+        }
+
+        private void btnGirar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                imageLoad.RotateFlip(RotateFlipType.Rotate90FlipXY);
+
+
+                if (imageLoad != null)
+                    this.OpenImage(imageLoad);
             }
             catch (Exception ex)
             {

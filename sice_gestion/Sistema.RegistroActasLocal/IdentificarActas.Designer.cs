@@ -47,6 +47,7 @@
             this.btnTomarActa = new System.Windows.Forms.Button();
             this.btnLegible = new System.Windows.Forms.Button();
             this.btnGuardar = new System.Windows.Forms.Button();
+            this.btnGirar = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -272,6 +273,7 @@
             // 
             // panel5
             // 
+            this.panel5.Controls.Add(this.btnGirar);
             this.panel5.Controls.Add(this.btnTomarActa);
             this.panel5.Controls.Add(this.btnLegible);
             this.panel5.Controls.Add(this.btnGuardar);
@@ -321,6 +323,19 @@
             this.btnGuardar.UseVisualStyleBackColor = true;
             this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
+            // btnGirar
+            // 
+            this.btnGirar.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnGirar.Enabled = false;
+            this.btnGirar.Location = new System.Drawing.Point(851, 0);
+            this.btnGirar.Name = "btnGirar";
+            this.btnGirar.Size = new System.Drawing.Size(75, 44);
+            this.btnGirar.TabIndex = 28;
+            this.btnGirar.TabStop = false;
+            this.btnGirar.Text = "Girar Imagen";
+            this.btnGirar.UseVisualStyleBackColor = true;
+            this.btnGirar.Click += new System.EventHandler(this.btnGirar_Click);
+            // 
             // IdentificarActas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -369,5 +384,6 @@
         private System.Windows.Forms.ComboBox cmbCasilla;
         private System.Windows.Forms.ComboBox cmbSeccion;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btnGirar;
     }
 }

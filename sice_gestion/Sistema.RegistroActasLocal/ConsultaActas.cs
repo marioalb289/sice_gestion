@@ -687,7 +687,8 @@ namespace Sistema.RegistroActasLocal
             }
             catch(Exception ex)
             {
-
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
             }
         }
     }

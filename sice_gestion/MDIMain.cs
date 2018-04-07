@@ -1,4 +1,5 @@
-﻿using Sistema.Generales;
+﻿using sice_gestion.Properties;
+using Sistema.Generales;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,6 +23,7 @@ namespace sice_gestion
         public MDIMain()
         {
             InitializeComponent();
+            this.Icon = Resources.logo;
         }
 
         private void ShowNewForm(object sender, EventArgs e)
