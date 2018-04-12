@@ -30,7 +30,7 @@ namespace sice_gestion
                 if(LoginInfo.privilegios == 1 || LoginInfo.privilegios == 2 || LoginInfo.privilegios == 3 || LoginInfo.privilegios == 5 || LoginInfo.privilegios == 6)
                 {
                     this.btnRegistroActas.Enabled = true;
-                    this.btnComputos.Enabled = false;
+                    this.btnComputos.Enabled = true;
                 }
             }
             catch(Exception ex)
@@ -42,30 +42,34 @@ namespace sice_gestion
 
         private void btnRegistroActas_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            this.MdiParent.Hide();
             if (LoginInfo.privilegios == 5 || LoginInfo.privilegios == 6)
             {
-                Sistema.RegistroActasLocal.MainRegistroLocal form = new Sistema.RegistroActasLocal.MainRegistroLocal();
-                form.MdiParent = this.MdiParent;
-                form.Dock = DockStyle.Fill;
-                form.Show();
+                Sistema.RegistroActasLocal.MDIMainRegistroActas form = new Sistema.RegistroActasLocal.MDIMainRegistroActas();
                 form.FormClosed += Form_FormClosed;
+                form.Show();
+                
             }
-            else if(LoginInfo.privilegios == 1 || LoginInfo.privilegios == 2 || LoginInfo.privilegios == 3 )
+            else
             {
-                Sistema.RegistroActas.MainRegistroActas form = new Sistema.RegistroActas.MainRegistroActas();
-                form.MdiParent = this.MdiParent;
-                form.Dock = DockStyle.Fill;
-                form.Show();
-                form.FormClosed += Form_FormClosed;
+                msgBox = new MsgBox(this, "No tienes permisos para acceder", "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog();
             }
+            //else if(LoginInfo.privilegios == 1 || LoginInfo.privilegios == 2 || LoginInfo.privilegios == 3 )
+            //{
+            //    Sistema.RegistroActas.MainRegistroActas form = new Sistema.RegistroActas.MainRegistroActas();
+            //    form.MdiParent = this.MdiParent;
+            //    form.Dock = DockStyle.Fill;
+            //    form.Show();
+            //    form.FormClosed += Form_FormClosed;
+            //}
         }
 
         private void Form_FormClosed(object sender, FormClosedEventArgs e)
         {
             try
             {
-                this.Show();
+                this.MdiParent.Show();
             }
             catch (Exception ex)
             {

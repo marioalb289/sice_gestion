@@ -223,6 +223,7 @@
             this.btnActualizarGrid.TabIndex = 40;
             this.btnActualizarGrid.Text = "Actualizar Tabla";
             this.btnActualizarGrid.UseVisualStyleBackColor = true;
+            this.btnActualizarGrid.Click += new System.EventHandler(this.btnActualizarGrid_Click);
             // 
             // btnGenerarExcelTodo
             // 
@@ -233,6 +234,7 @@
             this.btnGenerarExcelTodo.TabIndex = 39;
             this.btnGenerarExcelTodo.Text = "Generar Excel Todo";
             this.btnGenerarExcelTodo.UseVisualStyleBackColor = true;
+            this.btnGenerarExcelTodo.Click += new System.EventHandler(this.btnGenerarExcelTodo_Click);
             // 
             // btnGenerarExcel
             // 
@@ -243,6 +245,7 @@
             this.btnGenerarExcel.TabIndex = 38;
             this.btnGenerarExcel.Text = "Generar Excel";
             this.btnGenerarExcel.UseVisualStyleBackColor = true;
+            this.btnGenerarExcel.Click += new System.EventHandler(this.btnGenerarExcel_Click);
             // 
             // cmbDistrito
             // 
@@ -405,7 +408,7 @@
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.Button btnGenerarExcelTodo;
         private System.Windows.Forms.Button btnGenerarExcel;
-        private System.Windows.Forms.Button btnDescargar;
         private System.Windows.Forms.Button btnActualizarGrid;
+        public System.Windows.Forms.Button btnDescargar;
     }
 }

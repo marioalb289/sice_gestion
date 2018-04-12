@@ -69,6 +69,12 @@
     <Compile Include="MainRegistroLocal.Designer.cs">
       <DependentUpon>MainRegistroLocal.cs</DependentUpon>
     </Compile>
+    <Compile Include="MDIMainRegistroActas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MDIMainRegistroActas.Designer.cs">
+      <DependentUpon>MDIMainRegistroActas.cs</DependentUpon>
+    </Compile>
     <Compile Include="ModificarActas.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -100,6 +106,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainRegistroLocal.resx">
       <DependentUpon>MainRegistroLocal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MDIMainRegistroActas.resx">
+      <DependentUpon>MDIMainRegistroActas.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ModificarActas.resx">
       <DependentUpon>ModificarActas.cs</DependentUpon>
@@ -179,6 +188,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\print2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\basic.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\loadingdatacenter1.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

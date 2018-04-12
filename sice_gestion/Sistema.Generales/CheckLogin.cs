@@ -21,8 +21,14 @@ namespace Sistema.Generales
                 using (DatabaseContext contexto = new DatabaseContext("MYSQLOCAL"))
                 {
                     sice_usuarios usr = (from i in contexto.sice_usuarios where i.correo == usuario && i.contrasena == contrasena select i).FirstOrDefault();
+                    
+
                     if (usr != null)
                     {
+                        string consulta =
+                        "SELECT c.id_distrito_local FROM sice_casillas C where id_cabecera_local = " + usr.id_municipio + " " +
+                        "GROUP BY C.id_distrito_local ";
+                        LoginInfo.lista_distritos = contexto.Database.SqlQuery<int>(consulta).ToList();
                         LoginInfo.id_usuario = usr.id;
                         LoginInfo.nombre = usr.nombre;
                         LoginInfo.apellido = usr.apellido;
@@ -40,7 +46,7 @@ namespace Sistema.Generales
             }
             catch (Exception ex)
             {
-                string innerEx = ex.InnerException.Message;
+                //string innerEx = ex.InnerException.Message;
                 //if (innerEx == "Unable to connect to any of the specified MySQL hosts.")
                 //{
                 //    return 2;
@@ -68,6 +74,10 @@ namespace Sistema.Generales
                     sice_usuarios usr = (from i in contexto.sice_usuarios where i.correo == usuario && i.contrasena == contrasena select i).FirstOrDefault();
                     if (usr != null)
                     {
+                        string consulta =
+                        "SELECT c.id_distrito_local FROM sice_casillas C where id_cabecera_local = " + usr.id_municipio + " " +
+                        "GROUP BY C.id_distrito_local ";
+                        LoginInfo.lista_distritos = contexto.Database.SqlQuery<int>(consulta).ToList();
                         LoginInfo.id_usuario = usr.id;
                         LoginInfo.nombre = usr.nombre;
                         LoginInfo.apellido = usr.apellido;
@@ -88,7 +98,7 @@ namespace Sistema.Generales
             }
             catch (Exception ex)
             {
-                string innerEx = ex.InnerException.Message;
+                //string innerEx = ex.InnerException.Message;
                 //if (innerEx == "Unable to connect to any of the specified MySQL hosts.")
                 //{
                 //    return 2;

@@ -20,5 +20,6 @@ namespace Sistema.DataModel
         public Nullable<int> votos { get; set; }
         public string tipo { get; set; }
         public Nullable<int> importado { get; set; }
+        public Nullable<int> estatus { get; set; }
     }
 }

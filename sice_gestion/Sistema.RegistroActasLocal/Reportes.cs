@@ -19,6 +19,7 @@ namespace Sistema.RegistroActasLocal
         private MsgBox msgBox;
         private int pageNumber = 1;
         private int totalPages = 0;
+        static Control.ControlCollection testC;
 
         public Reportes()
         {
@@ -26,24 +27,35 @@ namespace Sistema.RegistroActasLocal
             this.cargarComboDistrito();
         }
 
-        private int EjecutarProceso(int distrito)
+        private void BuscarDistritos(int distrito)
         {
             try
             {
-                Thread.Sleep(5000);
-                rgActas = new RegistroLocalGenerales();
-                return rgActas.DescargarDatos(distrito);
+                if (LoginInfo.lista_distritos.Count > 0)
+                {
+                    int? result = LoginInfo.lista_distritos.Find(x => x == distrito);
+                    if (result != 0)
+                        btnDescargar.Enabled = false;
+                    else
+                        btnDescargar.Enabled = true;
+
+                }
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 throw ex;
             }
+            
         }
 
         private void cargarComboDistrito()
         {
             try
             {
+                if (LoginInfo.privilegios == 6 || LoginInfo.privilegios == 1)
+                    btnGenerarExcelTodo.Visible = true;
+                else
+                    btnGenerarExcelTodo.Visible = false;
                 rgActas = new RegistroLocalGenerales();
                 List<sice_distritos_locales> ds = rgActas.ListaDistritos();
                 ds.Insert(0, new sice_distritos_locales() { id = 0, distrito = "Seleccionar Distrito" });
@@ -57,7 +69,8 @@ namespace Sistema.RegistroActasLocal
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
             }
         }
 
@@ -289,7 +302,7 @@ namespace Sistema.RegistroActasLocal
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                throw ex;
             }
         }
 
@@ -347,6 +360,8 @@ namespace Sistema.RegistroActasLocal
                 int? selected = Convert.ToInt32(cmbDistrito.SelectedValue);
                 if (selected > 0 && selected != null)
                 {
+                    //Buscar Distritos no validos
+                    this.BuscarDistritos((int)selected);
                     this.InicializarPaginador(selected);
                     if (this.totalPages > 0)
                     {
@@ -366,7 +381,8 @@ namespace Sistema.RegistroActasLocal
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
             }
         }
 
@@ -460,72 +476,29 @@ namespace Sistema.RegistroActasLocal
             }
 
         }
-
-        int res_descarga = 0;
-
-        public void buscarControl(Control.ControlCollection controles)
-        {
-            try
-            {
-                foreach (Control item in controles)
-                {
-                    string name = item.Name.ToString();
-                    if(name == "pnlDescarga")
-                    {
-                        item.Visible = true;
-                    }
-
-                    if (item.HasChildren)
-                        buscarControl(item.Controls);
-                }
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
-
-        }
-
+        
         private void btnDescargar_Click(object sender, EventArgs e)
         {
             try
             {
-                Control.ControlCollection controles = null;
-                controles = this.MdiParent.Controls;
-                this.buscarControl(controles);
-                
-
                 int? selected = Convert.ToInt32(cmbDistrito.SelectedValue);
                 if (selected > 0 && selected != null)
                 {
-                    //btnDescargar.Enabled = false;
-                    ////Creamos el delegado 
-                    //ThreadStart delegado = new ThreadStart(() => EjecutarProceso((int)selected));
-                    //delegado += () => {
-                    //    // Do what you want in the callback
-                    //    //this.btnDescargar.Enabled = true;
-                    //    msgBox = new MsgBox(this, "Proceso de Descarga Completo: ", "Atención", MessageBoxButtons.OK, "Advertencia");
-                    //    msgBox.ShowDialog(this);
-                    //};
-                    ////Creamos la instancia del hilo 
-                    //Thread hilo = new Thread(delegado) { IsBackground = true };
-                    ////Iniciamos el hilo 
-                    //hilo.Start();
-
-                    Thread thread = new Thread(() =>
-                    {
-                        res_descarga = EjecutarProceso(1);
-                        // Action delegate points to SetLabelTextProperty method
-                        // Signature of SetLabelTextProperty() method should match
-                        // with the signature of Action delegate
-                        Action action = new Action(showMesage);
-                        this.BeginInvoke(action);
-                    });
-                    thread.Start();
+                    btnDescargar.Enabled = false;
+                    ((MDIMainRegistroActas)this.MdiParent).DescargarDatosLocal((int)selected);
                     
+                    //Thread thread = new Thread(() =>
+                    //{
+                    //    res_descarga = EjecutarProceso(1);
+                    //    // Action delegate points to SetLabelTextProperty method
+                    //    // Signature of SetLabelTextProperty() method should match
+                    //    // with the signature of Action delegate
+                    //    Action action = new Action(showMesage);
+                    //    this.BeginInvoke(action);
+                    //});
+                    //thread.Start();
+
                 }
-                    
-
             }
             catch (Exception ex)
             {
@@ -534,10 +507,78 @@ namespace Sistema.RegistroActasLocal
             }           
         }
 
-        private void showMesage()
+        private void btnActualizarGrid_Click(object sender, EventArgs e)
         {
-            msgBox = new MsgBox(this, "Descarga Completa", "Atención", MessageBoxButtons.OK, "Error");
-            msgBox.ShowDialog(this);
+            try
+            {
+                this.pageNumber = 1;
+                int? selected = Convert.ToInt32(cmbDistrito.SelectedValue);
+                if (selected > 0 && selected != null)
+                {
+                    //Buscar Distritos no validos
+                    this.BuscarDistritos((int)selected);
+                    this.InicializarPaginador(selected);
+                    if (this.totalPages > 0)
+                    {
+                        btnPrimero.Enabled = !this.IsFirstPage();
+                        btnUltimo.Enabled = !this.IsLastPage();
+                        btnAnterior.Enabled = this.HasPreviousPage();
+                        btnSiguiente.Enabled = this.HasNextPage();
+
+                        lblTotalPag.Text = string.Format("Pág {0}/{1}", pageNumber, totalPages);
+                    }
+                    else
+                    {
+                        bloquearControles();
+                    }
+
+                }
+            }
+            catch(Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+        }
+
+        private void btnGenerarExcel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int? selected = Convert.ToInt32(cmbDistrito.SelectedValue);
+                if (selected > 0 && selected != null)
+                {
+                    btnGenerarExcel.Enabled = false;
+                    ((MDIMainRegistroActas)this.MdiParent).GenerarExcel((int)selected,false);
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+        }
+
+        private void btnGenerarExcelTodo_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int? selected = Convert.ToInt32(cmbDistrito.SelectedValue);
+                if (selected > 0 && selected != null)
+                {
+                    btnGenerarExcel.Enabled = false;
+                    ((MDIMainRegistroActas)this.MdiParent).GenerarExcel(0,true);
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
         }
     }
 }
