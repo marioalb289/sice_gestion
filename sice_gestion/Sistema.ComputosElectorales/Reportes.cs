@@ -25,6 +25,27 @@ namespace Sistema.ComputosElectorales
             this.cargarComboDistrito();
         }
 
+        private void BuscarDistritos(int distrito)
+        {
+            try
+            {
+                if (LoginInfo.lista_distritos.Count > 0)
+                {
+                    int? result = LoginInfo.lista_distritos.Find(x => x == distrito);
+                    if (result != 0)
+                        btnDescargar.Enabled = false;
+                    else
+                        btnDescargar.Enabled = true;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
         private void cargarComboDistrito()
         {
             try
@@ -287,22 +308,7 @@ namespace Sistema.ComputosElectorales
             {
                 throw ex;
             }
-        }
-
-        private void generarExcel(int distrito = 0,bool completo = false)
-        {
-            try
-            {
-                CompElec = new ComputosElectoralesGenerales();
-                CompElec.generarExcel(distrito, completo);
-                
-
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
-        }
+        }        
 
         private void bloquearControles()
         {
@@ -358,6 +364,7 @@ namespace Sistema.ComputosElectorales
                 int? selected = Convert.ToInt32(cmbDistrito.SelectedValue);
                 if (selected > 0 && selected != null)
                 {
+                    this.BuscarDistritos((int)selected);
                     this.InicializarPaginador(selected);
                     if(this.totalPages > 0)
                     {
@@ -481,18 +488,8 @@ namespace Sistema.ComputosElectorales
                 int? selected = Convert.ToInt32(cmbDistrito.SelectedValue);
                 if (selected > 0 && selected != null)
                 {
-                    //Creamos el delegado 
-                    ThreadStart delegado = new ThreadStart(() => generarExcel((int)selected,false));
-                    delegado += () =>
-                    {
-                        // Do what you want in the callback
-                        MessageBox.Show("Finish!");
-                    };
-
-                    //Creamos la instancia del hilo 
-                    Thread hilo = new Thread(delegado) { IsBackground = true };
-                    //Iniciamos el hilo 
-                    hilo.Start();
+                    btnGenerarExcel.Enabled = false;
+                    ((MDIMainComputosElectorales)this.MdiParent).GenerarExcel((int)selected, false);
                 }
                 
             }
@@ -507,18 +504,72 @@ namespace Sistema.ComputosElectorales
         {
             try
             {
-                //Creamos el delegado 
-                ThreadStart delegado = new ThreadStart(() => generarExcel(0, true));
-                delegado += () =>
-                {
-                    // Do what you want in the callback
-                    MessageBox.Show("Finish!");
-                };
+                btnGenerarExcel.Enabled = false;
+                ((MDIMainComputosElectorales)this.MdiParent).GenerarExcel(0, true);
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+        }
 
-                //Creamos la instancia del hilo 
-                Thread hilo = new Thread(delegado) { IsBackground = true };
-                //Iniciamos el hilo 
-                hilo.Start();
+        private void btnActualizarGrid_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.pageNumber = 1;
+                int? selected = Convert.ToInt32(cmbDistrito.SelectedValue);
+                if (selected > 0 && selected != null)
+                {
+                    //Buscar Distritos no validos
+                    this.BuscarDistritos((int)selected);
+                    this.InicializarPaginador(selected);
+                    if (this.totalPages > 0)
+                    {
+                        btnPrimero.Enabled = !this.IsFirstPage();
+                        btnUltimo.Enabled = !this.IsLastPage();
+                        btnAnterior.Enabled = this.HasPreviousPage();
+                        btnSiguiente.Enabled = this.HasNextPage();
+
+                        lblTotalPag.Text = string.Format("Pág {0}/{1}", pageNumber, totalPages);
+                    }
+                    else
+                    {
+                        bloquearControles();
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+        }
+
+        private void btnDescargar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int? selected = Convert.ToInt32(cmbDistrito.SelectedValue);
+                if (selected > 0 && selected != null)
+                {
+                    btnDescargar.Enabled = false;
+                    ((MDIMainComputosElectorales)this.MdiParent).DescargarDatosLocal((int)selected);
+
+                    //Thread thread = new Thread(() =>
+                    //{
+                    //    res_descarga = EjecutarProceso(1);
+                    //    // Action delegate points to SetLabelTextProperty method
+                    //    // Signature of SetLabelTextProperty() method should match
+                    //    // with the signature of Action delegate
+                    //    Action action = new Action(showMesage);
+                    //    this.BeginInvoke(action);
+                    //});
+                    //thread.Start();
+
+                }
             }
             catch (Exception ex)
             {

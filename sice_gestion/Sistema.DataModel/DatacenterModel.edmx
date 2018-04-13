@@ -249,6 +249,7 @@
           <Property Name="id_casilla" Type="int" />
           <Property Name="votos" Type="int" />
           <Property Name="tipo" Type="enum" />
+          <Property Name="estatus" Type="int" />
           <Property Name="importado" Type="int" />
         </EntityType>
         <EntityType Name="sice_votos_test">
@@ -586,6 +587,7 @@
           <Property Name="votos" Type="Int32" />
           <Property Name="tipo" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" />
           <Property Name="importado" Type="Int32" />
+          <Property Name="estatus" Type="Int32" />
         </EntityType>
         <EntityType Name="sice_casillas">
           <Key>
@@ -856,6 +858,7 @@
           <EntitySetMapping Name="sice_votos">
             <EntityTypeMapping TypeName="sice_pruebasModel.sice_votos">
               <MappingFragment StoreEntitySet="sice_votos">
+                <ScalarProperty Name="estatus" ColumnName="estatus" />
                 <ScalarProperty Name="importado" ColumnName="importado" />
                 <ScalarProperty Name="tipo" ColumnName="tipo" />
                 <ScalarProperty Name="votos" ColumnName="votos" />

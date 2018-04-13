@@ -564,14 +564,9 @@ namespace Sistema.RegistroActasLocal
         private void btnGenerarExcelTodo_Click(object sender, EventArgs e)
         {
             try
-            {
-                int? selected = Convert.ToInt32(cmbDistrito.SelectedValue);
-                if (selected > 0 && selected != null)
-                {
-                    btnGenerarExcel.Enabled = false;
-                    ((MDIMainRegistroActas)this.MdiParent).GenerarExcel(0,true);
-
-                }
+            {                
+                btnGenerarExcel.Enabled = false;
+                ((MDIMainRegistroActas)this.MdiParent).GenerarExcel(0,true);                
 
             }
             catch (Exception ex)

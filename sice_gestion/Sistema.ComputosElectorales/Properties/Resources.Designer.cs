@@ -63,6 +63,16 @@ namespace Sistema.ComputosElectorales.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap basic {
+            get {
+                object obj = ResourceManager.GetObject("basic", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap button1 {
             get {
                 object obj = ResourceManager.GetObject("button1", resourceCulture);
@@ -106,6 +116,16 @@ namespace Sistema.ComputosElectorales.Properties {
         internal static System.Drawing.Bitmap Information_641 {
             get {
                 object obj = ResourceManager.GetObject("Information_641", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap loadingdatacenter1 {
+            get {
+                object obj = ResourceManager.GetObject("loadingdatacenter1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

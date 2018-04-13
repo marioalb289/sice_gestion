@@ -391,4 +391,10 @@
         je5HCI+mboPhXwHm9qRfVATpAAAAAElFTkSuQmCC
 </value>
   </data>
+  <data name="basic" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\basic.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="loadingdatacenter1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\loadingdatacenter1.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

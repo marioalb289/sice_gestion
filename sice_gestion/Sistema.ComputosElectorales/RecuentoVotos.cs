@@ -157,35 +157,35 @@ namespace Sistema.ComputosElectorales
                         decimal Porcentaje2 = Math.Round((Convert.ToDecimal(Seegundo) * 100) / totalVotacionEmitida, 2);
                         diferencia = Porcentaje1 - Porcentaje2;
                     }
-                    if(diferencia < 2)
+                    if(diferencia < 1)
                     {
-                        msgBox = new MsgBox(this.MdiParent, "La diferencia entre 1° y 2° Lugar es menor al 2%\n¿Enviar casilla a Revisión?", "Atención", MessageBoxButtons.YesNoCancel, "Advertencia");
+                        msgBox = new MsgBox(this.MdiParent, "La diferencia entre 1° y 2° Lugar es menor al 1%\nEl acta será enviada a revisión", "Atención", MessageBoxButtons.OK, "Advertencia");
                         DialogResult result = msgBox.ShowDialog(this);
-                        if (result == DialogResult.Yes)
+                        if (result == DialogResult.OK)
                         {
                             this.tableLayoutPanel2.Enabled = true;
                             this.ReservarCasilla("RESERVA");
                         }
-                        else if(result == DialogResult.No)
-                        {
-                            int res1 = CompElec.guardarDatosVotos(lista_votos, id_casilla, this.totalCandidatos);
-                            if (res1 == 1)
-                            {
-                                this.tableLayoutPanel2.Enabled = true;
-                                msgBox = new MsgBox(this, "Datos Guardados correctamente", "Atención", MessageBoxButtons.OK, "Ok");
-                                msgBox.ShowDialog(this);
-                                this.BloquearControles();
-                            }
-                            else
-                            {
-                                throw new Exception("Error al guardar Datos");
-                            }
-                        }
-                        else
-                        {
-                            this.tableLayoutPanel2.Enabled = true;
-                            return;
-                        }
+                        //else if(result == DialogResult.No)
+                        //{
+                        //    int res1 = CompElec.guardarDatosVotos(lista_votos, id_casilla, this.totalCandidatos);
+                        //    if (res1 == 1)
+                        //    {
+                        //        this.tableLayoutPanel2.Enabled = true;
+                        //        msgBox = new MsgBox(this, "Datos Guardados correctamente", "Atención", MessageBoxButtons.OK, "Ok");
+                        //        msgBox.ShowDialog(this);
+                        //        this.BloquearControles();
+                        //    }
+                        //    else
+                        //    {
+                        //        throw new Exception("Error al guardar Datos");
+                        //    }
+                        //}
+                        //else
+                        //{
+                        //    this.tableLayoutPanel2.Enabled = true;
+                        //    return;
+                        //}
                     }
                     else
                     {

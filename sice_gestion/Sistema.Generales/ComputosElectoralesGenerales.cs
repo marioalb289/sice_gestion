@@ -6,16 +6,31 @@ using System.Threading.Tasks;
 using Sistema.DataModel;
 using System.Transactions;
 using Excel = Microsoft.Office.Interop.Excel;
+using System.Windows.Forms;
 
 namespace Sistema.Generales
 {
     public class ComputosElectoralesGenerales
     {
+        private string con = "MYSQLOCAL";
+
+        public ComputosElectoralesGenerales()
+        {
+            if (LoginInfo.privilegios == 6)
+            {
+                con = "MYSQLSERVER";
+            }
+            else
+            {
+                con = "MYSQLOCAL";
+            }
+        }
+
         public List<sice_distritos_locales> ListaDistritos()
         {
             try
             {
-                using (DatabaseContext contexto = new DatabaseContext("MYSQLOCAL"))
+                using (DatabaseContext contexto = new DatabaseContext(con))
                 {
                     return (from d in contexto.sice_distritos_locales select d).ToList();
                 }
@@ -28,7 +43,7 @@ namespace Sistema.Generales
         {
             try
             {
-                using (DatabaseContext contexto = new DatabaseContext("MYSQLOCAL"))
+                using (DatabaseContext contexto = new DatabaseContext(con))
                 {
                     string condicion = "";
                     string limit = "";
@@ -78,7 +93,7 @@ namespace Sistema.Generales
         {
             try
             {
-                using (DatabaseContext contexto = new DatabaseContext("MYSQLOCAL"))
+                using (DatabaseContext contexto = new DatabaseContext(con))
                 {
                     string consulta =
                         "SELECT C.* FROM sice_casillas C " +
@@ -108,7 +123,7 @@ namespace Sistema.Generales
         {
             try
             {
-                using (DatabaseContext contexto = new DatabaseContext("MYSQLOCAL"))
+                using (DatabaseContext contexto = new DatabaseContext(con))
                 {
                     string consulta =
                         "SELECT C.* FROM sice_casillas C " +
@@ -138,7 +153,7 @@ namespace Sistema.Generales
         {
             try
             {
-                using (DatabaseContext contexto = new DatabaseContext("MYSQLOCAL"))
+                using (DatabaseContext contexto = new DatabaseContext(con))
                 {
                     string consulta =
                         "SELECT " +
@@ -162,7 +177,7 @@ namespace Sistema.Generales
         {
             try
             {
-                using (DatabaseContext contexto = new DatabaseContext("MYSQLOCAL"))
+                using (DatabaseContext contexto = new DatabaseContext(con))
                 {
                     
 
@@ -192,7 +207,7 @@ namespace Sistema.Generales
         {
             try
             {
-                using (DatabaseContext contexto = new DatabaseContext("MYSQLOCAL"))
+                using (DatabaseContext contexto = new DatabaseContext(con))
                 {
                     using (var TransactionContexto = new TransactionScope())
                     {
@@ -217,6 +232,7 @@ namespace Sistema.Generales
                                 v1.id_casilla = voto.id_casilla;
                                 v1.tipo = voto.tipo;
                                 v1.votos = voto.votos;
+                                v1.estatus = 1;
                                 v1.importado = 0;
                                 contexto.SaveChanges();
                             }
@@ -249,7 +265,133 @@ namespace Sistema.Generales
             }             
         }
 
-        public int generarExcel(int distrito, bool completo = false)
+        public List<int> ListaCasillaCapturadasComp()
+        {
+            try
+            {
+                List<int> listaCasilla = new List<int>();
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    listaCasilla = (from v in contexto.sice_votos where v.estatus == 1 select (int)v.id_casilla).Distinct().ToList();
+
+                    return listaCasilla;
+                }
+            }
+            catch (Exception E)
+            {
+                throw E;
+            }
+        }
+
+        public int DescargarDatos(int distrito)
+        {
+            try
+            {
+                //Obtener lista de casillas ya registrdas
+                List<int> listaCasilla = ListaCasillaCapturadasComp();
+                List<TempVotosEstatus> listaVotosImportar = new List<TempVotosEstatus>();
+                string condicion = "";
+                string casilla;
+                if (listaCasilla.Count > 0)
+                {
+                    casilla = string.Join(",", listaCasilla);
+                    condicion = " AND RV.id_casilla NOT IN( " + casilla + " ) ";
+                }
+
+                //Buscar votos en la bd del servidor excluyendo casilla ya registradas o descargadas
+                using (DatabaseContext contexto = new DatabaseContext("MYSQLSERVER"))
+                {
+                    string consulta =
+                        "SELECT " +
+                            "RV.*, RES.tipo_reserva as reserva " +
+                        "FROM " +
+                        "sice_votos RV " +
+                        "JOIN sice_casillas C ON C.id = RV.id_casilla AND C.id_distrito_local = " + distrito + " " +
+                        "JOIN sice_reserva_captura RES ON RES.id_casilla = RV.id_casilla AND (RES.tipo_reserva = 'CAPTURADA' OR RES.tipo_reserva = 'NO CONTABILIZABLE') " +
+                        "WHERE RV.estatus = 1 " + condicion;
+                    listaVotosImportar = contexto.Database.SqlQuery<TempVotosEstatus>(consulta).ToList();
+
+
+                }
+                if (listaVotosImportar.Count > 0)
+                {
+                    //Guardar Datos
+                    guardarVotosImportados(listaVotosImportar);
+                }
+                else
+                {
+                    return 2;
+                }
+
+                return 1;
+            }
+            catch (Exception E)
+            {
+                return 0;
+            }
+        }
+
+        public void guardarVotosImportados(List<TempVotosEstatus> listaVotos)
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    using (var TransactionContexto = new TransactionScope())
+                    {
+                        sice_votos v1 = null;
+                        foreach (TempVotosEstatus voto in listaVotos)
+                        {
+                            if (voto.id_candidato != null)
+                            {
+                                v1 = (from d in contexto.sice_votos where d.id_candidato == voto.id_candidato && d.id_casilla == voto.id_casilla select d).FirstOrDefault();
+                            }
+                            else
+                            {
+                                if (voto.tipo == "NULO")
+                                    v1 = (from d in contexto.sice_votos where d.tipo == "NULO" && d.id_casilla == voto.id_casilla select d).FirstOrDefault();
+                                else if (voto.tipo == "NO REGISTRADO")
+                                    v1 = (from d in contexto.sice_votos where d.tipo == "NO REGISTRADO" && d.id_casilla == voto.id_casilla select d).FirstOrDefault();
+                            }
+
+                            if (v1 != null)
+                            {
+                                v1.id_candidato = voto.id_candidato;
+                                v1.id_casilla = voto.id_casilla;
+                                v1.tipo = voto.tipo;
+                                v1.votos = voto.votos;
+                                v1.importado = 1;
+                                v1.estatus = 1;
+
+                            }
+
+                            sice_reserva_captura rc = (from p in contexto.sice_reserva_captura where p.id_casilla == voto.id_casilla select p).FirstOrDefault();
+                            if (rc != null)
+                            {
+                                rc.tipo_reserva = voto.reserva;
+                                rc.importado = 1;
+                            }
+                            else
+                            {
+                                rc = new sice_reserva_captura();
+                                rc.id_casilla = voto.id_casilla;
+                                rc.tipo_reserva = voto.reserva;
+                                rc.importado = 1;
+                                contexto.sice_reserva_captura.Add(rc);
+                            }
+                            contexto.SaveChanges();
+                        }
+                        TransactionContexto.Complete();
+                    }
+                }
+            }
+            catch (Exception E)
+            {
+                throw E;
+            }
+        }
+
+        public int generarExcel(SaveFileDialog fichero, int distrito, bool completo = false)
         {
             try
             {
@@ -277,18 +419,19 @@ namespace Sistema.Generales
 
 
                 libro.Saved = true;
-                libro.SaveAs(Environment.CurrentDirectory + @"\Ejemplo2.xlsx");  // Si es un libro nuevo
+                //libro.SaveAs(Environment.CurrentDirectory + @"\Ejemplo2.xlsx");  // Si es un libro nuevo
+                libro.SaveAs(fichero.FileName,
+                Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookNormal);
 
-                libro.Close();
+                libro.Close(true);
 
                 excel.UserControl = false;
                 excel.Quit();
-
                 return 1;
             }
             catch (Exception E)
             {
-                throw E;
+                return 0;
             }
         }
 
@@ -479,5 +622,17 @@ namespace Sistema.Generales
         public int distrito { get; set; }
         public int municipio { get; set; }
         public int listaNominal { get; set; }
+    }
+
+    public class TempVotosEstatus
+    {
+        public int id { get; set; }
+        public Nullable<int> id_candidato { get; set; }
+        public Nullable<int> id_casilla { get; set; }
+        public Nullable<int> votos { get; set; }
+        public string tipo { get; set; }
+        public Nullable<int> importado { get; set; }
+        public Nullable<int> estatus { get; set; }
+        public string reserva { get; set; }
     }
 }

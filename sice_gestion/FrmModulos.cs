@@ -80,12 +80,11 @@ namespace sice_gestion
 
         private void btnComputos_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            Sistema.ComputosElectorales.MainComputosElectorales form = new Sistema.ComputosElectorales.MainComputosElectorales();
-            form.MdiParent = this.MdiParent;
-            form.Dock = DockStyle.Fill;
-            form.Show();
+            this.MdiParent.Hide();
+            Sistema.ComputosElectorales.MDIMainComputosElectorales form = new Sistema.ComputosElectorales.MDIMainComputosElectorales();
             form.FormClosed += Form_FormClosed;
+            form.Show();
+            
         }
 
         private void btnConf_Click(object sender, EventArgs e)

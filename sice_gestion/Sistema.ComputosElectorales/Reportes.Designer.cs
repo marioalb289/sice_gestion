@@ -50,6 +50,8 @@
             this.btnPrimero = new System.Windows.Forms.Button();
             this.lblTotalPag = new System.Windows.Forms.Label();
             this.btnUltimo = new System.Windows.Forms.Button();
+            this.btnActualizarGrid = new System.Windows.Forms.Button();
+            this.btnDescargar = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -217,6 +219,8 @@
             // 
             // panel6
             // 
+            this.panel6.Controls.Add(this.btnDescargar);
+            this.panel6.Controls.Add(this.btnActualizarGrid);
             this.panel6.Controls.Add(this.btnGenerarExcelTodo);
             this.panel6.Controls.Add(this.btnGenerarExcel);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -336,6 +340,28 @@
             this.btnUltimo.UseVisualStyleBackColor = true;
             this.btnUltimo.Click += new System.EventHandler(this.btnUltimo_Click);
             // 
+            // btnActualizarGrid
+            // 
+            this.btnActualizarGrid.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnActualizarGrid.Location = new System.Drawing.Point(94, 0);
+            this.btnActualizarGrid.Name = "btnActualizarGrid";
+            this.btnActualizarGrid.Size = new System.Drawing.Size(100, 54);
+            this.btnActualizarGrid.TabIndex = 41;
+            this.btnActualizarGrid.Text = "Actualizar Tabla";
+            this.btnActualizarGrid.UseVisualStyleBackColor = true;
+            this.btnActualizarGrid.Click += new System.EventHandler(this.btnActualizarGrid_Click);
+            // 
+            // btnDescargar
+            // 
+            this.btnDescargar.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnDescargar.Location = new System.Drawing.Point(-6, 0);
+            this.btnDescargar.Name = "btnDescargar";
+            this.btnDescargar.Size = new System.Drawing.Size(100, 54);
+            this.btnDescargar.TabIndex = 42;
+            this.btnDescargar.Text = "Descargar Datos";
+            this.btnDescargar.UseVisualStyleBackColor = true;
+            this.btnDescargar.Click += new System.EventHandler(this.btnDescargar_Click);
+            // 
             // Reportes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -387,5 +413,7 @@
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.Button btnGenerarExcel;
         private System.Windows.Forms.Button btnGenerarExcelTodo;
+        private System.Windows.Forms.Button btnActualizarGrid;
+        public System.Windows.Forms.Button btnDescargar;
     }
 }

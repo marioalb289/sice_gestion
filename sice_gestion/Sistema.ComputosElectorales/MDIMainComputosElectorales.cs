@@ -1,5 +1,4 @@
-﻿using Sistema.RegistroActasLocal.Properties;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,40 +10,39 @@ using System.Windows.Forms;
 using Sistema.Generales;
 using System.Threading;
 
-namespace Sistema.RegistroActasLocal
+namespace Sistema.ComputosElectorales
 {
-    public partial class MDIMainRegistroActas : Form
+    public partial class MDIMainComputosElectorales : Form
     {
         private MsgBox msgBox;
-        private RegistroLocalGenerales rgActas;
+        private ComputosElectoralesGenerales CompElec;
+        delegate void DelegateOcultar(int res);
+        delegate void DelegateOcultarExcel(int res, bool completo);
 
-        public MDIMainRegistroActas()
+        public MDIMainComputosElectorales()
         {
             InitializeComponent();
-            this.Icon = Resources.logo;
         }
 
         private void MDIMain_Load(object sender, EventArgs e)
         {
             this.lblUsuario.Text = LoginInfo.nombre_formal;
-            MainRegistroLocal mod = new MainRegistroLocal();
+            MainComputosElectorales mod = new MainComputosElectorales();
             mod.MdiParent = this;
             mod.Dock = DockStyle.Fill;
-            //mod.ControlBox = false;
+            mod.ControlBox = false;
             mod.Show();
             //this.RunWatchFile();
         }
-        delegate void DelegateOcultar(int res);
-        delegate void DelegateOcultarExcel(int res,bool completo);
 
-        private void EjecutarProceso(int distrito)
+        private void ProcesoDescargaDatos(int distrito)
         {
             try
             {
 
-                //Thread.Sleep(5000);
-                rgActas = new RegistroLocalGenerales();
-                int res = rgActas.DescargarDatos(distrito);
+                Thread.Sleep(5000);
+                CompElec = new ComputosElectoralesGenerales();
+                int res = CompElec.DescargarDatos(distrito);
 
                 if (this.IsDisposed)
                 {
@@ -64,7 +62,7 @@ namespace Sistema.RegistroActasLocal
                 else
                 {
                     DelegateOcultar MD = new DelegateOcultar(showMesage);
-                    this.Invoke(MD, new object[] {res});
+                    this.Invoke(MD, new object[] { res });
                 }
 
             }
@@ -73,12 +71,35 @@ namespace Sistema.RegistroActasLocal
                 MessageBox.Show("Error al descargar Datos. Intentalo de nuevo", "Atencion", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
-        private void ProcesoGeneraExcel(int distrito,bool completo, SaveFileDialog fichero)
+
+        public void DescargarDatosLocal(int selected)
         {
             try
             {
-                rgActas = new RegistroLocalGenerales();
-                int res = rgActas.generarExcel(fichero,distrito,completo);
+
+                //Creamos el delegado 
+                //this.pnlDescarga.Visible = true;
+                lblDescargando.Visible = true;
+                pictureDownload.Visible = true;
+                ThreadStart delegado = new ThreadStart(() => ProcesoDescargaDatos(selected));
+                //Creamos la instancia del hilo 
+                Thread hilo = new Thread(delegado) { IsBackground = true };
+                //Iniciamos el hilo 
+                hilo.Start();
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+        }
+
+        private void ProcesoGeneraExcel(int distrito, bool completo, SaveFileDialog fichero)
+        {
+            try
+            {
+                CompElec = new ComputosElectoralesGenerales();
+                int res = CompElec.generarExcel(fichero, distrito, completo);
 
                 if (this.IsDisposed)
                 {
@@ -95,48 +116,13 @@ namespace Sistema.RegistroActasLocal
                 else
                 {
                     DelegateOcultarExcel MD = new DelegateOcultarExcel(showMesageExcel);
-                    this.Invoke(MD, new object[] { res,completo });
+                    this.Invoke(MD, new object[] { res, completo });
                 }
 
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al descargar Datos. Intentalo de nuevo", "Atencion", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
-        public void DescargarDatosLocal(int selected)
-        {
-            try
-            {
-
-                //Creamos el delegado 
-                //this.pnlDescarga.Visible = true;
-                lblDescargando.Visible = true;
-                pictureDownload.Visible = true;
-                ThreadStart delegado = new ThreadStart(() => EjecutarProceso(selected));
-                delegado += () =>
-                {
-                    // Do what you want in the callback
-                    //this.btnDescargar.Enabled = true;
-                    //msgBox = new MsgBox(this, "Proceso de Descarga Completo: ", "Atención", MessageBoxButtons.OK, "Advertencia");
-                    //msgBox.ShowDialog(this);
-                    //showMesage();
-
-                    
-
-                };
-                //Creamos la instancia del hilo 
-                Thread hilo = new Thread(delegado) { IsBackground = true };                
-                //Iniciamos el hilo 
-                hilo.Start();
-
-                //msgBox = new MsgBox(this, "Mensaje de prueba", "Atención", MessageBoxButtons.OK, "Advertencia");
-                //msgBox.ShowDialog(this);
-            }
-            catch(Exception ex)
-            {
-                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
-                msgBox.ShowDialog(this);
             }
         }
 
@@ -149,19 +135,19 @@ namespace Sistema.RegistroActasLocal
                 string namefile = (completo) ? "Reporte_Excel_Completo_" + date : "Reporte_Excel_Distrito_" + selected + "_" + date;
                 SaveFileDialog fichero = new SaveFileDialog();
                 fichero.Filter = "Excel (*.xls)|*.xls";
-                fichero.FileName = "Reporte_Excel_Distrito_"+selected+"_"+date;
+                fichero.FileName = "Reporte_Excel_Distrito_" + selected + "_" + date;
                 if (fichero.ShowDialog() == DialogResult.OK)
                 {
                     //Creamos el delegado 
                     lblGenerarExcel.Visible = true;
                     pictureExcel.Visible = true;
-                    ThreadStart delegado = new ThreadStart(() => ProcesoGeneraExcel(selected, completo,fichero));
+                    ThreadStart delegado = new ThreadStart(() => ProcesoGeneraExcel(selected, completo, fichero));
                     //Creamos la instancia del hilo 
                     Thread hilo = new Thread(delegado) { IsBackground = true };
                     //Iniciamos el hilo 
                     hilo.Start();
                 }
-                    
+
             }
             catch (Exception ex)
             {
@@ -178,7 +164,7 @@ namespace Sistema.RegistroActasLocal
                 this.pictureDownload.Visible = false;
                 Form active = this.ActiveMdiChild;
                 string formname = active.Name.ToString();
-                if(formname == "Reportes")
+                if (formname == "Reportes")
                 {
                     BuscarControl(active.Controls, "btnDescargar");
                 }
@@ -197,15 +183,16 @@ namespace Sistema.RegistroActasLocal
                         msgBox.ShowDialog(this);
                         break;
                 }
-               
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Error al Activar controles");
             }
-            
+
         }
-        private void showMesageExcel(int res,bool completo)
+
+        private void showMesageExcel(int res, bool completo)
         {
             try
             {
@@ -215,7 +202,7 @@ namespace Sistema.RegistroActasLocal
                 string formname = active.Name.ToString();
                 if (formname == "Reportes")
                 {
-                    BuscarControl(active.Controls,(completo)? "btnGenerarExcelTodo" : "btnGenerarExcel");
+                    BuscarControl(active.Controls, (completo) ? "btnGenerarExcelTodo" : "btnGenerarExcel");
                 }
                 switch (res)
                 {
@@ -236,8 +223,7 @@ namespace Sistema.RegistroActasLocal
             }
 
         }
-
-        private void BuscarControl(Control.ControlCollection controles,string nameControlBuscar)
+        private void BuscarControl(Control.ControlCollection controles, string nameControlBuscar)
         {
             try
             {

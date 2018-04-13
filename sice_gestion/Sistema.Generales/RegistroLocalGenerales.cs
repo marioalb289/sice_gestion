@@ -300,8 +300,7 @@ namespace Sistema.Generales
                         {
                             sice_ar_documentos tmp = (from d in contexto.sice_ar_documentos where d.id == doc.id select d).FirstOrDefault();
                             //Asignar
-                            tmp.estatus = "OCUPADO"; ;
-                            tmp.updated_at = localDate;
+                            tmp.estatus = "OCUPADO";
                             contexto.SaveChanges();
 
                             sice_ar_asignacion newAsig2 = new sice_ar_asignacion();
@@ -338,10 +337,11 @@ namespace Sistema.Generales
                         int res = 0;
                         sice_ar_documentos tmpDoc = (from td in contexto.sice_ar_documentos where td.id_casilla == idCasilla select td).FirstOrDefault();
                         if (tmpDoc != null)
-                        {
+                        {                            
                             tmpDoc.estatus = "LIBRE";
                             tmpDoc.filtro = null;
                             tmpDoc.id_casilla = null;
+                            tmpDoc.importado_dato = null;
                             contexto.SaveChanges();
                         }
 
@@ -351,6 +351,7 @@ namespace Sistema.Generales
                         {
                             doc.id_casilla = idCasilla;
                             doc.filtro = null;
+                            doc.importado_dato = 0;
                             doc.estatus = "VALIDO";
                             contexto.SaveChanges();
                             if(asg.Count > 0)
