@@ -47,7 +47,7 @@
             this.picIcono.Location = new System.Drawing.Point(9, 34);
             this.picIcono.Name = "picIcono";
             this.picIcono.Size = new System.Drawing.Size(76, 76);
-            this.picIcono.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.picIcono.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picIcono.TabIndex = 0;
             this.picIcono.TabStop = false;
             // 

@@ -109,7 +109,6 @@ namespace Sistema.ComputosElectorales
                 {
                     double num;
 
-
                     if (double.TryParse(datos.Text, out num))
                     {
                         //Es numero proceder guardar

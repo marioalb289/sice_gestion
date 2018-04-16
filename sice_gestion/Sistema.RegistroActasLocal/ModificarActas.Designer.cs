@@ -49,8 +49,8 @@
             this.imageBox = new Cyotek.Windows.Forms.ImageBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.btnGuardar = new System.Windows.Forms.Button();
             this.btnGirar = new System.Windows.Forms.Button();
+            this.btnGuardar = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -128,8 +128,9 @@
             // 
             // button1
             // 
+            this.button1.BackgroundImage = global::Sistema.RegistroActasLocal.Properties.Resources.salir;
+            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.button1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.button1.Image = global::Sistema.RegistroActasLocal.Properties.Resources.button1;
             this.button1.Location = new System.Drawing.Point(1112, 0);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(39, 44);
@@ -360,19 +361,6 @@
             this.panel5.TabIndex = 11;
             this.panel5.Paint += new System.Windows.Forms.PaintEventHandler(this.panel5_Paint);
             // 
-            // btnGuardar
-            // 
-            this.btnGuardar.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnGuardar.Enabled = false;
-            this.btnGuardar.Location = new System.Drawing.Point(1076, 0);
-            this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(75, 44);
-            this.btnGuardar.TabIndex = 24;
-            this.btnGuardar.TabStop = false;
-            this.btnGuardar.Text = "Guardar";
-            this.btnGuardar.UseVisualStyleBackColor = true;
-            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
-            // 
             // btnGirar
             // 
             this.btnGirar.Dock = System.Windows.Forms.DockStyle.Right;
@@ -385,6 +373,19 @@
             this.btnGirar.Text = "Girar Imagen";
             this.btnGirar.UseVisualStyleBackColor = true;
             this.btnGirar.Click += new System.EventHandler(this.btnGirar_Click);
+            // 
+            // btnGuardar
+            // 
+            this.btnGuardar.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnGuardar.Enabled = false;
+            this.btnGuardar.Location = new System.Drawing.Point(1076, 0);
+            this.btnGuardar.Name = "btnGuardar";
+            this.btnGuardar.Size = new System.Drawing.Size(75, 44);
+            this.btnGuardar.TabIndex = 24;
+            this.btnGuardar.TabStop = false;
+            this.btnGuardar.Text = "Guardar";
+            this.btnGuardar.UseVisualStyleBackColor = true;
+            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
             // ModificarActas
             // 

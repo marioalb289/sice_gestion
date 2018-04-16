@@ -106,11 +106,11 @@ namespace Sistema.Generales
         {
             try
             {
-                if ("Ok" == enmIcon) picIcono.Image = Sistema.Generales.Resources.ok2;// new ImageResourceHandle("asterisk_59.png");
-                if ("Error" == enmIcon) picIcono.Image = Sistema.Generales.Resources.Error_60;
-                if ("Advertencia" == enmIcon) picIcono.Image = Sistema.Generales.Resources.Warning_64;
+                if ("Ok" == enmIcon) picIcono.Image = Sistema.Generales.Resources.bien;// new ImageResourceHandle("asterisk_59.png");
+                if ("Error" == enmIcon) picIcono.Image = Sistema.Generales.Resources.mal;
+                if ("Advertencia" == enmIcon) picIcono.Image = Sistema.Generales.Resources.warn;
                 if ("Question" == enmIcon) picIcono.Image = Sistema.Generales.Resources.question64;
-                if ("Informacion" == enmIcon) picIcono.Image = Sistema.Generales.Resources.Information_64;
+                if ("Informacion" == enmIcon) picIcono.Image = Sistema.Generales.Resources.i;
                 if ("None" == enmIcon) picIcono.Image = null;
 
             }

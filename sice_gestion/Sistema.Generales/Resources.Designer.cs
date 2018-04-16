@@ -63,6 +63,16 @@ namespace Sistema.Generales {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap agregar {
+            get {
+                object obj = ResourceManager.GetObject("agregar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap apremios_64 {
             get {
                 object obj = ResourceManager.GetObject("apremios_64", resourceCulture);
@@ -76,6 +86,26 @@ namespace Sistema.Generales {
         internal static System.Drawing.Bitmap asterisk_59 {
             get {
                 object obj = ResourceManager.GetObject("asterisk_59", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap bien {
+            get {
+                object obj = ResourceManager.GetObject("bien", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap buscar {
+            get {
+                object obj = ResourceManager.GetObject("buscar", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -146,6 +176,16 @@ namespace Sistema.Generales {
         internal static System.Drawing.Bitmap hist_pagos_64 {
             get {
                 object obj = ResourceManager.GetObject("hist_pagos_64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap i {
+            get {
+                object obj = ResourceManager.GetObject("i", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -233,6 +273,16 @@ namespace Sistema.Generales {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap mal {
+            get {
+                object obj = ResourceManager.GetObject("mal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ok2 {
             get {
                 object obj = ResourceManager.GetObject("ok2", resourceCulture);
@@ -283,6 +333,16 @@ namespace Sistema.Generales {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap reloj {
+            get {
+                object obj = ResourceManager.GetObject("reloj", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap servicios_64 {
             get {
                 object obj = ResourceManager.GetObject("servicios_64", resourceCulture);
@@ -306,6 +366,16 @@ namespace Sistema.Generales {
         internal static System.Drawing.Bitmap ver {
             get {
                 object obj = ResourceManager.GetObject("ver", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap warn {
+            get {
+                object obj = ResourceManager.GetObject("warn", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

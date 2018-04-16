@@ -116,8 +116,8 @@
             this.tblPanaelPartidos.Name = "tblPanaelPartidos";
             this.tblPanaelPartidos.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.tblPanaelPartidos.RowCount = 1;
-            this.tblPanaelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 113F));
-            this.tblPanaelPartidos.Size = new System.Drawing.Size(321, 117);
+            this.tblPanaelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 115F));
+            this.tblPanaelPartidos.Size = new System.Drawing.Size(321, 119);
             this.tblPanaelPartidos.TabIndex = 13;
             // 
             // pnlTableTitulo
@@ -127,7 +127,7 @@
             this.pnlTableTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableTitulo.Location = new System.Drawing.Point(15, 5);
             this.pnlTableTitulo.Name = "pnlTableTitulo";
-            this.pnlTableTitulo.Size = new System.Drawing.Size(141, 107);
+            this.pnlTableTitulo.Size = new System.Drawing.Size(141, 109);
             this.pnlTableTitulo.TabIndex = 39;
             // 
             // label4
@@ -149,7 +149,7 @@
             this.pnlTableVotos.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableVotos.Location = new System.Drawing.Point(164, 5);
             this.pnlTableVotos.Name = "pnlTableVotos";
-            this.pnlTableVotos.Size = new System.Drawing.Size(142, 107);
+            this.pnlTableVotos.Size = new System.Drawing.Size(142, 109);
             this.pnlTableVotos.TabIndex = 41;
             // 
             // label5
@@ -355,8 +355,9 @@
             // 
             // button1
             // 
+            this.button1.BackgroundImage = global::Sistema.RegistroActasLocal.Properties.Resources.salir;
+            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.button1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.button1.Image = global::Sistema.RegistroActasLocal.Properties.Resources.button1;
             this.button1.Location = new System.Drawing.Point(1118, 0);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(39, 44);

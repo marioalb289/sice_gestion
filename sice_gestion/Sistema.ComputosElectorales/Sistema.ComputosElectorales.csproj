@@ -206,5 +206,53 @@
   <ItemGroup>
     <None Include="Resources\basic.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\agregar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bien.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\buscar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\consultar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\descarga.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\editar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\i.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\identificar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\recuento.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\reload.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\reloj.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\reporte.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\reservar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\salir.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\warn.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
