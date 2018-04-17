@@ -33,8 +33,7 @@ namespace Sistema.Generales
                 {
                     string consulta =
                         "SELECT C.* FROM sice_casillas C " +
-                        "LEFT JOIN sice_reserva_captura RC ON RC.id_casilla = C.id " +
-                        "WHERE RC.id IS NULL" + " AND C.id_cabecera_local = " + LoginInfo.id_municipio;
+                        "WHERE C.id_cabecera_local = " + LoginInfo.id_municipio;
                     List<sice_casillas> lsCasilla = contexto.Database.SqlQuery<sice_casillas>(consulta).ToList();
                     return (from p in lsCasilla
                             select new SeccionCasillaConsecutivo

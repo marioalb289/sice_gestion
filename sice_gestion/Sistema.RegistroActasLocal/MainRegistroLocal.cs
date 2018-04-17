@@ -120,8 +120,8 @@ namespace Sistema.RegistroActasLocal
 
         private void button1_Click(object sender, EventArgs e)
         {
-            this.Close();
-            this.Dispose();
+            this.MdiParent.Close();
+            this.MdiParent.Dispose();
         }
 
         private void btnIdentificar_Click(object sender, EventArgs e)

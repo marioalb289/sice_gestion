@@ -33,6 +33,7 @@ namespace Sistema.RegistroActasLocal
         private Loading Loadingbox;
         private int distritoActual = 0;
         private int totalCandidatos;
+        private int Lnominal=0;
 
         const int SB_HORZ = 0;
         [DllImport("user32.dll")]
@@ -234,6 +235,8 @@ namespace Sistema.RegistroActasLocal
 
                     SeccionCasillaConsecutivo tempSec = (from p in this.sc where p.id == Convert.ToInt32(cmbCasilla.SelectedValue) select p).FirstOrDefault();
                     this.lblListaNominal.Text = tempSec.listaNominal.ToString();
+                    this.Lnominal = tempSec.listaNominal;
+                    bool flagFocus = false;
 
                     for (int i = 0; i < lsCandidatos.Count + 2; i++)
                     {
@@ -279,6 +282,8 @@ namespace Sistema.RegistroActasLocal
 
                         this.tblPanaelPartidos.Controls.Add(panels[i], 0, i + 1);
 
+                        
+
                         //Texbox para captura de votos
                         textBoxes[i].Anchor = System.Windows.Forms.AnchorStyles.None;
                         textBoxes[i].Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -289,9 +294,16 @@ namespace Sistema.RegistroActasLocal
                         //Votos nulos 0 Candidato no registrado -1
                         textBoxes[i].Tag = (i > lsCandidatos.Count - 1) ? i == lsCandidatos.Count ? "-1" : "0" : lsCandidatos[i].id_candidato.ToString();
                         textBoxes[i].KeyPress += FrmRegistroActas_KeyPress;
+                        textBoxes[i].KeyUp += Evento_KeyUp;
                         textBoxes[i].MaxLength = 3;
                         textBoxes[i].Text = "0";
                         textBoxes[i].TextAlign = HorizontalAlignment.Center;
+
+                        if (!flagFocus)
+                        {
+                            textBoxes[i].Focus();
+                            flagFocus = true;
+                        }   
 
                         this.tblPanaelPartidos.Controls.Add(textBoxes[i], 1, i + 1);
 
@@ -312,6 +324,8 @@ namespace Sistema.RegistroActasLocal
             }
 
         }
+
+        
 
         private void ClearDataTable(bool soloBloq = false)
         {
@@ -395,23 +409,73 @@ namespace Sistema.RegistroActasLocal
             this.btnGuardar.Enabled = false;
             this.btnNoLegible.Enabled = false;
             this.cargarComboSeccion();
+            this.lblListaNominal.Text = "No.";
+            this.lblTotalCapturado.Text = "No.";
 
         }
 
+        private void VerificarTotal()
+        {
+            try
+            {
+                double totalVotos = 0;
+                foreach (TextBox datos in this.textBoxes)
+                {
+                    double num;
+
+
+                    if (double.TryParse(datos.Text, out num))
+                    {
+                        totalVotos = totalVotos + num;
+                    }
+                    else
+                    {
+                        datos.Text = "0";
+                    }
+
+                    
+                    if (totalVotos > Convert.ToDouble(Lnominal))
+                    {
+                        msgBox = new MsgBox(this, "El total de Captura excede la Lista Nominal", "Atención", MessageBoxButtons.OK, "Error");
+                        msgBox.ShowDialog(this);
+                        datos.Text = "0";
+                        break;
+                    }
+                    else
+                    {
+                        lblTotalCapturado.Text = totalVotos.ToString();
+                    }
+
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+        }
+
+        private void Evento_KeyUp(object sender, KeyEventArgs e)
+        {
+            this.VerificarTotal();
+        }
 
         private void FrmRegistroActas_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (Char.IsDigit(e.KeyChar))
             {
-                e.Handled = false;
+                e.Handled = false;                
+
             }
             else if (Char.IsControl(e.KeyChar))
             {
                 e.Handled = false;
+                VerificarTotal();
             }
             else if (Char.IsSeparator(e.KeyChar))
             {
-                e.Handled = false;
+                e.Handled = true;
             }
             else
             {

@@ -85,5 +85,11 @@ namespace Sistema.ComputosElectorales
             }
 
         }
+
+        private void btnSalir_Click(object sender, EventArgs e)
+        {
+            this.MdiParent.Close();
+            this.MdiParent.Dispose();
+        }
     }
 }
