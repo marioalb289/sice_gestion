@@ -17,7 +17,7 @@ using System.Windows.Forms;
 
 namespace Sistema.RegistroActasLocal
 {
-    public partial class RegistroActas : Form
+    public partial class ModificarRegistroActas : Form
     {
         private Image _previewImage;
         private List<SeccionCasillaConsecutivo> sc;
@@ -34,26 +34,26 @@ namespace Sistema.RegistroActasLocal
         private Loading Loadingbox;
         private int distritoActual = 0;
         private int totalCandidatos;
-        private int Lnominal=0;
+        private int Lnominal = 0;
 
         const int SB_HORZ = 0;
         [DllImport("user32.dll")]
 
         static extern bool ShowScrollBar(IntPtr hWnd, int wBar, bool bShow);
 
-        public RegistroActas()
+        public ModificarRegistroActas()
         {
 
             //this.MdiParent.WindowState = FormWindowState.Maximized;
             InitializeComponent();
 
         }
-        private void RegistroActas_Load(object sender, EventArgs e)
+        private void ModificarRegistroActas_Load(object sender, EventArgs e)
         {
             this.btnGuardar.Enabled = false;
         }
 
-        private void guardarRegistroVotos(bool nolegible=false) 
+        private void guardarRegistroVotos(bool nolegible = false)
         {
             try
             {
@@ -104,7 +104,7 @@ namespace Sistema.RegistroActasLocal
                 if (lista_votos.Count > 0)
                 {
                     regActas = new RegistroLocalGenerales();
-                    int res = regActas.guardarDatosVotos(lista_votos, Convert.ToInt32(cmbCasilla.SelectedValue), selectedSupuesto);
+                    int res = regActas.guardarDatosVotos(lista_votos, Convert.ToInt32(cmbCasilla.SelectedValue), selectedSupuesto,true);
                     if (res == 1)
                     {
                         this.tableLayoutPanel2.Enabled = true;
@@ -148,11 +148,12 @@ namespace Sistema.RegistroActasLocal
                 cmbSupuesto.DataSource = null;
                 cmbSupuesto.DisplayMember = "Supuesto";
                 cmbSupuesto.ValueMember = "id";
-                if(this.supuestos == null)
+                if (this.supuestos == null)
                 {
                     this.supuestos = regActas.ListaSupuestos();
                     this.supuestos.Insert(0, new sice_ar_supuestos() { id = 0, supuesto = "Seleccionar Motivo" });
-                }                
+                }
+                
                 cmbSupuesto.DataSource = this.supuestos;
                 cmbSupuesto.Enabled = false;
 
@@ -198,20 +199,17 @@ namespace Sistema.RegistroActasLocal
                 int res = regActas.verificarCasillaRegistrada(Convert.ToInt32(cmbCasilla.SelectedValue));
                 if (res == 0)
                 {
-                    this.btnGuardar.Enabled = true;
-                    this.ClearDataTable(); //Limpia tabla y carga lista de candidatos
-                    //this.btnLimpiar.Enabled = true;
-                    //this.btnLegible.Enabled = true;
-
-                }
-                else
-                {
-                    msgBox = new MsgBox(this, "Casilla ya Registrada", "Atención", MessageBoxButtons.OK, "Advertencia");
+                    msgBox = new MsgBox(this, "Casilla NO Registrada", "Atención", MessageBoxButtons.OK, "Advertencia");
                     msgBox.ShowDialog(this);
                     cmbCasilla.SelectedIndex = 0;
                     this.btnGuardar.Enabled = false;
-                    //this.btnLimpiar.Enabled = false;
-                    //this.btnLegible.Enabled = false;
+
+                }
+                else
+                {             
+                    this.btnGuardar.Enabled = true;
+                    this.ClearDataTable(); //Limpia tabla y carga lista de resultados
+
                 }
 
 
@@ -230,19 +228,24 @@ namespace Sistema.RegistroActasLocal
                 regActas = new RegistroLocalGenerales();
 
                 if (this.distritoActual == 0)
-                    throw new Exception("No se pudo cargar lista de Candidatos");
-                List<Candidatos> lsCandidatos = regActas.ListaCandidatos(this.distritoActual);
-                this.totalCandidatos = lsCandidatos.Count();
-                if (lsCandidatos != null)
+                    throw new Exception("No se pudo cargar lista de Resultados");
+                int totalVotos = 0;
+                List<CandidatosVotos> lsCandidatosVotos = regActas.ListaResultadosCasilla(Convert.ToInt32(cmbCasilla.SelectedValue), "sice_ar_votos_cotejo");
+                sice_ar_supuestos supuesto = regActas.getSupuesto(Convert.ToInt32(cmbCasilla.SelectedValue));
+                if (supuesto != null)
+                    cmbSupuesto.SelectedIndex = supuesto.id;
+                else
+                    cmbSupuesto.SelectedIndex = 0;
+                if (lsCandidatosVotos != null)
                 {
                     this.cmbSupuesto.Enabled = true;
 
-                    
 
-                    this.pictureBoxes = new PictureBox[lsCandidatos.Count + 2];
-                    this.textBoxes = new TextBox[lsCandidatos.Count + 2];
-                    this.panels = new Panel[lsCandidatos.Count + 2];
-                    this.labelsName = new Label[lsCandidatos.Count + 2];
+
+                    this.pictureBoxes = new PictureBox[lsCandidatosVotos.Count];
+                    this.textBoxes = new TextBox[lsCandidatosVotos.Count];
+                    this.panels = new Panel[lsCandidatosVotos.Count];
+                    this.labelsName = new Label[lsCandidatosVotos.Count];
                     this.tblPanaelPartidos.RowCount = 1;
                     this.btnGuardar.Enabled = true;
 
@@ -252,7 +255,7 @@ namespace Sistema.RegistroActasLocal
                     this.Lnominal = tempSec.listaNominal;
                     bool flagFocus = false;
 
-                    for (int i = 0; i < lsCandidatos.Count + 2; i++)
+                    for (int i = 0; i < lsCandidatosVotos.Count; i++)
                     {
                         pictureBoxes[i] = new PictureBox();
                         textBoxes[i] = new TextBox();
@@ -266,7 +269,7 @@ namespace Sistema.RegistroActasLocal
                         //IMAGEN DEL PARTIDO
                         pictureBoxes[i].BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
                         pictureBoxes[i].Dock = System.Windows.Forms.DockStyle.Top;
-                        pictureBoxes[i].Image = (i > lsCandidatos.Count - 1) ? (i == lsCandidatos.Count ? (System.Drawing.Image)(Properties.Resources.no_regis) : (System.Drawing.Image)(Properties.Resources.nulos)) : ((System.Drawing.Image)(Properties.Resources.pri));
+                        pictureBoxes[i].Image = (lsCandidatosVotos[i].tipo == "NULO") ? (System.Drawing.Image)(Resources.nulos) : (lsCandidatosVotos[i].tipo == "NO REGISTRADO") ? (System.Drawing.Image)(Resources.no_regis) : (System.Drawing.Image)(Resources.pri);
                         pictureBoxes[i].Location = new System.Drawing.Point(15, 57);
                         pictureBoxes[i].Name = "pictureBox" + i;
                         pictureBoxes[i].Size = new System.Drawing.Size(75, 44);
@@ -280,7 +283,7 @@ namespace Sistema.RegistroActasLocal
                         labelsName[i].Name = "labelNameCandidato" + i;
                         labelsName[i].Size = new System.Drawing.Size(75, 13);
                         labelsName[i].TabIndex = 5;
-                        labelsName[i].Text = (i > lsCandidatos.Count - 1) ? i == lsCandidatos.Count ? "Candidato No Registrado" : "Votos Nulos" : lsCandidatos[i].candidato;
+                        labelsName[i].Text = lsCandidatosVotos[i].tipo == "NULO" ? "Votos Nulos" : lsCandidatosVotos[i].tipo == "NO REGISTRADO" ? "Candidato No Registrado" : lsCandidatosVotos[i].candidato;
                         labelsName[i].TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
                         //PANEL DONDE IRAN LA IMAGEN Y LA ETIQUETA
@@ -292,11 +295,7 @@ namespace Sistema.RegistroActasLocal
                         panels[i].Size = new System.Drawing.Size(75, 44);
                         panels[i].TabIndex = 200 + i;
 
-
-
                         this.tblPanaelPartidos.Controls.Add(panels[i], 0, i + 1);
-
-                        
 
                         //Texbox para captura de votos
                         textBoxes[i].Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -305,25 +304,28 @@ namespace Sistema.RegistroActasLocal
                         textBoxes[i].Name = "textBox" + i;
                         textBoxes[i].Size = new System.Drawing.Size(100, 29);
                         textBoxes[i].TabIndex = 100 + i;
-                        //Votos nulos 0 Candidato no registrado -1
-                        textBoxes[i].Tag = (i > lsCandidatos.Count - 1) ? i == lsCandidatos.Count ? "-1" : "-2" : lsCandidatos[i].id_candidato.ToString();
-                        textBoxes[i].KeyPress += FrmRegistroActas_KeyPress;
+                        //Votos nulos -2 Candidato no registrado -1
+                        textBoxes[i].Tag = lsCandidatosVotos[i].id_candidato.ToString();
+                        textBoxes[i].KeyPress += FrmModificarRegistroActas_KeyPress;
                         textBoxes[i].KeyUp += Evento_KeyUp;
                         textBoxes[i].MaxLength = 3;
-                        textBoxes[i].Text = "0";
+                        textBoxes[i].Text = lsCandidatosVotos[i].votos.ToString();
                         textBoxes[i].TextAlign = HorizontalAlignment.Center;
+
+                        totalVotos += (int)lsCandidatosVotos[i].votos;
 
                         if (!flagFocus)
                         {
                             textBoxes[i].Focus();
                             flagFocus = true;
-                        }   
+                        }
 
                         this.tblPanaelPartidos.Controls.Add(textBoxes[i], 1, i + 1);
 
 
 
                     }
+                    this.lblTotalCapturado.Text = totalVotos.ToString();
                     this.tblPanaelPartidos.RowStyles.Add(new RowStyle(SizeType.Absolute, 70F));
                     this.tblPanaelPartidos.ResumeLayout(false);
                     this.tblPanaelPartidos.Visible = true;
@@ -339,7 +341,7 @@ namespace Sistema.RegistroActasLocal
 
         }
 
-        
+
 
         private void ClearDataTable(bool soloBloq = false)
         {
@@ -426,6 +428,7 @@ namespace Sistema.RegistroActasLocal
             this.lblTotalCapturado.Text = "No.";
             this.lblDistrito.Text = "No.";
             this.cmbSupuesto.Enabled = false;
+            this.cmbSupuesto.SelectedIndex = 0;
 
         }
 
@@ -467,7 +470,7 @@ namespace Sistema.RegistroActasLocal
                         //datos.Text = "0";
                     }
                     lblTotalCapturado.Text = totalVotos.ToString();
-
+                    
 
                 }
 
@@ -516,7 +519,7 @@ namespace Sistema.RegistroActasLocal
             {
                 this.VerificarTotal();
             }
-            else if(e.KeyData == Keys.Enter || e.KeyData == Keys.Space)
+            else if (e.KeyData == Keys.Enter || e.KeyData == Keys.Space)
             {
                 return;
             }
@@ -524,18 +527,18 @@ namespace Sistema.RegistroActasLocal
             {
                 this.VerificarTotal();
             }
-                
+
         }
 
-        private void FrmRegistroActas_KeyPress(object sender, KeyPressEventArgs e)
+        private void FrmModificarRegistroActas_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (Char.IsDigit(e.KeyChar))
             {
-                e.Handled = false;                
+                e.Handled = false;
 
             }
             else if (Char.IsControl(e.KeyChar))
-            {                
+            {
                 e.Handled = false;
             }
             else if (Char.IsSeparator(e.KeyChar))
@@ -573,14 +576,14 @@ namespace Sistema.RegistroActasLocal
                 {
                     this.verificarCasilla();
                 }
-                
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
                 msgBox.ShowDialog(this);
             }
-            
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -588,7 +591,7 @@ namespace Sistema.RegistroActasLocal
             this.Close();
         }
 
-        private void RegistroActas_Shown(object sender, EventArgs e)
+        private void ModificarRegistroActas_Shown(object sender, EventArgs e)
         {
             //this.MdiParent.WindowState = FormWindowState.Maximized;
             this.cargarComboSeccion();
@@ -638,5 +641,6 @@ namespace Sistema.RegistroActasLocal
         }
     }
 }
+
 
 

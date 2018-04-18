@@ -1,6 +1,6 @@
 ﻿namespace Sistema.RegistroActasLocal
 {
-    partial class RegistroActas
+    partial class ModificarRegistroActas
     {
         /// <summary>
         /// Required designer variable.
@@ -115,8 +115,8 @@
             this.tblPanaelPartidos.Name = "tblPanaelPartidos";
             this.tblPanaelPartidos.Padding = new System.Windows.Forms.Padding(40, 0, 40, 0);
             this.tblPanaelPartidos.RowCount = 1;
-            this.tblPanaelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 147F));
-            this.tblPanaelPartidos.Size = new System.Drawing.Size(1018, 151);
+            this.tblPanaelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 151F));
+            this.tblPanaelPartidos.Size = new System.Drawing.Size(1018, 155);
             this.tblPanaelPartidos.TabIndex = 13;
             // 
             // pnlTableTitulo
@@ -126,7 +126,7 @@
             this.pnlTableTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableTitulo.Location = new System.Drawing.Point(45, 5);
             this.pnlTableTitulo.Name = "pnlTableTitulo";
-            this.pnlTableTitulo.Size = new System.Drawing.Size(460, 141);
+            this.pnlTableTitulo.Size = new System.Drawing.Size(460, 145);
             this.pnlTableTitulo.TabIndex = 39;
             // 
             // label4
@@ -148,7 +148,7 @@
             this.pnlTableVotos.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableVotos.Location = new System.Drawing.Point(513, 5);
             this.pnlTableVotos.Name = "pnlTableVotos";
-            this.pnlTableVotos.Size = new System.Drawing.Size(460, 141);
+            this.pnlTableVotos.Size = new System.Drawing.Size(460, 145);
             this.pnlTableVotos.TabIndex = 41;
             // 
             // label5
@@ -471,7 +471,7 @@
             this.panel1.Size = new System.Drawing.Size(1024, 100);
             this.panel1.TabIndex = 2;
             // 
-            // RegistroActas
+            // ModificarRegistroActas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -479,10 +479,10 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "RegistroActas";
-            this.Text = "RegistroActas";
-            this.Load += new System.EventHandler(this.RegistroActas_Load);
-            this.Shown += new System.EventHandler(this.RegistroActas_Shown);
+            this.Name = "ModificarRegistroActas";
+            this.Text = "ModificarRegistroActas";
+            this.Load += new System.EventHandler(this.ModificarRegistroActas_Load);
+            this.Shown += new System.EventHandler(this.ModificarRegistroActas_Shown);
             this.panel2.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();

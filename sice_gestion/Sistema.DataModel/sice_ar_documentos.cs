@@ -29,5 +29,6 @@ namespace Sistema.DataModel
         public System.DateTime updated_at { get; set; }
         public Nullable<int> importado { get; set; }
         public Nullable<int> importado_dato { get; set; }
+        public Nullable<System.DateTime> identificado { get; set; }
     }
 }

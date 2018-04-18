@@ -26,6 +26,9 @@
         <EntityTypeShape EntityType="sice_pruebasModel.sice_casillas" Width="1.5" PointX="7.375" PointY="11.75" />
         <EntityTypeShape EntityType="sice_pruebasModel.sice_votos_test" Width="1.5" PointX="7.375" PointY="5.75" />
         <EntityTypeShape EntityType="sice_pruebasModel.sice_ar_votos_cotejo" Width="1.5" PointX="9.75" PointY="4.875" />
+        <EntityTypeShape EntityType="sice_pruebasModel.sice_ar_supuestos" Width="1.5" PointX="12.375" PointY="5.75" />
+        <EntityTypeShape EntityType="sice_pruebasModel.sice_ar_historico" Width="1.5" PointX="13.375" PointY="11.75" />
+        <EntityTypeShape EntityType="sice_pruebasModel.sice_historico" Width="1.5" PointX="14.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

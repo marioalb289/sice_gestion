@@ -44,5 +44,8 @@ namespace Sistema.DataModel
         public DbSet<sice_casillas> sice_casillas { get; set; }
         public DbSet<sice_votos_test> sice_votos_test { get; set; }
         public DbSet<sice_ar_votos_cotejo> sice_ar_votos_cotejo { get; set; }
+        public DbSet<sice_ar_supuestos> sice_ar_supuestos { get; set; }
+        public DbSet<sice_ar_historico> sice_ar_historico { get; set; }
+        public DbSet<sice_historico> sice_historico { get; set; }
     }
 }

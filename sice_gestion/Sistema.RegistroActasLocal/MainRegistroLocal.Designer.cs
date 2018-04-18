@@ -29,13 +29,14 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnRespaldo = new System.Windows.Forms.Button();
             this.btnIdentificar = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.btnConsultarActas = new System.Windows.Forms.Button();
             this.btnRegistrarActas = new System.Windows.Forms.Button();
             this.btnReportes = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.btnRespaldo = new System.Windows.Forms.Button();
+            this.btnModificar = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -48,13 +49,14 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel1.Controls.Add(this.btnRespaldo, 2, 2);
-            this.tableLayoutPanel1.Controls.Add(this.btnIdentificar, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.btnModificar, 3, 1);
+            this.tableLayoutPanel1.Controls.Add(this.btnRespaldo, 3, 2);
             this.tableLayoutPanel1.Controls.Add(this.label2, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.btnConsultarActas, 3, 1);
+            this.tableLayoutPanel1.Controls.Add(this.btnConsultarActas, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.btnRegistrarActas, 2, 1);
-            this.tableLayoutPanel1.Controls.Add(this.btnReportes, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.button1, 3, 2);
+            this.tableLayoutPanel1.Controls.Add(this.btnReportes, 2, 2);
+            this.tableLayoutPanel1.Controls.Add(this.button1, 4, 2);
+            this.tableLayoutPanel1.Controls.Add(this.btnIdentificar, 1, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -62,8 +64,25 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 27.77778F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 36.11111F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 36.11111F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(800, 600);
             this.tableLayoutPanel1.TabIndex = 7;
+            // 
+            // btnRespaldo
+            // 
+            this.btnRespaldo.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnRespaldo.BackColor = System.Drawing.Color.Transparent;
+            this.btnRespaldo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnRespaldo.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRespaldo.Image = global::Sistema.RegistroActasLocal.Properties.Resources.descarga;
+            this.btnRespaldo.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnRespaldo.Location = new System.Drawing.Point(492, 409);
+            this.btnRespaldo.Name = "btnRespaldo";
+            this.btnRespaldo.Size = new System.Drawing.Size(136, 163);
+            this.btnRespaldo.TabIndex = 22;
+            this.btnRespaldo.Text = "Generar Respaldo";
+            this.btnRespaldo.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnRespaldo.UseVisualStyleBackColor = false;
             // 
             // btnIdentificar
             // 
@@ -103,7 +122,7 @@
             this.btnConsultarActas.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnConsultarActas.Image = global::Sistema.RegistroActasLocal.Properties.Resources.consultar;
             this.btnConsultarActas.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnConsultarActas.Location = new System.Drawing.Point(492, 192);
+            this.btnConsultarActas.Location = new System.Drawing.Point(172, 409);
             this.btnConsultarActas.Name = "btnConsultarActas";
             this.btnConsultarActas.Size = new System.Drawing.Size(136, 163);
             this.btnConsultarActas.TabIndex = 14;
@@ -137,7 +156,7 @@
             this.btnReportes.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnReportes.Image = global::Sistema.RegistroActasLocal.Properties.Resources.reporte;
             this.btnReportes.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnReportes.Location = new System.Drawing.Point(172, 409);
+            this.btnReportes.Location = new System.Drawing.Point(332, 409);
             this.btnReportes.Name = "btnReportes";
             this.btnReportes.Size = new System.Drawing.Size(136, 163);
             this.btnReportes.TabIndex = 17;
@@ -154,7 +173,7 @@
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.Image = global::Sistema.RegistroActasLocal.Properties.Resources.salir;
             this.button1.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.button1.Location = new System.Drawing.Point(492, 409);
+            this.button1.Location = new System.Drawing.Point(652, 409);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(136, 163);
             this.button1.TabIndex = 20;
@@ -163,21 +182,22 @@
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // btnRespaldo
+            // btnModificar
             // 
-            this.btnRespaldo.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnRespaldo.BackColor = System.Drawing.Color.Transparent;
-            this.btnRespaldo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnRespaldo.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRespaldo.Image = global::Sistema.RegistroActasLocal.Properties.Resources.descarga;
-            this.btnRespaldo.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnRespaldo.Location = new System.Drawing.Point(332, 409);
-            this.btnRespaldo.Name = "btnRespaldo";
-            this.btnRespaldo.Size = new System.Drawing.Size(136, 163);
-            this.btnRespaldo.TabIndex = 22;
-            this.btnRespaldo.Text = "Generar Respaldo";
-            this.btnRespaldo.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnRespaldo.UseVisualStyleBackColor = false;
+            this.btnModificar.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnModificar.BackColor = System.Drawing.Color.Transparent;
+            this.btnModificar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnModificar.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnModificar.Image = global::Sistema.RegistroActasLocal.Properties.Resources.reload;
+            this.btnModificar.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnModificar.Location = new System.Drawing.Point(492, 192);
+            this.btnModificar.Name = "btnModificar";
+            this.btnModificar.Size = new System.Drawing.Size(136, 163);
+            this.btnModificar.TabIndex = 23;
+            this.btnModificar.Text = "Modificar Actas";
+            this.btnModificar.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnModificar.UseVisualStyleBackColor = false;
+            this.btnModificar.Click += new System.EventHandler(this.btnModificar_Click);
             // 
             // MainRegistroLocal
             // 
@@ -203,5 +223,6 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnIdentificar;
         private System.Windows.Forms.Button btnRespaldo;
+        private System.Windows.Forms.Button btnModificar;
     }
 }

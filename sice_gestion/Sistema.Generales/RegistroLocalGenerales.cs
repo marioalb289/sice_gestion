@@ -25,6 +25,23 @@ namespace Sistema.Generales
                 con = "MYSQLOCAL";
             }
         }
+
+        public List<sice_ar_supuestos> ListaSupuestos()
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    return (from p in contexto.sice_ar_supuestos select p).ToList();
+                }
+                    
+            }
+            catch(Exception E)
+            {
+                throw E;
+            }
+        }
+
         public List<SeccionCasillaConsecutivo> ListaSescciones()
         {
             try
@@ -138,6 +155,21 @@ namespace Sistema.Generales
                 using (DatabaseContext contexto = new DatabaseContext(con))
                 {
                     return (from p in contexto.sice_ar_documentos where p.id_casilla == id_casilla select p).FirstOrDefault();
+                    //return contexto.sice_casillas.Select(x => new SeccionCasilla { id = x.id, seccion = (int)x.seccion, casilla = (string)x.tipo_casilla }).ToList();
+                }
+
+            }
+            catch (Exception E)
+            { throw E; }
+
+        }
+        public sice_ar_supuestos getSupuesto(int id_casilla)
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    return (from p in contexto.sice_ar_reserva join sup in contexto.sice_ar_supuestos on p.id_supuesto equals sup.id where p.id_casilla == id_casilla select sup).FirstOrDefault();
                     //return contexto.sice_casillas.Select(x => new SeccionCasilla { id = x.id, seccion = (int)x.seccion, casilla = (string)x.tipo_casilla }).ToList();
                 }
 
@@ -284,6 +316,7 @@ namespace Sistema.Generales
             { throw E; }
         }
 
+
         public sice_ar_documentos TomarActa()
         {
             try
@@ -350,6 +383,7 @@ namespace Sistema.Generales
                         {
                             doc.id_casilla = idCasilla;
                             doc.filtro = null;
+                            doc.identificado = DateTime.Now;
                             doc.importado_dato = 0;
                             doc.estatus = "VALIDO";
                             contexto.SaveChanges();
@@ -378,9 +412,9 @@ namespace Sistema.Generales
             }
         }
 
-        
 
-        public int guardarDatosVotos(List<sice_ar_votos_cotejo> listaVotos, int id_casilla,bool nolegible = false)
+
+        public int guardarDatosVotos(List<sice_ar_votos_cotejo> listaVotos, int id_casilla, int supuesto, bool modificar = false)
         {
             try
             {
@@ -410,7 +444,7 @@ namespace Sistema.Generales
                                 v1.tipo = voto.tipo;
                                 v1.votos = voto.votos;
                                 v1.importado = 0;
-                                v1.estatus = 1;
+                                v1.estatus = 1;                                
                                 contexto.SaveChanges();
                             }
                             else
@@ -422,16 +456,38 @@ namespace Sistema.Generales
                         sice_ar_reserva rc = (from p in contexto.sice_ar_reserva where p.id_casilla == id_casilla select p).FirstOrDefault();
                         if (rc != null)
                         {
-                            rc.tipo_reserva = (nolegible) ? "NO LEGIBLE":"ATENDIDO";                           
+                            rc.tipo_reserva = "ATENDIDO";
+                            if (supuesto == 0)
+                                rc.id_supuesto = null;
+                            else
+                                rc.id_supuesto = supuesto;
                             rc.importado = 0;
+                            rc.updated_at = DateTime.Now;
                         }
                         else
                         {
                             rc = new sice_ar_reserva();
                             rc.id_casilla = id_casilla;
-                            rc.tipo_reserva = (nolegible) ? "NO LEGIBLE" : "ATENDIDO";
+                            rc.tipo_reserva = "ATENDIDO";
+                            rc.create_at = DateTime.Now;
+                            rc.updated_at = DateTime.Now;
                             rc.importado = 0;
+                            if (supuesto == 0)
+                                rc.id_supuesto = null;
+                            else
+                                rc.id_supuesto = supuesto;
                             contexto.sice_ar_reserva.Add(rc);
+                        }
+                        if (modificar)
+                        {
+                            sice_ar_historico hs = new sice_ar_historico();
+                            hs.id_casilla = id_casilla;
+                            if (supuesto == 0)
+                                hs.id_supuesto = null;
+                            else
+                                hs.id_supuesto = supuesto;
+                            hs.fecha = DateTime.Now;
+                            contexto.sice_ar_historico.Add(hs);
                         }
                         contexto.SaveChanges();
                         TransactionContexto.Complete();

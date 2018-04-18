@@ -12,15 +12,11 @@ namespace Sistema.DataModel
     using System;
     using System.Collections.Generic;
     
-    public partial class sice_ar_reserva
+    public partial class sice_ar_historico
     {
         public int id { get; set; }
-        public Nullable<int> id_casilla { get; set; }
-        public string tipo_reserva { get; set; }
-        public Nullable<int> id_documento { get; set; }
-        public Nullable<int> importado { get; set; }
         public Nullable<int> id_supuesto { get; set; }
-        public Nullable<System.DateTime> create_at { get; set; }
-        public Nullable<System.DateTime> updated_at { get; set; }
+        public Nullable<System.DateTime> fecha { get; set; }
+        public Nullable<int> id_casilla { get; set; }
     }
 }

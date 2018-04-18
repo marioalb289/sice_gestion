@@ -307,7 +307,7 @@ namespace Sistema.RegistroActasLocal
 
 
 
-        private void guardarRegistroVotos()
+        private void guardarActaIdentificada()
         {
             try
             {
@@ -593,7 +593,7 @@ namespace Sistema.RegistroActasLocal
                 DialogResult result = msgBox.ShowDialog(this);
                 if (result == DialogResult.Yes)
                 {
-                    this.guardarRegistroVotos();
+                    this.guardarActaIdentificada();
                 }
 
             }

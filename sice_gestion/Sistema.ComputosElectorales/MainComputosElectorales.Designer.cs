@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnSalir = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.btnConsultarActas = new System.Windows.Forms.Button();
             this.btnRecuentoVotos = new System.Windows.Forms.Button();
             this.btnReportes = new System.Windows.Forms.Button();
-            this.btnSalir = new System.Windows.Forms.Button();
             this.btnModificar = new System.Windows.Forms.Button();
             this.btnRespaldo = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
@@ -64,6 +64,23 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 38.17204F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(800, 600);
             this.tableLayoutPanel1.TabIndex = 8;
+            // 
+            // btnSalir
+            // 
+            this.btnSalir.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnSalir.BackColor = System.Drawing.Color.Transparent;
+            this.btnSalir.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnSalir.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSalir.Image = global::Sistema.ComputosElectorales.Properties.Resources.salir;
+            this.btnSalir.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnSalir.Location = new System.Drawing.Point(492, 403);
+            this.btnSalir.Name = "btnSalir";
+            this.btnSalir.Size = new System.Drawing.Size(136, 163);
+            this.btnSalir.TabIndex = 21;
+            this.btnSalir.Text = "Salir";
+            this.btnSalir.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnSalir.UseVisualStyleBackColor = false;
+            this.btnSalir.Click += new System.EventHandler(this.btnSalir_Click);
             // 
             // label2
             // 
@@ -101,13 +118,13 @@
             this.btnRecuentoVotos.BackColor = System.Drawing.Color.Transparent;
             this.btnRecuentoVotos.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.btnRecuentoVotos.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRecuentoVotos.Image = global::Sistema.ComputosElectorales.Properties.Resources.recuento;
+            this.btnRecuentoVotos.Image = global::Sistema.ComputosElectorales.Properties.Resources.editar;
             this.btnRecuentoVotos.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnRecuentoVotos.Location = new System.Drawing.Point(172, 184);
             this.btnRecuentoVotos.Name = "btnRecuentoVotos";
             this.btnRecuentoVotos.Size = new System.Drawing.Size(136, 163);
             this.btnRecuentoVotos.TabIndex = 13;
-            this.btnRecuentoVotos.Text = "Recuento de Votos";
+            this.btnRecuentoVotos.Text = "Cotejo Actas";
             this.btnRecuentoVotos.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnRecuentoVotos.UseVisualStyleBackColor = false;
             this.btnRecuentoVotos.Click += new System.EventHandler(this.btnRecuentoVotos_Click);
@@ -129,30 +146,13 @@
             this.btnReportes.UseVisualStyleBackColor = false;
             this.btnReportes.Click += new System.EventHandler(this.btnReportes_Click);
             // 
-            // btnSalir
-            // 
-            this.btnSalir.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnSalir.BackColor = System.Drawing.Color.Transparent;
-            this.btnSalir.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnSalir.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSalir.Image = global::Sistema.ComputosElectorales.Properties.Resources.salir;
-            this.btnSalir.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnSalir.Location = new System.Drawing.Point(492, 403);
-            this.btnSalir.Name = "btnSalir";
-            this.btnSalir.Size = new System.Drawing.Size(136, 163);
-            this.btnSalir.TabIndex = 21;
-            this.btnSalir.Text = "Salir";
-            this.btnSalir.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnSalir.UseVisualStyleBackColor = false;
-            this.btnSalir.Click += new System.EventHandler(this.btnSalir_Click);
-            // 
             // btnModificar
             // 
             this.btnModificar.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnModificar.BackColor = System.Drawing.Color.Transparent;
             this.btnModificar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.btnModificar.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnModificar.Image = global::Sistema.ComputosElectorales.Properties.Resources.editar;
+            this.btnModificar.Image = global::Sistema.ComputosElectorales.Properties.Resources.reload;
             this.btnModificar.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnModificar.Location = new System.Drawing.Point(172, 403);
             this.btnModificar.Name = "btnModificar";
