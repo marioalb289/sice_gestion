@@ -34,7 +34,9 @@ namespace Sistema.RegistroActasLocal
         private Loading Loadingbox;
         private int distritoActual = 0;
         private int totalCandidatos;
-        private int Lnominal=0;
+        private int Lnominal = 0;
+        private int totalVotos = 0;
+        private int flagSelectSupuesto = 0;
 
         const int SB_HORZ = 0;
         [DllImport("user32.dll")]
@@ -58,6 +60,8 @@ namespace Sistema.RegistroActasLocal
             try
             {
                 int selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
+                if (this.flagSelectSupuesto > 0)
+                    selectedSupuesto = this.flagSelectSupuesto;
                 this.tableLayoutPanel2.Enabled = false;
                 List<sice_ar_votos_cotejo> lista_votos = new List<sice_ar_votos_cotejo>();
                 int id_casilla = Convert.ToInt32(cmbCasilla.SelectedValue);
@@ -90,7 +94,7 @@ namespace Sistema.RegistroActasLocal
                         {
                             id_candidato = id_candidato,
                             id_casilla = id_casilla,
-                            votos = Convert.ToInt32(datos.Text),
+                            votos = selectedSupuesto > 0 ? 0 : Convert.ToInt32(datos.Text),
                             tipo = tipo_voto
                         });
 
@@ -429,11 +433,26 @@ namespace Sistema.RegistroActasLocal
 
         }
 
+        private void DesactivarTextBoxes(bool activar = false)
+        {
+            try
+            {
+                tblPanaelPartidos.Enabled = activar;
+
+
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         private void VerificarTotal()
         {
             try
             {
                 double totalVotos = 0;
+                this.flagSelectSupuesto = 0;
                 List<double> listaVotos = new List<double>();
                 double votosNulos = 0;
                 int flagError = 0;
@@ -470,11 +489,13 @@ namespace Sistema.RegistroActasLocal
 
 
                 }
-
+                this.totalVotos = Convert.ToInt32(totalVotos);
                 if (flagError > 0)
                 {
+                    this.flagSelectSupuesto = 2;
                     this.cmbSupuesto.SelectedIndex = 2;
-                    this.cmbSupuesto.Enabled = false;
+                    //this.cmbSupuesto.Enabled = false;
+                    //this.DesactivarTextBoxes();
                     msgBox = new MsgBox(this, "El total de Captura excede la Lista Nominal", "Atención", MessageBoxButtons.OK, "Error");
                     msgBox.ShowDialog(this);
                     return;
@@ -487,13 +508,15 @@ namespace Sistema.RegistroActasLocal
                 if (votosNulos > diferencia)
                 {
                     this.cmbSupuesto.SelectedIndex = 5;
-                    this.cmbSupuesto.Enabled = false;
+                    this.flagSelectSupuesto = 5;
+                    //this.cmbSupuesto.Enabled = false;
+                    //this.DesactivarTextBoxes();
                     msgBox = new MsgBox(this, "NUMERO DE VOTOS NULOS MAYOR A LA DIFERENCIA ENTRE LOS CANDIDATOS DEL 1ER Y 2DO LUGAR", "Atención", MessageBoxButtons.OK, "Advertencia");
                     msgBox.ShowDialog(this);
                 }
                 else
                 {
-                    this.cmbSupuesto.Enabled = true;
+                    //this.cmbSupuesto.Enabled = true;
                     int selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
                     if (selectedSupuesto == 5 || selectedSupuesto == 2)
                     {
@@ -629,6 +652,22 @@ namespace Sistema.RegistroActasLocal
                     this.guardarRegistroVotos(true);
                 }
 
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+        }
+
+        private void cmbSupuesto_SelectedValueChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (Convert.ToInt32(cmbSupuesto.SelectedValue) > 0)
+                    this.DesactivarTextBoxes();
+                else
+                    this.DesactivarTextBoxes(true);
             }
             catch (Exception ex)
             {

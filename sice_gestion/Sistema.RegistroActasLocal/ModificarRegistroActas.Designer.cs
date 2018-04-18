@@ -209,6 +209,7 @@
             this.cmbSupuesto.Size = new System.Drawing.Size(675, 21);
             this.cmbSupuesto.TabIndex = 29;
             this.cmbSupuesto.TabStop = false;
+            this.cmbSupuesto.SelectedValueChanged += new System.EventHandler(this.cmbSupuesto_SelectedValueChanged);
             // 
             // label9
             // 
