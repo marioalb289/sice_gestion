@@ -36,7 +36,9 @@ namespace Sistema.ComputosElectorales
         private int totalCandidatos;
         private int PosActual = 0;
         private int Lnominal = 0;
-
+        private int flagSelectSupuesto = 0;
+        private int totalVotos = 0;
+        private bool recuento = false;
         const int SB_HORZ = 0;
         [DllImport("user32.dll")]
 
@@ -76,6 +78,7 @@ namespace Sistema.ComputosElectorales
                 this.lblConsecutivo.Text = tempSec.consecutivo.ToString();
                 this.lblSeccion.Text = tempSec.seccion.ToString();             
                 this.lblCasilla.Text = tempSec.casilla;
+                this.lblDistrito.Text = tempSec.distrito.ToString();
                 this.distritoActual = tempSec.distrito;
                 this.lblListaNominal.Text = tempSec.listaNominal.ToString();
                 this.Lnominal = tempSec.listaNominal;
@@ -105,6 +108,8 @@ namespace Sistema.ComputosElectorales
                 List<sice_votos> lista_votos = new List<sice_votos>();
                 int id_casilla = this.idCasillaActual;
                 int totalVotacionEmitida = 0;
+                if (this.flagSelectSupuesto == 2)
+                    throw new Exception("El total de Captura excede la Lista Nominal");
                 if (id_casilla == 0)
                     throw new Exception("Error al guardar los datos");
                 foreach (TextBox datos in this.textBoxes)
@@ -147,65 +152,18 @@ namespace Sistema.ComputosElectorales
                 }
                 if (lista_votos.Count > 0)
                 {
-                    //Diferencia entre el primero y segundo
-                    lista_votos = (from p in lista_votos orderby p.votos descending select p).ToList();
-                    int Primero = (int)lista_votos[0].votos;
-                    int Seegundo = (int)lista_votos[1].votos;
-                    decimal diferencia = 0;
-                    if (totalVotacionEmitida > 0)
+                    int res2 = CompElec.guardarDatosVotos(lista_votos, id_casilla, this.totalCandidatos);
+                    if (res2 == 1)
                     {
-                        decimal Porcentaje1 = Math.Round((Convert.ToDecimal(Primero) * 100) / totalVotacionEmitida, 2);
-                        decimal Porcentaje2 = Math.Round((Convert.ToDecimal(Seegundo) * 100) / totalVotacionEmitida, 2);
-                        diferencia = Porcentaje1 - Porcentaje2;
-                    }
-                    if(diferencia < 1)
-                    {
-                        msgBox = new MsgBox(this.MdiParent, "La diferencia entre 1° y 2° Lugar es menor al 1%\nEl acta será enviada a revisión", "Atención", MessageBoxButtons.OK, "Advertencia");
-                        DialogResult result = msgBox.ShowDialog(this);
-                        if (result == DialogResult.OK)
-                        {
-                            this.tableLayoutPanel2.Enabled = true;
-                            this.ReservarCasilla("RESERVA");
-                        }
-                        //else if(result == DialogResult.No)
-                        //{
-                        //    int res1 = CompElec.guardarDatosVotos(lista_votos, id_casilla, this.totalCandidatos);
-                        //    if (res1 == 1)
-                        //    {
-                        //        this.tableLayoutPanel2.Enabled = true;
-                        //        msgBox = new MsgBox(this, "Datos Guardados correctamente", "Atención", MessageBoxButtons.OK, "Ok");
-                        //        msgBox.ShowDialog(this);
-                        //        this.BloquearControles();
-                        //    }
-                        //    else
-                        //    {
-                        //        throw new Exception("Error al guardar Datos");
-                        //    }
-                        //}
-                        //else
-                        //{
-                        //    this.tableLayoutPanel2.Enabled = true;
-                        //    return;
-                        //}
+                        this.tableLayoutPanel2.Enabled = true;
+                        msgBox = new MsgBox(this, "Datos Guardados correctamente", "Atención", MessageBoxButtons.OK, "Ok");
+                        msgBox.ShowDialog(this);
+                        this.BloquearControles();
                     }
                     else
                     {
-                        int res2 = CompElec.guardarDatosVotos(lista_votos, id_casilla, this.totalCandidatos);
-                        if (res2 == 1)
-                        {
-                            this.tableLayoutPanel2.Enabled = true;
-                            msgBox = new MsgBox(this, "Datos Guardados correctamente", "Atención", MessageBoxButtons.OK, "Ok");
-                            msgBox.ShowDialog(this);
-                            this.BloquearControles();
-                        }
-                        else
-                        {
-                            throw new Exception("Error al guardar Datos");
-                        }
+                        throw new Exception("Error al guardar Datos");
                     }
-                    
-
-
                 }
                 else
                 {
@@ -215,6 +173,21 @@ namespace Sistema.ComputosElectorales
             catch (Exception ex)
             {
                 this.tableLayoutPanel2.Enabled = true;
+                throw ex;
+            }
+        }
+        private bool buscarRecuento()
+        {
+            try
+            {
+                CompElec = new ComputosElectoralesGenerales();
+                if (CompElec.verificarRecuento(this.idCasillaActual) == 1)
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
                 throw ex;
             }
         }
@@ -250,6 +223,7 @@ namespace Sistema.ComputosElectorales
                 CompElec = new ComputosElectoralesGenerales();
                 if (this.distritoActual == 0)
                     throw new Exception("No se pudo cargar lista de Candidatos");
+                this.recuento = this.buscarRecuento();
                 List<Candidatos> lsCandidatos = CompElec.ListaCandidatos(this.distritoActual);
                 this.totalCandidatos = lsCandidatos.Count();
                 if (lsCandidatos != null)
@@ -440,34 +414,79 @@ namespace Sistema.ComputosElectorales
             try
             {
                 double totalVotos = 0;
+                this.flagSelectSupuesto = 0;
+                List<double> listaVotos = new List<double>();
+                double votosNulos = 0;
+                int flagError = 0;
                 foreach (TextBox datos in this.textBoxes)
                 {
                     double num;
-
-
+                    int tempIdCandidato = Convert.ToInt32(datos.Tag);//Identificador para votos nulos
                     if (double.TryParse(datos.Text, out num))
                     {
                         totalVotos = totalVotos + num;
+                        listaVotos.Add(num);
+                        if (tempIdCandidato == -2)
+                            votosNulos = num;
                     }
                     else
                     {
                         datos.Text = "0";
+                        listaVotos.Add(0);
+                        if (tempIdCandidato == 0)
+                            votosNulos = 0;
                     }
 
+                    //Numero de Votos Nulos
+
+                    if (tempIdCandidato == 0)
+                        votosNulos = num;
 
                     if (totalVotos > Convert.ToDouble(Lnominal))
                     {
-                        msgBox = new MsgBox(this, "El total de Captura excede la Lista Nominal", "Atención", MessageBoxButtons.OK, "Error");
+                        flagError = 1;
+                        //datos.Text = "0";
+                    }
+                    lblTotalCapturado.Text = totalVotos.ToString();
+
+
+                }
+                this.totalVotos = Convert.ToInt32(totalVotos);
+                if (flagError > 0)
+                {
+                    this.flagSelectSupuesto = 2;
+                    msgBox = new MsgBox(this, "El total de Captura excede la Lista Nominal", "Atención", MessageBoxButtons.OK, "Error");
+                    msgBox.ShowDialog(this);
+                    return;
+
+                }
+
+                listaVotos.Sort();
+                double primero = listaVotos[listaVotos.Count - 1];
+                double segundo = listaVotos[listaVotos.Count - 2];
+                double diferencia = primero - segundo;
+                if (votosNulos > diferencia)
+                {
+
+                    if (this.recuento)
+                    {
+                        this.flagSelectSupuesto = 5;
+                        msgBox = new MsgBox(this, "NUMERO DE VOTOS NULOS MAYOR A LA DIFERENCIA ENTRE LOS CANDIDATOS DEL 1ER Y 2DO LUGAR", "Atención", MessageBoxButtons.OK, "Error");
                         msgBox.ShowDialog(this);
-                        datos.Text = "0";
-                        break;
+                        return;
                     }
                     else
                     {
-                        lblTotalCapturado.Text = totalVotos.ToString();
+                        this.flagSelectSupuesto = 5;
+                        msgBox = new MsgBox(this.MdiParent, "NUMERO DE VOTOS NULOS MAYOR A LA DIFERENCIA ENTRE LOS CANDIDATOS DEL 1ER Y 2DO LUGAR.\n¿ENVIAR ACTA A RESERVA?", "Atención", MessageBoxButtons.YesNo, "Advertencia");
+                        DialogResult result = msgBox.ShowDialog(this);
+                        if (result == DialogResult.Yes)
+                        {
+                            this.ReservarCasilla("RESERVA");
+                        }
                     }
-
                 }
+
 
             }
             catch (Exception ex)

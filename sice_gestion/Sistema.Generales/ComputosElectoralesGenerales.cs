@@ -32,13 +32,100 @@ namespace Sistema.Generales
             {
                 using (DatabaseContext contexto = new DatabaseContext(con))
                 {
-                    return (from d in contexto.sice_distritos_locales select d).ToList();
+                    string condicion = " ";
+                    if (LoginInfo.privilegios == 5)
+                    {
+                        condicion = "WHERE C.id_cabecera_local = " + LoginInfo.id_municipio + " ";
+                    }
+
+                    string consulta =
+                        "SELECT D.* FROM sice_casillas C " +
+                        "JOIN sice_distritos_locales D on D.id = C.id_distrito_local " +
+                        condicion +
+                        "GROUP BY C.id_distrito_local ";
+                    List<sice_distritos_locales> lsCasilla = contexto.Database.SqlQuery<sice_distritos_locales>(consulta).ToList();
+                    return lsCasilla;
                 }
 
             }
             catch (Exception E)
             { throw E; }
         }
+
+        public int verificarCasillaRegistrada(int id_casilla)
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    sice_reserva_captura reserva = (from r in contexto.sice_reserva_captura where r.id_casilla == id_casilla select r).FirstOrDefault();
+                    if (reserva != null)
+                    {
+                        return 1;
+
+                    }
+                    return 0;
+                    //return contexto.sice_casillas.Select(x => new SeccionCasilla { id = x.id, seccion = (int)x.seccion, casilla = (string)x.tipo_casilla }).ToList();
+                }
+
+            }
+            catch (Exception E)
+            { throw E; }
+
+        }
+
+        public int verificarRecuento(int id_casilla)
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    sice_ar_reserva res = (from r in contexto.sice_ar_reserva where r.id_casilla == id_casilla && r.id_supuesto != null select r).FirstOrDefault();
+                    if (res != null)
+                        return 1;
+                    else
+                        return 0;
+                }
+            }
+            catch(Exception E)
+            {
+                throw E;
+            }
+        }
+
+        public List<CandidatosVotos> ListaResultadosCasilla(int casilla, string tabla = "")
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    if (tabla == "")
+                        tabla = "sice_ar_votos";
+                    string consulta =
+                        "SELECT " +
+                        "V.id,	" +
+                        "V.id_casilla as id_casilla, " +
+                        "V.tipo as tipo, " +
+                        "V.votos as votos, " +
+                        "CASE WHEN V.tipo = 'VOTO' THEN V.id_candidato WHEN V.tipo = 'NULO' THEN -2 WHEN V.tipo = 'NO REGISTRADO' THEN -1 END as id_candidato, " +
+                        "CONCAT(C.nombre,' ',C.apellido_paterno,' ',C.apellido_materno)as candidato, " +
+                        "CD.nombre_candidatura, " +
+                        "P.siglas_par as partido, " +
+                        "P.img_par as imagen " +
+                        "FROM " + tabla + " V " +
+                        "LEFT JOIN sice_candidatos C ON C.id = V.id_candidato " +
+                        "LEFT JOIN sice_candidaturas CD ON CD.id = C.fk_cargo AND CD.titular = 1 " + //"AND CD.id_distrito =" + distrito +
+                        "LEFT JOIN sice_partidos_politicos P ON P.id = C.fk_partido " +
+                        "WHERE V.id_casilla = " + casilla + " " + " AND V.tipo <> 'NO VALIDO' " +
+                        "ORDER BY id_candidato DESC";
+                    return contexto.Database.SqlQuery<CandidatosVotos>(consulta).ToList();
+                }
+
+            }
+            catch (Exception E)
+            { throw E; }
+        }
+
         public List<VotosSeccion> ResultadosSeccion(int pageNumber =0, int pageSize=0,int id_distrito_local = 0)
         {
             try
@@ -97,8 +184,7 @@ namespace Sistema.Generales
                 {
                     string consulta =
                         "SELECT C.* FROM sice_casillas C " +
-                        "LEFT JOIN sice_reserva_captura RC ON RC.id_casilla = C.id " +
-                        "WHERE RC.id IS NULL"+ " AND C.id_cabecera_local = " +LoginInfo.id_municipio;
+                        "WHERE C.id_cabecera_local = " + LoginInfo.id_municipio;
                     List<sice_casillas> lsCasilla = contexto.Database.SqlQuery<sice_casillas>(consulta).ToList();
                     return (from p in lsCasilla
                             select new SeccionCasillaConsecutivo
@@ -203,7 +289,7 @@ namespace Sistema.Generales
             }
         }
 
-        public int guardarDatosVotos(List<sice_votos> listaVotos, int id_casilla, int totalCandidatos)
+        public int guardarDatosVotos(List<sice_votos> listaVotos, int id_casilla, int totalCandidatos,bool modificar = false)
         {
             try
             {
@@ -252,6 +338,15 @@ namespace Sistema.Generales
                             rc.importado = 0;
                             contexto.sice_reserva_captura.Add(rc);
                         }
+                        if (modificar)
+                        {
+                            sice_historico hs = new sice_historico();
+                            hs.id_casilla = id_casilla;
+                            hs.id_supuesto = null;
+                            hs.fecha = DateTime.Now;
+                            contexto.sice_historico.Add(hs);
+                        }
+
                         contexto.SaveChanges();
                         TransactionContexto.Complete();
                         return 1;

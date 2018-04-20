@@ -74,7 +74,7 @@ namespace Sistema.RegistroActasLocal
             }
         }
 
-        private void InicializarPaginador(int? distrito, int pageNumber = 1, int pageSize = 10)
+        private void InicializarPaginador(int? distrito, int pageNumber = 1, int pageSize = 25)
         {
             try
             {

@@ -56,6 +56,7 @@
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.printPreviewDialog2 = new System.Windows.Forms.PrintPreviewDialog();
             this.printDialog1 = new System.Windows.Forms.PrintDialog();
+            this.button2 = new System.Windows.Forms.Button();
             this.panel2.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tblPanaelPartidos.SuspendLayout();
@@ -116,8 +117,8 @@
             this.tblPanaelPartidos.Name = "tblPanaelPartidos";
             this.tblPanaelPartidos.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.tblPanaelPartidos.RowCount = 1;
-            this.tblPanaelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 115F));
-            this.tblPanaelPartidos.Size = new System.Drawing.Size(321, 119);
+            this.tblPanaelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 117F));
+            this.tblPanaelPartidos.Size = new System.Drawing.Size(321, 121);
             this.tblPanaelPartidos.TabIndex = 13;
             // 
             // pnlTableTitulo
@@ -127,7 +128,7 @@
             this.pnlTableTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableTitulo.Location = new System.Drawing.Point(15, 5);
             this.pnlTableTitulo.Name = "pnlTableTitulo";
-            this.pnlTableTitulo.Size = new System.Drawing.Size(141, 109);
+            this.pnlTableTitulo.Size = new System.Drawing.Size(141, 111);
             this.pnlTableTitulo.TabIndex = 39;
             // 
             // label4
@@ -149,7 +150,7 @@
             this.pnlTableVotos.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableVotos.Location = new System.Drawing.Point(164, 5);
             this.pnlTableVotos.Name = "pnlTableVotos";
-            this.pnlTableVotos.Size = new System.Drawing.Size(142, 109);
+            this.pnlTableVotos.Size = new System.Drawing.Size(142, 111);
             this.pnlTableVotos.TabIndex = 41;
             // 
             // label5
@@ -234,6 +235,7 @@
             // 
             // panel5
             // 
+            this.panel5.Controls.Add(this.button2);
             this.panel5.Controls.Add(this.btnGirar);
             this.panel5.Controls.Add(this.btnImprimir);
             this.panel5.Controls.Add(this.btnGuardar);
@@ -265,7 +267,7 @@
             this.btnImprimir.Size = new System.Drawing.Size(75, 44);
             this.btnImprimir.TabIndex = 25;
             this.btnImprimir.TabStop = false;
-            this.btnImprimir.Text = "Imprimir";
+            this.btnImprimir.Text = "Imprimir en Oficio";
             this.btnImprimir.UseVisualStyleBackColor = true;
             this.btnImprimir.Click += new System.EventHandler(this.btnImprimir_Click);
             // 
@@ -416,6 +418,18 @@
             // 
             this.printDialog1.UseEXDialog = true;
             // 
+            // button2
+            // 
+            this.button2.Dock = System.Windows.Forms.DockStyle.Right;
+            this.button2.Enabled = false;
+            this.button2.Location = new System.Drawing.Point(43, 0);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 44);
+            this.button2.TabIndex = 27;
+            this.button2.TabStop = false;
+            this.button2.Text = "Imprimir en Carta";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
             // ConsultaActas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -474,5 +488,6 @@
         private System.Windows.Forms.PrintPreviewDialog printPreviewDialog2;
         private System.Windows.Forms.Button btnGirar;
         private System.Windows.Forms.PrintDialog printDialog1;
+        private System.Windows.Forms.Button button2;
     }
 }

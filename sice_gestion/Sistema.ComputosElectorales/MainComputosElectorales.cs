@@ -91,5 +91,22 @@ namespace Sistema.ComputosElectorales
             this.MdiParent.Close();
             this.MdiParent.Dispose();
         }
+
+        private void btnModificar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ModificarRecuentoVotos form = new ModificarRecuentoVotos();
+                form.MdiParent = this.MdiParent;
+                form.Dock = DockStyle.Fill;
+                form.FormClosed += Form_FormClosed;
+                form.Show();
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+        }
     }
 }

@@ -36,6 +36,8 @@
             this.pnlTableVotos = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.lblTotalCapturado = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             this.lblListaNominal = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.lblCasilla = new System.Windows.Forms.Label();
@@ -53,11 +55,11 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label9 = new System.Windows.Forms.Label();
-            this.lblTotalCapturado = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
+            this.lblDistrito = new System.Windows.Forms.Label();
             this.panel2.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tblPanaelPartidos.SuspendLayout();
@@ -116,8 +118,8 @@
             this.tblPanaelPartidos.Name = "tblPanaelPartidos";
             this.tblPanaelPartidos.Padding = new System.Windows.Forms.Padding(40, 0, 40, 0);
             this.tblPanaelPartidos.RowCount = 1;
-            this.tblPanaelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 105F));
-            this.tblPanaelPartidos.Size = new System.Drawing.Size(1018, 109);
+            this.tblPanaelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 109F));
+            this.tblPanaelPartidos.Size = new System.Drawing.Size(1018, 113);
             this.tblPanaelPartidos.TabIndex = 13;
             // 
             // pnlTableTitulo
@@ -127,7 +129,7 @@
             this.pnlTableTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableTitulo.Location = new System.Drawing.Point(45, 5);
             this.pnlTableTitulo.Name = "pnlTableTitulo";
-            this.pnlTableTitulo.Size = new System.Drawing.Size(460, 99);
+            this.pnlTableTitulo.Size = new System.Drawing.Size(460, 103);
             this.pnlTableTitulo.TabIndex = 39;
             // 
             // label4
@@ -149,7 +151,7 @@
             this.pnlTableVotos.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableVotos.Location = new System.Drawing.Point(513, 5);
             this.pnlTableVotos.Name = "pnlTableVotos";
-            this.pnlTableVotos.Size = new System.Drawing.Size(460, 99);
+            this.pnlTableVotos.Size = new System.Drawing.Size(460, 103);
             this.pnlTableVotos.TabIndex = 41;
             // 
             // label5
@@ -174,6 +176,8 @@
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Controls.Add(this.lblDistrito, 5, 1);
+            this.tableLayoutPanel3.Controls.Add(this.label10, 4, 1);
             this.tableLayoutPanel3.Controls.Add(this.lblTotalCapturado, 3, 1);
             this.tableLayoutPanel3.Controls.Add(this.label9, 0, 1);
             this.tableLayoutPanel3.Controls.Add(this.lblListaNominal, 1, 1);
@@ -193,6 +197,35 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(1024, 100);
             this.tableLayoutPanel3.TabIndex = 9;
+            // 
+            // lblTotalCapturado
+            // 
+            this.lblTotalCapturado.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
+            this.lblTotalCapturado.AutoSize = true;
+            this.lblTotalCapturado.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lblTotalCapturado.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotalCapturado.ForeColor = System.Drawing.Color.DarkRed;
+            this.lblTotalCapturado.Location = new System.Drawing.Point(349, 60);
+            this.lblTotalCapturado.Name = "lblTotalCapturado";
+            this.lblTotalCapturado.Padding = new System.Windows.Forms.Padding(10);
+            this.lblTotalCapturado.Size = new System.Drawing.Size(53, 40);
+            this.lblTotalCapturado.TabIndex = 24;
+            this.lblTotalCapturado.Text = "No.";
+            this.lblTotalCapturado.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label9
+            // 
+            this.label9.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
+            this.label9.AutoSize = true;
+            this.label9.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(3, 60);
+            this.label9.Name = "label9";
+            this.label9.Padding = new System.Windows.Forms.Padding(10);
+            this.label9.Size = new System.Drawing.Size(128, 40);
+            this.label9.TabIndex = 23;
+            this.label9.Text = "Lista Nominal:";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblListaNominal
             // 
@@ -418,19 +451,6 @@
             this.panel4.Size = new System.Drawing.Size(1018, 44);
             this.panel4.TabIndex = 43;
             // 
-            // button1
-            // 
-            this.button1.BackgroundImage = global::Sistema.ComputosElectorales.Properties.Resources.salir;
-            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.button1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.button1.Location = new System.Drawing.Point(979, 0);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(39, 44);
-            this.button1.TabIndex = 25;
-            this.button1.TabStop = false;
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 3;
@@ -460,34 +480,46 @@
             this.panel1.Size = new System.Drawing.Size(1024, 100);
             this.panel1.TabIndex = 2;
             // 
-            // label9
+            // button1
             // 
-            this.label9.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
-            this.label9.AutoSize = true;
-            this.label9.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(3, 60);
-            this.label9.Name = "label9";
-            this.label9.Padding = new System.Windows.Forms.Padding(10);
-            this.label9.Size = new System.Drawing.Size(128, 40);
-            this.label9.TabIndex = 23;
-            this.label9.Text = "Lista Nominal:";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button1.BackgroundImage = global::Sistema.ComputosElectorales.Properties.Resources.salir;
+            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.button1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.button1.Location = new System.Drawing.Point(979, 0);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(39, 44);
+            this.button1.TabIndex = 25;
+            this.button1.TabStop = false;
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // lblTotalCapturado
+            // label10
             // 
-            this.lblTotalCapturado.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
-            this.lblTotalCapturado.AutoSize = true;
-            this.lblTotalCapturado.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.lblTotalCapturado.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTotalCapturado.ForeColor = System.Drawing.Color.DarkRed;
-            this.lblTotalCapturado.Location = new System.Drawing.Point(349, 60);
-            this.lblTotalCapturado.Name = "lblTotalCapturado";
-            this.lblTotalCapturado.Padding = new System.Windows.Forms.Padding(10);
-            this.lblTotalCapturado.Size = new System.Drawing.Size(53, 40);
-            this.lblTotalCapturado.TabIndex = 24;
-            this.lblTotalCapturado.Text = "No.";
-            this.lblTotalCapturado.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label10.AutoSize = true;
+            this.label10.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(408, 60);
+            this.label10.Name = "label10";
+            this.label10.Padding = new System.Windows.Forms.Padding(10);
+            this.label10.Size = new System.Drawing.Size(120, 40);
+            this.label10.TabIndex = 25;
+            this.label10.Text = "Distrito:";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lblDistrito
+            // 
+            this.lblDistrito.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
+            this.lblDistrito.AutoSize = true;
+            this.lblDistrito.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lblDistrito.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDistrito.ForeColor = System.Drawing.Color.DarkRed;
+            this.lblDistrito.Location = new System.Drawing.Point(534, 60);
+            this.lblDistrito.Name = "lblDistrito";
+            this.lblDistrito.Padding = new System.Windows.Forms.Padding(10);
+            this.lblDistrito.Size = new System.Drawing.Size(53, 40);
+            this.lblDistrito.TabIndex = 26;
+            this.lblDistrito.Text = "No.";
+            this.lblDistrito.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // RecuentoVotos
             // 
@@ -550,5 +582,7 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label lblTotalCapturado;
+        private System.Windows.Forms.Label lblDistrito;
+        private System.Windows.Forms.Label label10;
     }
 }

@@ -161,6 +161,7 @@
             this.btnModificar.Text = "Modificar Actas";
             this.btnModificar.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnModificar.UseVisualStyleBackColor = false;
+            this.btnModificar.Click += new System.EventHandler(this.btnModificar_Click);
             // 
             // btnRespaldo
             // 

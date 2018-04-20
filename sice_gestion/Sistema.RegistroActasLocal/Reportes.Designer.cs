@@ -213,6 +213,7 @@
             this.btnDescargar.TabIndex = 41;
             this.btnDescargar.Text = "Descargar Datos";
             this.btnDescargar.UseVisualStyleBackColor = true;
+            this.btnDescargar.Visible = false;
             this.btnDescargar.Click += new System.EventHandler(this.btnDescargar_Click);
             // 
             // btnActualizarGrid
@@ -224,6 +225,7 @@
             this.btnActualizarGrid.TabIndex = 40;
             this.btnActualizarGrid.Text = "Actualizar Tabla";
             this.btnActualizarGrid.UseVisualStyleBackColor = true;
+            this.btnActualizarGrid.Visible = false;
             this.btnActualizarGrid.Click += new System.EventHandler(this.btnActualizarGrid_Click);
             // 
             // btnGenerarExcelTodo

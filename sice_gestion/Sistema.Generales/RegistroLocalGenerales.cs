@@ -77,7 +77,19 @@ namespace Sistema.Generales
             {
                 using (DatabaseContext contexto = new DatabaseContext(con))
                 {
-                    return (from d in contexto.sice_distritos_locales select d).ToList();
+                    string condicion = " "; 
+                    if(LoginInfo.privilegios == 5)
+                    {
+                        condicion = "WHERE C.id_cabecera_local = " + LoginInfo.id_municipio + " ";
+                    }
+
+                    string consulta =
+                        "SELECT D.* FROM sice_casillas C " +
+                        "JOIN sice_distritos_locales D on D.id = C.id_distrito_local " +
+                        condicion+
+                        "GROUP BY C.id_distrito_local ";
+                    List<sice_distritos_locales> lsCasilla = contexto.Database.SqlQuery<sice_distritos_locales>(consulta).ToList();
+                    return lsCasilla;
                 }
 
             }

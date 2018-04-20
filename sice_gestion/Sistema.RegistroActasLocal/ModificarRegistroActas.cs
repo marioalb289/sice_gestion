@@ -628,7 +628,7 @@ namespace Sistema.RegistroActasLocal
         {
             try
             {
-                msgBox = new MsgBox(this.MdiParent, "¿Guardar datos del Acta?\nLos cambios no se pueden deshacer", "Atención", MessageBoxButtons.YesNo, "Advertencia");
+                msgBox = new MsgBox(this.MdiParent, "¿Guardar datos del Acta?", "Atención", MessageBoxButtons.YesNo, "Advertencia");
                 DialogResult result = msgBox.ShowDialog(this);
                 if (result == DialogResult.Yes)
                 {
@@ -647,7 +647,7 @@ namespace Sistema.RegistroActasLocal
         {
             try
             {
-                msgBox = new MsgBox(this.MdiParent, "¿Marcar la Casilla como NO LEGIBLE?\nLos cambios no se pueden deshacer", "Atención", MessageBoxButtons.YesNo, "Advertencia");
+                msgBox = new MsgBox(this.MdiParent, "¿Marcar la Casilla como NO LEGIBLE?", "Atención", MessageBoxButtons.YesNo, "Advertencia");
                 DialogResult result = msgBox.ShowDialog(this);
                 if (result == DialogResult.Yes)
                 {

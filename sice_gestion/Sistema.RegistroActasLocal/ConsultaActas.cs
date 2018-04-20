@@ -168,11 +168,16 @@ namespace Sistema.RegistroActasLocal
                 }
                 else
                 {
+                    btnGuardar.Enabled = true;
+                    btnGirar.Enabled = true;
+                    btnImprimir.Enabled = true;
+                    //Limpiar tablas y cargar datos de votos
+                    this.ClearDataTable();
+                    //Cargar imagenes de los filtros
+                    Loadingbox.Close();
                     Loadingbox.Close();
                     msgBox = new MsgBox(this, "Acta No Registrada", "Atención", MessageBoxButtons.OK, "Advertencia");
                     msgBox.ShowDialog(this);
-                    //Limpiar tablas
-                    this.ClearDataTable(true);
                 }
 
 
