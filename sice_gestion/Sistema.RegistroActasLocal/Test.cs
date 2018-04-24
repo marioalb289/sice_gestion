@@ -17,7 +17,7 @@ using System.Windows.Forms;
 
 namespace Sistema.RegistroActasLocal
 {
-    public partial class RegistroActas : Form
+    public partial class Test : Form
     {
         private Image _previewImage;
         private List<SeccionCasillaConsecutivo> sc;
@@ -43,34 +43,16 @@ namespace Sistema.RegistroActasLocal
 
         static extern bool ShowScrollBar(IntPtr hWnd, int wBar, bool bShow);
 
-        public RegistroActas()
+        public Test()
         {
 
             //this.MdiParent.WindowState = FormWindowState.Maximized;
             InitializeComponent();
 
         }
-        private void RegistroActas_Load(object sender, EventArgs e)
+        private void Test_Load(object sender, EventArgs e)
         {
             this.btnGuardar.Enabled = false;
-
-            txtBoletasR.KeyPress += FrmRegistroActas_KeyPress;
-            txtBoletasR.KeyUp += Evento_KeyUp;
-            txtBoletasR.GotFocus += new System.EventHandler(tbxValue_GotFocus);
-            txtBoletasR.MouseUp += new System.Windows.Forms.MouseEventHandler(tbxValue_MouseUp);
-            txtBoletasR.Leave += new System.EventHandler(tbxValue_Leave);
-
-            txtBoletasS.KeyPress += FrmRegistroActas_KeyPress;
-            txtBoletasS.KeyUp += Evento_KeyUp;
-            txtBoletasS.GotFocus += new System.EventHandler(tbxValue_GotFocus);
-            txtBoletasS.MouseUp += new System.Windows.Forms.MouseEventHandler(tbxValue_MouseUp);
-            txtBoletasS.Leave += new System.EventHandler(tbxValue_Leave);
-
-            txtEscritos.KeyPress += FrmRegistroActas_KeyPress;
-            txtEscritos.KeyUp += Evento_KeyUp;
-            txtBoletasR.GotFocus += new System.EventHandler(tbxValue_GotFocus);
-            txtBoletasR.MouseUp += new System.Windows.Forms.MouseEventHandler(tbxValue_MouseUp);
-            txtBoletasR.Leave += new System.EventHandler(tbxValue_Leave);
         }
 
         private void guardarRegistroVotos(bool nolegible = false)
@@ -256,7 +238,7 @@ namespace Sistema.RegistroActasLocal
                 if (this.distritoActual == 0)
                     throw new Exception("No se pudo cargar lista de Candidatos");
                 List<Candidatos> lsCandidatos = regActas.ListaCandidatos(this.distritoActual);
-                this.totalCandidatos = lsCandidatos.Count() + 2;
+                this.totalCandidatos = lsCandidatos.Count()+2;
                 if (lsCandidatos != null)
                 {
                     this.cmbSupuesto.Enabled = true;
@@ -274,18 +256,20 @@ namespace Sistema.RegistroActasLocal
                     this.lblListaNominal.Text = tempSec.listaNominal.ToString();
                     this.lblDistrito.Text = tempSec.distrito.ToString();
                     this.Lnominal = tempSec.listaNominal;
+                    bool flagFocus = false;
 
                     //Agregar Columnas
                     this.tablePanelPartidos.AutoScroll = true;
                     this.tablePanelPartidos.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
                     this.tablePanelPartidos.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.InsetDouble;
                     this.tablePanelPartidos.ColumnCount = totalCandidatos;
-                    decimal anchoColumnas = Math.Round(100 / (Convert.ToDecimal(totalCandidatos)), 6);
+                    //this.tablePanelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.692307F));
+                    decimal anchoColumnas = Math.Round(100 / (Convert.ToDecimal(totalCandidatos)),6);
                     for (int i = 0; i < totalCandidatos; i++)
                     {
-                        this.tablePanelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, (float)anchoColumnas));
-                        //this.tablePanelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.692307F));
-                    }
+                        //this.tablePanelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, (float)anchoColumnas));
+                        this.tablePanelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.692307F));
+                    }                  
 
 
                     //Agregar Imagen, Etiqueta, TextBox por fila
@@ -296,6 +280,7 @@ namespace Sistema.RegistroActasLocal
                         textBoxes[i] = new TextBox();
                         labelsName[i] = new Label();
                         panels[i] = new Panel();
+                        //this.tablePanelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.692307F));
 
                         //Imagen
                         pictureBoxes[i].Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -316,20 +301,17 @@ namespace Sistema.RegistroActasLocal
                         labelsName[i].Size = new System.Drawing.Size(68, 65);
                         labelsName[i].TabIndex = 51;
                         labelsName[i].Text = (i > lsCandidatos.Count - 1) ? i == lsCandidatos.Count ? "Candidato No Registrado" : "Votos Nulos" : lsCandidatos[i].candidato;
-                        
+
                         //TextBox
                         textBoxes[i].Dock = System.Windows.Forms.DockStyle.Top;
                         textBoxes[i].Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                         textBoxes[i].Location = new System.Drawing.Point(46, 157);
                         textBoxes[i].Name = "textBox" + i;
                         textBoxes[i].Size = new System.Drawing.Size(63, 29);
-                        textBoxes[i].TabIndex = 1 + i;
+                        textBoxes[i].TabIndex = 100 + i;
                         textBoxes[i].Tag = (i > lsCandidatos.Count - 1) ? i == lsCandidatos.Count ? "-1" : "-2" : lsCandidatos[i].id_candidato.ToString();
-                        textBoxes[i].KeyPress += FrmRegistroActas_KeyPress;
+                        textBoxes[i].KeyPress += FrmTest_KeyPress;
                         textBoxes[i].KeyUp += Evento_KeyUp;
-                        textBoxes[i].GotFocus += new System.EventHandler(tbxValue_GotFocus);
-                        textBoxes[i].MouseUp += new System.Windows.Forms.MouseEventHandler(tbxValue_MouseUp);
-                        textBoxes[i].Leave += new System.EventHandler(tbxValue_Leave);
                         textBoxes[i].MaxLength = 3;
                         textBoxes[i].Text = "0";
                         textBoxes[i].TextAlign = HorizontalAlignment.Center;
@@ -341,9 +323,14 @@ namespace Sistema.RegistroActasLocal
                         //Agregar Textbox
                         this.tablePanelPartidos.Controls.Add(textBoxes[i], i, 2);
 
-                        
+                        //Poner Foco
+                        if (!flagFocus)
+                        {
+                            textBoxes[i].Focus();
+                            flagFocus = true;
+                        }
                     }
-                    
+
                     //Agregar Filas
                     this.tablePanelPartidos.RowCount = 3;
                     this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
@@ -353,8 +340,6 @@ namespace Sistema.RegistroActasLocal
                     //this.tblPanaelPartidos.RowStyles.Add(new RowStyle(SizeType.Absolute, 70F));
                     this.tablePanelPartidos.ResumeLayout(false);
                     this.tablePanelPartidos.Visible = true;
-                    this.tblPanelBoletas.Visible = true;
-                    textBoxes[0].Focus();
                     //ShowScrollBar(this.tableLayoutPanel2.Handle, SB_HORZ, false);
                 }
 
@@ -365,7 +350,9 @@ namespace Sistema.RegistroActasLocal
                 msgBox.ShowDialog(this);
             }
 
-        }        
+        }
+
+
 
         private void ClearDataTable(bool soloBloq = false)
         {
@@ -378,7 +365,6 @@ namespace Sistema.RegistroActasLocal
                 this.tablePanelPartidos.RowCount = 0;
                 this.tablePanelPartidos.ColumnCount = 0;
                 this.tablePanelPartidos.SuspendLayout();
-                this.tblPanelBoletas.Visible = false;
 
                 if (!soloBloq)
                 {
@@ -423,46 +409,6 @@ namespace Sistema.RegistroActasLocal
             {
                 throw ex;
             }
-        }
-
-        private bool selectAllOnFocus = true;
-        private bool selectAllDone = false;
-
-        void tbxValue_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            TextBox textBox = (TextBox)sender;
-            if (selectAllOnFocus && !selectAllDone && textBox.SelectionLength == 0)
-            {
-                selectAllDone = true;
-                textBox.SelectAll();
-            }
-        }
-
-        void tbxValue_GotFocus(object sender, System.EventArgs e)
-        {
-            TextBox textBox = (TextBox)sender;
-            if (selectAllOnFocus && MouseButtons == MouseButtons.None)
-            {
-                textBox.SelectAll();
-                selectAllDone = true;
-            }
-        }
-
-        void tbxValue_Leave(object sender, System.EventArgs e)
-        {
-            selectAllDone = false;
-        }
-
-        ///
-        /// Set to true to select all contents of the textbox when the box receives focus by clicking it with the mouse
-        ///
-        [DefaultValue(true)]
-        [Category("Behavior")]
-        [Description("Set to true to select all contents of the textbox when the box receives focus by clicking it with the mouse")]
-        public bool SelectAllOnFocus
-        {
-            get { return selectAllOnFocus; }
-            set { selectAllOnFocus = value; }
         }
 
         private void VerificarTotal()
@@ -568,7 +514,7 @@ namespace Sistema.RegistroActasLocal
 
         }
 
-        private void FrmRegistroActas_KeyPress(object sender, KeyPressEventArgs e)
+        private void FrmTest_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (Char.IsDigit(e.KeyChar))
             {
@@ -629,7 +575,7 @@ namespace Sistema.RegistroActasLocal
             this.Close();
         }
 
-        private void RegistroActas_Shown(object sender, EventArgs e)
+        private void Test_Shown(object sender, EventArgs e)
         {
             this.MdiParent.WindowState = FormWindowState.Maximized;
             this.cargarComboSeccion();

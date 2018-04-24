@@ -209,6 +209,34 @@ namespace Sistema.RegistroActasLocal
                 List<int> vLst = new List<int>();
                 int Noregynulo = 0;
                 int Lnominal = 0;
+                int LnominalDistrito = vSeccion.Sum(x=> x.lista_nominal);
+                int TotalVotosDistrito = vSeccion.Sum(x=> (int)x.votos);
+
+                this.lblListaNominal.Text = LnominalDistrito.ToString();
+                this.lblTotalVotos.Text = TotalVotosDistrito.ToString();
+
+                decimal PorcentajeParDistrito = 0;
+                if (TotalVotosDistrito > 0)
+                {
+                    PorcentajeParDistrito = Math.Round((Convert.ToDecimal(TotalVotosDistrito) * 100) / LnominalDistrito, 2);
+                }
+                this.lblParticipacion.Text = PorcentajeParDistrito + "%";
+                this.lblDistrito.Text = distrito.ToString();
+                this.lblActasCapturadas.Text = vSeccion.Where(x => x.estatus == "ATENDIDO").GroupBy(y => y.casilla).Count().ToString();
+                //var x = vSeccion.Select(x=> new VotosSeccion { id_candidato = x.id_candidato, votos = x.s })
+
+                List<VotosSeccion> listaSumaCandidatos = vSeccion.Where(x => x.estatus == "ATENDIDO" && x.id_candidato != null).GroupBy(y => y.id_candidato).Select(data => new VotosSeccion { id_candidato = data.First().id_candidato, votos = data.Sum(d=> d.votos) }).ToList();
+                listaSumaCandidatos.Sort();
+                int PrimeroTotal = (int)listaSumaCandidatos[listaSumaCandidatos.Count - 1].votos;
+                int SeegundoTotal = (int)listaSumaCandidatos[listaSumaCandidatos.Count - 2].votos;
+                int diferenciaTotal = PrimeroTotal - SeegundoTotal;
+                decimal diferenciaPorcentajeTotal = 0;
+                if (TotalVotosDistrito > 0)
+                {
+                    diferenciaPorcentajeTotal = Math.Round((Convert.ToDecimal(diferenciaTotal) * 100) / TotalVotosDistrito, 2);
+                }
+                this.lblDiferencia.Text = diferenciaPorcentajeTotal + "%";
+
 
 
                 foreach (VotosSeccion v in vSeccion)
@@ -253,9 +281,16 @@ namespace Sistema.RegistroActasLocal
 
                         //Porcentaje de Participacion
                         if (totalVotacionEmitida == 0)
+                        {
                             row.Cells[contCand + 2].Value = 0 + "%";
+                        }
+
                         else
-                            row.Cells[contCand + 2].Value = Math.Round((Convert.ToDecimal(totalVotacionEmitida) * 100) / Lnominal, 2) + "%";
+                        {
+                            decimal tempRes = Math.Round((Convert.ToDecimal(totalVotacionEmitida) * 100) / Lnominal, 2);
+                            row.Cells[contCand + 2].Value = tempRes + "%";
+                        }
+                            
 
                         //Agregar fila
                         dgvResultados.Rows.Add(row);
@@ -297,7 +332,7 @@ namespace Sistema.RegistroActasLocal
                 }
                 dgvResultados.ScrollBars = ScrollBars.Both;
 
-
+                
 
             }
             catch (Exception ex)
