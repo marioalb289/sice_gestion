@@ -75,7 +75,16 @@
     <Compile Include="sice_ar_documentos_local.cs">
       <DependentUpon>DatacenterModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="sice_ar_estatus_acta.cs">
+      <DependentUpon>DatacenterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sice_ar_estatus_paquete.cs">
+      <DependentUpon>DatacenterModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="sice_ar_historico.cs">
+      <DependentUpon>DatacenterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sice_ar_incidencias.cs">
       <DependentUpon>DatacenterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="sice_ar_reserva.cs">

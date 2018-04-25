@@ -110,7 +110,7 @@ namespace Sistema.RegistroActasLocal
                 if (lista_votos.Count > 0)
                 {
                     regActas = new RegistroLocalGenerales();
-                    int res = regActas.guardarDatosVotos(lista_votos, Convert.ToInt32(cmbCasilla.SelectedValue), selectedSupuesto);
+                    int res = 1;// regActas.guardarDatosVotos(lista_votos, Convert.ToInt32(cmbCasilla.SelectedValue), selectedSupuesto);
                     if (res == 1)
                     {
                         //this.tableLayoutPanel2.Enabled = true;

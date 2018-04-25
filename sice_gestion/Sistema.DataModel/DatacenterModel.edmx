@@ -29,6 +29,10 @@
           <Property Name="estatus_revisor" Type="int" />
           <Property Name="estatus_cotejador" Type="int" />
           <Property Name="id_casilla" Type="int" />
+          <Property Name="id_estatus_acta" Type="int" />
+          <Property Name="id_estatus_paquete" Type="int" />
+          <Property Name="id_incidencias" Type="int" />
+          <Property Name="casilla_instalada" Type="int" />
           <Property Name="identificado" Type="datetime" Precision="0" />
           <Property Name="create_at" Type="datetime" Precision="0" Nullable="false" />
           <Property Name="updated_at" Type="datetime" Precision="0" Nullable="false" />
@@ -54,6 +58,20 @@
           <Property Name="create_at" Type="datetime" Precision="0" Nullable="false" />
           <Property Name="updated_at" Type="datetime" Precision="0" Nullable="false" />
         </EntityType>
+        <EntityType Name="sice_ar_estatus_acta">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="estatus" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="sice_ar_estatus_paquete">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="estatus" Type="varchar" MaxLength="255" />
+        </EntityType>
         <EntityType Name="sice_ar_historico">
           <Key>
             <PropertyRef Name="id" />
@@ -62,6 +80,15 @@
           <Property Name="id_casilla" Type="int" />
           <Property Name="id_supuesto" Type="int" />
           <Property Name="fecha" Type="datetime" Precision="0" />
+          <Property Name="importado" Type="int" />
+        </EntityType>
+        <EntityType Name="sice_ar_incidencias">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="valor" Type="float" />
+          <Property Name="estatus" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="sice_ar_reserva">
           <Key>
@@ -72,6 +99,8 @@
           <Property Name="id_documento" Type="int" />
           <Property Name="tipo_reserva" Type="enum" />
           <Property Name="id_supuesto" Type="int" />
+          <Property Name="num_escritos" Type="int" />
+          <Property Name="boletas_sobrantes" Type="int" />
           <Property Name="importado" Type="int" />
           <Property Name="create_at" Type="datetime" Precision="0" />
           <Property Name="updated_at" Type="datetime" Precision="0" />
@@ -216,6 +245,7 @@
           <Property Name="id_casilla" Type="int" />
           <Property Name="id_supuesto" Type="int" />
           <Property Name="fecha" Type="datetime" Precision="0" />
+          <Property Name="importado" Type="int" />
         </EntityType>
         <EntityType Name="sice_municipios">
           <Key>
@@ -245,7 +275,12 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="id_casilla" Type="int" />
           <Property Name="tipo_reserva" Type="enum" />
+          <Property Name="id_supuesto" Type="int" />
+          <Property Name="num_escritos" Type="int" />
+          <Property Name="boletas_sobrantes" Type="int" />
           <Property Name="importado" Type="int" />
+          <Property Name="create_at" Type="datetime" Precision="0" />
+          <Property Name="updated_at" Type="datetime" Precision="0" />
         </EntityType>
         <EntityType Name="sice_usuarios">
           <Key>
@@ -319,7 +354,10 @@
           <EntitySet Name="sice_ar_asignacion" EntityType="Self.sice_ar_asignacion" Schema="sice_pruebas" store:Type="Tables" />
           <EntitySet Name="sice_ar_documentos" EntityType="Self.sice_ar_documentos" Schema="sice_pruebas" store:Type="Tables" />
           <EntitySet Name="sice_ar_documentos_local" EntityType="Self.sice_ar_documentos_local" Schema="sice_pruebas" store:Type="Tables" />
+          <EntitySet Name="sice_ar_estatus_acta" EntityType="Self.sice_ar_estatus_acta" Schema="sice_pruebas" store:Type="Tables" />
+          <EntitySet Name="sice_ar_estatus_paquete" EntityType="Self.sice_ar_estatus_paquete" Schema="sice_pruebas" store:Type="Tables" />
           <EntitySet Name="sice_ar_historico" EntityType="Self.sice_ar_historico" Schema="sice_pruebas" store:Type="Tables" />
+          <EntitySet Name="sice_ar_incidencias" EntityType="Self.sice_ar_incidencias" Schema="sice_pruebas" store:Type="Tables" />
           <EntitySet Name="sice_ar_reserva" EntityType="Self.sice_ar_reserva" Schema="sice_pruebas" store:Type="Tables" />
           <EntitySet Name="sice_ar_supuestos" EntityType="Self.sice_ar_supuestos" Schema="sice_pruebas" store:Type="Tables" />
           <EntitySet Name="sice_ar_votos" EntityType="Self.sice_ar_votos" Schema="sice_pruebas" store:Type="Tables" />
@@ -382,6 +420,9 @@
           <EntitySet Name="sice_ar_supuestos" EntityType="sice_pruebasModel.sice_ar_supuestos" />
           <EntitySet Name="sice_ar_historico" EntityType="sice_pruebasModel.sice_ar_historico" />
           <EntitySet Name="sice_historico" EntityType="sice_pruebasModel.sice_historico" />
+          <EntitySet Name="sice_ar_estatus_acta" EntityType="sice_pruebasModel.sice_ar_estatus_acta" />
+          <EntitySet Name="sice_ar_estatus_paquete" EntityType="sice_pruebasModel.sice_ar_estatus_paquete" />
+          <EntitySet Name="sice_ar_incidencias" EntityType="sice_pruebasModel.sice_ar_incidencias" />
         </EntityContainer>
         <EntityType Name="sice_ar_asignacion">
           <Key>
@@ -404,6 +445,8 @@
           <Property Name="id_supuesto" Type="Int32" />
           <Property Name="create_at" Type="DateTime" />
           <Property Name="updated_at" Type="DateTime" />
+          <Property Name="num_escritos" Type="Int32" />
+          <Property Name="boletas_sobrantes" Type="Int32" />
         </EntityType>
         <EntityType Name="sice_ar_votos">
           <Key>
@@ -606,6 +649,10 @@
           <Property Name="importado" Type="Int32" />
           <Property Name="importado_dato" Type="Int32" />
           <Property Name="identificado" Type="DateTime" />
+          <Property Name="id_estatus_acta" Type="Int32" />
+          <Property Name="id_estatus_paquete" Type="Int32" />
+          <Property Name="id_incidencias" Type="Int32" />
+          <Property Name="casilla_instalada" Type="Int32" />
         </EntityType>
         <EntityType Name="sice_reserva_captura">
           <Key>
@@ -615,6 +662,11 @@
           <Property Name="id_casilla" Type="Int32" />
           <Property Name="tipo_reserva" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" />
           <Property Name="importado" Type="Int32" />
+          <Property Name="id_supuesto" Type="Int32" />
+          <Property Name="num_escritos" Type="Int32" />
+          <Property Name="boletas_sobrantes" Type="Int32" />
+          <Property Name="create_at" Type="DateTime" />
+          <Property Name="updated_at" Type="DateTime" />
         </EntityType>
         <EntityType Name="sice_votos">
           <Key>
@@ -687,6 +739,7 @@
           <Property Name="id_supuesto" Type="Int32" />
           <Property Name="fecha" Type="DateTime" />
           <Property Name="id_casilla" Type="Int32" />
+          <Property Name="importado" Type="Int32" />
         </EntityType>
         <EntityType Name="sice_historico">
           <Key>
@@ -696,6 +749,29 @@
           <Property Name="id_supuesto" Type="Int32" />
           <Property Name="fecha" Type="DateTime" />
           <Property Name="id_casilla" Type="Int32" />
+          <Property Name="importado" Type="Int32" />
+        </EntityType>
+        <EntityType Name="sice_ar_estatus_acta">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="estatus" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="sice_ar_estatus_paquete">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="estatus" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="sice_ar_incidencias">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="valor" Type="Single" />
+          <Property Name="estatus" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -716,6 +792,8 @@
           <EntitySetMapping Name="sice_ar_reserva">
             <EntityTypeMapping TypeName="sice_pruebasModel.sice_ar_reserva">
               <MappingFragment StoreEntitySet="sice_ar_reserva">
+                <ScalarProperty Name="boletas_sobrantes" ColumnName="boletas_sobrantes" />
+                <ScalarProperty Name="num_escritos" ColumnName="num_escritos" />
                 <ScalarProperty Name="updated_at" ColumnName="updated_at" />
                 <ScalarProperty Name="create_at" ColumnName="create_at" />
                 <ScalarProperty Name="id_supuesto" ColumnName="id_supuesto" />
@@ -894,6 +972,10 @@
           <EntitySetMapping Name="sice_ar_documentos">
             <EntityTypeMapping TypeName="sice_pruebasModel.sice_ar_documentos">
               <MappingFragment StoreEntitySet="sice_ar_documentos">
+                <ScalarProperty Name="casilla_instalada" ColumnName="casilla_instalada" />
+                <ScalarProperty Name="id_incidencias" ColumnName="id_incidencias" />
+                <ScalarProperty Name="id_estatus_paquete" ColumnName="id_estatus_paquete" />
+                <ScalarProperty Name="id_estatus_acta" ColumnName="id_estatus_acta" />
                 <ScalarProperty Name="identificado" ColumnName="identificado" />
                 <ScalarProperty Name="importado_dato" ColumnName="importado_dato" />
                 <ScalarProperty Name="importado" ColumnName="importado" />
@@ -916,6 +998,11 @@
           <EntitySetMapping Name="sice_reserva_captura">
             <EntityTypeMapping TypeName="sice_pruebasModel.sice_reserva_captura">
               <MappingFragment StoreEntitySet="sice_reserva_captura">
+                <ScalarProperty Name="updated_at" ColumnName="updated_at" />
+                <ScalarProperty Name="create_at" ColumnName="create_at" />
+                <ScalarProperty Name="boletas_sobrantes" ColumnName="boletas_sobrantes" />
+                <ScalarProperty Name="num_escritos" ColumnName="num_escritos" />
+                <ScalarProperty Name="id_supuesto" ColumnName="id_supuesto" />
                 <ScalarProperty Name="importado" ColumnName="importado" />
                 <ScalarProperty Name="tipo_reserva" ColumnName="tipo_reserva" />
                 <ScalarProperty Name="id_casilla" ColumnName="id_casilla" />
@@ -994,6 +1081,7 @@
           <EntitySetMapping Name="sice_ar_historico">
             <EntityTypeMapping TypeName="sice_pruebasModel.sice_ar_historico">
               <MappingFragment StoreEntitySet="sice_ar_historico">
+                <ScalarProperty Name="importado" ColumnName="importado" />
                 <ScalarProperty Name="id_casilla" ColumnName="id_casilla" />
                 <ScalarProperty Name="fecha" ColumnName="fecha" />
                 <ScalarProperty Name="id_supuesto" ColumnName="id_supuesto" />
@@ -1004,9 +1092,35 @@
           <EntitySetMapping Name="sice_historico">
             <EntityTypeMapping TypeName="sice_pruebasModel.sice_historico">
               <MappingFragment StoreEntitySet="sice_historico">
+                <ScalarProperty Name="importado" ColumnName="importado" />
                 <ScalarProperty Name="id_casilla" ColumnName="id_casilla" />
                 <ScalarProperty Name="fecha" ColumnName="fecha" />
                 <ScalarProperty Name="id_supuesto" ColumnName="id_supuesto" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sice_ar_estatus_acta">
+            <EntityTypeMapping TypeName="sice_pruebasModel.sice_ar_estatus_acta">
+              <MappingFragment StoreEntitySet="sice_ar_estatus_acta">
+                <ScalarProperty Name="estatus" ColumnName="estatus" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sice_ar_estatus_paquete">
+            <EntityTypeMapping TypeName="sice_pruebasModel.sice_ar_estatus_paquete">
+              <MappingFragment StoreEntitySet="sice_ar_estatus_paquete">
+                <ScalarProperty Name="estatus" ColumnName="estatus" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sice_ar_incidencias">
+            <EntityTypeMapping TypeName="sice_pruebasModel.sice_ar_incidencias">
+              <MappingFragment StoreEntitySet="sice_ar_incidencias">
+                <ScalarProperty Name="estatus" ColumnName="estatus" />
+                <ScalarProperty Name="valor" ColumnName="valor" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

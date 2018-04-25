@@ -29,6 +29,7 @@ namespace Sistema.RegistroActasLocal
         private int totalCandidatos = 0;
         private MsgBox msgBox;
         private Loading Loadingbox;
+        private sice_ar_documentos documento;
         Image imageLoad;
 
         #endregion
@@ -79,7 +80,7 @@ namespace Sistema.RegistroActasLocal
                 Loadingbox = new Loading(this, "Cargando");
                 Loadingbox.Show(this);
                 rgActas = new RegistroLocalGenerales();
-                sice_ar_documentos documento = rgActas.getDocumentoCasilla(Convert.ToInt32(cmbCasilla.SelectedValue));
+                this.documento = rgActas.getDocumentoCasilla(Convert.ToInt32(cmbCasilla.SelectedValue));
                 if (documento != null)
                 {
                     //ftp ftpClient = new ftp(Configuracion.NetworkFtp, Configuracion.User, Configuracion.Pass);
@@ -100,7 +101,7 @@ namespace Sistema.RegistroActasLocal
                     imageBox.Enabled = true;
                     //Cargar imagenes de los filtros
                     Loadingbox.Close();
-
+                    this.btnGuardar.Enabled = true;
                     this.cargarComboSeccionNuevo();
                 }
                 else
@@ -168,6 +169,7 @@ namespace Sistema.RegistroActasLocal
                 cmbSeccionNuevo.Enabled = true;
 
                 this.cargarComboCasillaNuevo();
+                this.CargarComboEstatusActaPaqueteIncidencias();
 
             }
             catch (Exception ex)
@@ -227,6 +229,54 @@ namespace Sistema.RegistroActasLocal
             }
         }
 
+        private void CargarComboEstatusActaPaqueteIncidencias()
+        {
+            try
+            {
+
+                rgActas = new RegistroLocalGenerales();
+                cmbEstatusActa.DataSource = null;
+                cmbEstatusActa.DisplayMember = "estatus";
+                cmbEstatusActa.ValueMember = "id";
+                cmbEstatusActa.DataSource = rgActas.ListaEstatusActa();
+                cmbEstatusActa.SelectedValue = this.documento.id_estatus_acta != null ? (int)this.documento.id_estatus_acta:1;
+                cmbEstatusActa.Enabled = true;
+
+                cmbEstatusPaquete.DataSource = null;
+                cmbEstatusPaquete.DisplayMember = "estatus";
+                cmbEstatusPaquete.ValueMember = "id";
+                cmbEstatusPaquete.DataSource = rgActas.ListaEstatusPaquete();
+                cmbEstatusPaquete.SelectedValue = this.documento.id_estatus_paquete != null ? (int)this.documento.id_estatus_paquete : 2;
+                cmbEstatusPaquete.Enabled = true;
+
+                if (documento.casilla_instalada != null && documento.casilla_instalada == 1)
+                    radioCasillaSi.Checked = true;
+                else if (documento.casilla_instalada != null && documento.casilla_instalada == 0)
+                    radioCasillaNo.Checked = true;
+                else
+                    radioCasillaSi.Checked = true;
+                panelCasillaInstalada.Enabled = true;
+
+                cmbIncidencias.DataSource = null;
+                cmbIncidencias.DisplayMember = "estatus";
+                cmbIncidencias.ValueMember = "id";                
+                cmbIncidencias.Enabled = true;
+                List<sice_ar_incidencias> list = rgActas.ListaIncidencias();
+                if (list.Count > 0)
+                    list.Insert(0, new sice_ar_incidencias() { id = 0, estatus = "Seleccionar Incidencia" });
+                cmbIncidencias.DataSource = list;
+                cmbIncidencias.SelectedValue = this.documento.id_incidencias != null ? (int)this.documento.id_incidencias : 0;
+                //cmbCasilla.SelectedIndex = 1;
+
+
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+        }
+
         private void verificarCasilla()
         {
             try
@@ -255,16 +305,16 @@ namespace Sistema.RegistroActasLocal
                         if (result == DialogResult.No)
                         {
                             cmbCasillaNuevo.SelectedIndex = 0;
-                            this.btnGuardar.Enabled = false;
+                            //this.btnGuardar.Enabled = false;
                         }
                         else
                         {
-                            this.btnGuardar.Enabled = true;
+                            //this.btnGuardar.Enabled = true;
                         }
                     }
                     else
                     {
-                        this.btnGuardar.Enabled = true;
+                        //this.btnGuardar.Enabled = true;
                     }
                 }
                 
@@ -312,11 +362,20 @@ namespace Sistema.RegistroActasLocal
             try
             {
                 int id_casilla = Convert.ToInt32(cmbCasillaNuevo.SelectedValue);
-                if (id_casilla == 0)
-                    throw new Exception("Selecciona una Casilla");
+                if(id_casilla == 0)
+                {
+                    id_casilla = Convert.ToInt32(cmbCasilla.SelectedValue);
+                }
+                //if (id_casilla == 0)
+                //    throw new Exception("Selecciona una Casilla");
+
+                int incidencias = Convert.ToInt32(cmbIncidencias.SelectedValue);
+                int estatus_acta = Convert.ToInt32(cmbEstatusActa.SelectedValue);
+                int estatus_paquete = Convert.ToInt32(cmbEstatusPaquete.SelectedValue);
+                int acta_instalada = (radioCasillaNo.Checked) ? 0 : 1;
 
                 rgActas = new RegistroLocalGenerales();
-                int res = rgActas.IdentificarActa(this.idDocumento, id_casilla);
+                int res = rgActas.IdentificarActa(this.idDocumento, id_casilla, incidencias, estatus_acta, estatus_paquete, acta_instalada);
                 switch (res)
                 {
                     case 1:
@@ -349,6 +408,16 @@ namespace Sistema.RegistroActasLocal
             this.cmbSeccionNuevo.Enabled = false;
             imageBox.Image = null;
             this.btnGirar.Enabled = false;
+            this.cmbCasilla.SelectedIndex = 0;
+
+            this.cmbEstatusActa.Enabled = false;
+            this.cmbEstatusActa.SelectedIndex = 0;
+            this.cmbEstatusPaquete.Enabled = false;
+            this.cmbEstatusPaquete.SelectedIndex = 1;
+            this.cmbIncidencias.Enabled = false;
+            this.cmbIncidencias.SelectedIndex = 0;
+            this.radioCasillaSi.Checked = true;
+            this.panelCasillaInstalada.Enabled = false;
 
         }
 
@@ -575,6 +644,8 @@ namespace Sistema.RegistroActasLocal
         {
             cmbSeccionNuevo.Enabled = false;
             cmbCasillaNuevo.Enabled = false;
+            this.btnGuardar.Enabled = false;
+            this.btnGirar.Enabled = false;
             var data = cmbSeccionNuevo.DataSource;
             if(data != null)
                 cmbSeccionNuevo.SelectedIndex = 0;
@@ -586,9 +657,9 @@ namespace Sistema.RegistroActasLocal
         {
             try
             {
-                int id_casilla = Convert.ToInt32(cmbCasillaNuevo.SelectedValue);
-                if (id_casilla == 0)
-                    throw new Exception("Selecciona una Casilla");
+                //int id_casilla = Convert.ToInt32(cmbCasillaNuevo.SelectedValue);
+                //if (id_casilla == 0)
+                //    throw new Exception("Selecciona una Casilla");
                 msgBox = new MsgBox(this.MdiParent, "¿Guardar datos del Acta?", "Atención", MessageBoxButtons.YesNo, "Question");
                 DialogResult result = msgBox.ShowDialog(this);
                 if (result == DialogResult.Yes)
@@ -670,7 +741,7 @@ namespace Sistema.RegistroActasLocal
         {
             try
             {
-                this.btnGuardar.Enabled = false;
+                //this.btnGuardar.Enabled = false;
                 int? selected = Convert.ToInt32(cmbCasilla.SelectedValue);
                 if (selected != null && selected != 0)
                     this.verificarCasilla();

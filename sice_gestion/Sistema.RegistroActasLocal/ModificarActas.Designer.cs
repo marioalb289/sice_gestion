@@ -37,6 +37,16 @@
             this.label6 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.cmbIncidencias = new System.Windows.Forms.ComboBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.panelCasillaInstalada = new System.Windows.Forms.Panel();
+            this.radioCasillaNo = new System.Windows.Forms.RadioButton();
+            this.radioCasillaSi = new System.Windows.Forms.RadioButton();
+            this.label10 = new System.Windows.Forms.Label();
+            this.cmbEstatusPaquete = new System.Windows.Forms.ComboBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.cmbEstatusActa = new System.Windows.Forms.ComboBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.cmbCasillaNuevo = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -57,6 +67,7 @@
             this.panel4.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
+            this.panelCasillaInstalada.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.panel5.SuspendLayout();
             this.SuspendLayout();
@@ -69,7 +80,7 @@
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1157, 100);
+            this.panel1.Size = new System.Drawing.Size(1156, 100);
             this.panel1.TabIndex = 0;
             // 
             // tableLayoutPanel1
@@ -88,7 +99,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1157, 100);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1156, 100);
             this.tableLayoutPanel1.TabIndex = 4;
             // 
             // panel3
@@ -100,7 +111,7 @@
             this.panel3.Location = new System.Drawing.Point(0, 0);
             this.panel3.Margin = new System.Windows.Forms.Padding(0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1157, 50);
+            this.panel3.Size = new System.Drawing.Size(1156, 50);
             this.panel3.TabIndex = 42;
             // 
             // label1
@@ -110,7 +121,7 @@
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(1157, 50);
+            this.label1.Size = new System.Drawing.Size(1156, 50);
             this.label1.TabIndex = 0;
             this.label1.Text = "DIPUTACIONES LOCALES";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -123,7 +134,7 @@
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(3, 53);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(1151, 44);
+            this.panel4.Size = new System.Drawing.Size(1150, 44);
             this.panel4.TabIndex = 43;
             // 
             // button1
@@ -131,7 +142,7 @@
             this.button1.BackgroundImage = global::Sistema.RegistroActasLocal.Properties.Resources.salir;
             this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.button1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.button1.Location = new System.Drawing.Point(1112, 0);
+            this.button1.Location = new System.Drawing.Point(1111, 0);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(39, 44);
             this.button1.TabIndex = 25;
@@ -145,7 +156,7 @@
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(0, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(1151, 44);
+            this.label6.Size = new System.Drawing.Size(1150, 44);
             this.label6.TabIndex = 0;
             this.label6.Text = "Modificar Actas Identificadas";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -160,7 +171,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 100);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1157, 500);
+            this.panel2.Size = new System.Drawing.Size(1156, 500);
             this.panel2.TabIndex = 1;
             // 
             // tableLayoutPanel2
@@ -169,11 +180,19 @@
             this.tableLayoutPanel2.ColumnCount = 2;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tableLayoutPanel2.Controls.Add(this.cmbIncidencias, 0, 18);
+            this.tableLayoutPanel2.Controls.Add(this.label11, 0, 17);
+            this.tableLayoutPanel2.Controls.Add(this.panelCasillaInstalada, 0, 16);
+            this.tableLayoutPanel2.Controls.Add(this.label10, 0, 15);
+            this.tableLayoutPanel2.Controls.Add(this.cmbEstatusPaquete, 0, 14);
+            this.tableLayoutPanel2.Controls.Add(this.label9, 0, 13);
+            this.tableLayoutPanel2.Controls.Add(this.cmbEstatusActa, 0, 12);
+            this.tableLayoutPanel2.Controls.Add(this.label8, 0, 11);
             this.tableLayoutPanel2.Controls.Add(this.label7, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.cmbCasillaNuevo, 1, 10);
-            this.tableLayoutPanel2.Controls.Add(this.label5, 1, 9);
-            this.tableLayoutPanel2.Controls.Add(this.cmbSeccionNuevo, 1, 8);
-            this.tableLayoutPanel2.Controls.Add(this.label4, 1, 7);
+            this.tableLayoutPanel2.Controls.Add(this.cmbCasillaNuevo, 1, 9);
+            this.tableLayoutPanel2.Controls.Add(this.label5, 1, 8);
+            this.tableLayoutPanel2.Controls.Add(this.cmbSeccionNuevo, 1, 7);
+            this.tableLayoutPanel2.Controls.Add(this.label4, 1, 6);
             this.tableLayoutPanel2.Controls.Add(this.label3, 1, 1);
             this.tableLayoutPanel2.Controls.Add(this.cmbCasilla, 1, 4);
             this.tableLayoutPanel2.Controls.Add(this.cmbSeccion, 1, 2);
@@ -182,7 +201,7 @@
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 50);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 11;
+            this.tableLayoutPanel2.RowCount = 19;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -193,10 +212,136 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(1157, 450);
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(1156, 450);
             this.tableLayoutPanel2.TabIndex = 15;
+            // 
+            // cmbIncidencias
+            // 
+            this.cmbIncidencias.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cmbIncidencias.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbIncidencias.Enabled = false;
+            this.cmbIncidencias.FormattingEnabled = true;
+            this.cmbIncidencias.Location = new System.Drawing.Point(829, 705);
+            this.cmbIncidencias.Margin = new System.Windows.Forms.Padding(20, 5, 20, 5);
+            this.cmbIncidencias.Name = "cmbIncidencias";
+            this.cmbIncidencias.Size = new System.Drawing.Size(307, 21);
+            this.cmbIncidencias.TabIndex = 23;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(812, 656);
+            this.label11.Name = "label11";
+            this.label11.Padding = new System.Windows.Forms.Padding(10);
+            this.label11.Size = new System.Drawing.Size(125, 44);
+            this.label11.TabIndex = 22;
+            this.label11.Text = "Incidencias";
+            // 
+            // panelCasillaInstalada
+            // 
+            this.panelCasillaInstalada.Controls.Add(this.radioCasillaNo);
+            this.panelCasillaInstalada.Controls.Add(this.radioCasillaSi);
+            this.panelCasillaInstalada.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelCasillaInstalada.Enabled = false;
+            this.panelCasillaInstalada.Location = new System.Drawing.Point(812, 609);
+            this.panelCasillaInstalada.Name = "panelCasillaInstalada";
+            this.panelCasillaInstalada.Padding = new System.Windows.Forms.Padding(60, 0, 0, 0);
+            this.panelCasillaInstalada.Size = new System.Drawing.Size(341, 44);
+            this.panelCasillaInstalada.TabIndex = 21;
+            // 
+            // radioCasillaNo
+            // 
+            this.radioCasillaNo.AutoSize = true;
+            this.radioCasillaNo.Dock = System.Windows.Forms.DockStyle.Left;
+            this.radioCasillaNo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioCasillaNo.Location = new System.Drawing.Point(104, 0);
+            this.radioCasillaNo.Name = "radioCasillaNo";
+            this.radioCasillaNo.Size = new System.Drawing.Size(53, 44);
+            this.radioCasillaNo.TabIndex = 2;
+            this.radioCasillaNo.TabStop = true;
+            this.radioCasillaNo.Text = "No";
+            this.radioCasillaNo.UseVisualStyleBackColor = true;
+            // 
+            // radioCasillaSi
+            // 
+            this.radioCasillaSi.AutoSize = true;
+            this.radioCasillaSi.Dock = System.Windows.Forms.DockStyle.Left;
+            this.radioCasillaSi.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioCasillaSi.Location = new System.Drawing.Point(60, 0);
+            this.radioCasillaSi.Name = "radioCasillaSi";
+            this.radioCasillaSi.Size = new System.Drawing.Size(44, 44);
+            this.radioCasillaSi.TabIndex = 1;
+            this.radioCasillaSi.TabStop = true;
+            this.radioCasillaSi.Text = "Si";
+            this.radioCasillaSi.UseVisualStyleBackColor = true;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(812, 562);
+            this.label10.Name = "label10";
+            this.label10.Padding = new System.Windows.Forms.Padding(10);
+            this.label10.Size = new System.Drawing.Size(162, 44);
+            this.label10.TabIndex = 20;
+            this.label10.Text = "Casilla Instalada";
+            // 
+            // cmbEstatusPaquete
+            // 
+            this.cmbEstatusPaquete.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cmbEstatusPaquete.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbEstatusPaquete.Enabled = false;
+            this.cmbEstatusPaquete.FormattingEnabled = true;
+            this.cmbEstatusPaquete.Location = new System.Drawing.Point(829, 536);
+            this.cmbEstatusPaquete.Margin = new System.Windows.Forms.Padding(20, 5, 20, 5);
+            this.cmbEstatusPaquete.Name = "cmbEstatusPaquete";
+            this.cmbEstatusPaquete.Size = new System.Drawing.Size(307, 21);
+            this.cmbEstatusPaquete.TabIndex = 19;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(812, 487);
+            this.label9.Name = "label9";
+            this.label9.Padding = new System.Windows.Forms.Padding(10);
+            this.label9.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label9.Size = new System.Drawing.Size(165, 44);
+            this.label9.TabIndex = 18;
+            this.label9.Text = "Estatus Paquete";
+            // 
+            // cmbEstatusActa
+            // 
+            this.cmbEstatusActa.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cmbEstatusActa.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbEstatusActa.Enabled = false;
+            this.cmbEstatusActa.FormattingEnabled = true;
+            this.cmbEstatusActa.Location = new System.Drawing.Point(829, 461);
+            this.cmbEstatusActa.Margin = new System.Windows.Forms.Padding(20, 5, 20, 5);
+            this.cmbEstatusActa.Name = "cmbEstatusActa";
+            this.cmbEstatusActa.Size = new System.Drawing.Size(307, 21);
+            this.cmbEstatusActa.TabIndex = 17;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(812, 412);
+            this.label8.Name = "label8";
+            this.label8.Padding = new System.Windows.Forms.Padding(10);
+            this.label8.Size = new System.Drawing.Size(132, 44);
+            this.label8.TabIndex = 16;
+            this.label8.Text = "Estatus Acta";
             // 
             // label7
             // 
@@ -207,7 +352,7 @@
             this.label7.Location = new System.Drawing.Point(812, 6);
             this.label7.Name = "label7";
             this.label7.Padding = new System.Windows.Forms.Padding(10);
-            this.label7.Size = new System.Drawing.Size(342, 44);
+            this.label7.Size = new System.Drawing.Size(341, 44);
             this.label7.TabIndex = 15;
             this.label7.Text = "Buscar Acta ya Identificada";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -218,10 +363,10 @@
             this.cmbCasillaNuevo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbCasillaNuevo.Enabled = false;
             this.cmbCasillaNuevo.FormattingEnabled = true;
-            this.cmbCasillaNuevo.Location = new System.Drawing.Point(829, 435);
+            this.cmbCasillaNuevo.Location = new System.Drawing.Point(829, 366);
             this.cmbCasillaNuevo.Margin = new System.Windows.Forms.Padding(20, 5, 20, 5);
             this.cmbCasillaNuevo.Name = "cmbCasillaNuevo";
-            this.cmbCasillaNuevo.Size = new System.Drawing.Size(308, 21);
+            this.cmbCasillaNuevo.Size = new System.Drawing.Size(307, 21);
             this.cmbCasillaNuevo.TabIndex = 14;
             this.cmbCasillaNuevo.SelectedValueChanged += new System.EventHandler(this.cmbSeccionNueva_SelectedValueChanged);
             // 
@@ -231,10 +376,10 @@
             this.label5.AutoSize = true;
             this.label5.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(812, 388);
+            this.label5.Location = new System.Drawing.Point(812, 319);
             this.label5.Name = "label5";
             this.label5.Padding = new System.Windows.Forms.Padding(10);
-            this.label5.Size = new System.Drawing.Size(342, 42);
+            this.label5.Size = new System.Drawing.Size(341, 42);
             this.label5.TabIndex = 13;
             this.label5.Text = "Seleccionar nueva Casilla:";
             // 
@@ -244,10 +389,10 @@
             this.cmbSeccionNuevo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbSeccionNuevo.Enabled = false;
             this.cmbSeccionNuevo.FormattingEnabled = true;
-            this.cmbSeccionNuevo.Location = new System.Drawing.Point(829, 362);
+            this.cmbSeccionNuevo.Location = new System.Drawing.Point(829, 293);
             this.cmbSeccionNuevo.Margin = new System.Windows.Forms.Padding(20, 5, 20, 5);
             this.cmbSeccionNuevo.Name = "cmbSeccionNuevo";
-            this.cmbSeccionNuevo.Size = new System.Drawing.Size(308, 21);
+            this.cmbSeccionNuevo.Size = new System.Drawing.Size(307, 21);
             this.cmbSeccionNuevo.TabIndex = 12;
             this.cmbSeccionNuevo.SelectedValueChanged += new System.EventHandler(this.cmbSeccionNuevo_SelectedValueChanged);
             // 
@@ -256,10 +401,10 @@
             this.label4.AutoSize = true;
             this.label4.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(812, 315);
+            this.label4.Location = new System.Drawing.Point(812, 246);
             this.label4.Name = "label4";
             this.label4.Padding = new System.Windows.Forms.Padding(10);
-            this.label4.Size = new System.Drawing.Size(342, 42);
+            this.label4.Size = new System.Drawing.Size(341, 42);
             this.label4.TabIndex = 11;
             this.label4.Text = "Seleccionar nueva Seccion:";
             // 
@@ -272,7 +417,7 @@
             this.label3.Location = new System.Drawing.Point(812, 50);
             this.label3.Name = "label3";
             this.label3.Padding = new System.Windows.Forms.Padding(10);
-            this.label3.Size = new System.Drawing.Size(342, 42);
+            this.label3.Size = new System.Drawing.Size(341, 42);
             this.label3.TabIndex = 5;
             this.label3.Text = "Seleccionar Sección:";
             // 
@@ -284,7 +429,7 @@
             this.cmbCasilla.Location = new System.Drawing.Point(829, 170);
             this.cmbCasilla.Margin = new System.Windows.Forms.Padding(20, 5, 20, 5);
             this.cmbCasilla.Name = "cmbCasilla";
-            this.cmbCasilla.Size = new System.Drawing.Size(308, 21);
+            this.cmbCasilla.Size = new System.Drawing.Size(307, 21);
             this.cmbCasilla.TabIndex = 2;
             this.cmbCasilla.SelectedValueChanged += new System.EventHandler(this.cmbCasilla_SelectedValueChanged_1);
             // 
@@ -296,7 +441,7 @@
             this.cmbSeccion.Location = new System.Drawing.Point(829, 97);
             this.cmbSeccion.Margin = new System.Windows.Forms.Padding(20, 5, 20, 5);
             this.cmbSeccion.Name = "cmbSeccion";
-            this.cmbSeccion.Size = new System.Drawing.Size(308, 21);
+            this.cmbSeccion.Size = new System.Drawing.Size(307, 21);
             this.cmbSeccion.TabIndex = 1;
             this.cmbSeccion.SelectedValueChanged += new System.EventHandler(this.cmbSeccion_SelectedValueChanged);
             // 
@@ -308,7 +453,7 @@
             this.label2.Location = new System.Drawing.Point(812, 123);
             this.label2.Name = "label2";
             this.label2.Padding = new System.Windows.Forms.Padding(10);
-            this.label2.Size = new System.Drawing.Size(342, 42);
+            this.label2.Size = new System.Drawing.Size(341, 42);
             this.label2.TabIndex = 4;
             this.label2.Text = "Seleccionar Casilla:";
             // 
@@ -321,8 +466,8 @@
             this.imageBox.GridColorAlternate = System.Drawing.Color.Empty;
             this.imageBox.Location = new System.Drawing.Point(3, 3);
             this.imageBox.Name = "imageBox";
-            this.tableLayoutPanel2.SetRowSpan(this.imageBox, 11);
-            this.imageBox.Size = new System.Drawing.Size(803, 444);
+            this.tableLayoutPanel2.SetRowSpan(this.imageBox, 19);
+            this.imageBox.Size = new System.Drawing.Size(803, 725);
             this.imageBox.TabIndex = 10;
             this.imageBox.Selected += new System.EventHandler<System.EventArgs>(this.imageBox_Selected);
             this.imageBox.SelectionRegionChanged += new System.EventHandler(this.imageBox_SelectionRegionChanged);
@@ -347,7 +492,7 @@
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(1157, 50);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(1156, 50);
             this.tableLayoutPanel3.TabIndex = 9;
             // 
             // panel5
@@ -357,7 +502,7 @@
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel5.Location = new System.Drawing.Point(3, 3);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(1151, 44);
+            this.panel5.Size = new System.Drawing.Size(1150, 44);
             this.panel5.TabIndex = 11;
             this.panel5.Paint += new System.Windows.Forms.PaintEventHandler(this.panel5_Paint);
             // 
@@ -365,7 +510,7 @@
             // 
             this.btnGirar.Dock = System.Windows.Forms.DockStyle.Right;
             this.btnGirar.Enabled = false;
-            this.btnGirar.Location = new System.Drawing.Point(1001, 0);
+            this.btnGirar.Location = new System.Drawing.Point(1000, 0);
             this.btnGirar.Name = "btnGirar";
             this.btnGirar.Size = new System.Drawing.Size(75, 44);
             this.btnGirar.TabIndex = 29;
@@ -378,7 +523,7 @@
             // 
             this.btnGuardar.Dock = System.Windows.Forms.DockStyle.Right;
             this.btnGuardar.Enabled = false;
-            this.btnGuardar.Location = new System.Drawing.Point(1076, 0);
+            this.btnGuardar.Location = new System.Drawing.Point(1075, 0);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(75, 44);
             this.btnGuardar.TabIndex = 24;
@@ -392,7 +537,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(1157, 600);
+            this.ClientSize = new System.Drawing.Size(1156, 600);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -407,6 +552,8 @@
             this.panel2.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
+            this.panelCasillaInstalada.ResumeLayout(false);
+            this.panelCasillaInstalada.PerformLayout();
             this.tableLayoutPanel3.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -439,5 +586,15 @@
         private System.Windows.Forms.ComboBox cmbSeccionNuevo;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnGirar;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.ComboBox cmbEstatusActa;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ComboBox cmbEstatusPaquete;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Panel panelCasillaInstalada;
+        private System.Windows.Forms.RadioButton radioCasillaNo;
+        private System.Windows.Forms.RadioButton radioCasillaSi;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.ComboBox cmbIncidencias;
     }
 }

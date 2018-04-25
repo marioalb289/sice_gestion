@@ -18,5 +18,6 @@ namespace Sistema.DataModel
         public Nullable<int> id_supuesto { get; set; }
         public Nullable<System.DateTime> fecha { get; set; }
         public Nullable<int> id_casilla { get; set; }
+        public Nullable<int> importado { get; set; }
     }
 }

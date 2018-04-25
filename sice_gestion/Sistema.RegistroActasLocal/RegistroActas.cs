@@ -37,6 +37,7 @@ namespace Sistema.RegistroActasLocal
         private int Lnominal = 0;
         private int totalVotos = 0;
         private int flagSelectSupuesto = 0;
+        private int boletasRecibidas = 0;
 
         const int SB_HORZ = 0;
         [DllImport("user32.dll")]
@@ -68,9 +69,9 @@ namespace Sistema.RegistroActasLocal
 
             txtEscritos.KeyPress += FrmRegistroActas_KeyPress;
             txtEscritos.KeyUp += Evento_KeyUp;
-            txtBoletasR.GotFocus += new System.EventHandler(tbxValue_GotFocus);
-            txtBoletasR.MouseUp += new System.Windows.Forms.MouseEventHandler(tbxValue_MouseUp);
-            txtBoletasR.Leave += new System.EventHandler(tbxValue_Leave);
+            txtEscritos.GotFocus += new System.EventHandler(tbxValue_GotFocus);
+            txtEscritos.MouseUp += new System.Windows.Forms.MouseEventHandler(tbxValue_MouseUp);
+            txtEscritos.Leave += new System.EventHandler(tbxValue_Leave);
         }
 
         private void guardarRegistroVotos(bool nolegible = false)
@@ -80,6 +81,7 @@ namespace Sistema.RegistroActasLocal
                 int selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
                 if (this.flagSelectSupuesto > 0)
                     selectedSupuesto = this.flagSelectSupuesto;
+                int boletasSobrantes = Convert.ToInt32(txtBoletasS.Text);
 
                 //this.tableLayoutPanel2.Enabled = false;
 
@@ -87,6 +89,11 @@ namespace Sistema.RegistroActasLocal
                 int id_casilla = Convert.ToInt32(cmbCasilla.SelectedValue);
                 if (id_casilla == 0)
                     throw new Exception("Error al guardar los datos");
+                if( totalVotos < boletasRecibidas)
+                {
+                    if (boletasSobrantes == 0)
+                        throw new Exception("Debes capturar el numero de boletas sobrantes");
+                }
                 foreach (TextBox datos in this.textBoxes)
                 {
                     double num;
@@ -128,7 +135,7 @@ namespace Sistema.RegistroActasLocal
                 if (lista_votos.Count > 0)
                 {
                     regActas = new RegistroLocalGenerales();
-                    int res = regActas.guardarDatosVotos(lista_votos, Convert.ToInt32(cmbCasilla.SelectedValue), selectedSupuesto);
+                    int res = regActas.guardarDatosVotos(lista_votos, Convert.ToInt32(cmbCasilla.SelectedValue),selectedSupuesto, Convert.ToInt32(txtBoletasS.Text), Convert.ToInt32(txtEscritos.Text));
                     if (res == 1)
                     {
                         //this.tableLayoutPanel2.Enabled = true;
@@ -232,6 +239,7 @@ namespace Sistema.RegistroActasLocal
                 {
                     msgBox = new MsgBox(this, "Casilla ya Registrada", "Atención", MessageBoxButtons.OK, "Advertencia");
                     msgBox.ShowDialog(this);
+                    this.BloquearControles();
                     cmbCasilla.SelectedIndex = 0;
                     this.btnGuardar.Enabled = false;
                     //this.btnLimpiar.Enabled = false;
@@ -256,11 +264,12 @@ namespace Sistema.RegistroActasLocal
                 if (this.distritoActual == 0)
                     throw new Exception("No se pudo cargar lista de Candidatos");
                 List<Candidatos> lsCandidatos = regActas.ListaCandidatos(this.distritoActual);
-                this.totalCandidatos = lsCandidatos.Count() + 2;
+                
                 if (lsCandidatos != null)
                 {
+                    this.totalCandidatos = lsCandidatos.Count() + 2;
                     this.cmbSupuesto.Enabled = true;
-
+                    this.boletasRecibidas = lsCandidatos.Count();
 
 
                     this.pictureBoxes = new PictureBox[lsCandidatos.Count + 2];
@@ -274,6 +283,10 @@ namespace Sistema.RegistroActasLocal
                     this.lblListaNominal.Text = tempSec.listaNominal.ToString();
                     this.lblDistrito.Text = tempSec.distrito.ToString();
                     this.Lnominal = tempSec.listaNominal;
+                    this.boletasRecibidas = tempSec.listaNominal + (lsCandidatos.Count()*2); //Lista nominal + 2 veces el numero de representantes de casillas
+                    this.txtBoletasR.Text = this.boletasRecibidas.ToString();
+                    this.txtBoletasR.Enabled = false;
+                    
 
                     //Agregar Columnas
                     this.tablePanelPartidos.AutoScroll = true;
@@ -354,7 +367,8 @@ namespace Sistema.RegistroActasLocal
                     this.tablePanelPartidos.ResumeLayout(false);
                     this.tablePanelPartidos.Visible = true;
                     this.tblPanelBoletas.Visible = true;
-                    textBoxes[0].Focus();
+                    this.txtBoletasS.Focus();
+                    //textBoxes[0].Focus();
                     //ShowScrollBar(this.tableLayoutPanel2.Handle, SB_HORZ, false);
                 }
 
@@ -379,6 +393,14 @@ namespace Sistema.RegistroActasLocal
                 this.tablePanelPartidos.ColumnCount = 0;
                 this.tablePanelPartidos.SuspendLayout();
                 this.tblPanelBoletas.Visible = false;
+                this.txtBoletasR.Text = "0";
+                this.txtBoletasS.Text = "0";
+                this.txtEscritos.Text = "0";
+                this.boletasRecibidas = 0;
+                this.lblTotalCapturado.Text = "No.";
+                this.lblListaNominal.Text = "No.";
+                this.lblTotalCapturado.Text = "No.";
+                this.lblDistrito.Text = "No.";
 
                 if (!soloBloq)
                 {
@@ -403,11 +425,14 @@ namespace Sistema.RegistroActasLocal
             //this.tableLayoutPanel2.Enabled = true;
             this.ClearDataTable(true);
             this.btnGuardar.Enabled = false;
-            this.cargarComboSeccion();
+            //this.cargarComboSeccion();
             this.lblListaNominal.Text = "No.";
             this.lblTotalCapturado.Text = "No.";
             this.lblDistrito.Text = "No.";
             this.cmbSupuesto.Enabled = false;
+            this.txtBoletasR.Text = "0";
+            this.txtBoletasS.Text = "0";
+            this.boletasRecibidas = 0;
 
         }
 
@@ -474,6 +499,11 @@ namespace Sistema.RegistroActasLocal
                 List<double> listaVotos = new List<double>();
                 double votosNulos = 0;
                 int flagError = 0;
+                double boletasSobrantes = 0;
+                double.TryParse(this.txtBoletasS.Text, out boletasSobrantes);
+                this.txtBoletasS.Text = boletasSobrantes.ToString();
+                if (this.txtEscritos.Text == "")
+                    this.txtEscritos.Text = "0";
                 foreach (TextBox datos in this.textBoxes)
                 {
                     double num;
@@ -498,23 +528,24 @@ namespace Sistema.RegistroActasLocal
                     if (tempIdCandidato == 0)
                         votosNulos = num;
 
-                    if (totalVotos > Convert.ToDouble(Lnominal))
+                    if (totalVotos + boletasSobrantes  > Convert.ToDouble(this.boletasRecibidas))
                     {
                         flagError = 1;
                         //datos.Text = "0";
                     }
-                    lblTotalCapturado.Text = totalVotos.ToString();
+                    double totales = totalVotos + boletasSobrantes;
+                    lblTotalCapturado.Text = totalVotos.ToString() + "  +  "+boletasSobrantes+ "  =  " + totales ;
 
 
                 }
-                this.totalVotos = Convert.ToInt32(totalVotos);
+                this.totalVotos = Convert.ToInt32(totalVotos + boletasSobrantes);
                 if (flagError > 0)
                 {
-                    this.flagSelectSupuesto = 2;
-                    this.cmbSupuesto.SelectedIndex = 2;
+                    this.flagSelectSupuesto = 4;
+                    this.cmbSupuesto.SelectedIndex = 4;
                     //this.cmbSupuesto.Enabled = false;
                     //this.DesactivarTextBoxes();
-                    msgBox = new MsgBox(this, "El total de Captura excede la Lista Nominal", "Atención", MessageBoxButtons.OK, "Error");
+                    msgBox = new MsgBox(this, "El total de Captura excede el Número de Boletas recibidas", "Atención", MessageBoxButtons.OK, "Error");
                     msgBox.ShowDialog(this);
                     return;
                 }
@@ -536,7 +567,7 @@ namespace Sistema.RegistroActasLocal
                 {
                     //this.cmbSupuesto.Enabled = true;
                     int selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
-                    if (selectedSupuesto == 5 || selectedSupuesto == 2)
+                    if (selectedSupuesto == 5 || selectedSupuesto == 4)
                     {
                         this.cmbSupuesto.SelectedIndex = 0;
                     }
@@ -692,6 +723,11 @@ namespace Sistema.RegistroActasLocal
                 msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
                 msgBox.ShowDialog(this);
             }
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

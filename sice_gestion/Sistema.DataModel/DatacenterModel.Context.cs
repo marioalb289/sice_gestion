@@ -47,5 +47,8 @@ namespace Sistema.DataModel
         public DbSet<sice_ar_supuestos> sice_ar_supuestos { get; set; }
         public DbSet<sice_ar_historico> sice_ar_historico { get; set; }
         public DbSet<sice_historico> sice_historico { get; set; }
+        public DbSet<sice_ar_estatus_acta> sice_ar_estatus_acta { get; set; }
+        public DbSet<sice_ar_estatus_paquete> sice_ar_estatus_paquete { get; set; }
+        public DbSet<sice_ar_incidencias> sice_ar_incidencias { get; set; }
     }
 }

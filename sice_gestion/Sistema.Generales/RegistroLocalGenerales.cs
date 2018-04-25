@@ -71,6 +71,50 @@ namespace Sistema.Generales
             { throw E; }
         }
 
+        public List<sice_ar_estatus_acta> ListaEstatusActa()
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    return (from p in contexto.sice_ar_estatus_acta select p).ToList();
+                }
+            }
+            catch(Exception E)
+            {
+                throw E;
+            }
+        }
+        public List<sice_ar_estatus_paquete> ListaEstatusPaquete()
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    return (from p in contexto.sice_ar_estatus_paquete select p).ToList();
+                }
+            }
+            catch (Exception E)
+            {
+                throw E;
+            }
+        }
+
+        public List<sice_ar_incidencias> ListaIncidencias()
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    return (from p in contexto.sice_ar_incidencias select p).ToList();
+                }
+            }
+            catch (Exception E)
+            {
+                throw E;
+            }
+        }
+
         public List<sice_distritos_locales> ListaDistritos()
         {
             try
@@ -295,6 +339,21 @@ namespace Sistema.Generales
             }
         }
 
+        public sice_ar_reserva DetallesActa(int id_casilla)
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    return (from r in contexto.sice_ar_reserva where r.id_casilla == id_casilla select r).FirstOrDefault();
+                }
+            }
+            catch (Exception E)
+            {
+                throw E;
+            }
+        }
+
         public List<CandidatosVotos> ListaResultadosCasilla(int casilla, string tabla = "")
         {
             try
@@ -370,7 +429,36 @@ namespace Sistema.Generales
 
         }
 
-        public int IdentificarActa(int idDocumento, int idCasilla)
+        public int ActaNoLegible(int idDocumento)
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    using (var TransactionContexto = new TransactionScope())
+                    {
+                        int res = 0;
+                        sice_ar_documentos doc = (from td in contexto.sice_ar_documentos where td.id == idDocumento select td).FirstOrDefault();
+                        if (doc != null)
+                        {
+                            doc.estatus = "CANCELADO";
+                            contexto.SaveChanges();
+                            res = 1;
+                        }
+                        TransactionContexto.Complete();
+                        return res;
+                    }
+
+                }
+
+            }
+            catch (Exception E)
+            {
+                throw E;
+            }
+        }
+
+        public int IdentificarActa(int idDocumento, int idCasilla, int incidencias, int estatus_acta, int estatus_paquete, int casilla_instalada)
         {
             try
             {
@@ -386,6 +474,10 @@ namespace Sistema.Generales
                             tmpDoc.filtro = null;
                             tmpDoc.id_casilla = null;
                             tmpDoc.importado_dato = null;
+                            tmpDoc.id_estatus_acta = null;
+                            tmpDoc.id_estatus_paquete = null;
+                            tmpDoc.id_incidencias = null;
+                            tmpDoc.casilla_instalada = null;
                             contexto.SaveChanges();
                         }
 
@@ -398,6 +490,13 @@ namespace Sistema.Generales
                             doc.identificado = DateTime.Now;
                             doc.importado_dato = 0;
                             doc.estatus = "VALIDO";
+                            doc.id_estatus_acta = estatus_acta;
+                            doc.id_estatus_paquete = estatus_paquete;
+                            if (incidencias == 0)
+                                doc.id_incidencias = null;
+                            else
+                                doc.id_incidencias = incidencias;
+                            doc.casilla_instalada = casilla_instalada;
                             contexto.SaveChanges();
                             if(asg.Count > 0)
                             {
@@ -426,7 +525,7 @@ namespace Sistema.Generales
 
 
 
-        public int guardarDatosVotos(List<sice_ar_votos_cotejo> listaVotos, int id_casilla, int supuesto, bool modificar = false)
+        public int guardarDatosVotos(List<sice_ar_votos_cotejo> listaVotos, int id_casilla, int supuesto,int boletasSobrantes,int numEscritos, bool modificar = false)
         {
             try
             {
@@ -469,6 +568,8 @@ namespace Sistema.Generales
                         if (rc != null)
                         {
                             rc.tipo_reserva = "ATENDIDO";
+                            rc.num_escritos = numEscritos;
+                            rc.boletas_sobrantes = boletasSobrantes;
                             if (supuesto == 0)
                                 rc.id_supuesto = null;
                             else
@@ -483,6 +584,8 @@ namespace Sistema.Generales
                             rc.tipo_reserva = "ATENDIDO";
                             rc.create_at = DateTime.Now;
                             rc.updated_at = DateTime.Now;
+                            rc.num_escritos = numEscritos;
+                            rc.boletas_sobrantes = boletasSobrantes;
                             rc.importado = 0;
                             if (supuesto == 0)
                                 rc.id_supuesto = null;
