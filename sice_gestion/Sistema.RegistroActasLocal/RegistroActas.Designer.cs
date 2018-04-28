@@ -106,7 +106,7 @@
             // 
             this.panel7.Controls.Add(this.tblPanelBoletas);
             this.panel7.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel7.Location = new System.Drawing.Point(0, 283);
+            this.panel7.Location = new System.Drawing.Point(0, 287);
             this.panel7.Name = "panel7";
             this.panel7.Size = new System.Drawing.Size(1024, 116);
             this.panel7.TabIndex = 18;
@@ -132,7 +132,7 @@
             this.tblPanelBoletas.Name = "tblPanelBoletas";
             this.tblPanelBoletas.Padding = new System.Windows.Forms.Padding(100, 10, 100, 10);
             this.tblPanelBoletas.RowCount = 1;
-            this.tblPanelBoletas.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
+            this.tblPanelBoletas.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 66F));
             this.tblPanelBoletas.Size = new System.Drawing.Size(1024, 86);
             this.tblPanelBoletas.TabIndex = 19;
             this.tblPanelBoletas.Visible = false;
@@ -159,7 +159,7 @@
             this.label10.Location = new System.Drawing.Point(652, 13);
             this.label10.Name = "label10";
             this.label10.Padding = new System.Windows.Forms.Padding(10);
-            this.label10.Size = new System.Drawing.Size(154, 60);
+            this.label10.Size = new System.Drawing.Size(154, 66);
             this.label10.TabIndex = 9;
             this.label10.Text = "Num Escritos:";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -173,7 +173,7 @@
             this.label5.Location = new System.Drawing.Point(379, 13);
             this.label5.Name = "label5";
             this.label5.Padding = new System.Windows.Forms.Padding(10);
-            this.label5.Size = new System.Drawing.Size(154, 60);
+            this.label5.Size = new System.Drawing.Size(154, 66);
             this.label5.TabIndex = 8;
             this.label5.Text = "Boletas Sobrantes:";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -187,7 +187,7 @@
             this.label4.Location = new System.Drawing.Point(106, 13);
             this.label4.Name = "label4";
             this.label4.Padding = new System.Windows.Forms.Padding(10);
-            this.label4.Size = new System.Drawing.Size(154, 60);
+            this.label4.Size = new System.Drawing.Size(154, 66);
             this.label4.TabIndex = 7;
             this.label4.Text = "Boletas Recibidas:";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -227,11 +227,11 @@
             this.tablePanelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tablePanelPartidos.Dock = System.Windows.Forms.DockStyle.Top;
             this.tablePanelPartidos.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
-            this.tablePanelPartidos.Location = new System.Drawing.Point(0, 70);
+            this.tablePanelPartidos.Location = new System.Drawing.Point(0, 74);
             this.tablePanelPartidos.Name = "tablePanelPartidos";
             this.tablePanelPartidos.Padding = new System.Windows.Forms.Padding(40, 0, 40, 0);
             this.tablePanelPartidos.RowCount = 1;
-            this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 213F));
+            this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 219F));
             this.tablePanelPartidos.Size = new System.Drawing.Size(1024, 213);
             this.tablePanelPartidos.TabIndex = 17;
             // 
@@ -249,8 +249,8 @@
             this.tblPanaelTitulo.Name = "tblPanaelTitulo";
             this.tblPanaelTitulo.Padding = new System.Windows.Forms.Padding(40, 10, 40, 10);
             this.tblPanaelTitulo.RowCount = 1;
-            this.tblPanaelTitulo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
-            this.tblPanaelTitulo.Size = new System.Drawing.Size(1024, 70);
+            this.tblPanaelTitulo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tblPanaelTitulo.Size = new System.Drawing.Size(1024, 74);
             this.tblPanaelTitulo.TabIndex = 16;
             // 
             // pnlTableTitulo
@@ -260,7 +260,7 @@
             this.pnlTableTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableTitulo.Location = new System.Drawing.Point(45, 15);
             this.pnlTableTitulo.Name = "pnlTableTitulo";
-            this.pnlTableTitulo.Size = new System.Drawing.Size(934, 40);
+            this.pnlTableTitulo.Size = new System.Drawing.Size(934, 44);
             this.pnlTableTitulo.TabIndex = 39;
             // 
             // label21

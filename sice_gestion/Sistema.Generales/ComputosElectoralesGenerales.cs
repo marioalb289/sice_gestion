@@ -52,6 +52,22 @@ namespace Sistema.Generales
             { throw E; }
         }
 
+        public List<sice_ar_supuestos> ListaSupuestos()
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    return (from p in contexto.sice_ar_supuestos select p).ToList();
+                }
+
+            }
+            catch (Exception E)
+            {
+                throw E;
+            }
+        }
+
         public int verificarCasillaRegistrada(int id_casilla)
         {
             try
@@ -176,15 +192,44 @@ namespace Sistema.Generales
             }
         }
 
-        public List<SeccionCasillaConsecutivo> ListaSescciones()
+        public sice_ar_supuestos getSupuesto(int id_casilla)
         {
             try
             {
                 using (DatabaseContext contexto = new DatabaseContext(con))
                 {
-                    string consulta =
+                    return (from p in contexto.sice_reserva_captura join sup in contexto.sice_ar_supuestos on p.id_supuesto equals sup.id where p.id_casilla == id_casilla select sup).FirstOrDefault();
+                    //return contexto.sice_casillas.Select(x => new SeccionCasilla { id = x.id, seccion = (int)x.seccion, casilla = (string)x.tipo_casilla }).ToList();
+                }
+
+            }
+            catch (Exception E)
+            { throw E; }
+
+        }
+
+        public List<SeccionCasillaConsecutivo> ListaSescciones(bool capturada = false)
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    string consulta = "";
+                    if (!capturada)
+                    {
+                        consulta =
                         "SELECT C.* FROM sice_casillas C " +
                         "WHERE C.id_cabecera_local = " + LoginInfo.id_municipio;
+                    }
+                    else
+                    {
+                        consulta =
+                       "SELECT C.* FROM sice_casillas C " +
+                       "LEFT JOIN sice_reserva_captura RC ON RC.id_casilla = C.id " +
+                       "WHERE RC.id IS NULL" + " AND C.id_cabecera_local = " + LoginInfo.id_municipio;
+                    }
+
+                    
                     List<sice_casillas> lsCasilla = contexto.Database.SqlQuery<sice_casillas>(consulta).ToList();
                     return (from p in lsCasilla
                             select new SeccionCasillaConsecutivo
@@ -259,7 +304,7 @@ namespace Sistema.Generales
             { throw E; }
         }
 
-        public int CasillaReserva(int id_casilla,string motivo)
+        public int CasillaReserva(int id_casilla,string motivo,int? supuesto = null)
         {
             try
             {
@@ -271,10 +316,12 @@ namespace Sistema.Generales
                     if (rc != null)
                     {
                         rc.tipo_reserva = motivo;
+                        rc.id_supuesto = supuesto;
                     }
                     else
                     {
                         rc = new sice_reserva_captura();
+                        rc.id_supuesto = supuesto;
                         rc.id_casilla = id_casilla;
                         rc.tipo_reserva = motivo;
                         contexto.sice_reserva_captura.Add(rc);
@@ -289,7 +336,7 @@ namespace Sistema.Generales
             }
         }
 
-        public int guardarDatosVotos(List<sice_votos> listaVotos, int id_casilla, int totalCandidatos,bool modificar = false)
+        public int guardarDatosVotos(List<sice_votos> listaVotos, int id_casilla, int totalCandidatos,bool modificar = false,int? id_supuesto = null)
         {
             try
             {
@@ -328,6 +375,7 @@ namespace Sistema.Generales
                         if(rc != null)
                         {
                             rc.tipo_reserva = "CAPTURADA";
+                            rc.id_supuesto = id_supuesto;
                             rc.importado = 0;
                         }
                         else
@@ -335,6 +383,7 @@ namespace Sistema.Generales
                             rc = new sice_reserva_captura();
                             rc.id_casilla = id_casilla;
                             rc.tipo_reserva = "CAPTURADA";
+                            rc.id_supuesto = id_supuesto;
                             rc.importado = 0;
                             contexto.sice_reserva_captura.Add(rc);
                         }
@@ -543,6 +592,7 @@ namespace Sistema.Generales
                 hoja.Name = "DISTRITO "+distrito;  //Aqui debe ir el nombre del distrito
                 List<VotosSeccion> vSeccion = this.ResultadosSeccion(0, 0, (int)distrito);
                 List<Candidatos> candidatos = this.ListaCandidatos((int)distrito);
+                int tempC = candidatos.Count;
 
                 //Montamos las cabeceras 
                 char letraFinal = CrearEncabezados(filaInicialTabla, ref hoja,vSeccion,candidatos,1);
@@ -626,7 +676,7 @@ namespace Sistema.Generales
                     hoja.Cells[fila,2] = v.seccion;
                     hoja.Cells[fila,3] = v.casilla;
                     hoja.Cells[fila,4] = (v.estatus != null) ? v.estatus : "NO CAPTURADA";
-                    Lnominal = v.lista_nominal;
+                    Lnominal = v.lista_nominal + tempC * 2;
 
                     hoja.Cells[fila,contCand] = v.votos;
                     if (v.tipo == "VOTO")

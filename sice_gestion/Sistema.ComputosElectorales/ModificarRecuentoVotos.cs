@@ -39,6 +39,8 @@ namespace Sistema.ComputosElectorales
         private int Lnominal = 0;
         private int totalVotos = 0;
         private bool recuento = false;
+        private int boletasRecibidas = 0;
+        private List<sice_ar_supuestos> supuestos;
         const int SB_HORZ = 0;
         [DllImport("user32.dll")]
 
@@ -58,6 +60,18 @@ namespace Sistema.ComputosElectorales
             this.btnGuardar.Enabled = false;
             this.btnNoConta.Enabled = false;
             //this.btnReserva.Enabled = false;
+
+            txtBoletasR.KeyPress += FrmRegistroActas_KeyPress;
+            txtBoletasR.KeyUp += Evento_KeyUp;
+            txtBoletasR.GotFocus += new System.EventHandler(tbxValue_GotFocus);
+            txtBoletasR.MouseUp += new System.Windows.Forms.MouseEventHandler(tbxValue_MouseUp);
+            txtBoletasR.Leave += new System.EventHandler(tbxValue_Leave);
+
+            txtBoletasS.KeyPress += FrmRegistroActas_KeyPress;
+            txtBoletasS.KeyUp += Evento_KeyUp;
+            txtBoletasS.GotFocus += new System.EventHandler(tbxValue_GotFocus);
+            txtBoletasS.MouseUp += new System.Windows.Forms.MouseEventHandler(tbxValue_MouseUp);
+            txtBoletasS.Leave += new System.EventHandler(tbxValue_Leave);
         }
 
         private void cargarComboSeccion()
@@ -77,6 +91,16 @@ namespace Sistema.ComputosElectorales
                 cmbSeccion.Enabled = true;                
 
                 this.cargarComboCasilla();
+
+                cmbSupuesto.DataSource = null;
+                cmbSupuesto.DisplayMember = "Supuesto";
+                cmbSupuesto.ValueMember = "id";
+                if (this.supuestos == null)
+                {
+                    this.supuestos = CompElec.ListaSupuestos();
+                    this.supuestos.Insert(0, new sice_ar_supuestos() { id = 0, supuesto = "Seleccionar Motivo" });
+                }
+                cmbSupuesto.DataSource = this.supuestos;
 
             }
             catch (Exception ex)
@@ -100,6 +124,7 @@ namespace Sistema.ComputosElectorales
                         this.distritoActual = caGp[0].distrito;
                     caGp.Insert(0, new SeccionCasillaConsecutivo() { id = 0, casilla = "Seleccionar Casilla" });
                     cmbCasilla.DataSource = caGp;
+                    cmbCasilla.Enabled = true;
                     //cmbCasilla.SelectedIndex = 1;
                 }
             }
@@ -199,7 +224,8 @@ namespace Sistema.ComputosElectorales
             try
             {
                 CompElec = new ComputosElectoralesGenerales();
-                this.tableLayoutPanel2.Enabled = false;
+                int selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
+                this.panelCaptura.Enabled = false;
                 List<sice_votos> lista_votos = new List<sice_votos>();
                 int id_casilla = this.idCasillaActual;
                 int totalVotacionEmitida = 0;
@@ -247,10 +273,10 @@ namespace Sistema.ComputosElectorales
                 }
                 if (lista_votos.Count > 0)
                 {                    
-                    int res2 = CompElec.guardarDatosVotos(lista_votos, id_casilla, this.totalCandidatos,true);
+                    int res2 = CompElec.guardarDatosVotos(lista_votos, id_casilla, this.totalCandidatos,true,selectedSupuesto);
                     if (res2 == 1)
                     {
-                        this.tableLayoutPanel2.Enabled = true;
+                        this.panelCaptura.Enabled = true;
                         msgBox = new MsgBox(this, "Datos Guardados correctamente", "Atención", MessageBoxButtons.OK, "Ok");
                         msgBox.ShowDialog(this);
                         this.BloquearControles();
@@ -267,7 +293,7 @@ namespace Sistema.ComputosElectorales
             }
             catch (Exception ex)
             {
-                this.tableLayoutPanel2.Enabled = true;
+                this.panelCaptura.Enabled = true;
                 throw ex;
             }
         }
@@ -310,97 +336,120 @@ namespace Sistema.ComputosElectorales
                 this.totalCandidatos = lsCandidatosVotos.Count();
                 if (lsCandidatosVotos != null)
                 {
+                    this.totalCandidatos = lsCandidatosVotos.Count();
+                    this.cmbSupuesto.Enabled = true;
+                    this.boletasRecibidas = lsCandidatosVotos.Count();
+
+
                     this.pictureBoxes = new PictureBox[lsCandidatosVotos.Count];
                     this.textBoxes = new TextBox[lsCandidatosVotos.Count];
                     this.panels = new Panel[lsCandidatosVotos.Count];
                     this.labelsName = new Label[lsCandidatosVotos.Count];
-                    this.tblPanaelPartidos.RowCount = 1;
+                    this.tablePanelPartidos.RowCount = 1;
+                    this.btnGuardar.Enabled = true;
+                    this.btnNoConta.Enabled = true;
+                    cmbSupuesto.Enabled = true;
+
+                    sice_ar_supuestos supuesto = CompElec.getSupuesto(Convert.ToInt32(cmbCasilla.SelectedValue));
+                    if (supuesto != null)
+                        cmbSupuesto.SelectedIndex = supuesto.id;
+                    else
+                        cmbSupuesto.SelectedIndex = 0;
 
                     SeccionCasillaConsecutivo tempSec = (from p in this.sc where p.id == Convert.ToInt32(cmbCasilla.SelectedValue) select p).FirstOrDefault();
                     this.lblListaNominal.Text = tempSec.listaNominal.ToString();
                     this.lblDistrito.Text = tempSec.distrito.ToString();
-                    this.lblConsecutivo.Text = tempSec.consecutivo.ToString();
                     this.Lnominal = tempSec.listaNominal;
+                    this.boletasRecibidas = this.Lnominal + (lsCandidatosVotos.Count()-2 * 2); //Lista nominal + 2 veces el numero de representantes de casillas
+                    this.txtBoletasR.Text = this.boletasRecibidas.ToString();
+                    this.txtBoletasR.Enabled = false;
 
-                    bool flagFocus = false;
+                    //Agregar Columnas
+                    this.tablePanelPartidos.AutoScroll = true;
+                    this.tablePanelPartidos.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+                    this.tablePanelPartidos.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.InsetDouble;
+                    this.tablePanelPartidos.ColumnCount = totalCandidatos;
+                    decimal anchoColumnas = Math.Round(100 / (Convert.ToDecimal(totalCandidatos)), 6);
+                    for (int i = 0; i < totalCandidatos; i++)
+                    {
+                        this.tablePanelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, (float)anchoColumnas));
+                        //this.tablePanelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.692307F));
+                    }
 
+                    //Agregar Imagen, Etiqueta, TextBox por fila
                     for (int i = 0; i < lsCandidatosVotos.Count; i++)
                     {
+
                         pictureBoxes[i] = new PictureBox();
                         textBoxes[i] = new TextBox();
                         labelsName[i] = new Label();
                         panels[i] = new Panel();
 
-                        this.tblPanaelPartidos.RowCount = this.tblPanaelPartidos.RowCount + 1;
-
-                        this.tblPanaelPartidos.RowStyles.Add(new RowStyle(SizeType.Absolute, 70F));
-
-                        //IMAGEN DEL PARTIDO
-                        pictureBoxes[i].BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-                        pictureBoxes[i].Dock = System.Windows.Forms.DockStyle.Top;
+                        //Imagen
+                        pictureBoxes[i].Anchor = System.Windows.Forms.AnchorStyles.None;
                         pictureBoxes[i].Image = (lsCandidatosVotos[i].tipo == "NULO") ? (System.Drawing.Image)(Properties.Resources.nulos1) : (lsCandidatosVotos[i].tipo == "NO REGISTRADO") ? (System.Drawing.Image)(Properties.Resources.no_regis) : (System.Drawing.Image)(Properties.Resources.pri);
-                        pictureBoxes[i].Location = new System.Drawing.Point(15, 57);
+                        pictureBoxes[i].Location = new System.Drawing.Point(125, 8);
+                        pictureBoxes[i].Margin = new System.Windows.Forms.Padding(10, 5, 10, 5);
                         pictureBoxes[i].Name = "pictureBox" + i;
-                        pictureBoxes[i].Size = new System.Drawing.Size(75, 44);
+                        pictureBoxes[i].Size = new System.Drawing.Size(49, 70);
                         pictureBoxes[i].SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
                         pictureBoxes[i].TabIndex = 20 + i;
                         pictureBoxes[i].TabStop = false;
 
-                        //ETIQUETA DEL NOMBRE DEL CANDIADATO
-                        labelsName[i].Dock = System.Windows.Forms.DockStyle.Top;
-                        labelsName[i].Location = new System.Drawing.Point(0, 28);
+                        //Etiqueta
+                        labelsName[i].Dock = System.Windows.Forms.DockStyle.Fill;
+                        labelsName[i].Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                        labelsName[i].Location = new System.Drawing.Point(910, 86);
                         labelsName[i].Name = "labelNameCandidato" + i;
-                        labelsName[i].Size = new System.Drawing.Size(75, 13);
-                        labelsName[i].TabIndex = 5;
+                        labelsName[i].Size = new System.Drawing.Size(68, 65);
+                        labelsName[i].TabIndex = 51;
                         labelsName[i].Text = lsCandidatosVotos[i].tipo == "NULO" ? "Votos Nulos" : lsCandidatosVotos[i].tipo == "NO REGISTRADO" ? "Candidato No Registrado" : lsCandidatosVotos[i].candidato;
-                        labelsName[i].TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
-                        //PANEL DONDE IRAN LA IMAGEN Y LA ETIQUETA
-                        panels[i].Controls.Add(labelsName[i]);
-                        panels[i].Controls.Add(pictureBoxes[i]);
-                        panels[i].Dock = System.Windows.Forms.DockStyle.Fill;
-                        panels[i].Location = new System.Drawing.Point(15, 57);
-                        panels[i].Name = "panelImagenPartido" + i;
-                        panels[i].Size = new System.Drawing.Size(75, 44);
-                        panels[i].TabIndex = 200 + i;
-
-
-
-                        this.tblPanaelPartidos.Controls.Add(panels[i], 0, i + 1);
-                        totalVotos += (int)lsCandidatosVotos[i].votos;
-                        if (!flagFocus)
-                        {
-                            textBoxes[i].Focus();
-                            flagFocus = true;
-                        }
-                        //Texbox para captura de votos
-                        textBoxes[i].Anchor = System.Windows.Forms.AnchorStyles.None;
+                        //TextBox
+                        textBoxes[i].Dock = System.Windows.Forms.DockStyle.Top;
                         textBoxes[i].Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                        textBoxes[i].Location = new System.Drawing.Point(106, 64);
+                        textBoxes[i].Location = new System.Drawing.Point(46, 157);
                         textBoxes[i].Name = "textBox" + i;
-                        textBoxes[i].Size = new System.Drawing.Size(100, 29);
-                        textBoxes[i].TabIndex = 100 + i;
-                        //Votos nulos 0 Candidato no registrado -1
+                        textBoxes[i].Size = new System.Drawing.Size(63, 29);
+                        textBoxes[i].TabIndex = 1 + i;
                         textBoxes[i].Tag = lsCandidatosVotos[i].id_candidato.ToString();
                         textBoxes[i].KeyPress += FrmRegistroActas_KeyPress;
                         textBoxes[i].KeyUp += Evento_KeyUp;
+                        textBoxes[i].GotFocus += new System.EventHandler(tbxValue_GotFocus);
+                        textBoxes[i].MouseUp += new System.Windows.Forms.MouseEventHandler(tbxValue_MouseUp);
+                        textBoxes[i].Leave += new System.EventHandler(tbxValue_Leave);
                         textBoxes[i].MaxLength = 3;
                         textBoxes[i].Text = lsCandidatosVotos[i].votos.ToString();
                         textBoxes[i].TextAlign = HorizontalAlignment.Center;
 
-                        this.tblPanaelPartidos.Controls.Add(textBoxes[i], 1, i + 1);
-
+                        //Agregar Imagen
+                        this.tablePanelPartidos.Controls.Add(pictureBoxes[i], i, 0);
+                        //Agregar Etiqueta
+                        this.tablePanelPartidos.Controls.Add(labelsName[i], i, 1);
+                        //Agregar Textbox
+                        this.tablePanelPartidos.Controls.Add(textBoxes[i], i, 2);
 
 
                     }
 
+                    //Agregar Filas
+                    this.tablePanelPartidos.RowCount = 3;
+                    this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+                    this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle());
+                    this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+                    //this.tablePanelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.692307F));
+                    //this.tblPanaelPartidos.RowStyles.Add(new RowStyle(SizeType.Absolute, 70F));
+                    this.tablePanelPartidos.ResumeLayout(false);
+                    this.tablePanelPartidos.Visible = true;
+                    this.tblPanelBoletas.Visible = true;
+                    this.txtBoletasS.Focus();
+                    //textBoxes[0].Focus();
+                    //ShowScrollBar(this.tableLayoutPanel2.Handle, SB_HORZ, false);
+
                     this.btnGuardar.Enabled = true;
                     this.btnNoConta.Enabled = true;
                     this.lblTotalCapturado.Text = totalVotos.ToString();
-                    this.tblPanaelPartidos.RowStyles.Add(new RowStyle(SizeType.Absolute, 70F));
-                    this.tblPanaelPartidos.ResumeLayout(false);
-                    this.tblPanaelPartidos.Visible = true;
-                    ShowScrollBar(this.tableLayoutPanel2.Handle, SB_HORZ, false);
+                    this.VerificarTotal();
                 }
 
             }
@@ -416,58 +465,17 @@ namespace Sistema.ComputosElectorales
         {
             try
             {
-                this.tblPanaelPartidos.Visible = false;
-                this.tblPanaelPartidos.Controls.Clear();
-                this.tblPanaelPartidos.RowStyles.Clear();
-                this.tblPanaelPartidos.RowCount = 1;
-                this.tblPanaelPartidos.SuspendLayout();
-
-                Panel PanelTempTitutlo1 = new Panel();
-                Panel PanelTempTitutlo2 = new Panel();
-
-                Label labelTemp1 = new Label();
-                Label labelTemp2 = new Label();
-
-                labelTemp1.Dock = System.Windows.Forms.DockStyle.Top;
-                labelTemp1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                labelTemp1.ForeColor = System.Drawing.Color.White;
-                labelTemp1.Location = new System.Drawing.Point(0, 0);
-                labelTemp1.Name = "label4";
-                labelTemp1.Size = new System.Drawing.Size(152, 44);
-                labelTemp1.TabIndex = 0;
-                labelTemp1.Text = "PARTIDO, COALICIÓN O CANDIDATURA";
-                labelTemp1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-
-                labelTemp2.Dock = System.Windows.Forms.DockStyle.Top;
-                labelTemp2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                labelTemp2.ForeColor = System.Drawing.Color.White;
-                labelTemp2.Location = new System.Drawing.Point(0, 0);
-                labelTemp2.Name = "label5";
-                labelTemp2.Size = new System.Drawing.Size(152, 32);
-                labelTemp2.TabIndex = 0;
-                labelTemp2.Text = "RESULTADOS ELECTORALES";
-                labelTemp2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-
-                PanelTempTitutlo1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(158)))), ((int)(((byte)(150)))));
-                PanelTempTitutlo1.Controls.Add(labelTemp1);
-                PanelTempTitutlo1.Dock = System.Windows.Forms.DockStyle.Fill;
-                PanelTempTitutlo1.Location = new System.Drawing.Point(15, 5);
-                PanelTempTitutlo1.Name = "pnlTableTitulo";
-                PanelTempTitutlo1.Size = new System.Drawing.Size(152, 46);
-                PanelTempTitutlo1.TabIndex = 39;
-
-                PanelTempTitutlo2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(158)))), ((int)(((byte)(150)))));
-                PanelTempTitutlo2.Controls.Add(labelTemp2);
-                PanelTempTitutlo2.Dock = System.Windows.Forms.DockStyle.Fill;
-                PanelTempTitutlo2.Location = new System.Drawing.Point(175, 5);
-                PanelTempTitutlo2.Name = "pnlTableVotos";
-                PanelTempTitutlo2.Size = new System.Drawing.Size(152, 46);
-                PanelTempTitutlo2.TabIndex = 41;
-
-
-
-                this.tblPanaelPartidos.Controls.Add(PanelTempTitutlo1, 0, 0);
-                this.tblPanaelPartidos.Controls.Add(PanelTempTitutlo2, 1, 0);
+                this.tablePanelPartidos.Visible = false;
+                this.tablePanelPartidos.Controls.Clear();
+                this.tablePanelPartidos.RowStyles.Clear();
+                this.tablePanelPartidos.ColumnStyles.Clear();
+                this.tablePanelPartidos.RowCount = 0;
+                this.tablePanelPartidos.ColumnCount = 0;
+                this.tablePanelPartidos.SuspendLayout();
+                this.tblPanelBoletas.Visible = false;
+                this.txtBoletasR.Text = "0";
+                this.txtBoletasS.Text = "0";
+                this.boletasRecibidas = 0;
 
                 if (!soloBloq)
                 {
@@ -476,8 +484,8 @@ namespace Sistema.ComputosElectorales
 
                 else
                 {
-                    this.tblPanaelPartidos.ResumeLayout();
-                    this.tblPanaelPartidos.Visible = true;
+                    this.tablePanelPartidos.ResumeLayout();
+                    this.tablePanelPartidos.Visible = true;
                 }
 
             }
@@ -489,23 +497,58 @@ namespace Sistema.ComputosElectorales
 
         private void BloquearControles()
         {
-            //this.tableLayoutPanel2.Enabled = true;
             this.ClearDataTable(true);
             this.btnGuardar.Enabled = false;
             this.btnNoConta.Enabled = false;
-            this.cargarComboSeccion();
-            //this.btnReserva.Enabled = false;
-            //this.btnSiguiente.Enabled = true;
-
-            //this.lblCasilla.Text = "----";
-            this.lblTotalCapturado.Text = "No.";
             this.lblConsecutivo.Text = "No.";
-            this.lblDistrito.Text = "No.";
             this.lblListaNominal.Text = "No.";
+            this.lblDistrito.Text = "No.";
+            this.lblTotalCapturado.Text = "No.";
+            this.cmbSupuesto.SelectedIndex = 0;
+            //this.cargarComboSeccion();
 
 
         }
 
+        private bool selectAllOnFocus = true;
+        private bool selectAllDone = false;
+
+        void tbxValue_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            if (selectAllOnFocus && !selectAllDone && textBox.SelectionLength == 0)
+            {
+                selectAllDone = true;
+                textBox.SelectAll();
+            }
+        }
+
+        void tbxValue_GotFocus(object sender, System.EventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            if (selectAllOnFocus && MouseButtons == MouseButtons.None)
+            {
+                textBox.SelectAll();
+                selectAllDone = true;
+            }
+        }
+
+        void tbxValue_Leave(object sender, System.EventArgs e)
+        {
+            selectAllDone = false;
+        }
+
+        ///
+        /// Set to true to select all contents of the textbox when the box receives focus by clicking it with the mouse
+        ///
+        [DefaultValue(true)]
+        [Category("Behavior")]
+        [Description("Set to true to select all contents of the textbox when the box receives focus by clicking it with the mouse")]
+        public bool SelectAllOnFocus
+        {
+            get { return selectAllOnFocus; }
+            set { selectAllOnFocus = value; }
+        }
 
         private void VerificarTotal()
         {
@@ -516,6 +559,9 @@ namespace Sistema.ComputosElectorales
                 List<double> listaVotos = new List<double>();
                 double votosNulos = 0;
                 int flagError = 0;
+                double boletasSobrantes = 0;
+                double.TryParse(this.txtBoletasS.Text, out boletasSobrantes);
+                this.txtBoletasS.Text = boletasSobrantes.ToString();
                 foreach (TextBox datos in this.textBoxes)
                 {
                     double num;
@@ -540,50 +586,36 @@ namespace Sistema.ComputosElectorales
                     if (tempIdCandidato == 0)
                         votosNulos = num;
 
-                    if (totalVotos > Convert.ToDouble(Lnominal))
+                    if (totalVotos + boletasSobrantes > Convert.ToDouble(this.boletasRecibidas))
                     {
                         flagError = 1;
                         //datos.Text = "0";
                     }
-                    lblTotalCapturado.Text = totalVotos.ToString();
+                    double totales = totalVotos + boletasSobrantes;
+                    lblTotalCapturado.Text = totalVotos.ToString() + "  +  " + boletasSobrantes + "  =  " + totales;
 
 
                 }
-                this.totalVotos = Convert.ToInt32(totalVotos);
+                this.totalVotos = Convert.ToInt32(totalVotos + boletasSobrantes);
                 if (flagError > 0)
                 {
-                    this.flagSelectSupuesto = 2;
-                    msgBox = new MsgBox(this, "El total de Captura excede la Lista Nominal", "Atención", MessageBoxButtons.OK, "Error");
+                    //this.flagSelectSupuesto = 4;
+                    //this.cmbSupuesto.SelectedIndex = 4;
+                    this.btnGuardar.Enabled = false;
+                    //this.cmbSupuesto.Enabled = false;
+                    //this.DesactivarTextBoxes();
+                    msgBox = new MsgBox(this, "El total de Captura excede el Número de Boletas recibidas", "Atención", MessageBoxButtons.OK, "Error");
                     msgBox.ShowDialog(this);
                     return;
-
                 }
+                //this.cmbSupuesto.Enabled = true;
+                this.btnGuardar.Enabled = true;
+                //int selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
+                //if (selectedSupuesto == 5 || selectedSupuesto == 4)
+                //{
+                //    this.cmbSupuesto.SelectedIndex = 0;
+                //}
 
-                listaVotos.Sort();
-                double primero = listaVotos[listaVotos.Count - 1];
-                double segundo = listaVotos[listaVotos.Count - 2];
-                double diferencia = primero - segundo;
-                if (votosNulos > diferencia)
-                {
-
-                    if (this.recuento)
-                    {
-                        this.flagSelectSupuesto = 5;
-                        msgBox = new MsgBox(this, "NUMERO DE VOTOS NULOS MAYOR A LA DIFERENCIA ENTRE LOS CANDIDATOS DEL 1ER Y 2DO LUGAR", "Atención", MessageBoxButtons.OK, "Error");
-                        msgBox.ShowDialog(this);
-                        return;
-                    }
-                    else
-                    {
-                        this.flagSelectSupuesto = 5;
-                        msgBox = new MsgBox(this.MdiParent, "NUMERO DE VOTOS NULOS MAYOR A LA DIFERENCIA ENTRE LOS CANDIDATOS DEL 1ER Y 2DO LUGAR.\n¿ENVIAR ACTA A RESERVA?", "Atención", MessageBoxButtons.YesNo, "Advertencia");
-                        DialogResult result = msgBox.ShowDialog(this);
-                        if (result == DialogResult.Yes)
-                        {
-                            this.ReservarCasilla("RESERVA");
-                        }
-                    }
-                }
 
 
             }
@@ -596,7 +628,19 @@ namespace Sistema.ComputosElectorales
 
         private void Evento_KeyUp(object sender, KeyEventArgs e)
         {
-            this.VerificarTotal();
+            if (e.KeyData == Keys.Back)
+            {
+                this.VerificarTotal();
+            }
+            else if (e.KeyData == Keys.Enter || e.KeyData == Keys.Space)
+            {
+                return;
+            }
+            else
+            {
+                this.VerificarTotal();
+            }
+
         }
 
         private void FrmRegistroActas_KeyPress(object sender, KeyPressEventArgs e)
@@ -621,45 +665,14 @@ namespace Sistema.ComputosElectorales
 
         private void button1_Click(object sender, EventArgs e)
         {
+            this.ClearDataTable(true);
             this.Close();
         }
 
         private void ModificarRecuentoVotos_Shown(object sender, EventArgs e)
         {
-            //this.MdiParent.WindowState = FormWindowState.Maximized;
+            this.MdiParent.WindowState = FormWindowState.Maximized;
             this.cargarComboSeccion();
-        }
-
-        private void btnSiguiente_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                this.AsginarCasilla();
-            }
-            catch (Exception ex)
-            {
-                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
-                msgBox.ShowDialog(this);
-            }
-        }
-
-        private void btnReserva_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                msgBox = new MsgBox(this.MdiParent, "¿Enviar la casilla a Reserva?", "Atención", MessageBoxButtons.YesNo, "Question");
-                DialogResult result = msgBox.ShowDialog(this);
-                if (result == DialogResult.Yes)
-                {
-                    this.ReservarCasilla("RESERVA");
-                }
-
-            }
-            catch (Exception ex)
-            {
-                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
-                msgBox.ShowDialog(this);
-            }
         }
 
         private void btnNoConta_Click(object sender, EventArgs e)

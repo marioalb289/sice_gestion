@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Sistema.DataModel;
 using System.Threading;
+using System.Globalization;
 
 namespace Sistema.ComputosElectorales
 {
@@ -68,7 +69,7 @@ namespace Sistema.ComputosElectorales
             }
         }
 
-        private void InicializarPaginador(int? distrito,int pageNumber = 1, int pageSize = 10)
+        private void InicializarPaginador(int? distrito,int pageNumber = 1, int pageSize = 20)
         {
             try
             {
@@ -92,12 +93,65 @@ namespace Sistema.ComputosElectorales
             }
         }
 
+        private void cargarResultadosTotales(int distrito)
+        {
+            try
+            {
+                CompElec = new ComputosElectoralesGenerales();
+                List<Candidatos> listaCandidatos = CompElec.ListaCandidatos(distrito);
+                int totalCandidatos = listaCandidatos.Count;
+                List<VotosSeccion> vSeccionTotales = CompElec.ResultadosSeccion(0, 0, (int)distrito);
+                List<VotosSeccion> totalAgrupado = vSeccionTotales.GroupBy(x => x.id_casilla).Select(data => new VotosSeccion { id_candidato = data.First().id_candidato, casilla = data.First().casilla, lista_nominal = data.First().lista_nominal + totalCandidatos*2, votos = data.First().votos }).ToList();
+                
+                int LnominalDistrito = totalAgrupado.Sum(x => x.lista_nominal);
+                int TotalVotosDistrito = vSeccionTotales.Sum(x => (int)x.votos);
+
+                this.lblListaNominal.Text = String.Format(CultureInfo.InvariantCulture, "{0:#,#}", LnominalDistrito);
+                this.lblTotalVotos.Text = String.Format(CultureInfo.InvariantCulture, "{0:#,#}", TotalVotosDistrito);
+
+
+
+                decimal PorcentajeParDistrito = 0;
+                if (TotalVotosDistrito > 0)
+                {
+                    PorcentajeParDistrito = Math.Round((Convert.ToDecimal(TotalVotosDistrito) * 100) / LnominalDistrito, 2);
+                }
+                this.lblParticipacion.Text = PorcentajeParDistrito + "%";
+                this.lblDistrito.Text = distrito.ToString();
+                this.lblActasCapturadas.Text = String.Format(CultureInfo.InvariantCulture, "{0:#,#}", vSeccionTotales.Where(x => x.estatus == "CAPTURADA").GroupBy(y => y.casilla).Count());
+                //var x = vSeccion.Select(x=> new VotosSeccion { id_candidato = x.id_candidato, votos = x.s })
+
+                List<VotosSeccion> listaSumaCandidatos = vSeccionTotales.Where(x => x.estatus == "CAPTURADA" && x.id_candidato != null).GroupBy(y => y.id_candidato).Select(data => new VotosSeccion { id_candidato = data.First().id_candidato, votos = data.Sum(d => d.votos) }).ToList();
+                listaSumaCandidatos.OrderBy(x => x.votos);
+                if (listaSumaCandidatos.Count > 0)
+                {
+                    int PrimeroTotal = (int)listaSumaCandidatos[listaSumaCandidatos.Count - 1].votos;
+                    int SeegundoTotal = (int)listaSumaCandidatos[listaSumaCandidatos.Count - 2].votos;
+                    int diferenciaTotal = PrimeroTotal - SeegundoTotal;
+                    decimal diferenciaPorcentajeTotal = 0;
+                    if (TotalVotosDistrito > 0)
+                    {
+                        diferenciaPorcentajeTotal = Math.Round((Convert.ToDecimal(diferenciaTotal) * 100) / TotalVotosDistrito, 2);
+                    }
+                    this.lblDiferencia.Text = diferenciaPorcentajeTotal + "%";
+                }
+                else
+                {
+                    this.lblDiferencia.Text = 0 + "%";
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         private void cargarResultados(int? distrito, int pageNumber, int pageSize)
         {
             try
             {
                 CompElec = new ComputosElectoralesGenerales();
-                List<VotosSeccion> vSeccion = CompElec.ResultadosSeccion(pageNumber, pageSize,(int)distrito);
+                List<VotosSeccion> vSeccion = CompElec.ResultadosSeccion(pageNumber, pageSize,(int)distrito);                
                 List<Candidatos> candidatos = CompElec.ListaCandidatos((int)distrito);
                 dgvResultados.Columns.Clear();
                 dgvResultados.DataSource = null;
@@ -212,6 +266,8 @@ namespace Sistema.ComputosElectorales
                 int Noregynulo = 0;
                 int Lnominal = 0;
 
+                List<Candidatos> listaCandidatos = CompElec.ListaCandidatos((int)distrito);
+                int tempC = listaCandidatos.Count;
 
                 foreach (VotosSeccion v in vSeccion)
                 {
@@ -275,7 +331,7 @@ namespace Sistema.ComputosElectorales
                     row.Cells[1].Value = v.seccion;
                     row.Cells[2].Value = v.casilla;
                     row.Cells[3].Value = (v.estatus != null ) ? v.estatus: "NO CAPTURADA";
-                    Lnominal = v.lista_nominal;
+                    Lnominal = v.lista_nominal + tempC * 2; 
 
                     row.Cells[contCand].Value = v.votos;
                     if (v.tipo == "VOTO")
@@ -364,6 +420,7 @@ namespace Sistema.ComputosElectorales
                 int? selected = Convert.ToInt32(cmbDistrito.SelectedValue);
                 if (selected > 0 && selected != null)
                 {
+                    this.cargarResultadosTotales((int)selected);
                     this.BuscarDistritos((int)selected);
                     this.InicializarPaginador(selected);
                     if(this.totalPages > 0)
@@ -576,6 +633,11 @@ namespace Sistema.ComputosElectorales
                 msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
                 msgBox.ShowDialog(this);
             }
+        }
+
+        private void Reportes_Shown(object sender, EventArgs e)
+        {
+            this.MdiParent.WindowState = FormWindowState.Maximized;
         }
     }
 }

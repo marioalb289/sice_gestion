@@ -119,7 +119,7 @@ namespace Sistema.RegistroActasLocal
                         {
                             id_candidato = id_candidato,
                             id_casilla = id_casilla,
-                            votos = selectedSupuesto > 0 ? 0 : Convert.ToInt32(datos.Text),
+                            votos = Convert.ToInt32(datos.Text),
                             tipo = tipo_voto
                         });
 
@@ -283,7 +283,7 @@ namespace Sistema.RegistroActasLocal
                     this.lblListaNominal.Text = tempSec.listaNominal.ToString();
                     this.lblDistrito.Text = tempSec.distrito.ToString();
                     this.Lnominal = tempSec.listaNominal;
-                    this.boletasRecibidas = tempSec.listaNominal + (lsCandidatosVotos.Count() * 2); //Lista nominal + 2 veces el numero de representantes de casillas
+                    this.boletasRecibidas = tempSec.listaNominal + (lsCandidatosVotos.Count()-2 * 2); //Lista nominal + 2 veces el numero de representantes de casillas
                     this.txtBoletasR.Text = this.boletasRecibidas.ToString();
                     this.txtBoletasR.Enabled = false;
                     bool flagFocus = false;
@@ -649,6 +649,7 @@ namespace Sistema.RegistroActasLocal
 
         private void button1_Click(object sender, EventArgs e)
         {
+            this.BloquearControles();
             this.Close();
         }
 

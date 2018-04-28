@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Sistema.DataModel;
 using System.Threading;
+using System.Globalization;
 
 namespace Sistema.RegistroActasLocal
 {
@@ -91,6 +92,57 @@ namespace Sistema.RegistroActasLocal
                 int pz = pageSize * totalCandidatos;
                 int pn = pz * (pageNumber - 1);
                 cargarResultados(distrito, pn, pz);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        private void cargarResultadosTotales(int distrito)
+        {
+            try
+            {
+                rgActas = new RegistroLocalGenerales();
+                List<Candidatos> listaCandidatos = rgActas.ListaCandidatos(distrito);
+                int tc = listaCandidatos.Count;
+                List<VotosSeccion> vSeccionTotales = rgActas.ResultadosSeccionCaptura(0, 0, (int)distrito);
+                List<VotosSeccion> totalAgrupado =vSeccionTotales.GroupBy(x => x.id_casilla).Select(data => new VotosSeccion { id_candidato = data.First().id_candidato, casilla = data.First().casilla,lista_nominal = data.First().lista_nominal + tc * 2, votos = data.First().votos }).ToList();
+                int LnominalDistrito = totalAgrupado.Sum(x => x.lista_nominal);
+                int TotalVotosDistrito = vSeccionTotales.Sum(x => (int)x.votos);
+
+                this.lblListaNominal.Text = String.Format(CultureInfo.InvariantCulture, "{0:#,#}", LnominalDistrito);
+                this.lblTotalVotos.Text = String.Format(CultureInfo.InvariantCulture, "{0:#,#}", TotalVotosDistrito);
+
+
+
+                decimal PorcentajeParDistrito = 0;
+                if (TotalVotosDistrito > 0)
+                {
+                    PorcentajeParDistrito = Math.Round((Convert.ToDecimal(TotalVotosDistrito) * 100) / LnominalDistrito, 2);
+                }
+                this.lblParticipacion.Text = PorcentajeParDistrito + "%";
+                this.lblDistrito.Text = distrito.ToString();
+                this.lblActasCapturadas.Text = String.Format(CultureInfo.InvariantCulture, "{0:#,#}", vSeccionTotales.Where(x => x.estatus == "ATENDIDO").GroupBy(y => y.casilla).Count());
+                //var x = vSeccion.Select(x=> new VotosSeccion { id_candidato = x.id_candidato, votos = x.s })
+
+                List<VotosSeccion> listaSumaCandidatos = vSeccionTotales.Where(x => x.estatus == "ATENDIDO" && x.id_candidato != null).GroupBy(y => y.id_candidato).Select(data => new VotosSeccion { id_candidato = data.First().id_candidato, votos = data.Sum(d => d.votos) }).ToList();
+                listaSumaCandidatos.OrderBy(x => x.votos);
+                if (listaSumaCandidatos.Count > 0)
+                {
+                    int PrimeroTotal = (int)listaSumaCandidatos[listaSumaCandidatos.Count - 1].votos;
+                    int SeegundoTotal = (int)listaSumaCandidatos[listaSumaCandidatos.Count - 2].votos;
+                    int diferenciaTotal = PrimeroTotal - SeegundoTotal;
+                    decimal diferenciaPorcentajeTotal = 0;
+                    if (TotalVotosDistrito > 0)
+                    {
+                        diferenciaPorcentajeTotal = Math.Round((Convert.ToDecimal(diferenciaTotal) * 100) / TotalVotosDistrito, 2);
+                    }
+                    this.lblDiferencia.Text = diferenciaPorcentajeTotal + "%";
+                }
+                else
+                {
+                    this.lblDiferencia.Text = 0 + "%";
+                }
             }
             catch (Exception ex)
             {
@@ -209,35 +261,9 @@ namespace Sistema.RegistroActasLocal
                 List<int> vLst = new List<int>();
                 int Noregynulo = 0;
                 int Lnominal = 0;
-                int LnominalDistrito = vSeccion.Sum(x=> x.lista_nominal);
-                int TotalVotosDistrito = vSeccion.Sum(x=> (int)x.votos);
 
-                this.lblListaNominal.Text = LnominalDistrito.ToString();
-                this.lblTotalVotos.Text = TotalVotosDistrito.ToString();
-
-                decimal PorcentajeParDistrito = 0;
-                if (TotalVotosDistrito > 0)
-                {
-                    PorcentajeParDistrito = Math.Round((Convert.ToDecimal(TotalVotosDistrito) * 100) / LnominalDistrito, 2);
-                }
-                this.lblParticipacion.Text = PorcentajeParDistrito + "%";
-                this.lblDistrito.Text = distrito.ToString();
-                this.lblActasCapturadas.Text = vSeccion.Where(x => x.estatus == "ATENDIDO").GroupBy(y => y.casilla).Count().ToString();
-                //var x = vSeccion.Select(x=> new VotosSeccion { id_candidato = x.id_candidato, votos = x.s })
-
-                List<VotosSeccion> listaSumaCandidatos = vSeccion.Where(x => x.estatus == "ATENDIDO" && x.id_candidato != null).GroupBy(y => y.id_candidato).Select(data => new VotosSeccion { id_candidato = data.First().id_candidato, votos = data.Sum(d=> d.votos) }).ToList();
-                listaSumaCandidatos.Sort();
-                int PrimeroTotal = (int)listaSumaCandidatos[listaSumaCandidatos.Count - 1].votos;
-                int SeegundoTotal = (int)listaSumaCandidatos[listaSumaCandidatos.Count - 2].votos;
-                int diferenciaTotal = PrimeroTotal - SeegundoTotal;
-                decimal diferenciaPorcentajeTotal = 0;
-                if (TotalVotosDistrito > 0)
-                {
-                    diferenciaPorcentajeTotal = Math.Round((Convert.ToDecimal(diferenciaTotal) * 100) / TotalVotosDistrito, 2);
-                }
-                this.lblDiferencia.Text = diferenciaPorcentajeTotal + "%";
-
-
+                List<Candidatos> listaCandidatos = rgActas.ListaCandidatos((int)distrito);
+                int tempC = listaCandidatos.Count;
 
                 foreach (VotosSeccion v in vSeccion)
                 {
@@ -306,7 +332,7 @@ namespace Sistema.RegistroActasLocal
                     row.Cells[0].Value = v.id_casilla;
                     row.Cells[1].Value = v.seccion;
                     row.Cells[2].Value = v.casilla;
-                    Lnominal = v.lista_nominal;
+                    Lnominal = v.lista_nominal + tempC*2;
 
                     row.Cells[contCand].Value = v.votos;
                     if (v.tipo == "VOTO")
@@ -398,6 +424,7 @@ namespace Sistema.RegistroActasLocal
                     //Buscar Distritos no validos
                     this.BuscarDistritos((int)selected);
                     this.InicializarPaginador(selected);
+                    this.cargarResultadosTotales((int)selected);
                     if (this.totalPages > 0)
                     {
                         btnPrimero.Enabled = !this.IsFirstPage();
@@ -609,6 +636,11 @@ namespace Sistema.RegistroActasLocal
                 msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
                 msgBox.ShowDialog(this);
             }
+        }
+
+        private void Reportes_Shown(object sender, EventArgs e)
+        {
+            this.MdiParent.WindowState = FormWindowState.Maximized;
         }
     }
 }

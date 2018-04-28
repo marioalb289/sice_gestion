@@ -806,6 +806,7 @@ namespace Sistema.Generales
                 hoja.Name = "DISTRITO " + distrito;  //Aqui debe ir el nombre del distrito
                 List<VotosSeccion> vSeccion = this.ResultadosSeccionCaptura(0, 0, (int)distrito);
                 List<Candidatos> candidatos = this.ListaCandidatos((int)distrito);
+                int tempC = candidatos.Count;
 
                 //Montamos las cabeceras 
                 char letraFinal = CrearEncabezados(filaInicialTabla, ref hoja, vSeccion, candidatos, 1);
@@ -889,7 +890,7 @@ namespace Sistema.Generales
                     hoja.Cells[fila, 2] = v.seccion;
                     hoja.Cells[fila, 3] = v.casilla;
                     hoja.Cells[fila, 4] = (v.estatus != null) ? (v.estatus == "ATENDIDO") ? "CAPTURADA" : v.estatus : "NO CAPTURADA";
-                    Lnominal = v.lista_nominal;
+                    Lnominal = v.lista_nominal + tempC * 2;
 
                     hoja.Cells[fila, contCand] = v.votos;
                     if (v.tipo == "VOTO")
