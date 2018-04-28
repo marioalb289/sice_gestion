@@ -181,7 +181,9 @@
     <None Include="Resources\Error_60.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\iepc.png" />
+    <None Include="Resources\iepc.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Information_64.png" />

@@ -823,7 +823,7 @@ namespace Sistema.Generales
                 int Noregynulo = 0;
                 int Lnominal = 0;
 
-
+                return;
                 foreach (VotosSeccion v in vSeccion)
                 {
                     //idCasillaActual = (int)v.id_casilla;
@@ -920,10 +920,13 @@ namespace Sistema.Generales
             try
             {
                 Excel.Range rango;
+                Excel.Range rangoTitutlo;
 
                 //** Montamos el título en la línea 1 **
-                hoja.Cells[1, 2] = "LISTA DE RESULTADOS";
+                hoja.Cells[1, 3] = "SISTEMA DE REGISTRO DE ACTAS DEL PROCESO ELECTORAL LÓCAL 2017-2018";
                 char columnaLetra = 'A';
+                hoja.Shapes.AddPicture(System.AppDomain.CurrentDomain.BaseDirectory + "Resources\\" + "iepc.png", Microsoft.Office.Core.MsoTriState.msoFalse, Microsoft.Office.Core.MsoTriState.msoCTrue, 0, 0, 165, 65);
+                //hoja.Shapes.
 
                 List<int> widths = new List<int>();
 
@@ -954,6 +957,12 @@ namespace Sistema.Generales
                 //Centramos los textos
                 rango = hoja.Rows[fila];
                 rango.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+
+                //Colores titulo1
+                rango = hoja.Range["C1", "C1"];
+                rango.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(((int)(((byte)(173)))), ((int)(((byte)(38)))), ((int)(((byte)(36))))));
+                rango.Font.Size = 16;
+                rango.Font.Bold = true;
 
                 //Modificamos los anchos de las columnas
                 int cont = 1;
