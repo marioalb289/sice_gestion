@@ -750,39 +750,44 @@ namespace Sistema.Generales
             try
             {
                 
-                    Excel.Application excel = new Excel.Application();
-                    Excel._Workbook libro = null;
+                Excel.Application excel = new Excel.Application();
+                Excel._Workbook libro = null;
 
-                    //creamos un libro nuevo y la hoja con la que vamos a trabajar
-                    libro = (Excel._Workbook)excel.Workbooks.Add(Excel.XlWBATemplate.xlWBATWorksheet);
+                //creamos un libro nuevo y la hoja con la que vamos a trabajar
+                libro = (Excel._Workbook)excel.Workbooks.Add(Excel.XlWBATemplate.xlWBATWorksheet);
 
-                    if (completo)
+                if (completo)
+                {
+                    List<sice_distritos_locales> distritos = this.ListaDistritos();
+                    foreach (sice_distritos_locales ds in distritos.OrderByDescending(x => x.id))
                     {
-                        List<sice_distritos_locales> distritos = this.ListaDistritos();
-                        foreach (sice_distritos_locales ds in distritos.OrderByDescending(x => x.id))
-                        {
-                            Console.WriteLine("Insetando Libro: " + ds.distrito);
-                            this.generaHoja(ds.id, libro);
-                        }
+                        Console.WriteLine("Insetando Libro: " + ds.distrito);
+                        this.generaHoja(ds.id, libro);
                     }
-                    else
-                    {
-                        this.generaHoja(distrito, libro);
-                    }
+                }
+                else
+                {
+                    this.generaHoja(distrito, libro);
+                }
 
-                    ((Excel.Worksheet)excel.ActiveWorkbook.Sheets["Hoja1"]).Delete();   //Borramos la hoja que crea en el libro por defecto
+                ((Excel.Worksheet)excel.ActiveWorkbook.Sheets["Hoja1"]).Delete();   //Borramos la hoja que crea en el libro por defecto
 
 
-                    libro.Saved = true;
-                    //libro.SaveAs(Environment.CurrentDirectory + @"\Ejemplo2.xlsx");  // Si es un libro nuevo
-                    libro.SaveAs(fichero.FileName,
-                    Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookNormal);
+                libro.Saved = true;
+                //libro.SaveAs(Environment.CurrentDirectory + @"\Ejemplo2.xlsx");  // Si es un libro nuevo
+                //libro.SaveAs(fichero.FileName,
+                //Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookNormal);
+                object misValue = System.Reflection.Missing.Value;
+                libro.SaveAs(fichero.FileName, Excel.XlFileFormat.xlOpenXMLWorkbook, misValue,
+                misValue, false, false, Excel.XlSaveAsAccessMode.xlNoChange,
+                Excel.XlSaveConflictResolution.xlUserResolution, true,
+                misValue, misValue, misValue);
 
-                    libro.Close(true);
+                libro.Close(true);
 
-                    excel.UserControl = false;
-                    excel.Quit();
-                    return 1;
+                excel.UserControl = false;
+                excel.Quit();
+                return 1;
                    
 
                 
@@ -799,7 +804,7 @@ namespace Sistema.Generales
             {
                 Excel._Worksheet hoja = null;
                 Excel.Range rango = null;
-                int filaInicialTabla = 5;
+                int filaInicialTabla = 7;
 
                 //creamos un libro nuevo y la hoja con la que vamos a trabajar
                 hoja = (Excel._Worksheet)libro.Worksheets.Add();
@@ -823,7 +828,7 @@ namespace Sistema.Generales
                 int Noregynulo = 0;
                 int Lnominal = 0;
 
-                return;
+                //return;
                 foreach (VotosSeccion v in vSeccion)
                 {
                     //idCasillaActual = (int)v.id_casilla;
@@ -921,38 +926,103 @@ namespace Sistema.Generales
             {
                 Excel.Range rango;
                 Excel.Range rangoTitutlo;
+                float Left = 0;
+                float Top = 0;
+                const float ImageSize = 42; //Tamaño Imagen Partidos
+                string rutaImagen = System.AppDomain.CurrentDomain.BaseDirectory + "Resources\\";
 
                 //** Montamos el título en la línea 1 **
                 hoja.Cells[1, 3] = "SISTEMA DE REGISTRO DE ACTAS DEL PROCESO ELECTORAL LÓCAL 2017-2018";
+                hoja.Cells[2, 3] = "RESULTADOS ELECTORALES POR PARTIDOS POLÍTICOS O CANDIDATURA INDEPENDIENTE";
+                hoja.Cells[3, 3] = "ELECCIÓN DE DIPUTADOS DE MAYORÍA RELATIVA POR CASILLA, SECCIÓN Y DISTRITO LOCAL";
                 char columnaLetra = 'A';
-                hoja.Shapes.AddPicture(System.AppDomain.CurrentDomain.BaseDirectory + "Resources\\" + "iepc.png", Microsoft.Office.Core.MsoTriState.msoFalse, Microsoft.Office.Core.MsoTriState.msoCTrue, 0, 0, 165, 65);
+                hoja.Shapes.AddPicture(rutaImagen+"iepc.png", Microsoft.Office.Core.MsoTriState.msoFalse, Microsoft.Office.Core.MsoTriState.msoCTrue, 0, 0, 125, 45);
                 //hoja.Shapes.
 
-                List<int> widths = new List<int>();
+                List<double> widths = new List<double>();
 
                 //Agregar encabezados
-                hoja.Cells[fila, columnaInicial] = "No."; columnaInicial++; columnaLetra++; widths.Add(10);
-                hoja.Cells[fila, columnaInicial] = "Sección"; columnaInicial++; columnaLetra++; widths.Add(20);
-                hoja.Cells[fila, columnaInicial] = "Casilla"; columnaInicial++; columnaLetra++; widths.Add(30);
-                hoja.Cells[fila, columnaInicial] = "Estatus"; columnaInicial++; columnaLetra++; widths.Add(20);
-                hoja.Cells[fila, columnaInicial] = "Diferencia entre 1° y 2° Lugar"; columnaInicial++; columnaLetra++; widths.Add(30);
+                hoja.Cells[fila-3, columnaInicial] = "DISTRITO 1 CABECERA VICTORIA DE DURANGO";
+                hoja.Range[hoja.Cells[fila - 3, columnaInicial], hoja.Cells[fila - 1, columnaInicial+3]].Merge();
+                hoja.Cells[fila - 3, columnaInicial].WrapText = true;
+                hoja.Cells[fila - 3, columnaInicial].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+
+
+                hoja.Cells[fila, columnaInicial] = "No."; columnaInicial++; columnaLetra++; widths.Add(8.57);
+                hoja.Cells[fila, columnaInicial] = "Sección"; columnaInicial++; columnaLetra++; widths.Add(14.43);
+                hoja.Cells[fila, columnaInicial] = "Casilla"; columnaInicial++; columnaLetra++; widths.Add(25.29);
+                hoja.Cells[fila, columnaInicial] = "Estatus"; columnaInicial++; columnaLetra++; widths.Add(12.29);
+
+                hoja.Cells[fila, columnaInicial] = "Diferencia entre 1° y 2° Lugar"; columnaInicial++; columnaLetra++; widths.Add(12.29);
+                hoja.Cells[fila, columnaInicial - 1].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(149)))), ((int)(((byte)(90))))));
+                hoja.Cells[fila, columnaInicial - 1].Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.White);
+                hoja.Range[hoja.Cells[fila, columnaInicial-1], hoja.Cells[fila - 3, columnaInicial-1]].Merge();
+                hoja.Cells[fila, columnaInicial-1].WrapText = true;
+                hoja.Cells[fila, columnaInicial-1].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+                
 
 
                 //Agregar Columnas Caniddatos y Partidos
                 foreach (Candidatos c in candidatos)
                 {
-                    hoja.Cells[fila, columnaInicial] = c.partido; columnaInicial++; columnaLetra++; widths.Add(20);
+                    //Agregar Imagen del Partido
+                    rango = (Microsoft.Office.Interop.Excel.Range)hoja.Cells[fila-3, columnaInicial];
+                    hoja.Range[hoja.Cells[fila - 3, columnaInicial], hoja.Cells[fila - 1, columnaInicial]].Merge();
+                    Left = 3 + (float)((double)rango.Left);
+                    Top = (float)((double)rango.Top);
+                    
+                    hoja.Shapes.AddPicture(rutaImagen + "pri.png", Microsoft.Office.Core.MsoTriState.msoFalse, Microsoft.Office.Core.MsoTriState.msoCTrue, Left, Top, ImageSize, ImageSize);
+                    hoja.Cells[fila, columnaInicial] = c.partido; columnaInicial++; columnaLetra++; widths.Add(8.57);
                 }
                 //Agregar columnas adicionales
-                hoja.Cells[fila, columnaInicial] = "No Registrados"; columnaInicial++; columnaLetra++; widths.Add(20);
-                hoja.Cells[fila, columnaInicial] = "Nulos"; columnaInicial++; columnaLetra++; widths.Add(20);
-                hoja.Cells[fila, columnaInicial] = "Votación total Emitida"; columnaInicial++; columnaLetra++; widths.Add(30);
-                hoja.Cells[fila, columnaInicial] = "L. Nominal"; columnaInicial++; columnaLetra++; widths.Add(20);
-                hoja.Cells[fila, columnaInicial] = "Porcentaje Participación"; widths.Add(20);
+
+                //Imagen no registrados
+                rango = (Microsoft.Office.Interop.Excel.Range)hoja.Cells[fila - 3, columnaInicial];
+                hoja.Range[hoja.Cells[fila-3, columnaInicial], hoja.Cells[fila-1, columnaInicial]].Merge();
+                Left = 3 + (float)((double)rango.Left);
+                Top = (float)((double)rango.Top);
+
+                hoja.Shapes.AddPicture(rutaImagen + "no-regis.png", Microsoft.Office.Core.MsoTriState.msoFalse, Microsoft.Office.Core.MsoTriState.msoCTrue, Left, Top, ImageSize, ImageSize);
+                hoja.Cells[fila, columnaInicial] = "NOREG"; columnaInicial++; columnaLetra++; widths.Add(8.57);
+
+                //Imagen Nulos
+                rango = (Microsoft.Office.Interop.Excel.Range)hoja.Cells[fila - 3, columnaInicial];
+                hoja.Range[hoja.Cells[fila - 3, columnaInicial], hoja.Cells[fila - 1, columnaInicial]].Merge();
+                Left = 3 + (float)((double)rango.Left);
+                Top = (float)((double)rango.Top);
+                hoja.Shapes.AddPicture(rutaImagen + "nulos.png", Microsoft.Office.Core.MsoTriState.msoFalse, Microsoft.Office.Core.MsoTriState.msoCTrue, Left, Top, ImageSize, ImageSize);
+                hoja.Cells[fila, columnaInicial] = "NULOS"; columnaInicial++; columnaLetra++; widths.Add(8.57);
+
+                hoja.Cells[fila-3, columnaInicial] = "Votación Total Emitida";
+                hoja.Cells[fila - 3, columnaInicial].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(149)))), ((int)(((byte)(90))))));
+                hoja.Cells[fila - 3, columnaInicial].Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.White);
+                hoja.Range[hoja.Cells[fila - 3, columnaInicial], hoja.Cells[fila - 1, columnaInicial]].Merge();
+                hoja.Cells[fila - 3, columnaInicial].WrapText = true;
+                hoja.Cells[fila - 3, columnaInicial].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+                hoja.Cells[fila, columnaInicial] = "TOTAL"; columnaInicial++; columnaLetra++; widths.Add(8.57);
+
+                hoja.Cells[fila, columnaInicial] = "L. Nominal"; columnaInicial++; columnaLetra++; widths.Add(10);
+                hoja.Cells[fila, columnaInicial] = "%"; widths.Add(10);                
+                hoja.Cells[fila - 3, columnaInicial] = "Lista Nominal y Porcentaje de Participación Ciudadana";
+                hoja.Cells[fila-3, columnaInicial].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(149)))), ((int)(((byte)(90))))));
+                hoja.Cells[fila-3, columnaInicial].Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.White);
+                hoja.Range[hoja.Cells[fila - 3, columnaInicial-1], hoja.Cells[fila - 1, columnaInicial]].Merge();
+                hoja.Cells[fila - 3, columnaInicial].WrapText = true;
+                hoja.Cells[fila - 3, columnaInicial].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+
+                //Colores de Fondo
+                rango = hoja.Range["A"+fila, "D"+fila];
+                rango.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(149)))), ((int)(((byte)(90))))));
+                rango.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.White);
+
+                //Colores de Fondo Partido
+                rango = hoja.Range["F" + fila, columnaLetra.ToString() + fila];
+                rango.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(((int)(((byte)(173)))), ((int)(((byte)(38)))), ((int)(((byte)(36))))));
+                rango.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.White);
 
                 //Ponemos borde a las celdas
                 string letra = columnaLetra.ToString() + fila;
-                rango = hoja.Range["A" + fila, letra];
+                rango = hoja.Range["A" + (fila-3), letra];
                 rango.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
                 //Centramos los textos
                 rango = hoja.Rows[fila];
@@ -962,6 +1032,16 @@ namespace Sistema.Generales
                 rango = hoja.Range["C1", "C1"];
                 rango.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(((int)(((byte)(173)))), ((int)(((byte)(38)))), ((int)(((byte)(36))))));
                 rango.Font.Size = 16;
+                rango.Font.Bold = true;
+                //Colores Titulo2
+                rango = hoja.Range["C2", "C2"];
+                rango.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(70)))), ((int)(((byte)(47))))));
+                rango.Font.Size = 12;
+                rango.Font.Bold = true;
+                //Colores Titulo3
+                rango = hoja.Range["C3", "C3"];
+                rango.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(70)))), ((int)(((byte)(47))))));
+                rango.Font.Size = 12;
                 rango.Font.Bold = true;
 
                 //Modificamos los anchos de las columnas
