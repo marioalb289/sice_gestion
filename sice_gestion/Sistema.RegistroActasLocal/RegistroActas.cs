@@ -39,10 +39,10 @@ namespace Sistema.RegistroActasLocal
         private int flagSelectSupuesto = 0;
         private int boletasRecibidas = 0;
 
-        const int SB_HORZ = 0;
-        [DllImport("user32.dll")]
+        //const int SB_HORZ = 0;
+        //[DllImport("user32.dll")]
 
-        static extern bool ShowScrollBar(IntPtr hWnd, int wBar, bool bShow);
+        //static extern bool ShowScrollBar(IntPtr hWnd, int wBar, bool bShow);
 
         public RegistroActas()
         {
@@ -61,17 +61,35 @@ namespace Sistema.RegistroActasLocal
             txtBoletasR.MouseUp += new System.Windows.Forms.MouseEventHandler(tbxValue_MouseUp);
             txtBoletasR.Leave += new System.EventHandler(tbxValue_Leave);
 
-            txtBoletasS.KeyPress += FrmRegistroActas_KeyPress;
-            txtBoletasS.KeyUp += Evento_KeyUp;
-            txtBoletasS.GotFocus += new System.EventHandler(tbxValue_GotFocus);
-            txtBoletasS.MouseUp += new System.Windows.Forms.MouseEventHandler(tbxValue_MouseUp);
-            txtBoletasS.Leave += new System.EventHandler(tbxValue_Leave);
+            txtSobrantes.KeyPress += FrmRegistroActas_KeyPress;
+            txtSobrantes.KeyUp += Evento_KeyUp;
+            txtSobrantes.GotFocus += new System.EventHandler(tbxValue_GotFocus);
+            txtSobrantes.MouseUp += new System.Windows.Forms.MouseEventHandler(tbxValue_MouseUp);
+            txtSobrantes.Leave += new System.EventHandler(tbxValue_Leave);
 
             txtEscritos.KeyPress += FrmRegistroActas_KeyPress;
             txtEscritos.KeyUp += Evento_KeyUp;
             txtEscritos.GotFocus += new System.EventHandler(tbxValue_GotFocus);
             txtEscritos.MouseUp += new System.Windows.Forms.MouseEventHandler(tbxValue_MouseUp);
             txtEscritos.Leave += new System.EventHandler(tbxValue_Leave);
+
+            txtPersonasVotaron.KeyPress += FrmRegistroActas_KeyPress;
+            txtPersonasVotaron.KeyUp += Evento_KeyUp;
+            txtPersonasVotaron.GotFocus += new System.EventHandler(tbxValue_GotFocus);
+            txtPersonasVotaron.MouseUp += new System.Windows.Forms.MouseEventHandler(tbxValue_MouseUp);
+            txtPersonasVotaron.Leave += new System.EventHandler(tbxValue_Leave);
+
+            txtRepresentantes.KeyPress += FrmRegistroActas_KeyPress;
+            txtRepresentantes.KeyUp += Evento_KeyUp;
+            txtRepresentantes.GotFocus += new System.EventHandler(tbxValue_GotFocus);
+            txtRepresentantes.MouseUp += new System.Windows.Forms.MouseEventHandler(tbxValue_MouseUp);
+            txtRepresentantes.Leave += new System.EventHandler(tbxValue_Leave);
+
+            txtVotosSacados.KeyPress += FrmRegistroActas_KeyPress;
+            txtVotosSacados.KeyUp += Evento_KeyUp;
+            txtVotosSacados.GotFocus += new System.EventHandler(tbxValue_GotFocus);
+            txtVotosSacados.MouseUp += new System.Windows.Forms.MouseEventHandler(tbxValue_MouseUp);
+            txtVotosSacados.Leave += new System.EventHandler(tbxValue_Leave);
         }
 
         private void guardarRegistroVotos(bool nolegible = false)
@@ -81,7 +99,7 @@ namespace Sistema.RegistroActasLocal
                 int selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
                 if (this.flagSelectSupuesto > 0)
                     selectedSupuesto = this.flagSelectSupuesto;
-                int boletasSobrantes = Convert.ToInt32(txtBoletasS.Text);
+                int boletasSobrantes = Convert.ToInt32(txtSobrantes.Text);
 
                 //this.tableLayoutPanel2.Enabled = false;
 
@@ -135,7 +153,15 @@ namespace Sistema.RegistroActasLocal
                 if (lista_votos.Count > 0)
                 {
                     regActas = new RegistroLocalGenerales();
-                    int res = regActas.guardarDatosVotos(lista_votos, Convert.ToInt32(cmbCasilla.SelectedValue),selectedSupuesto, Convert.ToInt32(txtBoletasS.Text), Convert.ToInt32(txtEscritos.Text));
+
+                    int incidencias = Convert.ToInt32(cmbIncidencias.SelectedValue);
+                    int estatus_acta = Convert.ToInt32(cmbEstatusActa.SelectedValue);
+                    int estatus_paquete = Convert.ToInt32(cmbEstatusPaquete.SelectedValue);
+                    int casilla_instalada = (radioCasillaNo.Checked) ? 0 : 1;
+
+                    int res = regActas.guardarDatosVotos(lista_votos, Convert.ToInt32(cmbCasilla.SelectedValue),selectedSupuesto, Convert.ToInt32(txtSobrantes.Text), 
+                        Convert.ToInt32(txtEscritos.Text), Convert.ToInt32(txtPersonasVotaron.Text), Convert.ToInt32(txtRepresentantes.Text), Convert.ToInt32(txtVotosSacados.Text),
+                        incidencias, estatus_acta, estatus_paquete, casilla_instalada);
                     if (res == 1)
                     {
                         //this.tableLayoutPanel2.Enabled = true;
@@ -188,6 +214,7 @@ namespace Sistema.RegistroActasLocal
                 cmbSupuesto.Enabled = false;
 
                 this.cargarComboCasilla();
+                this.CargarComboEstatusActaPaqueteIncidencias();
 
             }
             catch (Exception ex)
@@ -221,6 +248,44 @@ namespace Sistema.RegistroActasLocal
             }
         }
 
+        private void CargarComboEstatusActaPaqueteIncidencias()
+        {
+            try
+            {
+
+                regActas = new RegistroLocalGenerales();
+                cmbEstatusActa.DataSource = null;
+                cmbEstatusActa.DisplayMember = "estatus";
+                cmbEstatusActa.ValueMember = "id";
+                cmbEstatusActa.DataSource = regActas.ListaEstatusActa();
+                cmbEstatusActa.SelectedValue = 1;
+
+                cmbEstatusPaquete.DataSource = null;
+                cmbEstatusPaquete.DisplayMember = "estatus";
+                cmbEstatusPaquete.ValueMember = "id";
+                cmbEstatusPaquete.DataSource = regActas.ListaEstatusPaquete();
+                cmbEstatusPaquete.SelectedValue = 2;
+                //cmbCasilla.SelectedIndex = 1;
+
+                cmbIncidencias.DataSource = null;
+                cmbIncidencias.DisplayMember = "estatus";
+                cmbIncidencias.ValueMember = "id";
+                List<sice_ar_incidencias> list = regActas.ListaIncidencias();
+                if (list.Count > 0)
+                    list.Insert(0, new sice_ar_incidencias() { id = 0, estatus = "Seleccionar Incidencia" });
+                cmbIncidencias.DataSource = list;
+                radioCasillaSi.Checked = true;
+                //cmbCasilla.SelectedIndex = 1;
+
+
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+        }
+
         private void verificarCasilla()
         {
             try
@@ -229,6 +294,7 @@ namespace Sistema.RegistroActasLocal
                 int res = regActas.verificarCasillaRegistrada(Convert.ToInt32(cmbCasilla.SelectedValue));
                 if (res == 0)
                 {
+                    this.panelCaptura.Visible = true;
                     this.btnGuardar.Enabled = true;
                     this.ClearDataTable(); //Limpia tabla y carga lista de candidatos
                     //this.btnLimpiar.Enabled = true;
@@ -367,7 +433,7 @@ namespace Sistema.RegistroActasLocal
                     this.tablePanelPartidos.ResumeLayout(false);
                     this.tablePanelPartidos.Visible = true;
                     this.tblPanelBoletas.Visible = true;
-                    this.txtBoletasS.Focus();
+                    this.txtSobrantes.Focus();
                     //textBoxes[0].Focus();
                     //ShowScrollBar(this.tableLayoutPanel2.Handle, SB_HORZ, false);
                 }
@@ -394,14 +460,13 @@ namespace Sistema.RegistroActasLocal
                 this.tablePanelPartidos.SuspendLayout();
                 this.tblPanelBoletas.Visible = false;
                 this.txtBoletasR.Text = "0";
-                this.txtBoletasS.Text = "0";
+                this.txtSobrantes.Text = "0";
                 this.txtEscritos.Text = "0";
                 this.boletasRecibidas = 0;
                 this.lblTotalCapturado.Text = "No.";
                 this.lblListaNominal.Text = "No.";
-                this.lblTotalCapturado.Text = "No.";
-                this.lblDistrito.Text = "No.";
-
+                this.lblDistrito.Text = "No.";  
+                
                 if (!soloBloq)
                 {
                     this.cargarResultadosVotos();
@@ -411,6 +476,7 @@ namespace Sistema.RegistroActasLocal
                 {
                     this.tablePanelPartidos.ResumeLayout();
                     this.tablePanelPartidos.Visible = true;
+                    this.panelCaptura.Visible = false;
                 }
 
             }
@@ -431,8 +497,18 @@ namespace Sistema.RegistroActasLocal
             this.lblDistrito.Text = "No.";
             this.cmbSupuesto.Enabled = false;
             this.txtBoletasR.Text = "0";
-            this.txtBoletasS.Text = "0";
+            this.txtSobrantes.Text = "0";
             this.boletasRecibidas = 0;
+            this.txtEscritos.Text = "0";
+
+            this.txtPersonasVotaron.Text = "0";
+            this.txtRepresentantes.Text = "0";
+            this.txtVotosSacados.Text = "0";
+
+            this.cmbEstatusActa.SelectedValue = 1;
+            this.cmbEstatusPaquete.SelectedValue = 2;
+            this.cmbIncidencias.SelectedValue = 0;
+            this.radioCasillaSi.Checked = true;
 
         }
 
@@ -500,10 +576,16 @@ namespace Sistema.RegistroActasLocal
                 double votosNulos = 0;
                 int flagError = 0;
                 double boletasSobrantes = 0;
-                double.TryParse(this.txtBoletasS.Text, out boletasSobrantes);
-                this.txtBoletasS.Text = boletasSobrantes.ToString();
+                double.TryParse(this.txtSobrantes.Text, out boletasSobrantes);
+                this.txtSobrantes.Text = boletasSobrantes.ToString();
                 if (this.txtEscritos.Text == "")
                     this.txtEscritos.Text = "0";
+                if (this.txtPersonasVotaron.Text == "")
+                    this.txtPersonasVotaron.Text = "0";
+                if (this.txtRepresentantes.Text == "")
+                    this.txtRepresentantes.Text = "0";
+                if (this.txtVotosSacados.Text == "")
+                    this.txtVotosSacados.Text = "0";
                 foreach (TextBox datos in this.textBoxes)
                 {
                     double num;

@@ -134,7 +134,7 @@ namespace Sistema.ComputosElectorales
                 string date = localDate.ToString("MM-dd-yyyy_HH-mm-ss");
                 string namefile = (completo) ? "Reporte_Excel_Completo_" + date : "Reporte_Excel_Distrito_" + selected + "_" + date;
                 SaveFileDialog fichero = new SaveFileDialog();
-                fichero.Filter = "Excel (*.xls)|*.xls";
+                fichero.Filter = "Excel (*.xlsx)|*.xlsx";
                 fichero.FileName = "Reporte_Excel_Distrito_" + selected + "_" + date;
                 if (fichero.ShowDialog() == DialogResult.OK)
                 {

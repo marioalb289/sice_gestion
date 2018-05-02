@@ -375,7 +375,7 @@ namespace Sistema.RegistroActasLocal
                 int acta_instalada = (radioCasillaNo.Checked) ? 0 : 1;
 
                 rgActas = new RegistroLocalGenerales();
-                int res = rgActas.IdentificarActa(this.idDocumento, id_casilla, incidencias, estatus_acta, estatus_paquete, acta_instalada);
+                int res = rgActas.IdentificarActa(this.idDocumento, id_casilla);
                 switch (res)
                 {
                     case 1:

@@ -51,6 +51,10 @@ namespace Sistema.ComputosElectorales
         {
             try
             {
+                if (LoginInfo.privilegios == 6 || LoginInfo.privilegios == 1)
+                    btnGenerarExcelTodo.Visible = true;
+                else
+                    btnGenerarExcelTodo.Visible = false;
                 CompElec = new ComputosElectoralesGenerales();
                 List<sice_distritos_locales> ds = CompElec.ListaDistritos();
                 ds.Insert(0, new sice_distritos_locales() { id = 0, distrito = "Seleccionar Distrito" });

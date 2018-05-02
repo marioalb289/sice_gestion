@@ -24,5 +24,12 @@ namespace Sistema.DataModel
         public Nullable<System.DateTime> updated_at { get; set; }
         public Nullable<int> num_escritos { get; set; }
         public Nullable<int> boletas_sobrantes { get; set; }
+        public Nullable<int> personas_votaron { get; set; }
+        public Nullable<int> num_representantes_votaron { get; set; }
+        public Nullable<int> votos_sacados { get; set; }
+        public Nullable<int> casilla_instalada { get; set; }
+        public Nullable<int> id_estatus_acta { get; set; }
+        public Nullable<int> id_estatus_paquete { get; set; }
+        public Nullable<int> id_incidencias { get; set; }
     }
 }

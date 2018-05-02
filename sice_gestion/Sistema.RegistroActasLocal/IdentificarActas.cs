@@ -88,14 +88,6 @@ namespace Sistema.RegistroActasLocal
                     flagCombo++;
                     msgBox = new MsgBox(this, "Acta Asginada", "Atención", MessageBoxButtons.OK, "Ok");
                     msgBox.ShowDialog();
-                    this.cmbEstatusActa.Enabled = true;
-                    this.cmbEstatusActa.SelectedIndex = 0;
-                    this.cmbEstatusPaquete.Enabled = true;
-                    this.cmbEstatusPaquete.SelectedIndex = 1;
-                    this.cmbIncidencias.Enabled = true;
-                    this.cmbIncidencias.SelectedIndex = 0;
-                    this.radioCasillaSi.Checked = true;
-                    this.panelCasillaInstalada.Enabled = true;
                 }
                 Loadingbox.Close();
                 this.tableLayoutPanel2.Enabled = true;
@@ -153,7 +145,6 @@ namespace Sistema.RegistroActasLocal
                 cmbSeccion.Enabled = true;
 
                 this.cargarComboCasilla();
-                this.CargarComboEstatusActaPaqueteIncidencias();
 
 
             }
@@ -184,42 +175,6 @@ namespace Sistema.RegistroActasLocal
 
                     cmbCasilla.Enabled = true;
                 }
-            }
-            catch (Exception ex)
-            {
-                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
-                msgBox.ShowDialog(this);
-            }
-        }
-
-        private void CargarComboEstatusActaPaqueteIncidencias()
-        {
-            try
-            {
-                
-                rgActas = new RegistroLocalGenerales();
-                cmbEstatusActa.DataSource = null;
-                cmbEstatusActa.DisplayMember = "estatus";
-                cmbEstatusActa.ValueMember = "id";
-                cmbEstatusActa.DataSource = rgActas.ListaEstatusActa();
-                //cmbCasilla.SelectedIndex = 1;
-
-                cmbEstatusPaquete.DataSource = null;
-                cmbEstatusPaquete.DisplayMember = "estatus";
-                cmbEstatusPaquete.ValueMember = "id";
-                cmbEstatusPaquete.DataSource = rgActas.ListaEstatusPaquete();
-                //cmbCasilla.SelectedIndex = 1;
-
-                cmbIncidencias.DataSource = null;
-                cmbIncidencias.DisplayMember = "estatus";
-                cmbIncidencias.ValueMember = "id";
-                List<sice_ar_incidencias> list = rgActas.ListaIncidencias();
-                if(list.Count > 0)
-                    list.Insert(0, new sice_ar_incidencias() { id = 0, estatus = "Seleccionar Incidencia" });
-                cmbIncidencias.DataSource = list;
-                //cmbCasilla.SelectedIndex = 1;
-                
-
             }
             catch (Exception ex)
             {
@@ -310,13 +265,8 @@ namespace Sistema.RegistroActasLocal
                 if (id_casilla == 0)
                     throw new Exception("Selecciona una Casilla");
 
-                int incidencias = Convert.ToInt32(cmbIncidencias.SelectedValue);
-                int estatus_acta = Convert.ToInt32(cmbEstatusActa.SelectedValue);
-                int estatus_paquete = Convert.ToInt32(cmbEstatusPaquete.SelectedValue);
-                int acta_instalada = (radioCasillaNo.Checked) ? 0:1;
-
                 rgActas = new RegistroLocalGenerales();
-                int res = rgActas.IdentificarActa(this.idDocumento, id_casilla,incidencias,estatus_acta,estatus_paquete,acta_instalada);
+                int res = rgActas.IdentificarActa(this.idDocumento, id_casilla);
                 switch (res)
                 {
                     case 1:
@@ -350,15 +300,6 @@ namespace Sistema.RegistroActasLocal
             this.cmbSeccion.Enabled = false;
             imageBox.Image = null;
             this.btnGirar.Enabled = false;
-
-            this.cmbEstatusActa.Enabled = false;
-            this.cmbEstatusActa.SelectedIndex = 0;
-            this.cmbEstatusPaquete.Enabled = false;
-            this.cmbEstatusPaquete.SelectedIndex = 1;
-            this.cmbIncidencias.Enabled = false;
-            this.cmbIncidencias.SelectedIndex = 0;
-            this.radioCasillaSi.Checked = true;
-            this.panelCasillaInstalada.Enabled = false;
 
         }
 
@@ -635,15 +576,6 @@ namespace Sistema.RegistroActasLocal
                     flagCombo++;
                     msgBox = new MsgBox(this, "Acta Asignada", "Atención", MessageBoxButtons.OK, "Ok");
                     msgBox.ShowDialog(this);
-
-                    this.cmbEstatusActa.Enabled = true;
-                    this.cmbEstatusActa.SelectedIndex = 0;
-                    this.cmbEstatusPaquete.Enabled = true;
-                    this.cmbEstatusPaquete.SelectedIndex = 1;
-                    this.cmbIncidencias.Enabled = true;
-                    this.cmbIncidencias.SelectedIndex = 0;
-                    this.radioCasillaSi.Checked = true;
-                    this.panelCasillaInstalada.Enabled = true;
                 }
                 else
                 {

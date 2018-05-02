@@ -387,6 +387,30 @@ namespace Sistema.Generales
             { throw E; }
         }
 
+        public List<CasillasRecuento> ListaCasillasRecuentos(int distrito)
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    string consulta =
+                        "SELECT " +
+                            "C.id as id_casilla, " +
+                            " C.seccion, " +
+                            "C.tipo_casilla as casilla, " +
+                            "S.supuesto " +
+                        "FROM sice_ar_reserva R " +
+                        "JOIN sice_casillas C ON C.id = R.id_casilla AND C.id_distrito_local = " + distrito + " " +
+                        "JOIN sice_ar_supuestos S ON S.id = R.id_supuesto " +
+                        "WHERE R.id_supuesto IS NOT NULL ";
+                    return contexto.Database.SqlQuery<CasillasRecuento>(consulta).ToList();
+                }
+
+            }
+            catch (Exception E)
+            { throw E; }
+        }
+
 
         public sice_ar_documentos TomarActa()
         {
@@ -458,7 +482,7 @@ namespace Sistema.Generales
             }
         }
 
-        public int IdentificarActa(int idDocumento, int idCasilla, int incidencias, int estatus_acta, int estatus_paquete, int casilla_instalada)
+        public int IdentificarActa(int idDocumento, int idCasilla)
         {
             try
             {
@@ -490,13 +514,13 @@ namespace Sistema.Generales
                             doc.identificado = DateTime.Now;
                             doc.importado_dato = 0;
                             doc.estatus = "VALIDO";
-                            doc.id_estatus_acta = estatus_acta;
-                            doc.id_estatus_paquete = estatus_paquete;
-                            if (incidencias == 0)
-                                doc.id_incidencias = null;
-                            else
-                                doc.id_incidencias = incidencias;
-                            doc.casilla_instalada = casilla_instalada;
+                            //doc.id_estatus_acta = estatus_acta;
+                            //doc.id_estatus_paquete = estatus_paquete;
+                            //if (incidencias == 0)
+                            //    doc.id_incidencias = null;
+                            //else
+                            //    doc.id_incidencias = incidencias;
+                            //doc.casilla_instalada = casilla_instalada;
                             contexto.SaveChanges();
                             if(asg.Count > 0)
                             {
@@ -525,7 +549,8 @@ namespace Sistema.Generales
 
 
 
-        public int guardarDatosVotos(List<sice_ar_votos_cotejo> listaVotos, int id_casilla, int supuesto,int boletasSobrantes,int numEscritos, bool modificar = false)
+        public int guardarDatosVotos(List<sice_ar_votos_cotejo> listaVotos, int id_casilla, int supuesto,int boletasSobrantes,int numEscritos,int personas_votaron,
+            int representantes,int votos_sacados,int incidencias,int estatus_acta,int estatus_paquete,int casilla_instalada, bool modificar = false)
         {
             try
             {
@@ -574,6 +599,17 @@ namespace Sistema.Generales
                                 rc.id_supuesto = null;
                             else
                                 rc.id_supuesto = supuesto;
+                            rc.boletas_sobrantes = boletasSobrantes;
+                            rc.personas_votaron = personas_votaron;
+                            rc.num_representantes_votaron = representantes;
+                            rc.votos_sacados = votos_sacados;
+                            rc.id_estatus_acta = estatus_acta;
+                            rc.id_estatus_paquete = estatus_paquete;
+                            if (incidencias == 0)
+                                rc.id_incidencias = null;
+                            else
+                                rc.id_incidencias = incidencias;
+                            rc.casilla_instalada = casilla_instalada;
                             rc.importado = 0;
                             rc.updated_at = DateTime.Now;
                         }
@@ -591,6 +627,17 @@ namespace Sistema.Generales
                                 rc.id_supuesto = null;
                             else
                                 rc.id_supuesto = supuesto;
+                            rc.boletas_sobrantes = boletasSobrantes;
+                            rc.personas_votaron = personas_votaron;
+                            rc.num_representantes_votaron = representantes;
+                            rc.votos_sacados = votos_sacados;
+                            rc.id_estatus_acta = estatus_acta;
+                            rc.id_estatus_paquete = estatus_paquete;
+                            if (incidencias == 0)
+                                rc.id_incidencias = null;
+                            else
+                                rc.id_incidencias = incidencias;
+                            rc.casilla_instalada = casilla_instalada;
                             contexto.sice_ar_reserva.Add(rc);
                         }
                         if (modificar)
@@ -738,6 +785,194 @@ namespace Sistema.Generales
                         TransactionContexto.Complete();
                     }
                 }
+            }
+            catch (Exception E)
+            {
+                throw E;
+            }
+        }
+
+        public int generarExcelRecuento(SaveFileDialog fichero, int distrito, bool completo = false)
+        {
+            try
+            {
+
+                Excel.Application excel = new Excel.Application();
+                Excel._Workbook libro = null;
+
+                //creamos un libro nuevo y la hoja con la que vamos a trabajar
+                libro = (Excel._Workbook)excel.Workbooks.Add(Excel.XlWBATemplate.xlWBATWorksheet);
+
+                if (completo)
+                {
+                    List<sice_distritos_locales> distritos = this.ListaDistritos();
+                    foreach (sice_distritos_locales ds in distritos.OrderByDescending(x => x.id))
+                    {
+                        Console.WriteLine("Insetando Libro: " + ds.distrito);
+                        this.generaHojaRecuento(ds.id, libro);
+                    }
+                }
+                else
+                {
+                    this.generaHojaRecuento(distrito, libro);
+                }
+
+                ((Excel.Worksheet)excel.ActiveWorkbook.Sheets["Hoja1"]).Delete();   //Borramos la hoja que crea en el libro por defecto
+
+
+                libro.Saved = true;
+                //libro.SaveAs(Environment.CurrentDirectory + @"\Ejemplo2.xlsx");  // Si es un libro nuevo
+                //libro.SaveAs(fichero.FileName,
+                //Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookNormal);
+                object misValue = System.Reflection.Missing.Value;
+                libro.SaveAs(fichero.FileName, Excel.XlFileFormat.xlOpenXMLWorkbook, misValue,
+                misValue, false, false, Excel.XlSaveAsAccessMode.xlNoChange,
+                Excel.XlSaveConflictResolution.xlUserResolution, true,
+                misValue, misValue, misValue);
+
+                libro.Close(true);
+
+                excel.UserControl = false;
+                excel.Quit();
+                return 1;
+
+
+
+            }
+            catch (Exception E)
+            {
+                return 0;
+            }
+        }
+
+        public void generaHojaRecuento(int distrito, Excel._Workbook libro)
+        {
+            try
+            {
+                Excel._Worksheet hoja = null;
+                Excel.Range rango = null;
+                int filaInicialTabla = 7;
+
+                //creamos un libro nuevo y la hoja con la que vamos a trabajar
+                hoja = (Excel._Worksheet)libro.Worksheets.Add();
+                hoja.Name = "DISTRITO " + distrito;  //Aqui debe ir el nombre del distrito
+
+                //Montamos las cabeceras 
+                char letraFinal = CrearEncabezadosRecuento(filaInicialTabla, ref hoja, 1);
+
+                //return;
+                //Agregar Datos
+                int fila = filaInicialTabla + 1;
+                int idCasillaActual = 0;
+                int cont = 1;
+                int contCand = 6;
+                //row.Cells[0].Value = 1;
+                //dgvResultados.Rows.Add(row);
+                List<int> vLst = new List<int>();
+                int Noregynulo = 0;
+                int Lnominal = 0;
+
+                List<CasillasRecuento> listaRecuento = this.ListaCasillasRecuentos(distrito);
+                if(listaRecuento.Count > 0)
+                {
+                    foreach(CasillasRecuento casillla in listaRecuento)
+                    {
+                        //Agregar Columnas
+                        hoja.Cells[fila, 1] = casillla.id_casilla;
+                        hoja.Cells[fila, 2] = casillla.seccion;
+                        hoja.Cells[fila, 3] = casillla.casilla;
+                        hoja.Cells[fila, 4] = casillla.supuesto;
+
+                        //Agregar fila
+                        string x = "A" + (fila).ToString();
+                        string y = letraFinal.ToString() + (fila).ToString();
+                        rango = hoja.Range[x, y];
+                        rango.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+
+                        //Console.WriteLine("Ins")
+                        fila++;
+                    }
+                }
+                
+            }
+            catch (Exception E)
+            {
+                throw E;
+            }
+        }
+
+        private char CrearEncabezadosRecuento(int fila, ref Excel._Worksheet hoja,int columnaInicial = 1)
+        {
+            try
+            {
+                Excel.Range rango;
+                Excel.Range rangoTitutlo;
+                float Left = 0;
+                float Top = 0;
+                const float ImageSize = 42; //Tamaño Imagen Partidos
+                string rutaImagen = System.AppDomain.CurrentDomain.BaseDirectory + "Resources\\";
+
+                //** Montamos el título en la línea 1 **
+                hoja.Cells[1, 3] = "SISTEMA DE REGISTRO DE ACTAS DEL PROCESO ELECTORAL LÓCAL 2017-2018";
+                hoja.Cells[2, 3] = "ELECCIÓN DE DIPUTADOS DE MAYORÍA RELATIVA POR CASILLA, SECCIÓN Y DISTRITO LOCAL";
+                hoja.Cells[3, 3] = "LISTA DE CASILLAS A RECUENTO";
+                char columnaLetra = 'A';
+                hoja.Shapes.AddPicture(rutaImagen + "iepc.png", Microsoft.Office.Core.MsoTriState.msoFalse, Microsoft.Office.Core.MsoTriState.msoCTrue, 0, 0, 125, 45);
+                //hoja.Shapes.
+
+                List<double> widths = new List<double>();
+
+                //Agregar encabezados
+                hoja.Cells[fila - 3, columnaInicial] = "DISTRITO 1 CABECERA VICTORIA DE DURANGO";
+                hoja.Range[hoja.Cells[fila - 3, columnaInicial], hoja.Cells[fila - 1, columnaInicial + 3]].Merge();
+                hoja.Cells[fila - 3, columnaInicial].WrapText = true;
+                hoja.Cells[fila - 3, columnaInicial].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+
+
+                hoja.Cells[fila, columnaInicial] = "No."; columnaInicial++; columnaLetra++; widths.Add(8.57);
+                hoja.Cells[fila, columnaInicial] = "Sección"; columnaInicial++; columnaLetra++; widths.Add(14.43);
+                hoja.Cells[fila, columnaInicial] = "Casilla"; columnaInicial++; columnaLetra++; widths.Add(25.29);
+                hoja.Cells[fila, columnaInicial] = "Motivo Recuento"; columnaInicial++;widths.Add(100);              
+
+                //Colores de Fondo
+                rango = hoja.Range["A" + fila, "D" + fila];
+                rango.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(149)))), ((int)(((byte)(90))))));
+                rango.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.White);
+                              
+
+                //Ponemos borde a las celdas
+                string letra = columnaLetra.ToString() + fila;
+                rango = hoja.Range["A" + (fila - 3), letra];
+                rango.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                //Centramos los textos
+                rango = hoja.Rows[fila];
+                rango.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+
+                //Colores titulo1
+                rango = hoja.Range["C1", "C1"];
+                rango.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(((int)(((byte)(173)))), ((int)(((byte)(38)))), ((int)(((byte)(36))))));
+                rango.Font.Size = 16;
+                rango.Font.Bold = true;
+                //Colores Titulo2
+                rango = hoja.Range["C2", "C2"];
+                rango.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(70)))), ((int)(((byte)(47))))));
+                rango.Font.Size = 12;
+                rango.Font.Bold = true;
+                //Colores Titulo3
+                rango = hoja.Range["C3", "C3"];
+                rango.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(70)))), ((int)(((byte)(47))))));
+                rango.Font.Size = 12;
+                rango.Font.Bold = true;
+
+                //Modificamos los anchos de las columnas
+                int cont = 1;
+                foreach (int widh in widths)
+                {
+                    rango = hoja.Columns[cont];
+                    rango.ColumnWidth = widh;
+                    cont++;
+                }
+                return columnaLetra++;
             }
             catch (Exception E)
             {
@@ -1059,5 +1294,13 @@ namespace Sistema.Generales
                 throw E;
             }
         }
+    }
+
+    public class CasillasRecuento
+    {
+        public int id_casilla { get; set; }
+        public int seccion { get; set; }
+        public string casilla { get; set; }
+        public string supuesto { get; set; }
     }
 }

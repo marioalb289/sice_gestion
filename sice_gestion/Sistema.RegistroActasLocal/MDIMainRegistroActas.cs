@@ -78,7 +78,7 @@ namespace Sistema.RegistroActasLocal
             try
             {
                 rgActas = new RegistroLocalGenerales();
-                int res = rgActas.generarExcel(fichero,distrito,completo);
+                int res = rgActas.generarExcelRecuento(fichero,distrito,completo);
 
                 if (this.IsDisposed)
                 {

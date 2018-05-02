@@ -642,5 +642,10 @@ namespace Sistema.RegistroActasLocal
         {
             this.MdiParent.WindowState = FormWindowState.Maximized;
         }
+        
+
+        private void Reportes_Load(object sender, EventArgs e)
+        {
+        }
     }
 }
