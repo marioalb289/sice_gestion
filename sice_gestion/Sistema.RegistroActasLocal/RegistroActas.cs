@@ -55,12 +55,6 @@ namespace Sistema.RegistroActasLocal
         {
             this.btnGuardar.Enabled = false;
 
-            txtBoletasR.KeyPress += FrmRegistroActas_KeyPress;
-            txtBoletasR.KeyUp += Evento_KeyUp;
-            txtBoletasR.GotFocus += new System.EventHandler(tbxValue_GotFocus);
-            txtBoletasR.MouseUp += new System.Windows.Forms.MouseEventHandler(tbxValue_MouseUp);
-            txtBoletasR.Leave += new System.EventHandler(tbxValue_Leave);
-
             txtSobrantes.KeyPress += FrmRegistroActas_KeyPress;
             txtSobrantes.KeyUp += Evento_KeyUp;
             txtSobrantes.GotFocus += new System.EventHandler(tbxValue_GotFocus);
@@ -90,28 +84,47 @@ namespace Sistema.RegistroActasLocal
             txtVotosSacados.GotFocus += new System.EventHandler(tbxValue_GotFocus);
             txtVotosSacados.MouseUp += new System.Windows.Forms.MouseEventHandler(tbxValue_MouseUp);
             txtVotosSacados.Leave += new System.EventHandler(tbxValue_Leave);
+
+            txtTotalCapturado.KeyPress += TxtPreventCaptura_KeyPress;
+            txtBoletasR.KeyPress += TxtPreventCaptura_KeyPress;
         }
 
         private void guardarRegistroVotos(bool nolegible = false)
         {
             try
-            {
-                int selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
-                if (this.flagSelectSupuesto > 0)
-                    selectedSupuesto = this.flagSelectSupuesto;
+            {                
                 int boletasSobrantes = Convert.ToInt32(txtSobrantes.Text);
-
+                int personas_votaron = Convert.ToInt32(txtPersonasVotaron.Text);
+                int votos_sacados = Convert.ToInt32(txtVotosSacados.Text);
                 //this.tableLayoutPanel2.Enabled = false;
 
                 List<sice_ar_votos_cotejo> lista_votos = new List<sice_ar_votos_cotejo>();
                 int id_casilla = Convert.ToInt32(cmbCasilla.SelectedValue);
                 if (id_casilla == 0)
                     throw new Exception("Error al guardar los datos");
-                if( totalVotos < boletasRecibidas)
+
+                int selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
+                int estatus_acta = Convert.ToInt32(cmbEstatusActa.SelectedValue);
+
+                if (selectedSupuesto == 0 && (estatus_acta != 6 && estatus_acta != 7 && estatus_acta != 9 && estatus_acta != 11))
                 {
-                    if (boletasSobrantes == 0)
-                        throw new Exception("Debes capturar el numero de boletas sobrantes");
-                }
+                    if (totalVotos < boletasRecibidas)
+                    {
+                        if (boletasSobrantes == 0)
+                            throw new Exception("Debes capturar el numero de boletas sobrantes");
+                    }
+                    if (personas_votaron == 0)
+                        throw new Exception("Debes capturar el numero de personas que votaron");
+                    if (votos_sacados == 0)
+                        throw new Exception("Debes capturar el numero de votos sacados de la urna");
+                    if (!this.VerificarApartados())
+                        return;
+                }             
+
+                selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
+                if (this.flagSelectSupuesto > 0)
+                    selectedSupuesto = this.flagSelectSupuesto;
+
                 foreach (TextBox datos in this.textBoxes)
                 {
                     double num;
@@ -155,13 +168,12 @@ namespace Sistema.RegistroActasLocal
                     regActas = new RegistroLocalGenerales();
 
                     int incidencias = Convert.ToInt32(cmbIncidencias.SelectedValue);
-                    int estatus_acta = Convert.ToInt32(cmbEstatusActa.SelectedValue);
+                    estatus_acta = Convert.ToInt32(cmbEstatusActa.SelectedValue);
                     int estatus_paquete = Convert.ToInt32(cmbEstatusPaquete.SelectedValue);
-                    int casilla_instalada = (radioCasillaNo.Checked) ? 0 : 1;
 
-                    int res = regActas.guardarDatosVotos(lista_votos, Convert.ToInt32(cmbCasilla.SelectedValue),selectedSupuesto, Convert.ToInt32(txtSobrantes.Text), 
+                    int res = regActas.guardarDatosVotos(lista_votos, Convert.ToInt32(cmbCasilla.SelectedValue), selectedSupuesto, Convert.ToInt32(txtSobrantes.Text),
                         Convert.ToInt32(txtEscritos.Text), Convert.ToInt32(txtPersonasVotaron.Text), Convert.ToInt32(txtRepresentantes.Text), Convert.ToInt32(txtVotosSacados.Text),
-                        incidencias, estatus_acta, estatus_paquete, casilla_instalada);
+                        incidencias, estatus_acta, estatus_paquete);
                     if (res == 1)
                     {
                         //this.tableLayoutPanel2.Enabled = true;
@@ -182,6 +194,62 @@ namespace Sistema.RegistroActasLocal
             catch (Exception ex)
             {
                 //this.tableLayoutPanel2.Enabled = true;
+                throw ex;
+            }
+        }
+
+        private bool VerificarApartados()
+        {
+            try
+            {
+                int selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
+                if (this.flagSelectSupuesto > 0)
+                    return true;
+
+                string mensaje = "";
+                int personas_votaron = Convert.ToInt32(txtPersonasVotaron.Text);
+                int representantes = Convert.ToInt32(txtRepresentantes.Text);
+                int votos_sacados = Convert.ToInt32(txtVotosSacados.Text);
+                int suma = personas_votaron + representantes;
+                int totalCapturado = Convert.ToInt32(txtTotalCapturado.Text);
+                int totalBoletasRecibidas = Convert.ToInt32(txtBoletasR.Text);
+                int sobrantes = Convert.ToInt32(txtSobrantes.Text);
+                int sumaSobrantes = suma + sobrantes;
+
+
+                if (suma != votos_sacados)
+                {
+                    mensaje = "La Sumatoria de Personas y Representantes que votaron es Diferente de los Votos Sacados de la urna";
+                }
+                else if (votos_sacados != totalCapturado)
+                {
+                    mensaje = "El total de Votacion es Diferente de los Votos Sacados de la Urna";
+                }
+                else if (sumaSobrantes != totalBoletasRecibidas)
+                {
+                    mensaje = "La Sumatoria de Personas y Representantes que votaron mas Boletas Sobrantes es Diferente de el Numero de boletas Recibidas";
+                }
+
+                if (mensaje != "")
+                {
+                    this.cmbSupuesto.SelectedValue = 4;
+                    msgBox = new MsgBox(this.MdiParent, mensaje + "¿Enviar Acta a Recuento?", "Atención", MessageBoxButtons.YesNo, "Advertencia");
+                    DialogResult result = msgBox.ShowDialog(this);
+                    if (result == DialogResult.Yes)
+                    {
+                        
+                        return true;
+                    }
+                    else
+                    {
+                        cmbSupuesto.SelectedValue = 0;
+                        return false;
+                    }
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
                 throw ex;
             }
         }
@@ -260,6 +328,7 @@ namespace Sistema.RegistroActasLocal
                 cmbEstatusActa.DataSource = regActas.ListaEstatusActa();
                 cmbEstatusActa.SelectedValue = 1;
 
+                this.flagCombo = 1;
                 cmbEstatusPaquete.DataSource = null;
                 cmbEstatusPaquete.DisplayMember = "estatus";
                 cmbEstatusPaquete.ValueMember = "id";
@@ -274,8 +343,10 @@ namespace Sistema.RegistroActasLocal
                 if (list.Count > 0)
                     list.Insert(0, new sice_ar_incidencias() { id = 0, estatus = "Seleccionar Incidencia" });
                 cmbIncidencias.DataSource = list;
-                radioCasillaSi.Checked = true;
                 //cmbCasilla.SelectedIndex = 1;
+
+                cmbEstatusActa.SelectedValueChanged += cmbEstatusActa_SelectedValueChanged;
+                cmbEstatusPaquete.SelectedValueChanged += cmbEstatusPaquete_SelectedValueChanged;
 
 
             }
@@ -330,7 +401,7 @@ namespace Sistema.RegistroActasLocal
                 if (this.distritoActual == 0)
                     throw new Exception("No se pudo cargar lista de Candidatos");
                 List<Candidatos> lsCandidatos = regActas.ListaCandidatos(this.distritoActual);
-                
+
                 if (lsCandidatos != null)
                 {
                     this.totalCandidatos = lsCandidatos.Count() + 2;
@@ -349,10 +420,9 @@ namespace Sistema.RegistroActasLocal
                     this.lblListaNominal.Text = tempSec.listaNominal.ToString();
                     this.lblDistrito.Text = tempSec.distrito.ToString();
                     this.Lnominal = tempSec.listaNominal;
-                    this.boletasRecibidas = tempSec.listaNominal + (lsCandidatos.Count()*2); //Lista nominal + 2 veces el numero de representantes de casillas
+                    this.boletasRecibidas = tempSec.listaNominal + (lsCandidatos.Count() * 2); //Lista nominal + 2 veces el numero de representantes de casillas
                     this.txtBoletasR.Text = this.boletasRecibidas.ToString();
-                    this.txtBoletasR.Enabled = false;
-                    
+
 
                     //Agregar Columnas
                     this.tablePanelPartidos.AutoScroll = true;
@@ -395,7 +465,7 @@ namespace Sistema.RegistroActasLocal
                         labelsName[i].Size = new System.Drawing.Size(68, 65);
                         labelsName[i].TabIndex = 51;
                         labelsName[i].Text = (i > lsCandidatos.Count - 1) ? i == lsCandidatos.Count ? "Candidato No Registrado" : "Votos Nulos" : lsCandidatos[i].candidato;
-                        
+
                         //TextBox
                         textBoxes[i].Dock = System.Windows.Forms.DockStyle.Top;
                         textBoxes[i].Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -420,9 +490,9 @@ namespace Sistema.RegistroActasLocal
                         //Agregar Textbox
                         this.tablePanelPartidos.Controls.Add(textBoxes[i], i, 2);
 
-                        
+
                     }
-                    
+
                     //Agregar Filas
                     this.tablePanelPartidos.RowCount = 3;
                     this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
@@ -433,7 +503,7 @@ namespace Sistema.RegistroActasLocal
                     this.tablePanelPartidos.ResumeLayout(false);
                     this.tablePanelPartidos.Visible = true;
                     this.tblPanelBoletas.Visible = true;
-                    this.txtSobrantes.Focus();
+                    this.txtPersonasVotaron.Focus();
                     //textBoxes[0].Focus();
                     //ShowScrollBar(this.tableLayoutPanel2.Handle, SB_HORZ, false);
                 }
@@ -445,7 +515,7 @@ namespace Sistema.RegistroActasLocal
                 msgBox.ShowDialog(this);
             }
 
-        }        
+        }
 
         private void ClearDataTable(bool soloBloq = false)
         {
@@ -463,10 +533,10 @@ namespace Sistema.RegistroActasLocal
                 this.txtSobrantes.Text = "0";
                 this.txtEscritos.Text = "0";
                 this.boletasRecibidas = 0;
-                this.lblTotalCapturado.Text = "No.";
+                this.txtTotalCapturado.Text = "0";
                 this.lblListaNominal.Text = "No.";
-                this.lblDistrito.Text = "No.";  
-                
+                this.lblDistrito.Text = "No.";
+
                 if (!soloBloq)
                 {
                     this.cargarResultadosVotos();
@@ -493,7 +563,7 @@ namespace Sistema.RegistroActasLocal
             this.btnGuardar.Enabled = false;
             //this.cargarComboSeccion();
             this.lblListaNominal.Text = "No.";
-            this.lblTotalCapturado.Text = "No.";
+            this.txtTotalCapturado.Text = "0";
             this.lblDistrito.Text = "No.";
             this.cmbSupuesto.Enabled = false;
             this.txtBoletasR.Text = "0";
@@ -508,7 +578,6 @@ namespace Sistema.RegistroActasLocal
             this.cmbEstatusActa.SelectedValue = 1;
             this.cmbEstatusPaquete.SelectedValue = 2;
             this.cmbIncidencias.SelectedValue = 0;
-            this.radioCasillaSi.Checked = true;
 
         }
 
@@ -566,10 +635,21 @@ namespace Sistema.RegistroActasLocal
             set { selectAllOnFocus = value; }
         }
 
-        private void VerificarTotal()
+        
+
+        private void VerificarTotal(object sender = null)
         {
             try
             {
+                TextBox textBox = null;
+                if (sender != null)
+                    textBox = (TextBox)sender;
+                if(textBox != null && textBox.Text=="")
+                {
+                    textBox.Text = "0";
+                    textBox.SelectAll();
+                }
+
                 double totalVotos = 0;
                 this.flagSelectSupuesto = 0;
                 List<double> listaVotos = new List<double>();
@@ -578,14 +658,14 @@ namespace Sistema.RegistroActasLocal
                 double boletasSobrantes = 0;
                 double.TryParse(this.txtSobrantes.Text, out boletasSobrantes);
                 this.txtSobrantes.Text = boletasSobrantes.ToString();
-                if (this.txtEscritos.Text == "")
-                    this.txtEscritos.Text = "0";
-                if (this.txtPersonasVotaron.Text == "")
-                    this.txtPersonasVotaron.Text = "0";
-                if (this.txtRepresentantes.Text == "")
-                    this.txtRepresentantes.Text = "0";
-                if (this.txtVotosSacados.Text == "")
-                    this.txtVotosSacados.Text = "0";
+                //if (this.txtEscritos.Text == "")
+                //    this.txtEscritos.Text = "0";
+                //if (this.txtPersonasVotaron.Text == "")
+                //    this.txtPersonasVotaron.Text = "0";
+                //if (this.txtRepresentantes.Text == "")
+                //    this.txtRepresentantes.Text = "0";
+                //if (this.txtVotosSacados.Text == "")
+                //    this.txtVotosSacados.Text = "0";
                 foreach (TextBox datos in this.textBoxes)
                 {
                     double num;
@@ -616,7 +696,7 @@ namespace Sistema.RegistroActasLocal
                         //datos.Text = "0";
                     }
                     double totales = totalVotos + boletasSobrantes;
-                    lblTotalCapturado.Text = totalVotos.ToString() + "  +  "+boletasSobrantes+ "  =  " + totales ;
+                    txtTotalCapturado.Text = totalVotos.ToString();// + "  +  "+boletasSobrantes+ "  =  " + totales ;
 
 
                 }
@@ -642,7 +722,7 @@ namespace Sistema.RegistroActasLocal
                     this.flagSelectSupuesto = 5;
                     //this.cmbSupuesto.Enabled = false;
                     //this.DesactivarTextBoxes();
-                    msgBox = new MsgBox(this, "NUMERO DE VOTOS NULOS MAYOR A LA DIFERENCIA ENTRE LOS CANDIDATOS DEL 1ER Y 2DO LUGAR", "Atención", MessageBoxButtons.OK, "Advertencia");
+                    msgBox = new MsgBox(this, "Número de VOTOS NULOS mayor a la diferencia entre el 1ER y 2DO lugar", "Atención", MessageBoxButtons.OK, "Advertencia");
                     msgBox.ShowDialog(this);
                 }
                 else
@@ -668,7 +748,7 @@ namespace Sistema.RegistroActasLocal
         {
             if (e.KeyData == Keys.Back)
             {
-                this.VerificarTotal();
+                this.VerificarTotal(sender);
             }
             else if (e.KeyData == Keys.Enter || e.KeyData == Keys.Space)
             {
@@ -676,7 +756,7 @@ namespace Sistema.RegistroActasLocal
             }
             else
             {
-                this.VerificarTotal();
+                this.VerificarTotal(sender);
             }
 
         }
@@ -700,6 +780,10 @@ namespace Sistema.RegistroActasLocal
             {
                 e.Handled = true;
             }
+        }
+        private void TxtPreventCaptura_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
         }
 
         private void cmbSeccion_SelectedValueChanged(object sender, EventArgs e)
@@ -811,6 +895,50 @@ namespace Sistema.RegistroActasLocal
         {
             this.Close();
         }
+
+        private void cmbEstatusActa_SelectedValueChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                int sel = Convert.ToInt32(cmbEstatusActa.SelectedValue);
+                if (sel == 6 || sel == 7)
+                {
+                    cmbEstatusPaquete.SelectedValueChanged -= cmbEstatusPaquete_SelectedValueChanged;
+
+                    cmbEstatusPaquete.SelectedValue = 1;
+
+                    cmbEstatusPaquete.SelectedValueChanged += cmbEstatusPaquete_SelectedValueChanged;
+                }
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+        }
+
+        private void cmbEstatusPaquete_SelectedValueChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                int sel = Convert.ToInt32(cmbEstatusPaquete.SelectedValue);
+                if (sel == 1)
+                {
+                    cmbEstatusActa.SelectedValueChanged -= cmbEstatusActa_SelectedValueChanged;
+
+                    cmbEstatusActa.SelectedValue = 7;
+
+                    cmbEstatusActa.SelectedValueChanged += cmbEstatusActa_SelectedValueChanged;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+        }
+        
     }
 }
 

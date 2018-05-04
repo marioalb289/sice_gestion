@@ -550,7 +550,7 @@ namespace Sistema.Generales
 
 
         public int guardarDatosVotos(List<sice_ar_votos_cotejo> listaVotos, int id_casilla, int supuesto,int boletasSobrantes,int numEscritos,int personas_votaron,
-            int representantes,int votos_sacados,int incidencias,int estatus_acta,int estatus_paquete,int casilla_instalada, bool modificar = false)
+            int representantes,int votos_sacados,int incidencias,int estatus_acta,int estatus_paquete,bool modificar = false)
         {
             try
             {
@@ -558,6 +558,11 @@ namespace Sistema.Generales
                 {
                     using (var TransactionContexto = new TransactionScope())
                     {
+                        bool ceros = false;
+                        if(supuesto != 0 || estatus_acta == 6 || estatus_acta == 7 || estatus_acta == 9 || estatus_acta ==11)
+                        {
+                            ceros = true;
+                        }
                         sice_ar_votos_cotejo v1 = null;
                         foreach (sice_ar_votos_cotejo voto in listaVotos)
                         {
@@ -578,7 +583,7 @@ namespace Sistema.Generales
                                 v1.id_candidato = voto.id_candidato;
                                 v1.id_casilla = voto.id_casilla;
                                 v1.tipo = voto.tipo;
-                                v1.votos = voto.votos;
+                                v1.votos = ceros ? 0 : voto.votos;
                                 v1.importado = 0;
                                 v1.estatus = 1;                                
                                 contexto.SaveChanges();
@@ -593,23 +598,21 @@ namespace Sistema.Generales
                         if (rc != null)
                         {
                             rc.tipo_reserva = "ATENDIDO";
-                            rc.num_escritos = numEscritos;
-                            rc.boletas_sobrantes = boletasSobrantes;
+                            rc.num_escritos = ceros ? 0 : numEscritos;
                             if (supuesto == 0)
                                 rc.id_supuesto = null;
                             else
                                 rc.id_supuesto = supuesto;
-                            rc.boletas_sobrantes = boletasSobrantes;
-                            rc.personas_votaron = personas_votaron;
-                            rc.num_representantes_votaron = representantes;
-                            rc.votos_sacados = votos_sacados;
+                            rc.boletas_sobrantes = ceros ? 0 :boletasSobrantes;
+                            rc.personas_votaron = ceros ? 0 : personas_votaron;
+                            rc.num_representantes_votaron = ceros ? 0  : representantes;
+                            rc.votos_sacados = ceros ? 0 : votos_sacados;
                             rc.id_estatus_acta = estatus_acta;
                             rc.id_estatus_paquete = estatus_paquete;
                             if (incidencias == 0)
                                 rc.id_incidencias = null;
                             else
                                 rc.id_incidencias = incidencias;
-                            rc.casilla_instalada = casilla_instalada;
                             rc.importado = 0;
                             rc.updated_at = DateTime.Now;
                         }
@@ -620,24 +623,22 @@ namespace Sistema.Generales
                             rc.tipo_reserva = "ATENDIDO";
                             rc.create_at = DateTime.Now;
                             rc.updated_at = DateTime.Now;
-                            rc.num_escritos = numEscritos;
-                            rc.boletas_sobrantes = boletasSobrantes;
+                            rc.num_escritos = ceros ? 0  : numEscritos;
                             rc.importado = 0;
                             if (supuesto == 0)
                                 rc.id_supuesto = null;
                             else
                                 rc.id_supuesto = supuesto;
-                            rc.boletas_sobrantes = boletasSobrantes;
-                            rc.personas_votaron = personas_votaron;
-                            rc.num_representantes_votaron = representantes;
-                            rc.votos_sacados = votos_sacados;
+                            rc.boletas_sobrantes = ceros ? 0 : boletasSobrantes;
+                            rc.personas_votaron = ceros ? 0 : personas_votaron;
+                            rc.num_representantes_votaron = ceros ? 0 : representantes;
+                            rc.votos_sacados = ceros ? 0  : votos_sacados;
                             rc.id_estatus_acta = estatus_acta;
                             rc.id_estatus_paquete = estatus_paquete;
                             if (incidencias == 0)
                                 rc.id_incidencias = null;
                             else
                                 rc.id_incidencias = incidencias;
-                            rc.casilla_instalada = casilla_instalada;
                             contexto.sice_ar_reserva.Add(rc);
                         }
                         if (modificar)
