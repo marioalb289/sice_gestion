@@ -103,10 +103,9 @@ namespace Sistema.RegistroActasLocal
                 if (id_casilla == 0)
                     throw new Exception("Error al guardar los datos");
 
-                int selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
                 int estatus_acta = Convert.ToInt32(cmbEstatusActa.SelectedValue);
 
-                if (selectedSupuesto == 0 && (estatus_acta != 6 && estatus_acta != 7 && estatus_acta != 9 && estatus_acta != 11))
+                if (estatus_acta == 1 || estatus_acta == 2 || estatus_acta == 8)
                 {
                     if (totalVotos < boletasRecibidas)
                     {
@@ -119,11 +118,17 @@ namespace Sistema.RegistroActasLocal
                         throw new Exception("Debes capturar el numero de votos sacados de la urna");
                     if (!this.VerificarApartados())
                         return;
-                }             
+                }
+                
 
-                selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
+                int selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
+                if ( (estatus_acta == 3 || estatus_acta == 5 || estatus_acta == 4) && selectedSupuesto == 0)
+                {
+                    throw new Exception("Debes seleccionar un Motivo de Recuento");
+                }
                 if (this.flagSelectSupuesto > 0)
                     selectedSupuesto = this.flagSelectSupuesto;
+
 
                 foreach (TextBox datos in this.textBoxes)
                 {
@@ -152,7 +157,7 @@ namespace Sistema.RegistroActasLocal
                         {
                             id_candidato = id_candidato,
                             id_casilla = id_casilla,
-                            votos = selectedSupuesto > 0 ? 0 : Convert.ToInt32(datos.Text),
+                            votos = Convert.ToInt32(datos.Text),
                             tipo = tipo_voto
                         });
 
@@ -268,21 +273,10 @@ namespace Sistema.RegistroActasLocal
                 }
                 var seGp = sc.GroupBy(x => x.seccion, x => x.id, (seccion, idSe) => new { IdSeccion = idSe, Seccion = seccion }).Select(g => g.Seccion).ToList();
                 cmbSeccion.DataSource = seGp;
-                cmbSeccion.Enabled = true;
-
-                cmbSupuesto.DataSource = null;
-                cmbSupuesto.DisplayMember = "Supuesto";
-                cmbSupuesto.ValueMember = "id";
-                if (this.supuestos == null)
-                {
-                    this.supuestos = regActas.ListaSupuestos();
-                    this.supuestos.Insert(0, new sice_ar_supuestos() { id = 0, supuesto = "Seleccionar Motivo" });
-                }
-                cmbSupuesto.DataSource = this.supuestos;
-                cmbSupuesto.Enabled = false;
+                cmbSeccion.Enabled = true;                
 
                 this.cargarComboCasilla();
-                this.CargarComboEstatusActaPaqueteIncidencias();
+                this.CargarComboEstatusActaPaqueteIncidenciasSupuestos();
 
             }
             catch (Exception ex)
@@ -316,10 +310,20 @@ namespace Sistema.RegistroActasLocal
             }
         }
 
-        private void CargarComboEstatusActaPaqueteIncidencias()
+        private void CargarComboEstatusActaPaqueteIncidenciasSupuestos()
         {
             try
             {
+                cmbSupuesto.DataSource = null;
+                cmbSupuesto.DisplayMember = "Supuesto";
+                cmbSupuesto.ValueMember = "id";
+                if (this.supuestos == null)
+                {
+                    this.supuestos = regActas.ListaSupuestos();
+                    this.supuestos.Insert(0, new sice_ar_supuestos() { id = 0, supuesto = "Seleccionar Motivo" });
+                }
+                cmbSupuesto.DataSource = this.supuestos;
+                cmbSupuesto.Enabled = false;
 
                 regActas = new RegistroLocalGenerales();
                 cmbEstatusActa.DataSource = null;
@@ -346,7 +350,6 @@ namespace Sistema.RegistroActasLocal
                 //cmbCasilla.SelectedIndex = 1;
 
                 cmbEstatusActa.SelectedValueChanged += cmbEstatusActa_SelectedValueChanged;
-                cmbEstatusPaquete.SelectedValueChanged += cmbEstatusPaquete_SelectedValueChanged;
 
 
             }
@@ -405,7 +408,6 @@ namespace Sistema.RegistroActasLocal
                 if (lsCandidatos != null)
                 {
                     this.totalCandidatos = lsCandidatos.Count() + 2;
-                    this.cmbSupuesto.Enabled = true;
                     this.boletasRecibidas = lsCandidatos.Count();
 
 
@@ -901,35 +903,34 @@ namespace Sistema.RegistroActasLocal
             try
             {
                 int sel = Convert.ToInt32(cmbEstatusActa.SelectedValue);
-                if (sel == 6 || sel == 7)
+                //Habilitar cmbSupuesto solo si
+                if (sel == 3 || sel == 5 || sel == 4)
                 {
-                    cmbEstatusPaquete.SelectedValueChanged -= cmbEstatusPaquete_SelectedValueChanged;
-
-                    cmbEstatusPaquete.SelectedValue = 1;
-
-                    cmbEstatusPaquete.SelectedValueChanged += cmbEstatusPaquete_SelectedValueChanged;
+                    cmbSupuesto.Enabled = true;
+                    cmbIncidencias.Enabled = true;
                 }
-            }
-            catch (Exception ex)
-            {
-                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
-                msgBox.ShowDialog(this);
-            }
-        }
-
-        private void cmbEstatusPaquete_SelectedValueChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                int sel = Convert.ToInt32(cmbEstatusPaquete.SelectedValue);
-                if (sel == 1)
+                //No se debe capturar
+                else if (sel == 6 || sel == 7 || sel == 9 || sel == 11)
                 {
-                    cmbEstatusActa.SelectedValueChanged -= cmbEstatusActa_SelectedValueChanged;
+                    cmbSupuesto.Enabled = false;
+                    cmbIncidencias.Enabled = true;
+                    cmbIncidencias.SelectedValue = 0;
 
-                    cmbEstatusActa.SelectedValue = 7;
+                    //if (sel == 6 || sel == 7)
+                    //{
+                    //    cmbEstatusPaquete.SelectedValueChanged -= cmbEstatusPaquete_SelectedValueChanged;
 
-                    cmbEstatusActa.SelectedValueChanged += cmbEstatusActa_SelectedValueChanged;
+                    //    cmbEstatusPaquete.SelectedValue = 1;
 
+                    //    cmbEstatusPaquete.SelectedValueChanged += cmbEstatusPaquete_SelectedValueChanged;
+                    //}
+                }
+                else if (sel == 1 || sel == 2 || sel == 8)
+                {
+                    cmbSupuesto.Enabled = false;
+                    cmbSupuesto.SelectedValue = 0;
+                    cmbIncidencias.Enabled = false;
+                    cmbIncidencias.SelectedValue = 0;
                 }
             }
             catch (Exception ex)

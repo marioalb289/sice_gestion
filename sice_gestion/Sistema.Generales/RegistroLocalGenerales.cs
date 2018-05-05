@@ -558,10 +558,10 @@ namespace Sistema.Generales
                 {
                     using (var TransactionContexto = new TransactionScope())
                     {
-                        bool ceros = false;
-                        if(supuesto != 0 || estatus_acta == 6 || estatus_acta == 7 || estatus_acta == 9 || estatus_acta ==11)
+                        bool ceros = true;
+                        if (estatus_acta == 1 || estatus_acta == 2 || estatus_acta == 8)
                         {
-                            ceros = true;
+                            ceros = false;
                         }
                         sice_ar_votos_cotejo v1 = null;
                         foreach (sice_ar_votos_cotejo voto in listaVotos)
