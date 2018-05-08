@@ -281,6 +281,8 @@ namespace Sistema.Generales
                             "RV.votos," +
                             "RV.tipo," +
                             "RES.tipo_reserva as estatus, " +
+                            "EA.estatus AS estatus_acta, " +
+                            "EA.id AS id_estatus_acta, " +
                             "CONCAT(CND.nombre, ' ', CND.apellido_paterno, ' ', CND.apellido_materno) as candidato," +
                             "P.siglas_par as partido," +
                             "P.img_par as imagen," +
@@ -293,7 +295,8 @@ namespace Sistema.Generales
                         "JOIN sice_casillas C ON C.id = RV.id_casilla " + condicion +
                         "JOIN sice_municipios M ON M.id = C.id_municipio " +
                         "JOIN sice_municipios M2 ON M2.id = C.id_cabecera_local " +
-                        "LEFT JOIN sice_ar_reserva RES ON RES.id_casilla = RV.id_casilla " + 
+                        "LEFT JOIN sice_ar_reserva RES ON RES.id_casilla = RV.id_casilla " +
+                        "LEFT JOIN sice_ar_estatus_acta EA ON RES.id_estatus_acta = EA.id "+
                         "ORDER BY C.seccion ASC, RV.id_casilla ASC, RV.id_candidato DESC " +
                         limit;
 

@@ -128,7 +128,10 @@ namespace Sistema.RegistroActasLocal
                     throw new Exception("Debes seleccionar un Motivo de Recuento");
                 }
                 if (this.flagSelectSupuesto > 0)
+                {
+                    estatus_acta = 5;
                     selectedSupuesto = this.flagSelectSupuesto;
+                }
 
                 foreach (TextBox datos in this.textBoxes)
                 {
@@ -172,7 +175,7 @@ namespace Sistema.RegistroActasLocal
                 {
                     regActas = new RegistroLocalGenerales();
                     int incidencias = Convert.ToInt32(cmbIncidencias.SelectedValue);
-                    estatus_acta = Convert.ToInt32(cmbEstatusActa.SelectedValue);
+                    
                     int estatus_paquete = Convert.ToInt32(cmbEstatusPaquete.SelectedValue);
                     int res = regActas.guardarDatosVotos(lista_votos, Convert.ToInt32(cmbCasilla.SelectedValue), selectedSupuesto, Convert.ToInt32(txtSobrantes.Text),
                         Convert.ToInt32(txtEscritos.Text), Convert.ToInt32(txtPersonasVotaron.Text), Convert.ToInt32(txtRepresentantes.Text), Convert.ToInt32(txtVotosSacados.Text),
@@ -234,6 +237,7 @@ namespace Sistema.RegistroActasLocal
                 if (mensaje != "")
                 {
                     this.cmbSupuesto.SelectedValue = 4;
+                    this.cmbEstatusActa.SelectedValue = 5;
                     msgBox = new MsgBox(this.MdiParent, mensaje + "¿Enviar Acta a Recuento?", "Atención", MessageBoxButtons.YesNo, "Advertencia");
                     DialogResult result = msgBox.ShowDialog(this);
                     if (result == DialogResult.Yes)
@@ -518,7 +522,7 @@ namespace Sistema.RegistroActasLocal
                     this.tablePanelPartidos.ResumeLayout();
                     this.tablePanelPartidos.Visible = true;
                     panelCaptura.Visible = true;
-                    this.VerificarTotal();
+                    //this.VerificarTotal();
                     this.txtPersonasVotaron.Focus();
 
                 }
@@ -706,6 +710,7 @@ namespace Sistema.RegistroActasLocal
                 {
                     this.flagSelectSupuesto = 4;
                     this.cmbSupuesto.SelectedIndex = 4;
+                    this.cmbEstatusActa.SelectedValue = 5;
                     //this.cmbSupuesto.Enabled = false;
                     //this.DesactivarTextBoxes();
                     msgBox = new MsgBox(this, "El total de Captura excede el Número de Boletas recibidas", "Atención", MessageBoxButtons.OK, "Error");
@@ -721,6 +726,7 @@ namespace Sistema.RegistroActasLocal
                 {
                     this.cmbSupuesto.SelectedIndex = 5;
                     this.flagSelectSupuesto = 5;
+                    this.cmbEstatusActa.SelectedValue = 5;
                     //this.cmbSupuesto.Enabled = false;
                     //this.DesactivarTextBoxes();
                     msgBox = new MsgBox(this, "Número de VOTOS NULOS mayor a la diferencia entre el 1ER y 2DO lugar", "Atención", MessageBoxButtons.OK, "Advertencia");
@@ -733,6 +739,7 @@ namespace Sistema.RegistroActasLocal
                     if (selectedSupuesto == 5 || selectedSupuesto == 4)
                     {
                         this.cmbSupuesto.SelectedIndex = 0;
+                        this.cmbEstatusActa.SelectedValue = 1;
                     }
                 }
 
@@ -890,7 +897,7 @@ namespace Sistema.RegistroActasLocal
                     cmbIncidencias.Enabled = true;
                 }
                 //No se debe capturar
-                else if (sel == 6 || sel==7 || sel== 9 || sel == 11)
+                else if (sel == 6 || sel==7 || sel== 9 || sel == 11 || sel == 10)
                 {
                     cmbSupuesto.Enabled = false;
                     cmbIncidencias.Enabled = true;

@@ -127,7 +127,11 @@ namespace Sistema.RegistroActasLocal
                     throw new Exception("Debes seleccionar un Motivo de Recuento");
                 }
                 if (this.flagSelectSupuesto > 0)
+                {
+                    estatus_acta = 5;
                     selectedSupuesto = this.flagSelectSupuesto;
+                }
+                    
 
 
                 foreach (TextBox datos in this.textBoxes)
@@ -173,7 +177,6 @@ namespace Sistema.RegistroActasLocal
                     regActas = new RegistroLocalGenerales();
 
                     int incidencias = Convert.ToInt32(cmbIncidencias.SelectedValue);
-                    estatus_acta = Convert.ToInt32(cmbEstatusActa.SelectedValue);
                     int estatus_paquete = Convert.ToInt32(cmbEstatusPaquete.SelectedValue);
 
                     int res = regActas.guardarDatosVotos(lista_votos, Convert.ToInt32(cmbCasilla.SelectedValue), selectedSupuesto, Convert.ToInt32(txtSobrantes.Text),
@@ -660,14 +663,6 @@ namespace Sistema.RegistroActasLocal
                 double boletasSobrantes = 0;
                 double.TryParse(this.txtSobrantes.Text, out boletasSobrantes);
                 this.txtSobrantes.Text = boletasSobrantes.ToString();
-                //if (this.txtEscritos.Text == "")
-                //    this.txtEscritos.Text = "0";
-                //if (this.txtPersonasVotaron.Text == "")
-                //    this.txtPersonasVotaron.Text = "0";
-                //if (this.txtRepresentantes.Text == "")
-                //    this.txtRepresentantes.Text = "0";
-                //if (this.txtVotosSacados.Text == "")
-                //    this.txtVotosSacados.Text = "0";
                 foreach (TextBox datos in this.textBoxes)
                 {
                     double num;
@@ -707,6 +702,7 @@ namespace Sistema.RegistroActasLocal
                 {
                     this.flagSelectSupuesto = 4;
                     this.cmbSupuesto.SelectedIndex = 4;
+                    this.cmbEstatusActa.SelectedValue = 5;
                     //this.cmbSupuesto.Enabled = false;
                     //this.DesactivarTextBoxes();
                     msgBox = new MsgBox(this, "El total de Captura excede el Número de Boletas recibidas", "Atención", MessageBoxButtons.OK, "Error");
@@ -721,6 +717,7 @@ namespace Sistema.RegistroActasLocal
                 if (votosNulos > diferencia)
                 {
                     this.cmbSupuesto.SelectedIndex = 5;
+                    this.cmbEstatusActa.SelectedValue = 5;
                     this.flagSelectSupuesto = 5;
                     //this.cmbSupuesto.Enabled = false;
                     //this.DesactivarTextBoxes();
@@ -734,6 +731,7 @@ namespace Sistema.RegistroActasLocal
                     if (selectedSupuesto == 5 || selectedSupuesto == 4)
                     {
                         this.cmbSupuesto.SelectedIndex = 0;
+                        this.cmbEstatusActa.SelectedValue = 1;
                     }
                 }
 

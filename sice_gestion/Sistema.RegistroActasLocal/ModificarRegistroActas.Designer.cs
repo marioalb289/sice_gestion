@@ -31,11 +31,11 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.panelCaptura = new System.Windows.Forms.Panel();
             this.tablePanelPartidos = new System.Windows.Forms.TableLayoutPanel();
-            this.tblPanaelTitulo = new System.Windows.Forms.TableLayoutPanel();
-            this.pnlTableTitulo = new System.Windows.Forms.Panel();
-            this.label21 = new System.Windows.Forms.Label();
             this.panel7 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.label17 = new System.Windows.Forms.Label();
+            this.cmbSupuesto = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.txtEscritos = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
@@ -74,13 +74,11 @@
             this.button1 = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label7 = new System.Windows.Forms.Label();
-            this.cmbSupuesto = new System.Windows.Forms.ComboBox();
-            this.label17 = new System.Windows.Forms.Label();
+            this.pnlTableTitulo = new System.Windows.Forms.Panel();
+            this.label21 = new System.Windows.Forms.Label();
+            this.tblPanaelTitulo = new System.Windows.Forms.TableLayoutPanel();
             this.panel2.SuspendLayout();
             this.panelCaptura.SuspendLayout();
-            this.tblPanaelTitulo.SuspendLayout();
-            this.pnlTableTitulo.SuspendLayout();
             this.panel7.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tblPanelBoletas.SuspendLayout();
@@ -90,6 +88,8 @@
             this.panel4.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.pnlTableTitulo.SuspendLayout();
+            this.tblPanaelTitulo.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel2
@@ -124,54 +124,14 @@
             this.tablePanelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tablePanelPartidos.Dock = System.Windows.Forms.DockStyle.Top;
             this.tablePanelPartidos.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
-            this.tablePanelPartidos.Location = new System.Drawing.Point(0, 432);
+            this.tablePanelPartidos.Location = new System.Drawing.Point(0, 434);
             this.tablePanelPartidos.Name = "tablePanelPartidos";
             this.tablePanelPartidos.Padding = new System.Windows.Forms.Padding(40, 0, 40, 0);
             this.tablePanelPartidos.RowCount = 1;
-            this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 246F));
+            this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 249F));
             this.tablePanelPartidos.Size = new System.Drawing.Size(1007, 213);
             this.tablePanelPartidos.TabIndex = 20;
             this.tablePanelPartidos.Visible = false;
-            // 
-            // tblPanaelTitulo
-            // 
-            this.tblPanaelTitulo.AutoSize = true;
-            this.tblPanaelTitulo.BackColor = System.Drawing.Color.Transparent;
-            this.tblPanaelTitulo.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Inset;
-            this.tblPanaelTitulo.ColumnCount = 1;
-            this.tblPanaelTitulo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblPanaelTitulo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tblPanaelTitulo.Controls.Add(this.pnlTableTitulo, 0, 0);
-            this.tblPanaelTitulo.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tblPanaelTitulo.Location = new System.Drawing.Point(0, 340);
-            this.tblPanaelTitulo.Name = "tblPanaelTitulo";
-            this.tblPanaelTitulo.Padding = new System.Windows.Forms.Padding(40, 10, 40, 10);
-            this.tblPanaelTitulo.RowCount = 1;
-            this.tblPanaelTitulo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 68F));
-            this.tblPanaelTitulo.Size = new System.Drawing.Size(1007, 92);
-            this.tblPanaelTitulo.TabIndex = 19;
-            // 
-            // pnlTableTitulo
-            // 
-            this.pnlTableTitulo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(158)))), ((int)(((byte)(150)))));
-            this.pnlTableTitulo.Controls.Add(this.label21);
-            this.pnlTableTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlTableTitulo.Location = new System.Drawing.Point(45, 15);
-            this.pnlTableTitulo.Name = "pnlTableTitulo";
-            this.pnlTableTitulo.Size = new System.Drawing.Size(917, 62);
-            this.pnlTableTitulo.TabIndex = 39;
-            // 
-            // label21
-            // 
-            this.label21.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.ForeColor = System.Drawing.Color.White;
-            this.label21.Location = new System.Drawing.Point(0, 0);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(917, 44);
-            this.label21.TabIndex = 0;
-            this.label21.Text = "PARTIDO, COALICIÓN O CANDIDATURA";
-            this.label21.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // panel7
             // 
@@ -211,6 +171,48 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 72F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(1007, 148);
             this.tableLayoutPanel2.TabIndex = 21;
+            // 
+            // label17
+            // 
+            this.label17.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
+            this.label17.AutoSize = true;
+            this.label17.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.Location = new System.Drawing.Point(444, 10);
+            this.label17.Name = "label17";
+            this.label17.Padding = new System.Windows.Forms.Padding(10);
+            this.label17.Size = new System.Drawing.Size(119, 72);
+            this.label17.TabIndex = 31;
+            this.label17.Text = "Motivo Recuento:";
+            this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // cmbSupuesto
+            // 
+            this.tableLayoutPanel2.SetColumnSpan(this.cmbSupuesto, 3);
+            this.cmbSupuesto.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cmbSupuesto.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbSupuesto.Enabled = false;
+            this.cmbSupuesto.FormattingEnabled = true;
+            this.cmbSupuesto.Location = new System.Drawing.Point(586, 35);
+            this.cmbSupuesto.Margin = new System.Windows.Forms.Padding(20, 25, 20, 5);
+            this.cmbSupuesto.Name = "cmbSupuesto";
+            this.cmbSupuesto.Size = new System.Drawing.Size(301, 21);
+            this.cmbSupuesto.TabIndex = 30;
+            this.cmbSupuesto.TabStop = false;
+            // 
+            // label7
+            // 
+            this.label7.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
+            this.label7.AutoSize = true;
+            this.label7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(677, 82);
+            this.label7.Name = "label7";
+            this.label7.Padding = new System.Windows.Forms.Padding(10);
+            this.label7.Size = new System.Drawing.Size(119, 72);
+            this.label7.TabIndex = 20;
+            this.label7.Text = "Num Escritos:";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // txtEscritos
             // 
@@ -750,47 +752,45 @@
             this.panel1.Size = new System.Drawing.Size(1024, 100);
             this.panel1.TabIndex = 2;
             // 
-            // label7
+            // pnlTableTitulo
             // 
-            this.label7.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
-            this.label7.AutoSize = true;
-            this.label7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(677, 82);
-            this.label7.Name = "label7";
-            this.label7.Padding = new System.Windows.Forms.Padding(10);
-            this.label7.Size = new System.Drawing.Size(119, 72);
-            this.label7.TabIndex = 20;
-            this.label7.Text = "Num Escritos:";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.pnlTableTitulo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(158)))), ((int)(((byte)(150)))));
+            this.pnlTableTitulo.Controls.Add(this.label21);
+            this.pnlTableTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlTableTitulo.Location = new System.Drawing.Point(45, 15);
+            this.pnlTableTitulo.Name = "pnlTableTitulo";
+            this.pnlTableTitulo.Size = new System.Drawing.Size(917, 64);
+            this.pnlTableTitulo.TabIndex = 39;
             // 
-            // cmbSupuesto
+            // label21
             // 
-            this.tableLayoutPanel2.SetColumnSpan(this.cmbSupuesto, 3);
-            this.cmbSupuesto.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmbSupuesto.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbSupuesto.Enabled = false;
-            this.cmbSupuesto.FormattingEnabled = true;
-            this.cmbSupuesto.Location = new System.Drawing.Point(586, 35);
-            this.cmbSupuesto.Margin = new System.Windows.Forms.Padding(20, 25, 20, 5);
-            this.cmbSupuesto.Name = "cmbSupuesto";
-            this.cmbSupuesto.Size = new System.Drawing.Size(301, 21);
-            this.cmbSupuesto.TabIndex = 30;
-            this.cmbSupuesto.TabStop = false;
+            this.label21.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.ForeColor = System.Drawing.Color.White;
+            this.label21.Location = new System.Drawing.Point(0, 0);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(917, 44);
+            this.label21.TabIndex = 0;
+            this.label21.Text = "PARTIDO, COALICIÓN O CANDIDATURA";
+            this.label21.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // label17
+            // tblPanaelTitulo
             // 
-            this.label17.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
-            this.label17.AutoSize = true;
-            this.label17.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.Location = new System.Drawing.Point(444, 10);
-            this.label17.Name = "label17";
-            this.label17.Padding = new System.Windows.Forms.Padding(10);
-            this.label17.Size = new System.Drawing.Size(119, 72);
-            this.label17.TabIndex = 31;
-            this.label17.Text = "Motivo Recuento:";
-            this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.tblPanaelTitulo.AutoSize = true;
+            this.tblPanaelTitulo.BackColor = System.Drawing.Color.Transparent;
+            this.tblPanaelTitulo.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Inset;
+            this.tblPanaelTitulo.ColumnCount = 1;
+            this.tblPanaelTitulo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tblPanaelTitulo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tblPanaelTitulo.Controls.Add(this.pnlTableTitulo, 0, 0);
+            this.tblPanaelTitulo.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tblPanaelTitulo.Location = new System.Drawing.Point(0, 340);
+            this.tblPanaelTitulo.Name = "tblPanaelTitulo";
+            this.tblPanaelTitulo.Padding = new System.Windows.Forms.Padding(40, 10, 40, 10);
+            this.tblPanaelTitulo.RowCount = 1;
+            this.tblPanaelTitulo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tblPanaelTitulo.Size = new System.Drawing.Size(1007, 94);
+            this.tblPanaelTitulo.TabIndex = 19;
             // 
             // ModificarRegistroActas
             // 
@@ -807,8 +807,6 @@
             this.panel2.ResumeLayout(false);
             this.panelCaptura.ResumeLayout(false);
             this.panelCaptura.PerformLayout();
-            this.tblPanaelTitulo.ResumeLayout(false);
-            this.pnlTableTitulo.ResumeLayout(false);
             this.panel7.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
@@ -821,6 +819,8 @@
             this.panel4.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            this.pnlTableTitulo.ResumeLayout(false);
+            this.tblPanaelTitulo.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -848,9 +848,6 @@
         private System.Windows.Forms.Panel panelCaptura;
         private System.Windows.Forms.Panel panel7;
         private System.Windows.Forms.TableLayoutPanel tablePanelPartidos;
-        private System.Windows.Forms.TableLayoutPanel tblPanaelTitulo;
-        private System.Windows.Forms.Panel pnlTableTitulo;
-        private System.Windows.Forms.Label label21;
         private System.Windows.Forms.TableLayoutPanel tblPanelBoletas;
         private System.Windows.Forms.TextBox txtVotosSacados;
         private System.Windows.Forms.Label label13;
@@ -875,5 +872,8 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.ComboBox cmbSupuesto;
+        private System.Windows.Forms.TableLayoutPanel tblPanaelTitulo;
+        private System.Windows.Forms.Panel pnlTableTitulo;
+        private System.Windows.Forms.Label label21;
     }
 }

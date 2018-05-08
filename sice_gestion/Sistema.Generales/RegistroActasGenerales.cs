@@ -1242,6 +1242,8 @@ namespace Sistema.Generales
         public string municipio { get; set; }
         public string cabecera_local { get; set; }
         public string estatus { get; set; }
+        public string estatus_acta { get; set; }
+        public Nullable<int> id_estatus_acta { get; set; }       
 
     }
 

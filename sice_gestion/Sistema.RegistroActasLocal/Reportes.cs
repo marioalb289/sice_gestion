@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using Sistema.DataModel;
 using System.Threading;
 using System.Globalization;
+using Sistema.RegistroActasLocal.Properties;
 
 namespace Sistema.RegistroActasLocal
 {
@@ -21,6 +22,7 @@ namespace Sistema.RegistroActasLocal
         private int pageNumber = 1;
         private int totalPages = 0;
         static Control.ControlCollection testC;
+        List<Candidatos> listaCandidatos;
 
         public Reportes()
         {
@@ -103,7 +105,7 @@ namespace Sistema.RegistroActasLocal
             try
             {
                 rgActas = new RegistroLocalGenerales();
-                List<Candidatos> listaCandidatos = rgActas.ListaCandidatos(distrito);
+                this.listaCandidatos = rgActas.ListaCandidatos(distrito);
                 int tc = listaCandidatos.Count;
                 List<VotosSeccion> vSeccionTotales = rgActas.ResultadosSeccionCaptura(0, 0, (int)distrito);
                 List<VotosSeccion> totalAgrupado =vSeccionTotales.GroupBy(x => x.id_casilla).Select(data => new VotosSeccion { id_candidato = data.First().id_candidato, casilla = data.First().casilla,lista_nominal = data.First().lista_nominal + tc * 2, votos = data.First().votos }).ToList();
@@ -125,8 +127,8 @@ namespace Sistema.RegistroActasLocal
                 this.lblActasCapturadas.Text = String.Format(CultureInfo.InvariantCulture, "{0:#,#}", vSeccionTotales.Where(x => x.estatus == "ATENDIDO").GroupBy(y => y.casilla).Count());
                 //var x = vSeccion.Select(x=> new VotosSeccion { id_candidato = x.id_candidato, votos = x.s })
 
-                List<VotosSeccion> listaSumaCandidatos = vSeccionTotales.Where(x => x.estatus == "ATENDIDO" && x.id_candidato != null).GroupBy(y => y.id_candidato).Select(data => new VotosSeccion { id_candidato = data.First().id_candidato, votos = data.Sum(d => d.votos) }).ToList();
-                listaSumaCandidatos.OrderBy(x => x.votos);
+                List<VotosSeccion> listaSumaCandidatos = vSeccionTotales.Where(x => x.estatus == "ATENDIDO" && x.id_candidato != null).GroupBy(y => y.id_candidato).Select(data => new VotosSeccion { id_candidato = data.First().id_candidato, votos = data.Sum(d => d.votos) }).OrderBy(x=> x.votos).ToList();
+                //listaSumaCandidatos.OrderBy(x => x.votos);
                 if (listaSumaCandidatos.Count > 0)
                 {
                     int PrimeroTotal = (int)listaSumaCandidatos[listaSumaCandidatos.Count - 1].votos;
@@ -158,6 +160,7 @@ namespace Sistema.RegistroActasLocal
                 List<Candidatos> candidatos = rgActas.ListaCandidatos((int)distrito);
                 dgvResultados.Columns.Clear();
                 dgvResultados.DataSource = null;
+                dgvResultados.ColumnHeadersHeight = 85;  // or maybe a little more..
 
                 //Agregar encabezados
 
@@ -182,6 +185,13 @@ namespace Sistema.RegistroActasLocal
                 casillaColumna.Width = 100;
                 dgvResultados.Columns.Add(casillaColumna);
 
+                DataGridViewTextBoxColumn estatusColumna = new DataGridViewTextBoxColumn();
+                estatusColumna.Name = "estatus";
+                estatusColumna.HeaderText = "Estatus";
+                estatusColumna.ValueType = typeof(string);
+                estatusColumna.Width = 235;
+                dgvResultados.Columns.Add(estatusColumna);
+
                 DataGridViewTextBoxColumn DferenciaColumna = new DataGridViewTextBoxColumn();
                 DferenciaColumna.Name = "diferencia";
                 DferenciaColumna.HeaderText = "Diferencia entre 1° y 2° Lugar";
@@ -200,8 +210,8 @@ namespace Sistema.RegistroActasLocal
                     columnaCandidato.HeaderText = c.partido;
                     columnaCandidato.ValueType = typeof(System.Int32);
                     columnaCandidato.Width = 80;
-                    columnaCandidato.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                    columnaCandidato.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    columnaCandidato.HeaderCell.Style.Alignment = DataGridViewContentAlignment.BottomCenter;
+                    //columnaCandidato.DefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomCenter;
                     dgvResultados.Columns.Add(columnaCandidato);
                 }
                 //Agregar columnas adicionales
@@ -209,8 +219,8 @@ namespace Sistema.RegistroActasLocal
                 NoRegColumna.Name = "no_registrados";
                 NoRegColumna.HeaderText = "No Registrados";
                 NoRegColumna.ValueType = typeof(System.Int32);
-                NoRegColumna.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                NoRegColumna.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                NoRegColumna.HeaderCell.Style.Alignment = DataGridViewContentAlignment.BottomCenter;
+                NoRegColumna.DefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomCenter;
                 NoRegColumna.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
                 dgvResultados.Columns.Add(NoRegColumna);
 
@@ -218,8 +228,8 @@ namespace Sistema.RegistroActasLocal
                 NulosColumna.Name = "nulos";
                 NulosColumna.HeaderText = "Nulos";
                 NulosColumna.ValueType = typeof(System.Int32);
-                NulosColumna.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                NulosColumna.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                NulosColumna.HeaderCell.Style.Alignment = DataGridViewContentAlignment.BottomCenter;
+                NulosColumna.DefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomCenter;
                 NulosColumna.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
                 dgvResultados.Columns.Add(NulosColumna);
 
@@ -254,7 +264,7 @@ namespace Sistema.RegistroActasLocal
                 int fila = 0;
                 int idCasillaActual = 0;
                 int cont = 1;
-                int contCand = 4;
+                int contCand = 5;
                 DataGridViewRow row = (DataGridViewRow)dgvResultados.Rows[fila].Clone();
                 //row.Cells[0].Value = 1;
                 //dgvResultados.Rows.Add(row);
@@ -279,6 +289,7 @@ namespace Sistema.RegistroActasLocal
                             row.Cells[0].Value = v.id_casilla;
                             row.Cells[1].Value = v.seccion;
                             row.Cells[2].Value = v.casilla;
+                            row.Cells[3].Value = v.estatus_acta != null ? v.estatus_acta : "PENDIENTE DE CAPTURAR";
 
                             row.Cells[contCand].Value = v.votos;
                             vLst.Add((int)v.votos);
@@ -297,7 +308,7 @@ namespace Sistema.RegistroActasLocal
                             decimal Porcentaje2 = Math.Round((Convert.ToDecimal(Seegundo) * 100) / totalVotacionEmitida, 2);
                             diferencia = Porcentaje1 - Porcentaje2;
                         }
-                        row.Cells[3].Value = diferencia + "%";
+                        row.Cells[4].Value = diferencia + "%";
 
                         //Votacion Emitida
                         row.Cells[contCand].Value = totalVotacionEmitida;
@@ -322,7 +333,7 @@ namespace Sistema.RegistroActasLocal
                         dgvResultados.Rows.Add(row);
                         fila++;
                         row = (DataGridViewRow)dgvResultados.Rows[fila].Clone();
-                        contCand = 4;
+                        contCand = 5;
                         vLst = new List<int>();
                         Noregynulo = 0;
                         //Inrementar filla
@@ -332,6 +343,7 @@ namespace Sistema.RegistroActasLocal
                     row.Cells[0].Value = v.id_casilla;
                     row.Cells[1].Value = v.seccion;
                     row.Cells[2].Value = v.casilla;
+                    row.Cells[3].Value = v.estatus_acta != null ? v.estatus_acta : "PENDIENTE DE CAPTURAR";
                     Lnominal = v.lista_nominal + tempC*2;
 
                     row.Cells[contCand].Value = v.votos;
@@ -358,7 +370,6 @@ namespace Sistema.RegistroActasLocal
                 }
                 dgvResultados.ScrollBars = ScrollBars.Both;
 
-                
 
             }
             catch (Exception ex)
@@ -646,6 +657,64 @@ namespace Sistema.RegistroActasLocal
 
         private void Reportes_Load(object sender, EventArgs e)
         {
+        }
+
+        private void dgvResultados_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            int inicio = 5;
+            int fin = this.listaCandidatos.Count + 4;
+            if(this.listaCandidatos.Count > 0)
+            {
+                if (e.RowIndex < 0 && (e.ColumnIndex >= inicio && e.ColumnIndex <= fin))
+
+                {
+
+                    //e.Graphics.DrawImage((System.Drawing.Image)(Resources.pri), e.CellBounds);
+
+                   
+                    Image img = (System.Drawing.Image)(Resources.pri);
+                    Rectangle r32 = new Rectangle(e.CellBounds.Left + e.CellBounds.Width - 65, 5, 50, 50);
+                    Rectangle r96 = new Rectangle(0, 0, 60, 60);
+                    string header = dgvResultados.Columns[e.ColumnIndex].HeaderText;
+                    e.PaintBackground(e.CellBounds, true);  // or maybe false ie no selection?
+                    e.PaintContent(e.CellBounds);
+
+                    e.Graphics.DrawImage(img, r32, r96, GraphicsUnit.Pixel);
+
+
+                    e.Handled = true;
+
+                }
+                else if (e.RowIndex < 0 && e.ColumnIndex == fin+1 )
+                {
+                    Image img = (System.Drawing.Image)(Resources.no_regis);
+                    Rectangle r32 = new Rectangle(e.CellBounds.Left + e.CellBounds.Width - 83, 5, 50, 50);
+                    Rectangle r96 = new Rectangle(0, 0, 60, 60);
+                    string header = dgvResultados.Columns[e.ColumnIndex].HeaderText;
+                    e.PaintBackground(e.CellBounds, true);  // or maybe false ie no selection?
+                    e.PaintContent(e.CellBounds);
+
+                    e.Graphics.DrawImage(img, r32, r96, GraphicsUnit.Pixel);
+
+
+                    e.Handled = true;
+                }
+                else if (e.RowIndex < 0 && e.ColumnIndex == fin + 2)
+                {
+                    Image img = (System.Drawing.Image)(Resources.nulos);
+                    Rectangle r32 = new Rectangle(e.CellBounds.Left + e.CellBounds.Width -56, 5, 50, 50);
+                    Rectangle r96 = new Rectangle(0, 0, 60, 60);
+                    string header = dgvResultados.Columns[e.ColumnIndex].HeaderText;
+                    e.PaintBackground(e.CellBounds, true);  // or maybe false ie no selection?
+                    e.PaintContent(e.CellBounds);
+
+                    e.Graphics.DrawImage(img, r32, r96, GraphicsUnit.Pixel);
+
+
+                    e.Handled = true;
+                }
+            }
+            
         }
     }
 }
