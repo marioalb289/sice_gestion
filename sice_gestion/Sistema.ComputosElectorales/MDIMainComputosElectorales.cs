@@ -22,8 +22,21 @@ namespace Sistema.ComputosElectorales
         public MDIMainComputosElectorales()
         {
             InitializeComponent();
+            this.InicializarComputos();
         }
-
+        public void InicializarComputos()
+        {
+            try
+            {
+                CompElec = new ComputosElectoralesGenerales();
+                CompElec.InicializarComputos();
+            }
+            catch(Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+        }
         private void MDIMain_Load(object sender, EventArgs e)
         {
             this.lblUsuario.Text = LoginInfo.nombre_formal;

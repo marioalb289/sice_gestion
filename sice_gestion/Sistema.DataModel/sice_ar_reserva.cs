@@ -31,5 +31,6 @@ namespace Sistema.DataModel
         public Nullable<int> id_estatus_acta { get; set; }
         public Nullable<int> id_estatus_paquete { get; set; }
         public Nullable<int> id_incidencias { get; set; }
+        public Nullable<int> inicializada { get; set; }
     }
 }

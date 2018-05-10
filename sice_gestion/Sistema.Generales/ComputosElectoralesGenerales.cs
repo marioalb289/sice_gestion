@@ -7,6 +7,7 @@ using Sistema.DataModel;
 using System.Transactions;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
 
 namespace Sistema.Generales
 {
@@ -23,6 +24,114 @@ namespace Sistema.Generales
             else
             {
                 con = "MYSQLOCAL";
+            }
+        }
+
+        public void InicializarComputos()
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    using (var TransactionContexto = new TransactionScope())
+                    {
+                        //Listar Casilla a recuento
+                        List<sice_ar_reserva> listaCasillas = (from r in contexto.sice_ar_reserva where (r.id_estatus_acta == 3 || r.id_estatus_acta == 5 || r.id_estatus_acta == 8) && r.inicializada == 0 select r).ToList();
+                        if(listaCasillas.Count > 0)
+                        {
+                            foreach(sice_ar_reserva casilla in listaCasillas)
+                            {
+                                sice_reserva_captura new_casilla = new sice_reserva_captura();
+                                new_casilla.id_casilla = casilla.id_casilla;
+                                new_casilla.tipo_reserva = "RECUENTO";
+                                new_casilla.id_supuesto = casilla.id_supuesto;
+                                new_casilla.id_estatus_acta = casilla.id_estatus_acta;
+                                new_casilla.id_estatus_paquete = casilla.id_estatus_paquete;
+                                new_casilla.id_incidencias = casilla.id_incidencias;
+                                new_casilla.boletas_sobrantes = 0;
+                                new_casilla.personas_votaron = 0;
+                                new_casilla.num_representantes_votaron = 0;
+                                new_casilla.votos_sacados = 0;
+                                new_casilla.num_escritos = 0;
+                                new_casilla.importado = 0;
+                                new_casilla.create_at = DateTime.Now; 
+                                new_casilla.updated_at = DateTime.Now;
+                                contexto.sice_reserva_captura.Add(new_casilla);
+                                contexto.SaveChanges();
+
+                                casilla.inicializada = 1;
+                                contexto.SaveChanges();
+
+                            }
+                            TransactionContexto.Complete();
+                        }
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+
+            }
+
+        }
+
+        public sice_reserva_captura DetallesActa(int id_casilla)
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    return (from r in contexto.sice_reserva_captura where r.id_casilla == id_casilla select r).FirstOrDefault();
+                }
+            }
+            catch (Exception E)
+            {
+                throw E;
+            }
+        }
+
+        public List<sice_ar_estatus_acta> ListaEstatusActa()
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    return (from p in contexto.sice_ar_estatus_acta select p).ToList();
+                }
+            }
+            catch (Exception E)
+            {
+                throw E;
+            }
+        }
+
+        public List<sice_ar_incidencias> ListaIncidencias()
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    return (from p in contexto.sice_ar_incidencias select p).ToList();
+                }
+            }
+            catch (Exception E)
+            {
+                throw E;
+            }
+        }
+
+        public List<sice_ar_estatus_paquete> ListaEstatusPaquete()
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    return (from p in contexto.sice_ar_estatus_paquete select p).ToList();
+                }
+            }
+            catch (Exception E)
+            {
+                throw E;
             }
         }
 
@@ -96,8 +205,9 @@ namespace Sistema.Generales
             {
                 using (DatabaseContext contexto = new DatabaseContext(con))
                 {
-                    sice_ar_reserva res = (from r in contexto.sice_ar_reserva where r.id_casilla == id_casilla && r.id_supuesto != null select r).FirstOrDefault();
-                    if (res != null)
+                    sice_ar_reserva res = (from r in contexto.sice_ar_reserva where r.id_casilla == id_casilla && (r.id_estatus_acta == 3 || r.id_estatus_acta == 5 || r.id_estatus_acta == 8) select r).FirstOrDefault();
+                    sice_reserva_captura res2 = (from r in contexto.sice_reserva_captura where r.id_casilla == id_casilla && (r.id_estatus_acta == 3 || r.id_estatus_acta == 5 || r.id_estatus_acta == 8) select r).FirstOrDefault();
+                    if (res != null || res2 !=null)
                         return 1;
                     else
                         return 0;
@@ -217,9 +327,18 @@ namespace Sistema.Generales
                     string consulta = "";
                     if (!capturada)
                     {
-                        consulta =
-                        "SELECT C.* FROM sice_casillas C " +
-                        "WHERE C.id_cabecera_local = " + LoginInfo.id_municipio;
+                        if(LoginInfo.privilegios == 7)
+                        {
+                            consulta =
+                                "SELECT C.* FROM sice_casillas C ";
+                        }
+                        else
+                        {
+                            consulta =
+                                "SELECT C.* FROM sice_casillas C " +
+                                "WHERE C.id_cabecera_local = " + LoginInfo.id_municipio;
+                        }
+                        
                     }
                     else
                     {
@@ -259,7 +378,7 @@ namespace Sistema.Generales
                     string consulta =
                         "SELECT C.* FROM sice_casillas C " +
                         "JOIN sice_reserva_captura RC ON RC.id_casilla = C.id " +
-                        "WHERE RC.tipo_reserva = 'RESERVA' AND C.id_cabecera_local = " + LoginInfo.id_municipio;
+                        "WHERE (RC.tipo_reserva = 'RESERVA' OR  RC.tipo_reserva = 'RECUENTO') AND C.id_cabecera_local = " + LoginInfo.id_municipio;
                     List<sice_casillas> lsCasilla = contexto.Database.SqlQuery<sice_casillas>(consulta).ToList();
                     return (from p in lsCasilla
                             select new SeccionCasillaConsecutivo
@@ -317,6 +436,12 @@ namespace Sistema.Generales
                     {
                         rc.tipo_reserva = motivo;
                         rc.id_supuesto = supuesto;
+
+                        rc.boletas_sobrantes = 0;
+                        rc.personas_votaron = 0;
+                        rc.num_representantes_votaron = 0;
+                        rc.num_escritos = 0;
+                        rc.votos_sacados = 0;
                     }
                     else
                     {
@@ -324,6 +449,13 @@ namespace Sistema.Generales
                         rc.id_supuesto = supuesto;
                         rc.id_casilla = id_casilla;
                         rc.tipo_reserva = motivo;
+
+                        rc.boletas_sobrantes = 0;
+                        rc.personas_votaron = 0;
+                        rc.num_representantes_votaron = 0;
+                        rc.num_escritos = 0;
+                        rc.votos_sacados = 0;
+
                         contexto.sice_reserva_captura.Add(rc);
                     }
                     contexto.SaveChanges();
@@ -409,6 +541,132 @@ namespace Sistema.Generales
             }             
         }
 
+        public int guardarDatosVotos(List<sice_votos> listaVotos, int id_casilla, int supuesto, int boletasSobrantes, int numEscritos, int personas_votaron,
+            int representantes, int votos_sacados, int incidencias, int estatus_acta, int estatus_paquete, bool modificar = false)
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    using (var TransactionContexto = new TransactionScope())
+                    {
+                        bool ceros = true;
+                        bool recuento = false;
+                        bool no_conta = false;
+                        if (estatus_acta == 1 || estatus_acta == 2 || estatus_acta == 8)
+                        {
+                            ceros = false;
+                        }
+                        if (estatus_acta == 3 || estatus_acta == 5 || estatus_acta == 4)
+                        {
+                            recuento = true;
+                        }
+                        if (estatus_acta == 9)
+                        {
+                            no_conta = true;
+                        }
+                        sice_votos v1 = null;
+                        foreach (sice_votos voto in listaVotos)
+                        {
+                            if (voto.id_candidato != null)
+                            {
+                                v1 = (from d in contexto.sice_votos where d.id_candidato == voto.id_candidato && d.id_casilla == voto.id_casilla select d).FirstOrDefault();
+                            }
+                            else
+                            {
+                                if (voto.tipo == "NULO")
+                                    v1 = (from d in contexto.sice_votos where d.tipo == "NULO" && d.id_casilla == voto.id_casilla select d).FirstOrDefault();
+                                else if (voto.tipo == "NO REGISTRADO")
+                                    v1 = (from d in contexto.sice_votos where d.tipo == "NO REGISTRADO" && d.id_casilla == voto.id_casilla select d).FirstOrDefault();
+                            }
+
+                            if (v1 != null)
+                            {
+                                v1.id_candidato = voto.id_candidato;
+                                v1.id_casilla = voto.id_casilla;
+                                v1.tipo = voto.tipo;
+                                v1.votos = ceros ? 0 : voto.votos;
+                                v1.importado = 0;
+                                v1.estatus = 1;
+                                contexto.SaveChanges();
+                            }
+                            else
+                            {
+                                return 0;
+                            }
+                        }
+
+                        sice_reserva_captura rc = (from p in contexto.sice_reserva_captura where p.id_casilla == id_casilla select p).FirstOrDefault();
+                        if (rc != null)
+                        {
+                            rc.tipo_reserva = recuento ? "RECUENTO" : no_conta ? "NO CONTABILIZABLE" : "CAPTURADA";
+                            rc.num_escritos = ceros ? 0 : numEscritos;
+                            if (supuesto == 0)
+                                rc.id_supuesto = null;
+                            else
+                                rc.id_supuesto = supuesto;
+                            rc.boletas_sobrantes = ceros ? 0 : boletasSobrantes;
+                            rc.personas_votaron = ceros ? 0 : personas_votaron;
+                            rc.num_representantes_votaron = ceros ? 0 : representantes;
+                            rc.votos_sacados = ceros ? 0 : votos_sacados;
+                            rc.id_estatus_acta = estatus_acta;
+                            rc.id_estatus_paquete = estatus_paquete;
+                            if (incidencias == 0)
+                                rc.id_incidencias = null;
+                            else
+                                rc.id_incidencias = incidencias;
+                            rc.importado = 0;
+                            rc.updated_at = DateTime.Now;
+                        }
+                        else
+                        {
+                            rc = new sice_reserva_captura();
+                            rc.id_casilla = id_casilla;
+                            rc.tipo_reserva = recuento ? "RECUENTO" : no_conta ? "NO CONTABILIZABLE" : "CAPTURADA";
+                            rc.create_at = DateTime.Now;
+                            rc.updated_at = DateTime.Now;
+                            rc.num_escritos = ceros ? 0 : numEscritos;
+                            rc.importado = 0;
+                            if (supuesto == 0)
+                                rc.id_supuesto = null;
+                            else
+                                rc.id_supuesto = supuesto;
+                            rc.boletas_sobrantes = ceros ? 0 : boletasSobrantes;
+                            rc.personas_votaron = ceros ? 0 : personas_votaron;
+                            rc.num_representantes_votaron = ceros ? 0 : representantes;
+                            rc.votos_sacados = ceros ? 0 : votos_sacados;
+                            rc.id_estatus_acta = estatus_acta;
+                            rc.id_estatus_paquete = estatus_paquete;
+                            if (incidencias == 0)
+                                rc.id_incidencias = null;
+                            else
+                                rc.id_incidencias = incidencias;
+                            contexto.sice_reserva_captura.Add(rc);
+                        }
+                        if (modificar)
+                        {
+                            sice_historico hs = new sice_historico();
+                            hs.id_casilla = id_casilla;
+                            if (supuesto == 0)
+                                hs.id_supuesto = null;
+                            else
+                                hs.id_supuesto = supuesto;
+                            hs.fecha = DateTime.Now;
+                            contexto.sice_historico.Add(hs);
+                        }
+                        contexto.SaveChanges();
+                        TransactionContexto.Complete();
+                        return 1;
+                    }
+                }
+
+            }
+            catch (Exception E)
+            {
+                throw E;
+            }
+        }
+
         public List<int> ListaCasillaCapturadasComp()
         {
             try
@@ -419,6 +677,21 @@ namespace Sistema.Generales
                     listaCasilla = (from v in contexto.sice_votos where v.estatus == 1 select (int)v.id_casilla).Distinct().ToList();
 
                     return listaCasilla;
+                }
+            }
+            catch (Exception E)
+            {
+                throw E;
+            }
+        }
+
+        public sice_reserva_captura EstatusActa(int id_casilla)
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    return (from e in contexto.sice_reserva_captura where e.id_casilla == id_casilla select e).FirstOrDefault();
                 }
             }
             catch (Exception E)
@@ -572,10 +845,14 @@ namespace Sistema.Generales
                 Excel.XlSaveConflictResolution.xlUserResolution, true,
                 misValue, misValue, misValue);
 
-                libro.Close(true);
+                libro.Close(true, misValue, misValue);
 
                 excel.UserControl = false;
                 excel.Quit();
+
+                Marshal.ReleaseComObject(libro);
+                //Marshal.ReleaseComObject(xlWorkBook);
+                Marshal.ReleaseComObject(excel);
                 return 1;
             }
             catch (Exception E)
@@ -675,6 +952,9 @@ namespace Sistema.Generales
                         Noregynulo = 0;
                         //Inrementar filla
                     }
+
+                    if (cont >= vSeccion.Count)
+                        break;
 
                     //Agregar Columnas
                     hoja.Cells[fila,1] = v.id_casilla;

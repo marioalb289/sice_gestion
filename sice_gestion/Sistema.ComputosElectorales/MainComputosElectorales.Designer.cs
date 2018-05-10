@@ -188,6 +188,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "MainComputosElectorales";
             this.Text = "MainComputosElectorales";
+            this.Load += new System.EventHandler(this.MainComputosElectorales_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 

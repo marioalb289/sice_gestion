@@ -110,7 +110,10 @@ namespace Sistema.RegistroActasLocal
                     if (totalVotos < boletasRecibidas)
                     {
                         if (boletasSobrantes == 0)
-                            throw new Exception("Debes capturar el numero de boletas sobrantes");
+                        {
+                            if (votos_sacados != boletasRecibidas)
+                                throw new Exception("Debes capturar el numero de boletas sobrantes");
+                        }
                     }
                     if (personas_votaron == 0)
                         throw new Exception("Debes capturar el numero de personas que votaron");
@@ -126,6 +129,7 @@ namespace Sistema.RegistroActasLocal
                 {
                     throw new Exception("Debes seleccionar un Motivo de Recuento");
                 }
+                estatus_acta = Convert.ToInt32(cmbEstatusActa.SelectedValue);
                 if (this.flagSelectSupuesto > 0)
                 {
                     estatus_acta = 5;
@@ -241,6 +245,7 @@ namespace Sistema.RegistroActasLocal
                 if (mensaje != "")
                 {
                     this.cmbSupuesto.SelectedValue = 4;
+                    this.cmbEstatusActa.SelectedValue = 5;
                     msgBox = new MsgBox(this.MdiParent, mensaje + "¿Enviar Acta a Recuento?", "Atención", MessageBoxButtons.YesNo, "Advertencia");
                     DialogResult result = msgBox.ShowDialog(this);
                     if (result == DialogResult.Yes)
@@ -251,6 +256,7 @@ namespace Sistema.RegistroActasLocal
                     else
                     {
                         cmbSupuesto.SelectedValue = 0;
+                        cmbEstatusActa.SelectedValue = 1;
                         return false;
                     }
                 }
@@ -781,6 +787,7 @@ namespace Sistema.RegistroActasLocal
                 e.Handled = true;
             }
         }
+
         private void TxtPreventCaptura_KeyPress(object sender, KeyPressEventArgs e)
         {
             e.Handled = true;

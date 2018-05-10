@@ -33,6 +33,7 @@ namespace Sistema.RegistroActasLocal
                     default:
                         this.btnIdentificar.Enabled = false;
                         this.btnRegistrarActas.Enabled = false;
+                        this.btnModificar.Enabled = false;
                         break;
                 }
                 //asignar la imagen aqui

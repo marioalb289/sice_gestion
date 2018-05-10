@@ -52,8 +52,10 @@ namespace sice_gestion
             }
             else
             {
+                
                 msgBox = new MsgBox(this, "No tienes permisos para acceder", "Atención", MessageBoxButtons.OK, "Error");
                 msgBox.ShowDialog();
+                this.MdiParent.Show();
             }
             //else if(LoginInfo.privilegios == 1 || LoginInfo.privilegios == 2 || LoginInfo.privilegios == 3 )
             //{

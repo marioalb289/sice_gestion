@@ -169,7 +169,6 @@ namespace Sistema.RegistroActasLocal
                 cmbSeccionNuevo.Enabled = true;
 
                 this.cargarComboCasillaNuevo();
-                this.CargarComboEstatusActaPaqueteIncidencias();
 
             }
             catch (Exception ex)
@@ -228,54 +227,7 @@ namespace Sistema.RegistroActasLocal
                 msgBox.ShowDialog(this);
             }
         }
-
-        private void CargarComboEstatusActaPaqueteIncidencias()
-        {
-            try
-            {
-
-                rgActas = new RegistroLocalGenerales();
-                cmbEstatusActa.DataSource = null;
-                cmbEstatusActa.DisplayMember = "estatus";
-                cmbEstatusActa.ValueMember = "id";
-                cmbEstatusActa.DataSource = rgActas.ListaEstatusActa();
-                cmbEstatusActa.SelectedValue = this.documento.id_estatus_acta != null ? (int)this.documento.id_estatus_acta:1;
-                cmbEstatusActa.Enabled = true;
-
-                cmbEstatusPaquete.DataSource = null;
-                cmbEstatusPaquete.DisplayMember = "estatus";
-                cmbEstatusPaquete.ValueMember = "id";
-                cmbEstatusPaquete.DataSource = rgActas.ListaEstatusPaquete();
-                cmbEstatusPaquete.SelectedValue = this.documento.id_estatus_paquete != null ? (int)this.documento.id_estatus_paquete : 2;
-                cmbEstatusPaquete.Enabled = true;
-
-                if (documento.casilla_instalada != null && documento.casilla_instalada == 1)
-                    radioCasillaSi.Checked = true;
-                else if (documento.casilla_instalada != null && documento.casilla_instalada == 0)
-                    radioCasillaNo.Checked = true;
-                else
-                    radioCasillaSi.Checked = true;
-                panelCasillaInstalada.Enabled = true;
-
-                cmbIncidencias.DataSource = null;
-                cmbIncidencias.DisplayMember = "estatus";
-                cmbIncidencias.ValueMember = "id";                
-                cmbIncidencias.Enabled = true;
-                List<sice_ar_incidencias> list = rgActas.ListaIncidencias();
-                if (list.Count > 0)
-                    list.Insert(0, new sice_ar_incidencias() { id = 0, estatus = "Seleccionar Incidencia" });
-                cmbIncidencias.DataSource = list;
-                cmbIncidencias.SelectedValue = this.documento.id_incidencias != null ? (int)this.documento.id_incidencias : 0;
-                //cmbCasilla.SelectedIndex = 1;
-
-
-            }
-            catch (Exception ex)
-            {
-                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
-                msgBox.ShowDialog(this);
-            }
-        }
+        
 
         private void verificarCasilla()
         {
@@ -369,11 +321,6 @@ namespace Sistema.RegistroActasLocal
                 //if (id_casilla == 0)
                 //    throw new Exception("Selecciona una Casilla");
 
-                int incidencias = Convert.ToInt32(cmbIncidencias.SelectedValue);
-                int estatus_acta = Convert.ToInt32(cmbEstatusActa.SelectedValue);
-                int estatus_paquete = Convert.ToInt32(cmbEstatusPaquete.SelectedValue);
-                int acta_instalada = (radioCasillaNo.Checked) ? 0 : 1;
-
                 rgActas = new RegistroLocalGenerales();
                 int res = rgActas.IdentificarActa(this.idDocumento, id_casilla);
                 switch (res)
@@ -409,15 +356,6 @@ namespace Sistema.RegistroActasLocal
             imageBox.Image = null;
             this.btnGirar.Enabled = false;
             this.cmbCasilla.SelectedIndex = 0;
-
-            this.cmbEstatusActa.Enabled = false;
-            this.cmbEstatusActa.SelectedIndex = 0;
-            this.cmbEstatusPaquete.Enabled = false;
-            this.cmbEstatusPaquete.SelectedIndex = 1;
-            this.cmbIncidencias.Enabled = false;
-            this.cmbIncidencias.SelectedIndex = 0;
-            this.radioCasillaSi.Checked = true;
-            this.panelCasillaInstalada.Enabled = false;
 
         }
 

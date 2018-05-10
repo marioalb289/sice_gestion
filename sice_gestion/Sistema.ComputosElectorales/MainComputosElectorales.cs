@@ -18,6 +18,41 @@ namespace Sistema.ComputosElectorales
         public MainComputosElectorales()
         {
             InitializeComponent();
+            this.cargar();
+            
+        }
+
+        private void cargar()
+        {
+            try
+            {
+                switch (LoginInfo.privilegios)
+                {
+                    case 4:
+                        btnModificar.Visible = false;
+                        btnRecuentoVotos.Enabled = false;
+                        break;
+                    case 5:
+                        btnModificar.Visible = false;
+                        break;
+                    case 6:
+                        btnRecuentoVotos.Enabled = false;
+                        btnConsultarActas.Enabled = false;
+                        break;
+                    case 7:
+                        btnRecuentoVotos.Enabled = false;
+                        btnConsultarActas.Enabled = false;
+                        break;
+
+                }
+                //asignar la imagen aqui
+
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
         }
 
         private void Form_FormClosed(object sender, FormClosedEventArgs e)
@@ -107,6 +142,20 @@ namespace Sistema.ComputosElectorales
                 msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
                 msgBox.ShowDialog(this);
             }
+        }
+
+        private void MainComputosElectorales_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                ComputosElectoralesGenerales CompElec = new ComputosElectoralesGenerales(); 
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+            
         }
     }
 }

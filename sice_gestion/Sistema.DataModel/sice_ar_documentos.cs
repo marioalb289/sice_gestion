@@ -25,14 +25,10 @@ namespace Sistema.DataModel
         public Nullable<int> estatus_revisor { get; set; }
         public Nullable<int> estatus_cotejador { get; set; }
         public Nullable<int> id_casilla { get; set; }
+        public Nullable<System.DateTime> identificado { get; set; }
         public System.DateTime create_at { get; set; }
         public System.DateTime updated_at { get; set; }
         public Nullable<int> importado { get; set; }
         public Nullable<int> importado_dato { get; set; }
-        public Nullable<System.DateTime> identificado { get; set; }
-        public Nullable<int> id_estatus_acta { get; set; }
-        public Nullable<int> id_estatus_paquete { get; set; }
-        public Nullable<int> id_incidencias { get; set; }
-        public Nullable<int> casilla_instalada { get; set; }
     }
 }

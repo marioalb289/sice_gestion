@@ -36,40 +36,29 @@
             this.button1 = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.cmbIncidencias = new System.Windows.Forms.ComboBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.panelCasillaInstalada = new System.Windows.Forms.Panel();
-            this.radioCasillaNo = new System.Windows.Forms.RadioButton();
-            this.radioCasillaSi = new System.Windows.Forms.RadioButton();
-            this.label10 = new System.Windows.Forms.Label();
-            this.cmbEstatusPaquete = new System.Windows.Forms.ComboBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.cmbEstatusActa = new System.Windows.Forms.ComboBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.cmbCasillaNuevo = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.cmbSeccionNuevo = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.cmbCasilla = new System.Windows.Forms.ComboBox();
-            this.cmbSeccion = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.imageBox = new Cyotek.Windows.Forms.ImageBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.panel5 = new System.Windows.Forms.Panel();
             this.btnGirar = new System.Windows.Forms.Button();
             this.btnGuardar = new System.Windows.Forms.Button();
+            this.imageBox = new Cyotek.Windows.Forms.ImageBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.cmbSeccion = new System.Windows.Forms.ComboBox();
+            this.cmbCasilla = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.cmbSeccionNuevo = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.cmbCasillaNuevo = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel2.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
-            this.panelCasillaInstalada.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.panel5.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -174,311 +163,6 @@
             this.panel2.Size = new System.Drawing.Size(1156, 500);
             this.panel2.TabIndex = 1;
             // 
-            // tableLayoutPanel2
-            // 
-            this.tableLayoutPanel2.AutoScroll = true;
-            this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.tableLayoutPanel2.Controls.Add(this.cmbIncidencias, 0, 18);
-            this.tableLayoutPanel2.Controls.Add(this.label11, 0, 17);
-            this.tableLayoutPanel2.Controls.Add(this.panelCasillaInstalada, 0, 16);
-            this.tableLayoutPanel2.Controls.Add(this.label10, 0, 15);
-            this.tableLayoutPanel2.Controls.Add(this.cmbEstatusPaquete, 0, 14);
-            this.tableLayoutPanel2.Controls.Add(this.label9, 0, 13);
-            this.tableLayoutPanel2.Controls.Add(this.cmbEstatusActa, 0, 12);
-            this.tableLayoutPanel2.Controls.Add(this.label8, 0, 11);
-            this.tableLayoutPanel2.Controls.Add(this.label7, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.cmbCasillaNuevo, 1, 9);
-            this.tableLayoutPanel2.Controls.Add(this.label5, 1, 8);
-            this.tableLayoutPanel2.Controls.Add(this.cmbSeccionNuevo, 1, 7);
-            this.tableLayoutPanel2.Controls.Add(this.label4, 1, 6);
-            this.tableLayoutPanel2.Controls.Add(this.label3, 1, 1);
-            this.tableLayoutPanel2.Controls.Add(this.cmbCasilla, 1, 4);
-            this.tableLayoutPanel2.Controls.Add(this.cmbSeccion, 1, 2);
-            this.tableLayoutPanel2.Controls.Add(this.label2, 1, 3);
-            this.tableLayoutPanel2.Controls.Add(this.imageBox, 0, 0);
-            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 50);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 19;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(1156, 450);
-            this.tableLayoutPanel2.TabIndex = 15;
-            // 
-            // cmbIncidencias
-            // 
-            this.cmbIncidencias.Dock = System.Windows.Forms.DockStyle.Top;
-            this.cmbIncidencias.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbIncidencias.Enabled = false;
-            this.cmbIncidencias.FormattingEnabled = true;
-            this.cmbIncidencias.Location = new System.Drawing.Point(829, 705);
-            this.cmbIncidencias.Margin = new System.Windows.Forms.Padding(20, 5, 20, 5);
-            this.cmbIncidencias.Name = "cmbIncidencias";
-            this.cmbIncidencias.Size = new System.Drawing.Size(307, 21);
-            this.cmbIncidencias.TabIndex = 23;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(812, 656);
-            this.label11.Name = "label11";
-            this.label11.Padding = new System.Windows.Forms.Padding(10);
-            this.label11.Size = new System.Drawing.Size(125, 44);
-            this.label11.TabIndex = 22;
-            this.label11.Text = "Incidencias";
-            // 
-            // panelCasillaInstalada
-            // 
-            this.panelCasillaInstalada.Controls.Add(this.radioCasillaNo);
-            this.panelCasillaInstalada.Controls.Add(this.radioCasillaSi);
-            this.panelCasillaInstalada.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelCasillaInstalada.Enabled = false;
-            this.panelCasillaInstalada.Location = new System.Drawing.Point(812, 609);
-            this.panelCasillaInstalada.Name = "panelCasillaInstalada";
-            this.panelCasillaInstalada.Padding = new System.Windows.Forms.Padding(60, 0, 0, 0);
-            this.panelCasillaInstalada.Size = new System.Drawing.Size(341, 44);
-            this.panelCasillaInstalada.TabIndex = 21;
-            // 
-            // radioCasillaNo
-            // 
-            this.radioCasillaNo.AutoSize = true;
-            this.radioCasillaNo.Dock = System.Windows.Forms.DockStyle.Left;
-            this.radioCasillaNo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioCasillaNo.Location = new System.Drawing.Point(104, 0);
-            this.radioCasillaNo.Name = "radioCasillaNo";
-            this.radioCasillaNo.Size = new System.Drawing.Size(53, 44);
-            this.radioCasillaNo.TabIndex = 2;
-            this.radioCasillaNo.TabStop = true;
-            this.radioCasillaNo.Text = "No";
-            this.radioCasillaNo.UseVisualStyleBackColor = true;
-            // 
-            // radioCasillaSi
-            // 
-            this.radioCasillaSi.AutoSize = true;
-            this.radioCasillaSi.Dock = System.Windows.Forms.DockStyle.Left;
-            this.radioCasillaSi.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioCasillaSi.Location = new System.Drawing.Point(60, 0);
-            this.radioCasillaSi.Name = "radioCasillaSi";
-            this.radioCasillaSi.Size = new System.Drawing.Size(44, 44);
-            this.radioCasillaSi.TabIndex = 1;
-            this.radioCasillaSi.TabStop = true;
-            this.radioCasillaSi.Text = "Si";
-            this.radioCasillaSi.UseVisualStyleBackColor = true;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(812, 562);
-            this.label10.Name = "label10";
-            this.label10.Padding = new System.Windows.Forms.Padding(10);
-            this.label10.Size = new System.Drawing.Size(162, 44);
-            this.label10.TabIndex = 20;
-            this.label10.Text = "Casilla Instalada";
-            // 
-            // cmbEstatusPaquete
-            // 
-            this.cmbEstatusPaquete.Dock = System.Windows.Forms.DockStyle.Top;
-            this.cmbEstatusPaquete.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbEstatusPaquete.Enabled = false;
-            this.cmbEstatusPaquete.FormattingEnabled = true;
-            this.cmbEstatusPaquete.Location = new System.Drawing.Point(829, 536);
-            this.cmbEstatusPaquete.Margin = new System.Windows.Forms.Padding(20, 5, 20, 5);
-            this.cmbEstatusPaquete.Name = "cmbEstatusPaquete";
-            this.cmbEstatusPaquete.Size = new System.Drawing.Size(307, 21);
-            this.cmbEstatusPaquete.TabIndex = 19;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(812, 487);
-            this.label9.Name = "label9";
-            this.label9.Padding = new System.Windows.Forms.Padding(10);
-            this.label9.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label9.Size = new System.Drawing.Size(165, 44);
-            this.label9.TabIndex = 18;
-            this.label9.Text = "Estatus Paquete";
-            // 
-            // cmbEstatusActa
-            // 
-            this.cmbEstatusActa.Dock = System.Windows.Forms.DockStyle.Top;
-            this.cmbEstatusActa.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbEstatusActa.Enabled = false;
-            this.cmbEstatusActa.FormattingEnabled = true;
-            this.cmbEstatusActa.Location = new System.Drawing.Point(829, 461);
-            this.cmbEstatusActa.Margin = new System.Windows.Forms.Padding(20, 5, 20, 5);
-            this.cmbEstatusActa.Name = "cmbEstatusActa";
-            this.cmbEstatusActa.Size = new System.Drawing.Size(307, 21);
-            this.cmbEstatusActa.TabIndex = 17;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(812, 412);
-            this.label8.Name = "label8";
-            this.label8.Padding = new System.Windows.Forms.Padding(10);
-            this.label8.Size = new System.Drawing.Size(132, 44);
-            this.label8.TabIndex = 16;
-            this.label8.Text = "Estatus Acta";
-            // 
-            // label7
-            // 
-            this.label7.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
-            this.label7.AutoSize = true;
-            this.label7.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(812, 6);
-            this.label7.Name = "label7";
-            this.label7.Padding = new System.Windows.Forms.Padding(10);
-            this.label7.Size = new System.Drawing.Size(341, 44);
-            this.label7.TabIndex = 15;
-            this.label7.Text = "Buscar Acta ya Identificada";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // cmbCasillaNuevo
-            // 
-            this.cmbCasillaNuevo.Dock = System.Windows.Forms.DockStyle.Top;
-            this.cmbCasillaNuevo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbCasillaNuevo.Enabled = false;
-            this.cmbCasillaNuevo.FormattingEnabled = true;
-            this.cmbCasillaNuevo.Location = new System.Drawing.Point(829, 366);
-            this.cmbCasillaNuevo.Margin = new System.Windows.Forms.Padding(20, 5, 20, 5);
-            this.cmbCasillaNuevo.Name = "cmbCasillaNuevo";
-            this.cmbCasillaNuevo.Size = new System.Drawing.Size(307, 21);
-            this.cmbCasillaNuevo.TabIndex = 14;
-            this.cmbCasillaNuevo.SelectedValueChanged += new System.EventHandler(this.cmbSeccionNueva_SelectedValueChanged);
-            // 
-            // label5
-            // 
-            this.label5.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
-            this.label5.AutoSize = true;
-            this.label5.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(812, 319);
-            this.label5.Name = "label5";
-            this.label5.Padding = new System.Windows.Forms.Padding(10);
-            this.label5.Size = new System.Drawing.Size(341, 42);
-            this.label5.TabIndex = 13;
-            this.label5.Text = "Seleccionar nueva Casilla:";
-            // 
-            // cmbSeccionNuevo
-            // 
-            this.cmbSeccionNuevo.Dock = System.Windows.Forms.DockStyle.Top;
-            this.cmbSeccionNuevo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbSeccionNuevo.Enabled = false;
-            this.cmbSeccionNuevo.FormattingEnabled = true;
-            this.cmbSeccionNuevo.Location = new System.Drawing.Point(829, 293);
-            this.cmbSeccionNuevo.Margin = new System.Windows.Forms.Padding(20, 5, 20, 5);
-            this.cmbSeccionNuevo.Name = "cmbSeccionNuevo";
-            this.cmbSeccionNuevo.Size = new System.Drawing.Size(307, 21);
-            this.cmbSeccionNuevo.TabIndex = 12;
-            this.cmbSeccionNuevo.SelectedValueChanged += new System.EventHandler(this.cmbSeccionNuevo_SelectedValueChanged);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(812, 246);
-            this.label4.Name = "label4";
-            this.label4.Padding = new System.Windows.Forms.Padding(10);
-            this.label4.Size = new System.Drawing.Size(341, 42);
-            this.label4.TabIndex = 11;
-            this.label4.Text = "Seleccionar nueva Seccion:";
-            // 
-            // label3
-            // 
-            this.label3.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
-            this.label3.AutoSize = true;
-            this.label3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(812, 50);
-            this.label3.Name = "label3";
-            this.label3.Padding = new System.Windows.Forms.Padding(10);
-            this.label3.Size = new System.Drawing.Size(341, 42);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "Seleccionar Sección:";
-            // 
-            // cmbCasilla
-            // 
-            this.cmbCasilla.Dock = System.Windows.Forms.DockStyle.Top;
-            this.cmbCasilla.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbCasilla.FormattingEnabled = true;
-            this.cmbCasilla.Location = new System.Drawing.Point(829, 170);
-            this.cmbCasilla.Margin = new System.Windows.Forms.Padding(20, 5, 20, 5);
-            this.cmbCasilla.Name = "cmbCasilla";
-            this.cmbCasilla.Size = new System.Drawing.Size(307, 21);
-            this.cmbCasilla.TabIndex = 2;
-            this.cmbCasilla.SelectedValueChanged += new System.EventHandler(this.cmbCasilla_SelectedValueChanged_1);
-            // 
-            // cmbSeccion
-            // 
-            this.cmbSeccion.Dock = System.Windows.Forms.DockStyle.Top;
-            this.cmbSeccion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbSeccion.FormattingEnabled = true;
-            this.cmbSeccion.Location = new System.Drawing.Point(829, 97);
-            this.cmbSeccion.Margin = new System.Windows.Forms.Padding(20, 5, 20, 5);
-            this.cmbSeccion.Name = "cmbSeccion";
-            this.cmbSeccion.Size = new System.Drawing.Size(307, 21);
-            this.cmbSeccion.TabIndex = 1;
-            this.cmbSeccion.SelectedValueChanged += new System.EventHandler(this.cmbSeccion_SelectedValueChanged);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(812, 123);
-            this.label2.Name = "label2";
-            this.label2.Padding = new System.Windows.Forms.Padding(10);
-            this.label2.Size = new System.Drawing.Size(341, 42);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Seleccionar Casilla:";
-            // 
-            // imageBox
-            // 
-            this.imageBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(14)))), ((int)(((byte)(14)))));
-            this.imageBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imageBox.Enabled = false;
-            this.imageBox.GridColor = System.Drawing.Color.Empty;
-            this.imageBox.GridColorAlternate = System.Drawing.Color.Empty;
-            this.imageBox.Location = new System.Drawing.Point(3, 3);
-            this.imageBox.Name = "imageBox";
-            this.tableLayoutPanel2.SetRowSpan(this.imageBox, 19);
-            this.imageBox.Size = new System.Drawing.Size(803, 725);
-            this.imageBox.TabIndex = 10;
-            this.imageBox.Selected += new System.EventHandler<System.EventArgs>(this.imageBox_Selected);
-            this.imageBox.SelectionRegionChanged += new System.EventHandler(this.imageBox_SelectionRegionChanged);
-            this.imageBox.ZoomChanged += new System.EventHandler(this.imageBox_ZoomChanged);
-            this.imageBox.ZoomLevelsChanged += new System.EventHandler(this.imageBox_ZoomLevelsChanged);
-            this.imageBox.Scroll += new System.Windows.Forms.ScrollEventHandler(this.imageBox_Scroll);
-            this.imageBox.Paint += new System.Windows.Forms.PaintEventHandler(this.imageBox_Paint);
-            this.imageBox.MouseLeave += new System.EventHandler(this.imageBox_MouseLeave);
-            this.imageBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.imageBox_MouseMove);
-            this.imageBox.Resize += new System.EventHandler(this.imageBox_Resize);
-            // 
             // tableLayoutPanel3
             // 
             this.tableLayoutPanel3.ColumnCount = 1;
@@ -532,6 +216,178 @@
             this.btnGuardar.UseVisualStyleBackColor = true;
             this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
+            // imageBox
+            // 
+            this.imageBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(14)))), ((int)(((byte)(14)))));
+            this.imageBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imageBox.Enabled = false;
+            this.imageBox.GridColor = System.Drawing.Color.Empty;
+            this.imageBox.GridColorAlternate = System.Drawing.Color.Empty;
+            this.imageBox.Location = new System.Drawing.Point(3, 3);
+            this.imageBox.Name = "imageBox";
+            this.tableLayoutPanel2.SetRowSpan(this.imageBox, 10);
+            this.imageBox.Size = new System.Drawing.Size(791, 725);
+            this.imageBox.TabIndex = 10;
+            this.imageBox.Selected += new System.EventHandler<System.EventArgs>(this.imageBox_Selected);
+            this.imageBox.SelectionRegionChanged += new System.EventHandler(this.imageBox_SelectionRegionChanged);
+            this.imageBox.ZoomChanged += new System.EventHandler(this.imageBox_ZoomChanged);
+            this.imageBox.ZoomLevelsChanged += new System.EventHandler(this.imageBox_ZoomLevelsChanged);
+            this.imageBox.Scroll += new System.Windows.Forms.ScrollEventHandler(this.imageBox_Scroll);
+            this.imageBox.Paint += new System.Windows.Forms.PaintEventHandler(this.imageBox_Paint);
+            this.imageBox.MouseLeave += new System.EventHandler(this.imageBox_MouseLeave);
+            this.imageBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.imageBox_MouseMove);
+            this.imageBox.Resize += new System.EventHandler(this.imageBox_Resize);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(800, 123);
+            this.label2.Name = "label2";
+            this.label2.Padding = new System.Windows.Forms.Padding(10);
+            this.label2.Size = new System.Drawing.Size(336, 42);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Seleccionar Casilla:";
+            // 
+            // cmbSeccion
+            // 
+            this.cmbSeccion.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cmbSeccion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbSeccion.FormattingEnabled = true;
+            this.cmbSeccion.Location = new System.Drawing.Point(817, 97);
+            this.cmbSeccion.Margin = new System.Windows.Forms.Padding(20, 5, 20, 5);
+            this.cmbSeccion.Name = "cmbSeccion";
+            this.cmbSeccion.Size = new System.Drawing.Size(302, 21);
+            this.cmbSeccion.TabIndex = 1;
+            this.cmbSeccion.SelectedValueChanged += new System.EventHandler(this.cmbSeccion_SelectedValueChanged);
+            // 
+            // cmbCasilla
+            // 
+            this.cmbCasilla.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cmbCasilla.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbCasilla.FormattingEnabled = true;
+            this.cmbCasilla.Location = new System.Drawing.Point(817, 170);
+            this.cmbCasilla.Margin = new System.Windows.Forms.Padding(20, 5, 20, 5);
+            this.cmbCasilla.Name = "cmbCasilla";
+            this.cmbCasilla.Size = new System.Drawing.Size(302, 21);
+            this.cmbCasilla.TabIndex = 2;
+            this.cmbCasilla.SelectedValueChanged += new System.EventHandler(this.cmbCasilla_SelectedValueChanged_1);
+            // 
+            // label3
+            // 
+            this.label3.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
+            this.label3.AutoSize = true;
+            this.label3.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(800, 50);
+            this.label3.Name = "label3";
+            this.label3.Padding = new System.Windows.Forms.Padding(10);
+            this.label3.Size = new System.Drawing.Size(336, 42);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Seleccionar Sección:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(800, 246);
+            this.label4.Name = "label4";
+            this.label4.Padding = new System.Windows.Forms.Padding(10);
+            this.label4.Size = new System.Drawing.Size(336, 42);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Seleccionar nueva Seccion:";
+            // 
+            // cmbSeccionNuevo
+            // 
+            this.cmbSeccionNuevo.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cmbSeccionNuevo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbSeccionNuevo.Enabled = false;
+            this.cmbSeccionNuevo.FormattingEnabled = true;
+            this.cmbSeccionNuevo.Location = new System.Drawing.Point(817, 293);
+            this.cmbSeccionNuevo.Margin = new System.Windows.Forms.Padding(20, 5, 20, 5);
+            this.cmbSeccionNuevo.Name = "cmbSeccionNuevo";
+            this.cmbSeccionNuevo.Size = new System.Drawing.Size(302, 21);
+            this.cmbSeccionNuevo.TabIndex = 12;
+            this.cmbSeccionNuevo.SelectedValueChanged += new System.EventHandler(this.cmbSeccionNuevo_SelectedValueChanged);
+            // 
+            // label5
+            // 
+            this.label5.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
+            this.label5.AutoSize = true;
+            this.label5.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(800, 319);
+            this.label5.Name = "label5";
+            this.label5.Padding = new System.Windows.Forms.Padding(10);
+            this.label5.Size = new System.Drawing.Size(336, 42);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "Seleccionar nueva Casilla:";
+            // 
+            // cmbCasillaNuevo
+            // 
+            this.cmbCasillaNuevo.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cmbCasillaNuevo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbCasillaNuevo.Enabled = false;
+            this.cmbCasillaNuevo.FormattingEnabled = true;
+            this.cmbCasillaNuevo.Location = new System.Drawing.Point(817, 366);
+            this.cmbCasillaNuevo.Margin = new System.Windows.Forms.Padding(20, 5, 20, 5);
+            this.cmbCasillaNuevo.Name = "cmbCasillaNuevo";
+            this.cmbCasillaNuevo.Size = new System.Drawing.Size(302, 21);
+            this.cmbCasillaNuevo.TabIndex = 14;
+            this.cmbCasillaNuevo.SelectedValueChanged += new System.EventHandler(this.cmbSeccionNueva_SelectedValueChanged);
+            // 
+            // label7
+            // 
+            this.label7.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
+            this.label7.AutoSize = true;
+            this.label7.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(800, 6);
+            this.label7.Name = "label7";
+            this.label7.Padding = new System.Windows.Forms.Padding(10);
+            this.label7.Size = new System.Drawing.Size(336, 44);
+            this.label7.TabIndex = 15;
+            this.label7.Text = "Buscar Acta ya Identificada";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.AutoScroll = true;
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tableLayoutPanel2.Controls.Add(this.label7, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.cmbCasillaNuevo, 1, 9);
+            this.tableLayoutPanel2.Controls.Add(this.label5, 1, 8);
+            this.tableLayoutPanel2.Controls.Add(this.cmbSeccionNuevo, 1, 7);
+            this.tableLayoutPanel2.Controls.Add(this.label4, 1, 6);
+            this.tableLayoutPanel2.Controls.Add(this.label3, 1, 1);
+            this.tableLayoutPanel2.Controls.Add(this.cmbCasilla, 1, 4);
+            this.tableLayoutPanel2.Controls.Add(this.cmbSeccion, 1, 2);
+            this.tableLayoutPanel2.Controls.Add(this.label2, 1, 3);
+            this.tableLayoutPanel2.Controls.Add(this.imageBox, 0, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 50);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 10;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(1156, 450);
+            this.tableLayoutPanel2.TabIndex = 15;
+            // 
             // ModificarActas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -550,12 +406,10 @@
             this.panel3.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
-            this.tableLayoutPanel2.PerformLayout();
-            this.panelCasillaInstalada.ResumeLayout(false);
-            this.panelCasillaInstalada.PerformLayout();
             this.tableLayoutPanel3.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -566,8 +420,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private Cyotek.Windows.Forms.ImageBox imageBox;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel4;
@@ -576,25 +428,17 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Button btnGuardar;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox cmbCasilla;
-        private System.Windows.Forms.ComboBox cmbSeccion;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btnGirar;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ComboBox cmbCasillaNuevo;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox cmbSeccionNuevo;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button btnGirar;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.ComboBox cmbEstatusActa;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.ComboBox cmbEstatusPaquete;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Panel panelCasillaInstalada;
-        private System.Windows.Forms.RadioButton radioCasillaNo;
-        private System.Windows.Forms.RadioButton radioCasillaSi;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.ComboBox cmbIncidencias;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox cmbCasilla;
+        private System.Windows.Forms.ComboBox cmbSeccion;
+        private System.Windows.Forms.Label label2;
+        private Cyotek.Windows.Forms.ImageBox imageBox;
     }
 }

@@ -146,10 +146,10 @@ namespace Sistema.RegistroActasLocal
             {
                 DateTime localDate = DateTime.Now;
                 string date = localDate.ToString("MM-dd-yyyy_HH-mm-ss");
-                string namefile = (completo) ? "Reporte_Excel_Completo_" + date : "Reporte_Excel_Distrito_" + selected + "_" + date;
+                string namefile = (completo) ? "Reporte_Excel_Completo_Recuento_" + date : "Reporte_Excel_Recuento_Distrito_" + selected + "_" + date;
                 SaveFileDialog fichero = new SaveFileDialog();
                 fichero.Filter = "Excel (*.xlsx)|*.xlsx";
-                fichero.FileName = "Reporte_Excel_Distrito_"+selected+"_"+date;
+                fichero.FileName = namefile;
                 if (fichero.ShowDialog() == DialogResult.OK)
                 {
                     //Creamos el delegado 

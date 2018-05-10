@@ -7,6 +7,7 @@ using Sistema.DataModel;
 using System.Transactions;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
 
 namespace Sistema.Generales
 {
@@ -501,10 +502,6 @@ namespace Sistema.Generales
                             tmpDoc.filtro = null;
                             tmpDoc.id_casilla = null;
                             tmpDoc.importado_dato = null;
-                            tmpDoc.id_estatus_acta = null;
-                            tmpDoc.id_estatus_paquete = null;
-                            tmpDoc.id_incidencias = null;
-                            tmpDoc.casilla_instalada = null;
                             contexto.SaveChanges();
                         }
 
@@ -834,10 +831,14 @@ namespace Sistema.Generales
                 Excel.XlSaveConflictResolution.xlUserResolution, true,
                 misValue, misValue, misValue);
 
-                libro.Close(true);
+                libro.Close(true, misValue, misValue);
 
                 excel.UserControl = false;
                 excel.Quit();
+
+                Marshal.ReleaseComObject(libro);
+                //Marshal.ReleaseComObject(xlWorkBook);
+                Marshal.ReleaseComObject(excel);
                 return 1;
 
 
@@ -1022,10 +1023,14 @@ namespace Sistema.Generales
                 Excel.XlSaveConflictResolution.xlUserResolution, true,
                 misValue, misValue, misValue);
 
-                libro.Close(true);
+                libro.Close(true,misValue,misValue);
 
                 excel.UserControl = false;
                 excel.Quit();
+
+                Marshal.ReleaseComObject(libro);
+                //Marshal.ReleaseComObject(xlWorkBook);
+                Marshal.ReleaseComObject(excel);
                 return 1;
                    
 
