@@ -125,8 +125,7 @@ namespace Sistema.ComputosElectorales
                 this.lblActasCapturadas.Text = String.Format(CultureInfo.InvariantCulture, "{0:#,#}", vSeccionTotales.Where(x => x.estatus == "CAPTURADA").GroupBy(y => y.casilla).Count());
                 //var x = vSeccion.Select(x=> new VotosSeccion { id_candidato = x.id_candidato, votos = x.s })
 
-                List<VotosSeccion> listaSumaCandidatos = vSeccionTotales.Where(x => x.estatus == "CAPTURADA" && x.id_candidato != null).GroupBy(y => y.id_candidato).Select(data => new VotosSeccion { id_candidato = data.First().id_candidato, votos = data.Sum(d => d.votos) }).ToList();
-                listaSumaCandidatos.OrderBy(x => x.votos);
+                List<VotosSeccion> listaSumaCandidatos = vSeccionTotales.Where(x => x.estatus == "CAPTURADA" && x.id_candidato != null).GroupBy(y => y.id_candidato).Select(data => new VotosSeccion { id_candidato = data.First().id_candidato, votos = data.Sum(d => d.votos) }).OrderBy(x => x.votos).ToList();
                 if (listaSumaCandidatos.Count > 0)
                 {
                     int PrimeroTotal = (int)listaSumaCandidatos[listaSumaCandidatos.Count - 1].votos;

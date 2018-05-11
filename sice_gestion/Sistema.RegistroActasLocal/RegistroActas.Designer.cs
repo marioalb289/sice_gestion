@@ -124,11 +124,11 @@
             this.tablePanelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tablePanelPartidos.Dock = System.Windows.Forms.DockStyle.Top;
             this.tablePanelPartidos.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
-            this.tablePanelPartidos.Location = new System.Drawing.Point(0, 440);
+            this.tablePanelPartidos.Location = new System.Drawing.Point(0, 442);
             this.tablePanelPartidos.Name = "tablePanelPartidos";
             this.tablePanelPartidos.Padding = new System.Windows.Forms.Padding(40, 0, 40, 0);
             this.tablePanelPartidos.RowCount = 1;
-            this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 258F));
+            this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 261F));
             this.tablePanelPartidos.Size = new System.Drawing.Size(1007, 213);
             this.tablePanelPartidos.TabIndex = 20;
             this.tablePanelPartidos.Visible = false;
@@ -147,8 +147,8 @@
             this.tblPanaelTitulo.Name = "tblPanaelTitulo";
             this.tblPanaelTitulo.Padding = new System.Windows.Forms.Padding(40, 10, 40, 10);
             this.tblPanaelTitulo.RowCount = 1;
-            this.tblPanaelTitulo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 76F));
-            this.tblPanaelTitulo.Size = new System.Drawing.Size(1007, 100);
+            this.tblPanaelTitulo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 78F));
+            this.tblPanaelTitulo.Size = new System.Drawing.Size(1007, 102);
             this.tblPanaelTitulo.TabIndex = 19;
             // 
             // pnlTableTitulo
@@ -158,7 +158,7 @@
             this.pnlTableTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableTitulo.Location = new System.Drawing.Point(45, 15);
             this.pnlTableTitulo.Name = "pnlTableTitulo";
-            this.pnlTableTitulo.Size = new System.Drawing.Size(917, 70);
+            this.pnlTableTitulo.Size = new System.Drawing.Size(917, 72);
             this.pnlTableTitulo.TabIndex = 39;
             // 
             // label21
@@ -353,11 +353,11 @@
             this.tblPanelBoletas.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.33133F));
             this.tblPanelBoletas.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.002F));
             this.tblPanelBoletas.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.33133F));
-            this.tblPanelBoletas.Controls.Add(this.txtTotalCapturado, 3, 1);
-            this.tblPanelBoletas.Controls.Add(this.label10, 2, 1);
+            this.tblPanelBoletas.Controls.Add(this.txtTotalCapturado, 5, 1);
+            this.tblPanelBoletas.Controls.Add(this.label10, 4, 1);
             this.tblPanelBoletas.Controls.Add(this.label5, 0, 1);
-            this.tblPanelBoletas.Controls.Add(this.label4, 4, 1);
-            this.tblPanelBoletas.Controls.Add(this.txtBoletasR, 5, 1);
+            this.tblPanelBoletas.Controls.Add(this.label4, 2, 1);
+            this.tblPanelBoletas.Controls.Add(this.txtBoletasR, 3, 1);
             this.tblPanelBoletas.Controls.Add(this.txtSobrantes, 0, 1);
             this.tblPanelBoletas.Controls.Add(this.txtVotosSacados, 5, 0);
             this.tblPanelBoletas.Controls.Add(this.label13, 4, 0);
@@ -382,11 +382,11 @@
             this.txtTotalCapturado.Dock = System.Windows.Forms.DockStyle.Top;
             this.txtTotalCapturado.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTotalCapturado.ForeColor = System.Drawing.Color.DarkRed;
-            this.txtTotalCapturado.Location = new System.Drawing.Point(550, 113);
+            this.txtTotalCapturado.Location = new System.Drawing.Point(817, 113);
             this.txtTotalCapturado.Margin = new System.Windows.Forms.Padding(20, 25, 20, 5);
             this.txtTotalCapturado.MaxLength = 3;
             this.txtTotalCapturado.Name = "txtTotalCapturado";
-            this.txtTotalCapturado.Size = new System.Drawing.Size(64, 29);
+            this.txtTotalCapturado.Size = new System.Drawing.Size(67, 29);
             this.txtTotalCapturado.TabIndex = 0;
             this.txtTotalCapturado.TabStop = false;
             this.txtTotalCapturado.Text = "0";
@@ -398,12 +398,12 @@
             this.label10.AutoSize = true;
             this.label10.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(373, 88);
+            this.label10.Location = new System.Drawing.Point(640, 88);
             this.label10.Name = "label10";
             this.label10.Padding = new System.Windows.Forms.Padding(10);
             this.label10.Size = new System.Drawing.Size(151, 72);
             this.label10.TabIndex = 23;
-            this.label10.Text = "Total Captura";
+            this.label10.Text = "Total Capturado";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label5
@@ -426,7 +426,7 @@
             this.label4.AutoSize = true;
             this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(640, 88);
+            this.label4.Location = new System.Drawing.Point(373, 88);
             this.label4.Name = "label4";
             this.label4.Padding = new System.Windows.Forms.Padding(10);
             this.label4.Size = new System.Drawing.Size(151, 72);
@@ -439,11 +439,11 @@
             this.txtBoletasR.Dock = System.Windows.Forms.DockStyle.Top;
             this.txtBoletasR.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtBoletasR.ForeColor = System.Drawing.Color.DarkRed;
-            this.txtBoletasR.Location = new System.Drawing.Point(817, 113);
+            this.txtBoletasR.Location = new System.Drawing.Point(550, 113);
             this.txtBoletasR.Margin = new System.Windows.Forms.Padding(20, 25, 20, 5);
             this.txtBoletasR.MaxLength = 3;
             this.txtBoletasR.Name = "txtBoletasR";
-            this.txtBoletasR.Size = new System.Drawing.Size(67, 29);
+            this.txtBoletasR.Size = new System.Drawing.Size(64, 29);
             this.txtBoletasR.TabIndex = 0;
             this.txtBoletasR.TabStop = false;
             this.txtBoletasR.Text = "0";

@@ -614,6 +614,7 @@ namespace Sistema.Generales
                             else
                                 rc.id_incidencias = incidencias;
                             rc.importado = 0;
+                            rc.inicializada = 0;
                             rc.updated_at = DateTime.Now;
                         }
                         else
@@ -635,6 +636,7 @@ namespace Sistema.Generales
                             rc.votos_sacados = ceros ? 0  : votos_sacados;
                             rc.id_estatus_acta = estatus_acta;
                             rc.id_estatus_paquete = estatus_paquete;
+                            rc.inicializada = 0;
                             if (incidencias == 0)
                                 rc.id_incidencias = null;
                             else

@@ -231,7 +231,7 @@ namespace Sistema.RegistroActasLocal
                 }
                 else if (votos_sacados != totalCapturado)
                 {
-                    mensaje = "El total de Votacion es Diferente de los Votos Sacados de la Urna";
+                    mensaje = "El total Capturado es Diferente de los Votos Sacados de la Urna";
                 }
                 else if (sumaSobrantes != totalBoletasRecibidas)
                 {

@@ -481,6 +481,8 @@ namespace Sistema.ComputosElectorales
                     this.cmbEstatusActa.SelectedValue = detallesActa.id_estatus_acta != null ? detallesActa.id_estatus_acta:1;
                     this.cmbEstatusPaquete.SelectedValue = detallesActa.id_estatus_paquete != null ? detallesActa.id_estatus_paquete:2 ;
                     this.cmbIncidencias.SelectedValue = detallesActa.id_incidencias != null ? detallesActa.id_incidencias : 0;
+                    if (detallesActa.tipo_reserva == "RECUENTO")
+                        this.cmbSupuesto.Enabled = true;
 
                     //Agregar Columnas
                     this.tablePanelPartidos.AutoScroll = true;

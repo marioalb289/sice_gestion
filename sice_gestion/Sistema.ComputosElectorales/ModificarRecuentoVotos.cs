@@ -554,7 +554,8 @@ namespace Sistema.ComputosElectorales
                     this.cmbIncidencias.SelectedValue = detallesActa.id_incidencias!= null ? detallesActa.id_incidencias : 0;
                     this.txtEscritos.Text = detallesActa.num_escritos.ToString();
                     this.lblEstatus.Text = detallesActa.tipo_reserva;
-
+                    if (detallesActa.tipo_reserva == "RECUENTO")
+                        this.cmbSupuesto.Enabled = true;
                     //Agregar Columnas
                     this.tablePanelPartidos.AutoScroll = true;
                     this.tablePanelPartidos.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;

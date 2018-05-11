@@ -84,7 +84,7 @@
             this.btnModificar.Name = "btnModificar";
             this.btnModificar.Size = new System.Drawing.Size(136, 163);
             this.btnModificar.TabIndex = 13;
-            this.btnModificar.Text = "Modificar Actas";
+            this.btnModificar.Text = "Modificar";
             this.btnModificar.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnModificar.UseVisualStyleBackColor = false;
             this.btnModificar.Click += new System.EventHandler(this.btnModificar_Click);

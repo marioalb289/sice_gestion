@@ -176,7 +176,7 @@ namespace Sistema.RegistroActasLocal
                     //Cargar imagenes de los filtros
                     Loadingbox.Close();
                     Loadingbox.Close();
-                    msgBox = new MsgBox(this, "Acta No Registrada", "Atención", MessageBoxButtons.OK, "Advertencia");
+                    msgBox = new MsgBox(this, "Acta No Identificada", "Atención", MessageBoxButtons.OK, "Advertencia");
                     msgBox.ShowDialog(this);
                 }
 
