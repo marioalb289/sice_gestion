@@ -872,7 +872,8 @@ namespace Sistema.Generales
                 //creamos un libro nuevo y la hoja con la que vamos a trabajar
                 hoja = (Excel._Worksheet)libro.Worksheets.Add();
                 hoja.Name = "DISTRITO "+distrito;  //Aqui debe ir el nombre del distrito
-                List<VotosSeccion> vSeccion = this.ResultadosSeccion(0, 0, (int)distrito);
+                //List<VotosSeccion> vSeccion = this.ResultadosSeccion(0, 0, (int)distrito);
+                List<VotosSeccion> vSeccion = this.ResultadosSeccion(1, 1, (int)distrito);
                 List<Candidatos> candidatos = this.ListaCandidatos((int)distrito);
                 int tempC = candidatos.Count;
 

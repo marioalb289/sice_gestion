@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using Sistema.DataModel;
 using System.Threading;
 using System.Globalization;
+using Sistema.ComputosElectorales.Properties;
 
 namespace Sistema.ComputosElectorales
 {
@@ -20,6 +21,7 @@ namespace Sistema.ComputosElectorales
         private MsgBox msgBox;
         private int pageNumber = 1;
         private int totalPages = 0;
+        private List<Candidatos> listaCandidatos;
         public Reportes()
         {
             InitializeComponent();
@@ -113,8 +115,6 @@ namespace Sistema.ComputosElectorales
                 this.lblListaNominal.Text = String.Format(CultureInfo.InvariantCulture, "{0:#,#}", LnominalDistrito);
                 this.lblTotalVotos.Text = String.Format(CultureInfo.InvariantCulture, "{0:#,#}", TotalVotosDistrito);
 
-
-
                 decimal PorcentajeParDistrito = 0;
                 if (TotalVotosDistrito > 0)
                 {
@@ -158,6 +158,7 @@ namespace Sistema.ComputosElectorales
                 List<Candidatos> candidatos = CompElec.ListaCandidatos((int)distrito);
                 dgvResultados.Columns.Clear();
                 dgvResultados.DataSource = null;
+                dgvResultados.ColumnHeadersHeight = 85;  // or maybe a little more..
 
                 //Agregar encabezados
 
@@ -207,8 +208,7 @@ namespace Sistema.ComputosElectorales
                     columnaCandidato.HeaderText = c.partido;
                     columnaCandidato.ValueType = typeof(System.Int32);
                     columnaCandidato.Width = 80;
-                    columnaCandidato.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                    columnaCandidato.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    columnaCandidato.HeaderCell.Style.Alignment = DataGridViewContentAlignment.BottomCenter;
                     dgvResultados.Columns.Add(columnaCandidato);
                 }
                 //Agregar columnas adicionales
@@ -216,8 +216,8 @@ namespace Sistema.ComputosElectorales
                 NoRegColumna.Name = "no_registrados";
                 NoRegColumna.HeaderText = "No Registrados";
                 NoRegColumna.ValueType = typeof(System.Int32);
-                NoRegColumna.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                NoRegColumna.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                NoRegColumna.HeaderCell.Style.Alignment = DataGridViewContentAlignment.BottomCenter;
+                NoRegColumna.DefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomCenter;
                 NoRegColumna.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
                 dgvResultados.Columns.Add(NoRegColumna);
 
@@ -225,8 +225,8 @@ namespace Sistema.ComputosElectorales
                 NulosColumna.Name = "nulos";
                 NulosColumna.HeaderText = "Nulos";
                 NulosColumna.ValueType = typeof(System.Int32);
-                NulosColumna.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                NulosColumna.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                NulosColumna.HeaderCell.Style.Alignment = DataGridViewContentAlignment.BottomCenter;
+                NulosColumna.DefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomCenter;
                 NulosColumna.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
                 dgvResultados.Columns.Add(NulosColumna);
 
@@ -261,7 +261,7 @@ namespace Sistema.ComputosElectorales
                 int fila = 0;
                 int idCasillaActual = 0;
                 int cont = 1;
-                int contCand = 5;
+                int contCand = 5 ;
                 DataGridViewRow row = (DataGridViewRow)dgvResultados.Rows[fila].Clone();
                 //row.Cells[0].Value = 1;
                 //dgvResultados.Rows.Add(row);
@@ -269,7 +269,7 @@ namespace Sistema.ComputosElectorales
                 int Noregynulo = 0;
                 int Lnominal = 0;
 
-                List<Candidatos> listaCandidatos = CompElec.ListaCandidatos((int)distrito);
+                this.listaCandidatos = CompElec.ListaCandidatos((int)distrito);
                 int tempC = listaCandidatos.Count;
 
                 foreach (VotosSeccion v in vSeccion)
@@ -641,6 +641,67 @@ namespace Sistema.ComputosElectorales
         private void Reportes_Shown(object sender, EventArgs e)
         {
             this.MdiParent.WindowState = FormWindowState.Maximized;
+        }
+        private void Reportes_Load(object sender, EventArgs e)
+        {
+        }
+
+        private void dgvResultados_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            int inicio = 5;
+            int fin = this.listaCandidatos.Count + 4;
+            if (this.listaCandidatos.Count > 0)
+            {
+                if (e.RowIndex < 0 && (e.ColumnIndex >= inicio && e.ColumnIndex <= fin))
+
+                {
+
+                    //e.Graphics.DrawImage((System.Drawing.Image)(Resources.pri), e.CellBounds);
+
+
+                    Image img = (System.Drawing.Image)(Resources.pri);
+                    Rectangle r32 = new Rectangle(e.CellBounds.Left + e.CellBounds.Width - 65, 5, 50, 50);
+                    Rectangle r96 = new Rectangle(0, 0, 60, 60);
+                    string header = dgvResultados.Columns[e.ColumnIndex].HeaderText;
+                    e.PaintBackground(e.CellBounds, true);  // or maybe false ie no selection?
+                    e.PaintContent(e.CellBounds);
+
+                    e.Graphics.DrawImage(img, r32, r96, GraphicsUnit.Pixel);
+
+
+                    e.Handled = true;
+
+                }
+                else if (e.RowIndex < 0 && e.ColumnIndex == fin + 1)
+                {
+                    Image img = (System.Drawing.Image)(Resources.no_regis);
+                    Rectangle r32 = new Rectangle(e.CellBounds.Left + e.CellBounds.Width - 83, 5, 50, 50);
+                    Rectangle r96 = new Rectangle(0, 0, 60, 60);
+                    string header = dgvResultados.Columns[e.ColumnIndex].HeaderText;
+                    e.PaintBackground(e.CellBounds, true);  // or maybe false ie no selection?
+                    e.PaintContent(e.CellBounds);
+
+                    e.Graphics.DrawImage(img, r32, r96, GraphicsUnit.Pixel);
+
+
+                    e.Handled = true;
+                }
+                else if (e.RowIndex < 0 && e.ColumnIndex == fin + 2)
+                {
+                    Image img = (System.Drawing.Image)(Resources.nulos1);
+                    Rectangle r32 = new Rectangle(e.CellBounds.Left + e.CellBounds.Width - 56, 5, 50, 50);
+                    Rectangle r96 = new Rectangle(0, 0, 60, 60);
+                    string header = dgvResultados.Columns[e.ColumnIndex].HeaderText;
+                    e.PaintBackground(e.CellBounds, true);  // or maybe false ie no selection?
+                    e.PaintContent(e.CellBounds);
+
+                    e.Graphics.DrawImage(img, r32, r96, GraphicsUnit.Pixel);
+
+
+                    e.Handled = true;
+                }
+            }
+
         }
     }
 }

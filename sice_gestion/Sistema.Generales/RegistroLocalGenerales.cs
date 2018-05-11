@@ -865,7 +865,7 @@ namespace Sistema.Generales
                 hoja.Name = "DISTRITO " + distrito;  //Aqui debe ir el nombre del distrito
 
                 //Montamos las cabeceras 
-                char letraFinal = CrearEncabezadosRecuento(filaInicialTabla, ref hoja, 1);
+                char letraFinal = CrearEncabezadosRecuento(filaInicialTabla, ref hoja, distrito, 1);
 
                 //return;
                 //Agregar Datos
@@ -908,7 +908,7 @@ namespace Sistema.Generales
             }
         }
 
-        private char CrearEncabezadosRecuento(int fila, ref Excel._Worksheet hoja,int columnaInicial = 1)
+        private char CrearEncabezadosRecuento(int fila, ref Excel._Worksheet hoja, int distrito,int columnaInicial = 1)
         {
             try
             {
@@ -919,21 +919,65 @@ namespace Sistema.Generales
                 const float ImageSize = 42; //Tamaño Imagen Partidos
                 string rutaImagen = System.AppDomain.CurrentDomain.BaseDirectory + "Resources\\";
 
+                sice_casillas casilla = null;
+                sice_distritos_locales dlocal = null;
+                sice_municipios mun = null;
+
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    casilla = (from c in contexto.sice_casillas where c.id_distrito_local == distrito select c).FirstOrDefault();
+                    mun = (from m in contexto.sice_municipios where m.id == casilla.id_cabecera_local select m).FirstOrDefault();
+                    dlocal = (from d in contexto.sice_distritos_locales where d.id == distrito select d).FirstOrDefault();
+                }
+
+                //Configuracon Hoja
+                hoja.PageSetup.Orientation = Excel.XlPageOrientation.xlLandscape;
+                hoja.PageSetup.Zoom = 80;
+
                 //** Montamos el título en la línea 1 **
                 hoja.Cells[1, 3] = "SISTEMA DE REGISTRO DE ACTAS DEL PROCESO ELECTORAL LÓCAL 2017-2018";
+                hoja.Range[hoja.Cells[1, 3], hoja.Cells[1, 4]].Merge();
                 hoja.Cells[2, 3] = "ELECCIÓN DE DIPUTADOS DE MAYORÍA RELATIVA POR CASILLA, SECCIÓN Y DISTRITO LOCAL";
+                hoja.Range[hoja.Cells[2, 3], hoja.Cells[2, 4]].Merge();
                 hoja.Cells[3, 3] = "LISTA DE CASILLAS A RECUENTO";
+                hoja.Range[hoja.Cells[3, 3], hoja.Cells[3, 4]].Merge();
                 char columnaLetra = 'A';
-                hoja.Shapes.AddPicture(rutaImagen + "iepc.png", Microsoft.Office.Core.MsoTriState.msoFalse, Microsoft.Office.Core.MsoTriState.msoCTrue, 0, 0, 125, 45);
+                hoja.Shapes.AddPicture(rutaImagen + "iepc.png", Microsoft.Office.Core.MsoTriState.msoFalse, Microsoft.Office.Core.MsoTriState.msoCTrue, 0, 0, 125, 52);
                 //hoja.Shapes.
 
                 List<double> widths = new List<double>();
 
                 //Agregar encabezados
-                hoja.Cells[fila - 3, columnaInicial] = "DISTRITO 1 CABECERA VICTORIA DE DURANGO";
-                hoja.Range[hoja.Cells[fila - 3, columnaInicial], hoja.Cells[fila - 1, columnaInicial + 3]].Merge();
+                hoja.Cells[fila -3, columnaInicial] = "DIFERENCIA ENTRE 1° Y 2° LUGAR";
+                hoja.Cells[fila - 3, columnaInicial].RowHeight = 35;
+                hoja.Range[hoja.Cells[fila - 3, columnaInicial], hoja.Cells[fila - 3, columnaInicial + 1]].Merge();
                 hoja.Cells[fila - 3, columnaInicial].WrapText = true;
                 hoja.Cells[fila - 3, columnaInicial].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+                hoja.Cells[fila - 3, columnaInicial].VerticalAlignment = Excel.XlVAlign.xlVAlignTop;
+
+                hoja.Cells[fila - 3, columnaInicial+2] = "13.56%";
+                hoja.Range[hoja.Cells[fila - 3, columnaInicial+2], hoja.Cells[fila - 3, columnaInicial + 3]].Merge();
+                hoja.Cells[fila - 3, columnaInicial+2].WrapText = true;
+                hoja.Cells[fila - 3, columnaInicial+2].HorizontalAlignment = Excel.XlHAlign.xlHAlignLeft;
+                hoja.Cells[fila - 3, columnaInicial+2].VerticalAlignment = Excel.XlVAlign.xlVAlignTop;
+
+                hoja.Cells[fila - 2, columnaInicial] = "TIPO DE RECUENTO";
+                hoja.Range[hoja.Cells[fila - 2, columnaInicial], hoja.Cells[fila - 2, columnaInicial + 1]].Merge();
+                hoja.Cells[fila - 2, columnaInicial].WrapText = true;
+                hoja.Cells[fila - 2, columnaInicial].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+                hoja.Cells[fila - 2, columnaInicial].VerticalAlignment = Excel.XlVAlign.xlVAlignTop;
+
+                hoja.Cells[fila - 2, columnaInicial + 2] = "PARCIAL";
+                hoja.Range[hoja.Cells[fila - 2, columnaInicial + 2], hoja.Cells[fila - 2, columnaInicial + 3]].Merge();
+                hoja.Cells[fila - 2, columnaInicial + 2].WrapText = true;
+                hoja.Cells[fila - 2, columnaInicial + 2].HorizontalAlignment = Excel.XlHAlign.xlHAlignLeft;
+                hoja.Cells[fila - 2, columnaInicial + 2].VerticalAlignment = Excel.XlVAlign.xlVAlignTop;
+
+
+                hoja.Cells[fila - 1, columnaInicial] = dlocal.distrito+" CABECERA "+mun.municipio;
+                hoja.Range[hoja.Cells[fila - 1, columnaInicial], hoja.Cells[fila - 1, columnaInicial + 3]].Merge();
+                hoja.Cells[fila - 1, columnaInicial].WrapText = true;
+                hoja.Cells[fila - 1, columnaInicial].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
 
 
                 hoja.Cells[fila, columnaInicial] = "No."; columnaInicial++; columnaLetra++; widths.Add(8.57);
