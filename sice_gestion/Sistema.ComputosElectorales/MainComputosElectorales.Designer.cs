@@ -36,6 +36,7 @@
             this.btnReportes = new System.Windows.Forms.Button();
             this.btnModificar = new System.Windows.Forms.Button();
             this.btnRespaldo = new System.Windows.Forms.Button();
+            this.btnConfRecuento = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -48,12 +49,13 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.Controls.Add(this.btnConfRecuento, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.btnSalir, 3, 2);
             this.tableLayoutPanel1.Controls.Add(this.label2, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.btnConsultarActas, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.btnRecuentoVotos, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.btnReportes, 3, 1);
-            this.tableLayoutPanel1.Controls.Add(this.btnModificar, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.btnModificar, 4, 1);
             this.tableLayoutPanel1.Controls.Add(this.btnRespaldo, 2, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
@@ -154,7 +156,7 @@
             this.btnModificar.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnModificar.Image = global::Sistema.ComputosElectorales.Properties.Resources.reload;
             this.btnModificar.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnModificar.Location = new System.Drawing.Point(172, 403);
+            this.btnModificar.Location = new System.Drawing.Point(652, 184);
             this.btnModificar.Name = "btnModificar";
             this.btnModificar.Size = new System.Drawing.Size(136, 163);
             this.btnModificar.TabIndex = 22;
@@ -178,6 +180,23 @@
             this.btnRespaldo.Text = "Generar Respaldo";
             this.btnRespaldo.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnRespaldo.UseVisualStyleBackColor = false;
+            // 
+            // btnConfRecuento
+            // 
+            this.btnConfRecuento.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnConfRecuento.BackColor = System.Drawing.Color.Transparent;
+            this.btnConfRecuento.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnConfRecuento.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnConfRecuento.Image = global::Sistema.ComputosElectorales.Properties.Resources.reload;
+            this.btnConfRecuento.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnConfRecuento.Location = new System.Drawing.Point(172, 403);
+            this.btnConfRecuento.Name = "btnConfRecuento";
+            this.btnConfRecuento.Size = new System.Drawing.Size(136, 163);
+            this.btnConfRecuento.TabIndex = 25;
+            this.btnConfRecuento.Text = "Configuración Recuento";
+            this.btnConfRecuento.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnConfRecuento.UseVisualStyleBackColor = false;
+            this.btnConfRecuento.Click += new System.EventHandler(this.btnConfRecuento_Click);
             // 
             // MainComputosElectorales
             // 
@@ -204,5 +223,6 @@
         private System.Windows.Forms.Button btnSalir;
         private System.Windows.Forms.Button btnModificar;
         private System.Windows.Forms.Button btnRespaldo;
+        private System.Windows.Forms.Button btnConfRecuento;
     }
 }

@@ -21,7 +21,7 @@ namespace Sistema.DataModel
         public string cabecera_federal { get; set; }
         public Nullable<int> id_distrito_local { get; set; }
         public Nullable<int> id_cabecera_local { get; set; }
-        public Nullable<long> id_municipio { get; set; }
+        public Nullable<int> id_municipio { get; set; }
         public Nullable<int> seccion { get; set; }
         public string tipo_seccion { get; set; }
         public Nullable<int> padron_electoral { get; set; }
@@ -29,7 +29,9 @@ namespace Sistema.DataModel
         public string casilla { get; set; }
         public string tipo_casilla { get; set; }
         public string domicilio { get; set; }
+        public string localidad_manzana { get; set; }
         public string ubicacion { get; set; }
         public string referencia { get; set; }
+        public string tipo_domicilio { get; set; }
     }
 }

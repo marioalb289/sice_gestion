@@ -73,6 +73,16 @@ namespace Sistema.ComputosElectorales.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap alejandro {
+            get {
+                object obj = ResourceManager.GetObject("alejandro", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap basic {
             get {
                 object obj = ResourceManager.GetObject("basic", resourceCulture);
@@ -223,9 +233,29 @@ namespace Sistema.ComputosElectorales.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap mc {
+            get {
+                object obj = ResourceManager.GetObject("mc", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap morena {
             get {
                 object obj = ResourceManager.GetObject("morena", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap morena1 {
+            get {
+                object obj = ResourceManager.GetObject("morena1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -273,6 +303,26 @@ namespace Sistema.ComputosElectorales.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap pan {
+            get {
+                object obj = ResourceManager.GetObject("pan", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap pan_prd_pd {
+            get {
+                object obj = ResourceManager.GetObject("pan_prd_pd", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap panal {
             get {
                 object obj = ResourceManager.GetObject("panal", resourceCulture);
@@ -283,9 +333,19 @@ namespace Sistema.ComputosElectorales.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap panprd {
+        internal static System.Drawing.Bitmap pantoja {
             get {
-                object obj = ResourceManager.GetObject("panprd", resourceCulture);
+                object obj = ResourceManager.GetObject("pantoja", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap pd {
+            get {
+                object obj = ResourceManager.GetObject("pd", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -296,6 +356,26 @@ namespace Sistema.ComputosElectorales.Properties {
         internal static System.Drawing.Bitmap pes {
             get {
                 object obj = ResourceManager.GetObject("pes", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap poncho {
+            get {
+                object obj = ResourceManager.GetObject("poncho", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap prd {
+            get {
+                object obj = ResourceManager.GetObject("prd", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

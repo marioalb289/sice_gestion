@@ -28,6 +28,7 @@ namespace Sistema.DataModel
         public string img_par { get; set; }
         public int estado { get; set; }
         public string info_creado { get; set; }
+        public Nullable<int> prelacion { get; set; }
     
         public virtual ICollection<sice_candidatos> sice_candidatos { get; set; }
     }

@@ -21,6 +21,7 @@ namespace Sistema.RegistroActasLocal
         private MsgBox msgBox;
         private int pageNumber = 1;
         private int totalPages = 0;
+        private System.ComponentModel.ComponentResourceManager resources;
         static Control.ControlCollection testC;
         List<Candidatos> listaCandidatos;
 
@@ -28,6 +29,7 @@ namespace Sistema.RegistroActasLocal
         {
             InitializeComponent();
             this.cargarComboDistrito();
+            resources = new System.ComponentModel.ComponentResourceManager(typeof(Properties.Resources));
         }
 
         private void BuscarDistritos(int distrito)
@@ -49,6 +51,19 @@ namespace Sistema.RegistroActasLocal
                 throw ex;
             }
             
+        }
+
+        private void ValidarRecuento()
+        {
+            try
+            {
+                RegistroLocalGenerales reg = new RegistroLocalGenerales();
+                reg.validarPuntosRecuento();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private void cargarComboDistrito()
@@ -289,7 +304,7 @@ namespace Sistema.RegistroActasLocal
                             row.Cells[0].Value = v.id_casilla;
                             row.Cells[1].Value = v.seccion;
                             row.Cells[2].Value = v.casilla;
-                            row.Cells[3].Value = v.estatus_acta != null ? v.estatus_acta : "PENDIENTE DE CAPTURAR";
+                            row.Cells[3].Value = v.estatus_acta != null ? v.estatus_acta : "NO CAPTURADA";
 
                             row.Cells[contCand].Value = v.votos;
                             vLst.Add((int)v.votos);
@@ -304,9 +319,8 @@ namespace Sistema.RegistroActasLocal
                         decimal diferencia = 0;
                         if (totalVotacionEmitida > 0)
                         {
-                            decimal Porcentaje1 = Math.Round((Convert.ToDecimal(Primero) * 100) / totalVotacionEmitida, 2);
-                            decimal Porcentaje2 = Math.Round((Convert.ToDecimal(Seegundo) * 100) / totalVotacionEmitida, 2);
-                            diferencia = Porcentaje1 - Porcentaje2;
+                            int diferenciaTotal = Primero - Seegundo;
+                            diferencia = Math.Round((Convert.ToDecimal(diferenciaTotal) * 100) / totalVotacionEmitida, 2);
                         }
                         row.Cells[4].Value = diferencia + "%";
 
@@ -343,7 +357,7 @@ namespace Sistema.RegistroActasLocal
                     row.Cells[0].Value = v.id_casilla;
                     row.Cells[1].Value = v.seccion;
                     row.Cells[2].Value = v.casilla;
-                    row.Cells[3].Value = v.estatus_acta != null ? v.estatus_acta : "PENDIENTE DE CAPTURAR";
+                    row.Cells[3].Value = v.estatus_acta != null ? v.estatus_acta : "NO CAPTURADA";
                     Lnominal = v.lista_nominal + tempC*2;
 
                     row.Cells[contCand].Value = v.votos;
@@ -618,13 +632,14 @@ namespace Sistema.RegistroActasLocal
         {
             try
             {
-                int? selected = Convert.ToInt32(cmbDistrito.SelectedValue);
-                if (selected > 0 && selected != null)
-                {
+                //int? selected = Convert.ToInt32(cmbDistrito.SelectedValue);
+                //if (selected > 0 && selected != null)
+                //{
+                //this.ValidarRecuento();
                     btnGenerarExcel.Enabled = false;
-                    ((MDIMainRegistroActas)this.MdiParent).GenerarExcel((int)selected,false);
+                    ((MDIMainRegistroActas)this.MdiParent).GenerarExcel(0,false);
 
-                }
+                //}
 
             }
             catch (Exception ex)
@@ -672,9 +687,10 @@ namespace Sistema.RegistroActasLocal
                     //e.Graphics.DrawImage((System.Drawing.Image)(Resources.pri), e.CellBounds);
 
                    
-                    Image img = (System.Drawing.Image)(Resources.pri);
+                    //Image img = (System.Drawing.Image)(Resources.pri);
+                    Image img = (System.Drawing.Image)(resources.GetObject(listaCandidatos[e.ColumnIndex - inicio].imagen));
                     Rectangle r32 = new Rectangle(e.CellBounds.Left + e.CellBounds.Width - 65, 5, 50, 50);
-                    Rectangle r96 = new Rectangle(0, 0, 60, 60);
+                    Rectangle r96 = new Rectangle(0, 0, 135, 120);
                     string header = dgvResultados.Columns[e.ColumnIndex].HeaderText;
                     e.PaintBackground(e.CellBounds, true);  // or maybe false ie no selection?
                     e.PaintContent(e.CellBounds);

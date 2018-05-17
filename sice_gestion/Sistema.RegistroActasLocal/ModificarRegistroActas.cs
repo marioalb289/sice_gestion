@@ -453,7 +453,7 @@ namespace Sistema.RegistroActasLocal
                         //this.tablePanelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.692307F));
                     }
 
-
+                    System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Properties.Resources));
                     //Agregar Imagen, Etiqueta, TextBox por fila
                     for (int i = 0; i < totalCandidatos; i++)
                     {
@@ -465,7 +465,7 @@ namespace Sistema.RegistroActasLocal
 
                         //Imagen
                         pictureBoxes[i].Anchor = System.Windows.Forms.AnchorStyles.None;
-                        pictureBoxes[i].Image = (lsCandidatosVotos[i].tipo == "NULO") ? (System.Drawing.Image)(Resources.nulos) : (lsCandidatosVotos[i].tipo == "NO REGISTRADO") ? (System.Drawing.Image)(Resources.no_regis) : (System.Drawing.Image)(Resources.pri);
+                        pictureBoxes[i].Image = (lsCandidatosVotos[i].tipo == "NULO") ? (System.Drawing.Image)(Resources.nulos) : (lsCandidatosVotos[i].tipo == "NO REGISTRADO") ? (System.Drawing.Image)(Resources.no_regis) : (System.Drawing.Image)(resources.GetObject(lsCandidatosVotos[i].imagen));
                         pictureBoxes[i].Location = new System.Drawing.Point(125, 8);
                         pictureBoxes[i].Margin = new System.Windows.Forms.Padding(10, 5, 10, 5);
                         pictureBoxes[i].Name = "pictureBox" + i;

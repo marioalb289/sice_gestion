@@ -50,6 +50,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfiguracionRecuento.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfiguracionRecuento.Designer.cs">
+      <DependentUpon>ConfiguracionRecuento.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -94,6 +100,9 @@
     <Compile Include="Reportes.Designer.cs">
       <DependentUpon>Reportes.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ConfiguracionRecuento.resx">
+      <DependentUpon>ConfiguracionRecuento.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -264,6 +273,48 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\warn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pes.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\poncho.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\prd.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pri.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pt.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\verde.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\alejandro.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mc.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\morena.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pan.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\panal.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pan_prd_pd.JPG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pantoja.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pd.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

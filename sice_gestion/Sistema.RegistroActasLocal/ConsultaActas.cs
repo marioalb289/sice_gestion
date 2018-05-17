@@ -205,7 +205,7 @@ namespace Sistema.RegistroActasLocal
                     this.labelsName = new Label[lsCandidatosVotos.Count];
                     this.tblPanaelPartidos.RowCount = 1;
 
-
+                    System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Properties.Resources));
 
                     for (int i = 0; i < lsCandidatosVotos.Count; i++)
                     {
@@ -221,7 +221,7 @@ namespace Sistema.RegistroActasLocal
                         //IMAGEN DEL PARTIDO
                         pictureBoxes[i].BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
                         pictureBoxes[i].Dock = System.Windows.Forms.DockStyle.Top;
-                        pictureBoxes[i].Image = (lsCandidatosVotos[i].tipo == "NULO") ? (System.Drawing.Image)(Resources.nulos) : (lsCandidatosVotos[i].tipo == "NO REGISTRADO") ? (System.Drawing.Image)(Resources.no_regis) : (System.Drawing.Image)(Resources.pri);
+                        pictureBoxes[i].Image = (lsCandidatosVotos[i].tipo == "NULO") ? (System.Drawing.Image)(Resources.nulos) : (lsCandidatosVotos[i].tipo == "NO REGISTRADO") ? (System.Drawing.Image)(Resources.no_regis) : (System.Drawing.Image)(resources.GetObject(lsCandidatosVotos[i].imagen));
                         pictureBoxes[i].Location = new System.Drawing.Point(15, 57);
                         pictureBoxes[i].Name = "pictureBox" + i;
                         pictureBoxes[i].Size = new System.Drawing.Size(75, 34);

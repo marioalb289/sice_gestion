@@ -40,7 +40,6 @@ namespace Sistema.DataModel
         public DbSet<sice_ar_documentos_local> sice_ar_documentos_local { get; set; }
         public DbSet<sice_reserva_captura> sice_reserva_captura { get; set; }
         public DbSet<sice_votos> sice_votos { get; set; }
-        public DbSet<sice_casillas> sice_casillas { get; set; }
         public DbSet<sice_votos_test> sice_votos_test { get; set; }
         public DbSet<sice_ar_votos_cotejo> sice_ar_votos_cotejo { get; set; }
         public DbSet<sice_ar_supuestos> sice_ar_supuestos { get; set; }
@@ -50,5 +49,7 @@ namespace Sistema.DataModel
         public DbSet<sice_ar_estatus_paquete> sice_ar_estatus_paquete { get; set; }
         public DbSet<sice_ar_incidencias> sice_ar_incidencias { get; set; }
         public DbSet<sice_ar_documentos> sice_ar_documentos { get; set; }
+        public DbSet<sice_configuracion_recuento> sice_configuracion_recuento { get; set; }
+        public DbSet<sice_casillas> sice_casillas { get; set; }
     }
 }

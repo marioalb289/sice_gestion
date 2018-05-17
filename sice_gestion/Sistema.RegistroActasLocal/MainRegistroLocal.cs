@@ -144,5 +144,15 @@ namespace Sistema.RegistroActasLocal
             form3.FormClosed += Form_FormClosed;
             form3.Show();
         }
+
+        private void btnConfRecuento_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            ConfiguracionRecuento form3 = new ConfiguracionRecuento();
+            form3.MdiParent = this.MdiParent;
+            form3.Dock = DockStyle.Fill;
+            form3.FormClosed += Form_FormClosed;
+            form3.Show();
+        }
     }
 }

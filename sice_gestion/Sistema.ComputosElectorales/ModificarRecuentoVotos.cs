@@ -567,7 +567,7 @@ namespace Sistema.ComputosElectorales
                         this.tablePanelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, (float)anchoColumnas));
                         //this.tablePanelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.692307F));
                     }
-
+                    System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Properties.Resources));
                     //Agregar Imagen, Etiqueta, TextBox por fila
                     for (int i = 0; i < lsCandidatosVotos.Count; i++)
                     {
@@ -579,7 +579,7 @@ namespace Sistema.ComputosElectorales
 
                         //Imagen
                         pictureBoxes[i].Anchor = System.Windows.Forms.AnchorStyles.None;
-                        pictureBoxes[i].Image = (lsCandidatosVotos[i].tipo == "NULO") ? (System.Drawing.Image)(Properties.Resources.nulos1) : (lsCandidatosVotos[i].tipo == "NO REGISTRADO") ? (System.Drawing.Image)(Properties.Resources.no_regis) : (System.Drawing.Image)(Properties.Resources.pri);
+                        pictureBoxes[i].Image = (lsCandidatosVotos[i].tipo == "NULO") ? (System.Drawing.Image)(Properties.Resources.nulos1) : (lsCandidatosVotos[i].tipo == "NO REGISTRADO") ? (System.Drawing.Image)(Properties.Resources.no_regis) : (System.Drawing.Image)(resources.GetObject(lsCandidatosVotos[i].imagen));
                         pictureBoxes[i].Location = new System.Drawing.Point(125, 8);
                         pictureBoxes[i].Margin = new System.Windows.Forms.Padding(10, 5, 10, 5);
                         pictureBoxes[i].Name = "pictureBox" + i;

@@ -117,6 +117,9 @@
     <Compile Include="sice_casillas.cs">
       <DependentUpon>DatacenterModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="sice_configuracion_recuento.cs">
+      <DependentUpon>DatacenterModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="sice_distritos_locales.cs">
       <DependentUpon>DatacenterModel.tt</DependentUpon>
     </Compile>

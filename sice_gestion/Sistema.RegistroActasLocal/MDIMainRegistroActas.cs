@@ -146,7 +146,8 @@ namespace Sistema.RegistroActasLocal
             {
                 DateTime localDate = DateTime.Now;
                 string date = localDate.ToString("MM-dd-yyyy_HH-mm-ss");
-                string namefile = (completo) ? "Reporte_Excel_Completo_Recuento_" + date : "Reporte_Excel_Recuento_Distrito_" + selected + "_" + date;
+                //string namefile = (completo) ? "Reporte_Excel_Completo_Recuento_" + date : "Reporte_Excel_Recuento_Distrito_" + selected + "_" + date;
+                string namefile = "Reporte_Excel_Recuento_"+ date;
                 SaveFileDialog fichero = new SaveFileDialog();
                 fichero.Filter = "Excel (*.xlsx)|*.xlsx";
                 fichero.FileName = namefile;
@@ -160,6 +161,11 @@ namespace Sistema.RegistroActasLocal
                     Thread hilo = new Thread(delegado) { IsBackground = true };
                     //Iniciamos el hilo 
                     hilo.Start();
+                }
+                else
+                {
+                    Form active = this.ActiveMdiChild;
+                    BuscarControl(active.Controls, (completo) ? "btnGenerarExcelTodo" : "btnGenerarExcel");
                 }
                     
             }

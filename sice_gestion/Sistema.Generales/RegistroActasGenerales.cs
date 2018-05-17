@@ -1214,6 +1214,7 @@ namespace Sistema.Generales
         public string nombre_candidatura { get; set; }
         public string partido { get; set; }
         public string imagen { get; set; }
+        public int prelacion { get; set; }
 
     }
 

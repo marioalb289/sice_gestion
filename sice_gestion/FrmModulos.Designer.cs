@@ -32,9 +32,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmModulos));
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.btnConf = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.btnComputos = new System.Windows.Forms.Button();
+            this.btnConf = new System.Windows.Forms.Button();
             this.btnRegistroActas = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -65,24 +65,6 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(784, 561);
             this.tableLayoutPanel1.TabIndex = 6;
             // 
-            // btnConf
-            // 
-            this.btnConf.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnConf.BackColor = System.Drawing.Color.Transparent;
-            this.btnConf.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnConf.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnConf.Image = ((System.Drawing.Image)(resources.GetObject("btnConf.Image")));
-            this.btnConf.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnConf.Location = new System.Drawing.Point(28, 280);
-            this.btnConf.Name = "btnConf";
-            this.btnConf.Size = new System.Drawing.Size(140, 135);
-            this.btnConf.TabIndex = 17;
-            this.btnConf.Text = "Configuracion";
-            this.btnConf.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnConf.UseVisualStyleBackColor = false;
-            this.btnConf.Visible = false;
-            this.btnConf.Click += new System.EventHandler(this.btnConf_Click);
-            // 
             // label2
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
@@ -112,6 +94,24 @@
             this.btnComputos.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnComputos.UseVisualStyleBackColor = false;
             this.btnComputos.Click += new System.EventHandler(this.btnComputos_Click);
+            // 
+            // btnConf
+            // 
+            this.btnConf.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnConf.BackColor = System.Drawing.Color.Transparent;
+            this.btnConf.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnConf.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnConf.Image = ((System.Drawing.Image)(resources.GetObject("btnConf.Image")));
+            this.btnConf.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnConf.Location = new System.Drawing.Point(28, 280);
+            this.btnConf.Name = "btnConf";
+            this.btnConf.Size = new System.Drawing.Size(140, 135);
+            this.btnConf.TabIndex = 17;
+            this.btnConf.Text = "Configuracion";
+            this.btnConf.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnConf.UseVisualStyleBackColor = false;
+            this.btnConf.Visible = false;
+            this.btnConf.Click += new System.EventHandler(this.btnConf_Click);
             // 
             // btnRegistroActas
             // 

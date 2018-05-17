@@ -27,6 +27,14 @@ namespace Sistema.Generales
             }
         }
 
+        public sice_configuracion_recuento Configuracion_Recuento(string sistema)
+        {
+            using (DatabaseContext contexto = new DatabaseContext(con))
+            {
+                return (from p in contexto.sice_configuracion_recuento where p.sistema == sistema select p).FirstOrDefault();
+            }
+        }
+
         public List<sice_ar_supuestos> ListaSupuestos()
         {
             try
@@ -251,7 +259,8 @@ namespace Sistema.Generales
                         "P.img_par as imagen " +
                         "FROM sice_candidatos C " +
                         "JOIN sice_candidaturas CD ON CD.id = C.fk_cargo AND CD.titular = 1 " + //"AND CD.id_distrito =" + distrito +
-                        "JOIN sice_partidos_politicos P ON P.id = C.fk_partido";
+                        "JOIN sice_partidos_politicos P ON P.id = C.fk_partido " +
+                        "ORDER BY P.prelacion ASC";
                     return contexto.Database.SqlQuery<Candidatos>(consulta).ToList();
                 }
 
@@ -279,6 +288,7 @@ namespace Sistema.Generales
                             "C.tipo_casilla as casilla," +
                             "C.lista_nominal," +
                             "RV.id_candidato," +
+                            "CASE WHEN RV.tipo = 'VOTO' THEN P.prelacion WHEN RV.tipo = 'NULO' THEN 200 WHEN RV.tipo = 'NO REGISTRADO' THEN  100 END AS prelacion, " +
                             "RV.votos," +
                             "RV.tipo," +
                             "RES.tipo_reserva as estatus, " +
@@ -298,7 +308,7 @@ namespace Sistema.Generales
                         "JOIN sice_municipios M2 ON M2.id = C.id_cabecera_local " +
                         "LEFT JOIN sice_ar_reserva RES ON RES.id_casilla = RV.id_casilla " +
                         "LEFT JOIN sice_ar_estatus_acta EA ON RES.id_estatus_acta = EA.id "+
-                        "ORDER BY C.seccion ASC, RV.id_casilla ASC, RV.id_candidato DESC " +
+                        "ORDER BY C.seccion ASC, RV.id_casilla ASC, prelacion ASC " +
                         limit;
 
                     return contexto.Database.SqlQuery<VotosSeccion>(consulta).ToList();
@@ -373,6 +383,7 @@ namespace Sistema.Generales
                         "V.tipo as tipo, " +
                         "V.votos as votos, " +
                         "CASE WHEN V.tipo = 'VOTO' THEN V.id_candidato WHEN V.tipo = 'NULO' THEN -2 WHEN V.tipo = 'NO REGISTRADO' THEN -1 END as id_candidato, " +
+                        "CASE WHEN V.tipo = 'VOTO' THEN P.prelacion WHEN V.tipo = 'NULO' THEN 200 WHEN V.tipo = 'NO REGISTRADO' THEN	100 END AS prelacion, " +
                         "CONCAT(C.nombre,' ',C.apellido_paterno,' ',C.apellido_materno)as candidato, " +
                         "CD.nombre_candidatura, " +
                         "P.siglas_par as partido, " +
@@ -382,7 +393,7 @@ namespace Sistema.Generales
                         "LEFT JOIN sice_candidaturas CD ON CD.id = C.fk_cargo AND CD.titular = 1 " + //"AND CD.id_distrito =" + distrito +
                         "LEFT JOIN sice_partidos_politicos P ON P.id = C.fk_partido " +
                         "WHERE V.id_casilla = " + casilla + " " + " AND V.tipo <> 'NO VALIDO' " +
-                        "ORDER BY id_candidato DESC";
+                        "ORDER BY prelacion ASC";
                     return contexto.Database.SqlQuery<CandidatosVotos>(consulta).ToList();
                 }
 
@@ -391,12 +402,15 @@ namespace Sistema.Generales
             { throw E; }
         }
 
-        public List<CasillasRecuento> ListaCasillasRecuentos(int distrito)
+        public List<CasillasRecuento> ListaCasillasRecuentos(int distrito,bool completo = false)
         {
             try
             {
                 using (DatabaseContext contexto = new DatabaseContext(con))
                 {
+                    string join = "JOIN sice_casillas C ON C.id = R.id_casilla AND C.id_distrito_local = " + distrito + " ";
+                    if (completo)
+                        join = "JOIN sice_casillas C ON C.id = R.id_casilla ";
                     string consulta =
                         "SELECT " +
                             "C.id as id_casilla, " +
@@ -404,7 +418,7 @@ namespace Sistema.Generales
                             "C.tipo_casilla as casilla, " +
                             "S.supuesto " +
                         "FROM sice_ar_reserva R " +
-                        "JOIN sice_casillas C ON C.id = R.id_casilla AND C.id_distrito_local = " + distrito + " " +
+                        join +
                         "JOIN sice_ar_supuestos S ON S.id = R.id_supuesto " +
                         "WHERE R.id_supuesto IS NOT NULL ";
                     return contexto.Database.SqlQuery<CasillasRecuento>(consulta).ToList();
@@ -667,6 +681,50 @@ namespace Sistema.Generales
             }
         }
 
+        public int GuardarConfiguracionRecuento(double horas,int propietarios,int suplentes)
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    using (var TransactionContexto = new TransactionScope())
+                    {
+                        int res = 0;
+
+                        sice_configuracion_recuento conf = (from c in contexto.sice_configuracion_recuento where c.sistema == "RA" select c).FirstOrDefault();
+                        if(conf != null)
+                        {
+                            conf.no_consejeros = propietarios;
+                            conf.no_suplentes = suplentes;
+                            conf.horas_disponibles = Convert.ToSingle(horas);
+                            contexto.SaveChanges();
+                            res = 1;
+                        }
+                        else
+                        {
+                            sice_configuracion_recuento newConf = new sice_configuracion_recuento();
+                            newConf.sistema = "RA";
+                            newConf.no_consejeros = propietarios;
+                            newConf.no_suplentes = suplentes;
+                            newConf.horas_disponibles = Convert.ToSingle(horas);
+                            contexto.sice_configuracion_recuento.Add(newConf);
+                            contexto.SaveChanges();
+                            res = 1;
+                        }
+                        
+                        TransactionContexto.Complete();
+                        return res;
+                    }
+
+                }
+
+            }
+            catch (Exception E)
+            {
+                throw E;
+            }
+        }
+
         public List<int> ListaCasillaCapturadasRegActas()
         {
             try
@@ -795,6 +853,49 @@ namespace Sistema.Generales
             }
         }
 
+        public void validarPuntosRecuento()
+        {
+            try
+            {
+                List<sice_distritos_locales> distritos = this.ListaDistritos();
+                int totalRecuento = this.ListaCasillasRecuentos(0, true).Count();
+                sice_configuracion_recuento conf = this.Configuracion_Recuento("RA");
+                if (conf == null)
+                    throw new Exception("No se establecio la Configuración para Puntos de Recuento");
+                int propietarios = (int)conf.no_consejeros;
+                int suplentes = (int)conf.no_suplentes;
+                int grupos_tabajo = (propietarios - 3) + suplentes;
+                if (grupos_tabajo > 5)
+                    grupos_tabajo = 5;
+                int segmentos = Convert.ToInt32(conf.horas_disponibles * 2);
+
+                double parcialPuntoRecuento = (((double)totalRecuento / (double)grupos_tabajo) / (double)segmentos);
+                int puntos_recuento = this.Round(parcialPuntoRecuento);
+
+
+                if (puntos_recuento > 8)
+                {
+                    throw new Exception("La Configuración Actual arroja mas de 8 puntos de Recuento. No se puede tener mas de 8 puntos de Recuento.\nModifique la configuración para Recuento");
+                }
+
+            }
+            catch(Exception E)
+            {
+                throw E;
+            }
+        }
+
+        public int Round(double numero)
+        {
+            if (numero < 1.0)
+                return 1;
+            double decimalpoints = Math.Abs(numero - Math.Floor(numero));
+            if (decimalpoints > 0.30)
+                return (int)Math.Floor(numero) + 1;
+            else
+                return (int)Math.Floor(numero);
+        }
+
         public int generarExcelRecuento(SaveFileDialog fichero, int distrito, bool completo = false)
         {
             try
@@ -802,6 +903,7 @@ namespace Sistema.Generales
 
                 Excel.Application excel = new Excel.Application();
                 Excel._Workbook libro = null;
+                completo = true;//Se cambio aqui para generar reporte de todo el recuento
 
                 //creamos un libro nuevo y la hoja con la que vamos a trabajar
                 libro = (Excel._Workbook)excel.Workbooks.Add(Excel.XlWBATemplate.xlWBATWorksheet);
@@ -809,10 +911,58 @@ namespace Sistema.Generales
                 if (completo)
                 {
                     List<sice_distritos_locales> distritos = this.ListaDistritos();
+                    int totalRecuento = this.ListaCasillasRecuentos(distrito, true).Count();
+                    sice_configuracion_recuento conf = this.Configuracion_Recuento("RA");
+                    int grupos_tabajo = 0;
+                    int puntos_recuento = 0;
+                    if (conf != null)
+                    {
+                        int propietarios = (int)conf.no_consejeros;
+                        int suplentes = (int)conf.no_suplentes;
+                        grupos_tabajo = (propietarios - 3) + suplentes;
+                        if (grupos_tabajo > 5)
+                            grupos_tabajo = 5;
+
+                        DateTime fecha1 = new DateTime(2018, 7, 8, 8, 0, 0);
+                        DateTime fecha2 = new DateTime(2018, 7, 11, 0, 0, 0);
+                        double horasRestantes = Math.Floor((fecha2 - fecha1).TotalHours);
+
+                        int segmentos = (Convert.ToInt32(horasRestantes) - Convert.ToInt32(conf.horas_disponibles)) * 2;
+
+                        double parcialPuntoRecuento = (((double)totalRecuento / (double)grupos_tabajo) / (double)segmentos);
+                        puntos_recuento = this.Round(parcialPuntoRecuento);
+                    }
+                        
+                    
+
+
+
+
                     foreach (sice_distritos_locales ds in distritos.OrderByDescending(x => x.id))
                     {
                         Console.WriteLine("Insetando Libro: " + ds.distrito);
-                        this.generaHojaRecuento(ds.id, libro);
+
+
+                        List<Candidatos> listaCandidatos = this.ListaCandidatos(ds.id);
+                        int tc = listaCandidatos.Count;
+                        List<VotosSeccion> vSeccionTotales = this.ResultadosSeccionCaptura(0, 0, ds.id);
+                        List<VotosSeccion> totalAgrupado = vSeccionTotales.GroupBy(x => x.id_casilla).Select(data => new VotosSeccion { id_candidato = data.First().id_candidato, casilla = data.First().casilla, lista_nominal = data.First().lista_nominal + tc * 2, votos = data.First().votos }).ToList();
+                        int TotalVotosDistrito = vSeccionTotales.Sum(x => (int)x.votos);
+                        decimal diferencia = 0;
+                        List<VotosSeccion> listaSumaCandidatos = vSeccionTotales.Where(x => x.estatus == "ATENDIDO" && x.id_candidato != null).GroupBy(y => y.id_candidato).Select(data => new VotosSeccion { id_candidato = data.First().id_candidato, votos = data.Sum(d => d.votos) }).OrderBy(x => x.votos).ToList();
+                        if (listaSumaCandidatos.Count > 0)
+                        {
+                            int PrimeroTotal = (int)listaSumaCandidatos[listaSumaCandidatos.Count - 1].votos;
+                            int SeegundoTotal = (int)listaSumaCandidatos[listaSumaCandidatos.Count - 2].votos;
+                            int diferenciaTotal = PrimeroTotal - SeegundoTotal;
+                            if (TotalVotosDistrito > 0)
+                            {
+                                diferencia = Math.Round((Convert.ToDecimal(diferenciaTotal) * 100) / TotalVotosDistrito, 2);
+                            }
+                        }
+
+                        this.generaHojaRecuento(ds.id, libro,diferencia, totalRecuento,grupos_tabajo,puntos_recuento);
+
                     }
                 }
                 else
@@ -852,20 +1002,22 @@ namespace Sistema.Generales
             }
         }
 
-        public void generaHojaRecuento(int distrito, Excel._Workbook libro)
+        public void generaHojaRecuento(int distrito, Excel._Workbook libro,decimal diferencia = 0,int totalRecuento = 0,int grupos_trabajo = 0,int puntos_recuento = 0)
         {
             try
             {
                 Excel._Worksheet hoja = null;
                 Excel.Range rango = null;
-                int filaInicialTabla = 7;
+                int filaInicialTabla = 11;
 
                 //creamos un libro nuevo y la hoja con la que vamos a trabajar
                 hoja = (Excel._Worksheet)libro.Worksheets.Add();
                 hoja.Name = "DISTRITO " + distrito;  //Aqui debe ir el nombre del distrito
 
+                List<CasillasRecuento> listaRecuento = this.ListaCasillasRecuentos(distrito);
+                
                 //Montamos las cabeceras 
-                char letraFinal = CrearEncabezadosRecuento(filaInicialTabla, ref hoja, distrito, 1);
+                char letraFinal = CrearEncabezadosRecuento(filaInicialTabla, ref hoja, distrito,listaRecuento.Count,totalRecuento,diferencia,grupos_trabajo,puntos_recuento, 1);
 
                 //return;
                 //Agregar Datos
@@ -879,7 +1031,7 @@ namespace Sistema.Generales
                 int Noregynulo = 0;
                 int Lnominal = 0;
 
-                List<CasillasRecuento> listaRecuento = this.ListaCasillasRecuentos(distrito);
+               
                 if(listaRecuento.Count > 0)
                 {
                     foreach(CasillasRecuento casillla in listaRecuento)
@@ -908,7 +1060,7 @@ namespace Sistema.Generales
             }
         }
 
-        private char CrearEncabezadosRecuento(int fila, ref Excel._Worksheet hoja, int distrito,int columnaInicial = 1)
+        private char CrearEncabezadosRecuento(int fila, ref Excel._Worksheet hoja, int distrito,int totalDistritoCasillasRecuento,int totalRecuento,decimal diferencia = 0, int grupos_trabajo = 0, int puntos_recuento = 0, int columnaInicial = 1)
         {
             try
             {
@@ -929,10 +1081,10 @@ namespace Sistema.Generales
                     mun = (from m in contexto.sice_municipios where m.id == casilla.id_cabecera_local select m).FirstOrDefault();
                     dlocal = (from d in contexto.sice_distritos_locales where d.id == distrito select d).FirstOrDefault();
                 }
-
                 //Configuracon Hoja
                 hoja.PageSetup.Orientation = Excel.XlPageOrientation.xlLandscape;
                 hoja.PageSetup.Zoom = 80;
+                hoja.PageSetup.PrintTitleRows = "$10:$11";
 
                 //** Montamos el título en la línea 1 **
                 hoja.Cells[1, 3] = "SISTEMA DE REGISTRO DE ACTAS DEL PROCESO ELECTORAL LÓCAL 2017-2018";
@@ -948,30 +1100,93 @@ namespace Sistema.Generales
                 List<double> widths = new List<double>();
 
                 //Agregar encabezados
-                hoja.Cells[fila -3, columnaInicial] = "DIFERENCIA ENTRE 1° Y 2° LUGAR";
-                hoja.Cells[fila - 3, columnaInicial].RowHeight = 35;
+                hoja.Cells[fila - 7, columnaInicial] = "DIFERENCIA ENTRE 1° Y 2° LUGAR";
+                hoja.Cells[fila - 7, columnaInicial].RowHeight = 35;
+                hoja.Range[hoja.Cells[fila - 7, columnaInicial], hoja.Cells[fila - 7, columnaInicial + 1]].Merge();
+                hoja.Cells[fila - 7, columnaInicial].WrapText = true;
+                hoja.Cells[fila - 7, columnaInicial].HorizontalAlignment = Excel.XlHAlign.xlHAlignRight;
+                hoja.Cells[fila - 7, columnaInicial].VerticalAlignment = Excel.XlVAlign.xlVAlignTop;
+
+                hoja.Cells[fila - 7, columnaInicial + 2] = diferencia + "%"; //Aqui debe sacar calculo
+                hoja.Range[hoja.Cells[fila - 7, columnaInicial + 2], hoja.Cells[fila - 7, columnaInicial + 3]].Merge();
+                hoja.Cells[fila - 7, columnaInicial + 2].WrapText = true;
+                hoja.Cells[fila - 7, columnaInicial + 2].HorizontalAlignment = Excel.XlHAlign.xlHAlignLeft;
+                hoja.Cells[fila - 7, columnaInicial + 2].VerticalAlignment = Excel.XlVAlign.xlVAlignTop;
+                hoja.Cells[fila - 7, columnaInicial + 2].Font.Bold = true;
+
+                hoja.Cells[fila - 6, columnaInicial] = "TIPO DE RECUENTO";
+                hoja.Range[hoja.Cells[fila - 6, columnaInicial], hoja.Cells[fila - 6, columnaInicial + 1]].Merge();
+                hoja.Cells[fila - 6, columnaInicial].WrapText = true;
+                hoja.Cells[fila - 6, columnaInicial].HorizontalAlignment = Excel.XlHAlign.xlHAlignRight;
+                hoja.Cells[fila - 6, columnaInicial].VerticalAlignment = Excel.XlVAlign.xlVAlignTop;
+
+                if(diferencia == 0)
+                {
+                    hoja.Cells[fila - 6, columnaInicial + 2] = "NO APLICA"; //Si diferencia menos a 1% recuento Total, sino Parcial
+                }
+                else
+                {
+                    hoja.Cells[fila - 6, columnaInicial + 2] = (diferencia < 1) ? "TOTAL" : "PARCIAL"; //Si diferencia menos a 1% recuento Total, sino Parcial
+                }
+                hoja.Range[hoja.Cells[fila - 6, columnaInicial + 2], hoja.Cells[fila - 6, columnaInicial + 3]].Merge();
+                hoja.Cells[fila - 6, columnaInicial + 2].WrapText = true;
+                hoja.Cells[fila - 6, columnaInicial + 2].HorizontalAlignment = Excel.XlHAlign.xlHAlignLeft;
+                hoja.Cells[fila - 6, columnaInicial + 2].VerticalAlignment = Excel.XlVAlign.xlVAlignTop;
+                hoja.Cells[fila - 6, columnaInicial + 2].Font.Bold = true;
+
+                hoja.Cells[fila - 5, columnaInicial] = "TOTAL CASILLAS A RECUENTO ";
+                hoja.Cells[fila - 5, columnaInicial].RowHeight = 35;
+                hoja.Range[hoja.Cells[fila - 5, columnaInicial], hoja.Cells[fila - 5, columnaInicial + 1]].Merge();
+                hoja.Cells[fila - 5, columnaInicial].WrapText = true;
+                hoja.Cells[fila - 5, columnaInicial].HorizontalAlignment = Excel.XlHAlign.xlHAlignRight;
+                hoja.Cells[fila - 5, columnaInicial].VerticalAlignment = Excel.XlVAlign.xlVAlignTop;
+
+                hoja.Cells[fila - 5, columnaInicial + 2] = totalRecuento; //TOTAL DE CASILLAS A RECUENTO
+                hoja.Range[hoja.Cells[fila - 5, columnaInicial + 2], hoja.Cells[fila - 5, columnaInicial + 3]].Merge();
+                hoja.Cells[fila - 5, columnaInicial + 2].WrapText = true;
+                hoja.Cells[fila - 5, columnaInicial + 2].HorizontalAlignment = Excel.XlHAlign.xlHAlignLeft;
+                hoja.Cells[fila - 5, columnaInicial + 2].VerticalAlignment = Excel.XlVAlign.xlVAlignTop;
+                hoja.Cells[fila - 5, columnaInicial + 2].Font.Bold = true;
+
+                hoja.Cells[fila - 4, columnaInicial] = "TOTAL CASILLAS A RECUENTO " + dlocal.distrito;
+                hoja.Cells[fila - 4, columnaInicial].RowHeight = 35;
+                hoja.Range[hoja.Cells[fila - 4, columnaInicial], hoja.Cells[fila - 4, columnaInicial + 1]].Merge();
+                hoja.Cells[fila - 4, columnaInicial].WrapText = true;
+                hoja.Cells[fila - 4, columnaInicial].HorizontalAlignment = Excel.XlHAlign.xlHAlignRight;
+                hoja.Cells[fila - 4, columnaInicial].VerticalAlignment = Excel.XlVAlign.xlVAlignTop;
+
+                hoja.Cells[fila - 4, columnaInicial + 2] = totalDistritoCasillasRecuento; //TOTAL DE CASILLAS A RECUENTO
+                hoja.Range[hoja.Cells[fila - 4, columnaInicial + 2], hoja.Cells[fila - 4, columnaInicial + 3]].Merge();
+                hoja.Cells[fila - 4, columnaInicial + 2].WrapText = true;
+                hoja.Cells[fila - 4, columnaInicial + 2].HorizontalAlignment = Excel.XlHAlign.xlHAlignLeft;
+                hoja.Cells[fila - 4, columnaInicial + 2].VerticalAlignment = Excel.XlVAlign.xlVAlignTop;
+                hoja.Cells[fila - 4, columnaInicial + 2].Font.Bold = true;
+
+                hoja.Cells[fila - 3, columnaInicial] = "GRUPOS DE TRABAJO";
                 hoja.Range[hoja.Cells[fila - 3, columnaInicial], hoja.Cells[fila - 3, columnaInicial + 1]].Merge();
                 hoja.Cells[fila - 3, columnaInicial].WrapText = true;
-                hoja.Cells[fila - 3, columnaInicial].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+                hoja.Cells[fila - 3, columnaInicial].HorizontalAlignment = Excel.XlHAlign.xlHAlignRight;
                 hoja.Cells[fila - 3, columnaInicial].VerticalAlignment = Excel.XlVAlign.xlVAlignTop;
 
-                hoja.Cells[fila - 3, columnaInicial+2] = "13.56%";
-                hoja.Range[hoja.Cells[fila - 3, columnaInicial+2], hoja.Cells[fila - 3, columnaInicial + 3]].Merge();
-                hoja.Cells[fila - 3, columnaInicial+2].WrapText = true;
-                hoja.Cells[fila - 3, columnaInicial+2].HorizontalAlignment = Excel.XlHAlign.xlHAlignLeft;
-                hoja.Cells[fila - 3, columnaInicial+2].VerticalAlignment = Excel.XlVAlign.xlVAlignTop;
+                hoja.Cells[fila - 3, columnaInicial + 2] = totalRecuento == 0 || totalRecuento < 20 || grupos_trabajo == 0 ? "NO APLICA" : grupos_trabajo.ToString(); //CALCULAR NUMERO DE GRUPOS DE TRABAJO
+                hoja.Range[hoja.Cells[fila - 3, columnaInicial + 2], hoja.Cells[fila - 3, columnaInicial + 3]].Merge();
+                hoja.Cells[fila - 3, columnaInicial + 2].WrapText = true;
+                hoja.Cells[fila - 3, columnaInicial + 2].HorizontalAlignment = Excel.XlHAlign.xlHAlignLeft;
+                hoja.Cells[fila - 3, columnaInicial + 2].VerticalAlignment = Excel.XlVAlign.xlVAlignTop;
+                hoja.Cells[fila - 3, columnaInicial + 2].Font.Bold = true;
 
-                hoja.Cells[fila - 2, columnaInicial] = "TIPO DE RECUENTO";
+                hoja.Cells[fila - 2, columnaInicial] = "PUNTOS DE RECUENTO";
                 hoja.Range[hoja.Cells[fila - 2, columnaInicial], hoja.Cells[fila - 2, columnaInicial + 1]].Merge();
                 hoja.Cells[fila - 2, columnaInicial].WrapText = true;
-                hoja.Cells[fila - 2, columnaInicial].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+                hoja.Cells[fila - 2, columnaInicial].HorizontalAlignment = Excel.XlHAlign.xlHAlignRight;
                 hoja.Cells[fila - 2, columnaInicial].VerticalAlignment = Excel.XlVAlign.xlVAlignTop;
 
-                hoja.Cells[fila - 2, columnaInicial + 2] = "PARCIAL";
+                hoja.Cells[fila - 2, columnaInicial + 2] = totalRecuento == 0 || totalRecuento < 20 || puntos_recuento == 0 ? "NO APLICA" : puntos_recuento.ToString(); //PUNTOS DE RECUENTO
                 hoja.Range[hoja.Cells[fila - 2, columnaInicial + 2], hoja.Cells[fila - 2, columnaInicial + 3]].Merge();
                 hoja.Cells[fila - 2, columnaInicial + 2].WrapText = true;
                 hoja.Cells[fila - 2, columnaInicial + 2].HorizontalAlignment = Excel.XlHAlign.xlHAlignLeft;
                 hoja.Cells[fila - 2, columnaInicial + 2].VerticalAlignment = Excel.XlVAlign.xlVAlignTop;
+                hoja.Cells[fila - 2, columnaInicial + 2].Font.Bold = true;
 
 
                 hoja.Cells[fila - 1, columnaInicial] = dlocal.distrito+" CABECERA "+mun.municipio;
@@ -993,7 +1208,7 @@ namespace Sistema.Generales
 
                 //Ponemos borde a las celdas
                 string letra = columnaLetra.ToString() + fila;
-                rango = hoja.Range["A" + (fila - 3), letra];
+                rango = hoja.Range["A" + (fila - 7), letra];
                 rango.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
                 //Centramos los textos
                 rango = hoja.Rows[fila];
@@ -1148,9 +1363,8 @@ namespace Sistema.Generales
                         decimal diferencia = 0;
                         if (totalVotacionEmitida > 0)
                         {
-                            decimal Porcentaje1 = Math.Round((Convert.ToDecimal(Primero) * 100) / totalVotacionEmitida, 2);
-                            decimal Porcentaje2 = Math.Round((Convert.ToDecimal(Seegundo) * 100) / totalVotacionEmitida, 2);
-                            diferencia = Porcentaje1 - Porcentaje2;
+                            int diferenciaTotal = Primero - Seegundo;
+                            diferencia = Math.Round((Convert.ToDecimal(diferenciaTotal) * 100) / totalVotacionEmitida, 2);
                         }
                         hoja.Cells[fila, 5] = diferencia + "%";
 

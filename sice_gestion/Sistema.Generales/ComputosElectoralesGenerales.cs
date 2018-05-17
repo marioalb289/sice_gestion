@@ -51,6 +51,7 @@ namespace Sistema.Generales
                                 new_casilla.boletas_sobrantes = 0;
                                 new_casilla.personas_votaron = 0;
                                 new_casilla.num_representantes_votaron = 0;
+                                new_casilla.inicializada = 1;
                                 new_casilla.votos_sacados = 0;
                                 new_casilla.num_escritos = 0;
                                 new_casilla.importado = 0;
@@ -73,6 +74,14 @@ namespace Sistema.Generales
 
             }
 
+        }
+
+        public sice_configuracion_recuento Configuracion_Recuento(string sistema)
+        {
+            using (DatabaseContext contexto = new DatabaseContext(con))
+            {
+                return (from p in contexto.sice_configuracion_recuento where p.sistema == sistema select p).FirstOrDefault();
+            }
         }
 
         public sice_reserva_captura DetallesActa(int id_casilla)
@@ -234,6 +243,7 @@ namespace Sistema.Generales
                         "V.tipo as tipo, " +
                         "V.votos as votos, " +
                         "CASE WHEN V.tipo = 'VOTO' THEN V.id_candidato WHEN V.tipo = 'NULO' THEN -2 WHEN V.tipo = 'NO REGISTRADO' THEN -1 END as id_candidato, " +
+                        "CASE WHEN V.tipo = 'VOTO' THEN P.prelacion WHEN V.tipo = 'NULO' THEN 200 WHEN V.tipo = 'NO REGISTRADO' THEN	100 END AS prelacion, " +
                         "CONCAT(C.nombre,' ',C.apellido_paterno,' ',C.apellido_materno)as candidato, " +
                         "CD.nombre_candidatura, " +
                         "P.siglas_par as partido, " +
@@ -243,7 +253,7 @@ namespace Sistema.Generales
                         "LEFT JOIN sice_candidaturas CD ON CD.id = C.fk_cargo AND CD.titular = 1 " + //"AND CD.id_distrito =" + distrito +
                         "LEFT JOIN sice_partidos_politicos P ON P.id = C.fk_partido " +
                         "WHERE V.id_casilla = " + casilla + " " + " AND V.tipo <> 'NO VALIDO' " +
-                        "ORDER BY id_candidato DESC";
+                        "ORDER BY prelacion ASC";
                     return contexto.Database.SqlQuery<CandidatosVotos>(consulta).ToList();
                 }
 
@@ -271,6 +281,7 @@ namespace Sistema.Generales
                             "C.tipo_casilla as casilla," +
                             "C.lista_nominal," +
                             "RV.id_candidato," +
+                            "CASE WHEN RV.tipo = 'VOTO' THEN P.prelacion WHEN RV.tipo = 'NULO' THEN 200 WHEN RV.tipo = 'NO REGISTRADO' THEN  100 END AS prelacion, " +
                             "RV.votos," +
                             "RV.tipo," +
                             "CONCAT(CND.nombre, ' ', CND.apellido_paterno, ' ', CND.apellido_materno) as candidato," +
@@ -287,7 +298,7 @@ namespace Sistema.Generales
                         "JOIN sice_casillas C ON C.id = RV.id_casilla " + condicion +
                         "JOIN sice_municipios M ON M.id = C.id_municipio " +
                         "JOIN sice_municipios M2 ON M2.id = C.id_cabecera_local " +
-                        "ORDER BY C.seccion ASC, RV.id_casilla ASC, RV.id_candidato DESC " +
+                        "ORDER BY C.seccion ASC, RV.id_casilla ASC, prelacion ASC " +
                         limit;
                         
 
@@ -414,7 +425,8 @@ namespace Sistema.Generales
                         "P.img_par as imagen " +
                         "FROM sice_candidatos C " +
                         "JOIN sice_candidaturas CD ON CD.id = C.fk_cargo AND CD.titular = 1 " + //"AND CD.id_distrito =" + distrito +
-                        "JOIN sice_partidos_politicos P ON P.id = C.fk_partido";
+                        "JOIN sice_partidos_politicos P ON P.id = C.fk_partido " +
+                        "ORDER BY P.prelacion ASC";
                     return contexto.Database.SqlQuery<Candidatos>(consulta).ToList();
                 }
 
@@ -667,6 +679,50 @@ namespace Sistema.Generales
             }
         }
 
+        public int GuardarConfiguracionRecuento(double horas, int propietarios, int suplentes)
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    using (var TransactionContexto = new TransactionScope())
+                    {
+                        int res = 0;
+
+                        sice_configuracion_recuento conf = (from c in contexto.sice_configuracion_recuento where c.sistema == "SICE" select c).FirstOrDefault();
+                        if (conf != null)
+                        {
+                            conf.no_consejeros = propietarios;
+                            conf.no_suplentes = suplentes;
+                            conf.horas_disponibles = Convert.ToSingle(horas);
+                            contexto.SaveChanges();
+                            res = 1;
+                        }
+                        else
+                        {
+                            sice_configuracion_recuento newConf = new sice_configuracion_recuento();
+                            newConf.sistema = "SICE";
+                            newConf.no_consejeros = propietarios;
+                            newConf.no_suplentes = suplentes;
+                            newConf.horas_disponibles = Convert.ToSingle(horas);
+                            contexto.sice_configuracion_recuento.Add(newConf);
+                            contexto.SaveChanges();
+                            res = 1;
+                        }
+
+                        TransactionContexto.Complete();
+                        return res;
+                    }
+
+                }
+
+            }
+            catch (Exception E)
+            {
+                throw E;
+            }
+        }
+
         public List<int> ListaCasillaCapturadasComp()
         {
             try
@@ -872,8 +928,8 @@ namespace Sistema.Generales
                 //creamos un libro nuevo y la hoja con la que vamos a trabajar
                 hoja = (Excel._Worksheet)libro.Worksheets.Add();
                 hoja.Name = "DISTRITO "+distrito;  //Aqui debe ir el nombre del distrito
-                //List<VotosSeccion> vSeccion = this.ResultadosSeccion(0, 0, (int)distrito);
-                List<VotosSeccion> vSeccion = this.ResultadosSeccion(1, 1, (int)distrito);
+                List<VotosSeccion> vSeccion = this.ResultadosSeccion(0, 0, (int)distrito);
+                //List<VotosSeccion> vSeccion = this.ResultadosSeccion(1, 1, (int)distrito);
                 List<Candidatos> candidatos = this.ListaCandidatos((int)distrito);
                 int tempC = candidatos.Count;
 
@@ -922,9 +978,8 @@ namespace Sistema.Generales
                         decimal diferencia = 0;
                         if (totalVotacionEmitida > 0)
                         {
-                            decimal Porcentaje1 = Math.Round((Convert.ToDecimal(Primero) * 100) / totalVotacionEmitida, 2);
-                            decimal Porcentaje2 = Math.Round((Convert.ToDecimal(Seegundo) * 100) / totalVotacionEmitida, 2);
-                            diferencia = Porcentaje1 - Porcentaje2;
+                            int diferenciaTotal = Primero - Seegundo;
+                            diferencia = Math.Round((Convert.ToDecimal(diferenciaTotal) * 100) / totalVotacionEmitida, 2);
                         }
                         hoja.Cells[fila,5] = diferencia + "%";
 

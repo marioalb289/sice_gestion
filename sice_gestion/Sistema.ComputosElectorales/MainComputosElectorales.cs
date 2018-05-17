@@ -157,5 +157,22 @@ namespace Sistema.ComputosElectorales
             }
             
         }
+
+        private void btnConfRecuento_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ConfiguracionRecuento form = new ConfiguracionRecuento();
+                form.MdiParent = this.MdiParent;
+                form.Dock = DockStyle.Fill;
+                form.FormClosed += Form_FormClosed;
+                form.Show();
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+        }
     }
 }
