@@ -24,6 +24,7 @@ namespace Sistema.Generales
                         foreach(sice_distritos_locales d in listaDistritos)
                         {
                             List<Candidatos> listaCandidatosDistrito = this.ListaCandidatos(d.id);
+                            List<sice_partidos_politicos> listaPartidos = this.ListaPartidosPoliticos();
                             if(listaCandidatosDistrito.Count == 0)
                                 throw new Exception("No se pudo Inicializar bd");
                             List<sice_casillas> listaCasillasDistrito = this.ListaCasillasDistrito(d.id);
@@ -58,6 +59,21 @@ namespace Sistema.Generales
             {
                 throw E;
             }
+        }
+
+        public List<sice_partidos_politicos> ListaPartidosPoliticos()
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext("MYSQLSERVER"))
+                {
+                    return (from p in contexto.sice_partidos_politicos where p.tipo == "PARTIDO" select p).ToList();
+                    //return contexto.sice_casillas.Select(x => new SeccionCasilla { id = x.id, seccion = (int)x.seccion, casilla = (string)x.tipo_casilla }).ToList();
+                }
+
+            }
+            catch (Exception E)
+            { throw E; }
         }
 
         public List<sice_casillas> ListaCasillasDistrito(int distrito)

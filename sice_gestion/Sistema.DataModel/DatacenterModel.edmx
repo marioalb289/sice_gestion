@@ -284,6 +284,7 @@
           <Property Name="estado" Type="int" Nullable="false" />
           <Property Name="info_creado" Type="text" Nullable="false" />
           <Property Name="prelacion" Type="int" />
+          <Property Name="tipo" Type="enum" />
         </EntityType>
         <EntityType Name="sice_reserva_captura">
           <Key>
@@ -566,6 +567,7 @@
           <Property Name="info_creado" Type="String" Nullable="false" MaxLength="65535" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="sice_candidatos" Relationship="sice_pruebasModel.PARTIDOFK" FromRole="sice_partidos_politicos" ToRole="sice_candidatos" />
           <Property Name="prelacion" Type="Int32" />
+          <Property Name="tipo" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="sice_usuarios">
           <Key>
@@ -938,6 +940,7 @@
           <EntitySetMapping Name="sice_partidos_politicos">
             <EntityTypeMapping TypeName="sice_pruebasModel.sice_partidos_politicos">
               <MappingFragment StoreEntitySet="sice_partidos_politicos">
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
                 <ScalarProperty Name="prelacion" ColumnName="prelacion" />
                 <ScalarProperty Name="info_creado" ColumnName="info_creado" />
                 <ScalarProperty Name="estado" ColumnName="estado" />

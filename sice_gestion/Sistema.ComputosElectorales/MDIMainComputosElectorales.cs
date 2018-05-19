@@ -17,7 +17,7 @@ namespace Sistema.ComputosElectorales
         private MsgBox msgBox;
         private ComputosElectoralesGenerales CompElec;
         delegate void DelegateOcultar(int res);
-        delegate void DelegateOcultarExcel(int res, bool completo);
+        delegate void DelegateOcultarExcel(int res, bool completo,string tipo);
 
         public MDIMainComputosElectorales()
         {
@@ -107,12 +107,21 @@ namespace Sistema.ComputosElectorales
             }
         }
 
-        private void ProcesoGeneraExcel(int distrito, bool completo, SaveFileDialog fichero)
+        private void ProcesoGeneraExcel(int distrito, bool completo, SaveFileDialog fichero,string tipo ="CAPTURA")
         {
             try
             {
                 CompElec = new ComputosElectoralesGenerales();
-                int res = CompElec.generarExcel(fichero, distrito, completo);
+                int res = 0;
+                if(tipo == "CAPTURA")
+                {
+                    res = CompElec.generarExcel(fichero, distrito, completo);
+                }
+                else
+                {
+                    res = CompElec.generarExcelRecuento(fichero, distrito, completo);
+                }
+                
 
                 if (this.IsDisposed)
                 {
@@ -129,7 +138,7 @@ namespace Sistema.ComputosElectorales
                 else
                 {
                     DelegateOcultarExcel MD = new DelegateOcultarExcel(showMesageExcel);
-                    this.Invoke(MD, new object[] { res, completo });
+                    this.Invoke(MD, new object[] { res, completo,tipo });
                 }
 
             }
@@ -139,27 +148,54 @@ namespace Sistema.ComputosElectorales
             }
         }
 
-        public void GenerarExcel(int selected, bool completo = false)
+        public void GenerarExcel(int selected, bool completo = false,string tipo="CAPTURA")
         {
             try
             {
-                DateTime localDate = DateTime.Now;
-                string date = localDate.ToString("MM-dd-yyyy_HH-mm-ss");
-                string namefile = (completo) ? "Reporte_Excel_Completo_" + date : "Reporte_Excel_Distrito_" + selected + "_" + date;
-                SaveFileDialog fichero = new SaveFileDialog();
-                fichero.Filter = "Excel (*.xlsx)|*.xlsx";
-                fichero.FileName = "Reporte_Excel_Distrito_" + selected + "_" + date;
-                if (fichero.ShowDialog() == DialogResult.OK)
+                if(tipo == "CAPTURA")
                 {
-                    //Creamos el delegado 
-                    lblGenerarExcel.Visible = true;
-                    pictureExcel.Visible = true;
-                    ThreadStart delegado = new ThreadStart(() => ProcesoGeneraExcel(selected, completo, fichero));
-                    //Creamos la instancia del hilo 
-                    Thread hilo = new Thread(delegado) { IsBackground = true };
-                    //Iniciamos el hilo 
-                    hilo.Start();
+                    DateTime localDate = DateTime.Now;
+                    string date = localDate.ToString("MM-dd-yyyy_HH-mm-ss");
+                    //string namefile = (completo) ? "Reporte_Excel_Completo_" + date : "Reporte_Excel_Distrito_" + selected + "_" + date;
+                    string namefile = "Reporte_Excel_Captura_" + date;
+                    SaveFileDialog fichero = new SaveFileDialog();
+                    fichero.Filter = "Excel (*.xlsx)|*.xlsx";
+                    fichero.FileName = namefile;
+                    if (fichero.ShowDialog() == DialogResult.OK)
+                    {
+                        //Creamos el delegado 
+                        lblGenerarExcel.Visible = true;
+                        pictureExcel.Visible = true;
+                        ThreadStart delegado = new ThreadStart(() => ProcesoGeneraExcel(selected, completo, fichero));
+                        //Creamos la instancia del hilo 
+                        Thread hilo = new Thread(delegado) { IsBackground = true };
+                        //Iniciamos el hilo 
+                        hilo.Start();
+                    }
                 }
+                else
+                {
+                    DateTime localDate = DateTime.Now;
+                    string date = localDate.ToString("MM-dd-yyyy_HH-mm-ss");
+                    //string namefile = (completo) ? "Reporte_Excel_Completo_" + date : "Reporte_Excel_Distrito_" + selected + "_" + date;
+                    string namefile = "Reporte_Excel_Recuento_" + date;
+                    SaveFileDialog fichero = new SaveFileDialog();
+                    fichero.Filter = "Excel (*.xlsx)|*.xlsx";
+                    fichero.FileName = namefile;
+                    if (fichero.ShowDialog() == DialogResult.OK)
+                    {
+                        //Creamos el delegado 
+                        lblGenerarExcel.Visible = true;
+                        pictureExcel.Visible = true;
+                        ThreadStart delegado = new ThreadStart(() => ProcesoGeneraExcel(selected, completo, fichero,tipo));
+                        //Creamos la instancia del hilo 
+                        Thread hilo = new Thread(delegado) { IsBackground = true };
+                        //Iniciamos el hilo 
+                        hilo.Start();
+                    }
+                }
+
+                
 
             }
             catch (Exception ex)
@@ -205,7 +241,7 @@ namespace Sistema.ComputosElectorales
 
         }
 
-        private void showMesageExcel(int res, bool completo)
+        private void showMesageExcel(int res, bool completo,string tipo ="CAPTURA")
         {
             try
             {
@@ -215,7 +251,15 @@ namespace Sistema.ComputosElectorales
                 string formname = active.Name.ToString();
                 if (formname == "Reportes")
                 {
-                    BuscarControl(active.Controls, (completo) ? "btnGenerarExcelTodo" : "btnGenerarExcel");
+                    if(tipo == "CAPTURA")
+                    {
+                        BuscarControl(active.Controls, (completo) ? "btnGenerarExcelTodo" : "btnGenerarExcel");
+                    }
+                    else
+                    {
+                        BuscarControl(active.Controls, "btnExcelRecuento");
+                    }
+                    
                 }
                 switch (res)
                 {

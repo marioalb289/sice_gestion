@@ -63,13 +63,13 @@
             this.label4 = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.panel6 = new System.Windows.Forms.Panel();
+            this.btnActualizarGrid = new System.Windows.Forms.Button();
+            this.btnDescargar = new System.Windows.Forms.Button();
+            this.btnExcelRecuento = new System.Windows.Forms.Button();
             this.btnGenerarExcelTodo = new System.Windows.Forms.Button();
             this.btnGenerarExcel = new System.Windows.Forms.Button();
             this.cmbDistrito = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.btnExcelRecuento = new System.Windows.Forms.Button();
-            this.btnDescargar = new System.Windows.Forms.Button();
-            this.btnActualizarGrid = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -192,7 +192,7 @@
             // 
             this.panel5.Controls.Add(this.tableLayoutPanel3);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel5.Location = new System.Drawing.Point(0, 700);
+            this.panel5.Location = new System.Drawing.Point(0, 702);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(800, 97);
             this.panel5.TabIndex = 27;
@@ -276,7 +276,7 @@
             // 
             this.dgvResultados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgvResultados.Dock = System.Windows.Forms.DockStyle.Top;
-            this.dgvResultados.Location = new System.Drawing.Point(0, 300);
+            this.dgvResultados.Location = new System.Drawing.Point(0, 302);
             this.dgvResultados.Margin = new System.Windows.Forms.Padding(3, 10, 3, 10);
             this.dgvResultados.Name = "dgvResultados";
             this.dgvResultados.ReadOnly = true;
@@ -298,8 +298,8 @@
             this.tblPanaelTitulo.Name = "tblPanaelTitulo";
             this.tblPanaelTitulo.Padding = new System.Windows.Forms.Padding(40, 10, 40, 10);
             this.tblPanaelTitulo.RowCount = 1;
-            this.tblPanaelTitulo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 74F));
-            this.tblPanaelTitulo.Size = new System.Drawing.Size(800, 98);
+            this.tblPanaelTitulo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 76F));
+            this.tblPanaelTitulo.Size = new System.Drawing.Size(800, 100);
             this.tblPanaelTitulo.TabIndex = 25;
             // 
             // pnlTableTitulo
@@ -309,7 +309,7 @@
             this.pnlTableTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableTitulo.Location = new System.Drawing.Point(45, 15);
             this.pnlTableTitulo.Name = "pnlTableTitulo";
-            this.pnlTableTitulo.Size = new System.Drawing.Size(710, 68);
+            this.pnlTableTitulo.Size = new System.Drawing.Size(710, 70);
             this.pnlTableTitulo.TabIndex = 39;
             // 
             // label21
@@ -319,7 +319,7 @@
             this.label21.ForeColor = System.Drawing.Color.White;
             this.label21.Location = new System.Drawing.Point(0, 0);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(710, 68);
+            this.label21.Size = new System.Drawing.Size(710, 70);
             this.label21.TabIndex = 0;
             this.label21.Text = "RESULTADOS ELECTORALES POR PARTIDOS POLÍTICOS, CANDIDATURA COMÚN E INDEPENDIENTE";
             this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -566,6 +566,39 @@
             this.panel6.Size = new System.Drawing.Size(394, 56);
             this.panel6.TabIndex = 18;
             // 
+            // btnActualizarGrid
+            // 
+            this.btnActualizarGrid.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnActualizarGrid.Location = new System.Drawing.Point(-106, 0);
+            this.btnActualizarGrid.Name = "btnActualizarGrid";
+            this.btnActualizarGrid.Size = new System.Drawing.Size(100, 56);
+            this.btnActualizarGrid.TabIndex = 44;
+            this.btnActualizarGrid.Text = "Actualizar Tabla";
+            this.btnActualizarGrid.UseVisualStyleBackColor = true;
+            this.btnActualizarGrid.Visible = false;
+            // 
+            // btnDescargar
+            // 
+            this.btnDescargar.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnDescargar.Location = new System.Drawing.Point(-6, 0);
+            this.btnDescargar.Name = "btnDescargar";
+            this.btnDescargar.Size = new System.Drawing.Size(100, 56);
+            this.btnDescargar.TabIndex = 43;
+            this.btnDescargar.Text = "Descargar Datos";
+            this.btnDescargar.UseVisualStyleBackColor = true;
+            this.btnDescargar.Visible = false;
+            // 
+            // btnExcelRecuento
+            // 
+            this.btnExcelRecuento.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnExcelRecuento.Location = new System.Drawing.Point(94, 0);
+            this.btnExcelRecuento.Name = "btnExcelRecuento";
+            this.btnExcelRecuento.Size = new System.Drawing.Size(100, 56);
+            this.btnExcelRecuento.TabIndex = 42;
+            this.btnExcelRecuento.Text = "Generar Excel Recuento";
+            this.btnExcelRecuento.UseVisualStyleBackColor = true;
+            this.btnExcelRecuento.Click += new System.EventHandler(this.btnExcelRecuento_Click);
+            // 
             // btnGenerarExcelTodo
             // 
             this.btnGenerarExcelTodo.Dock = System.Windows.Forms.DockStyle.Right;
@@ -613,38 +646,6 @@
             this.label3.Size = new System.Drawing.Size(394, 40);
             this.label3.TabIndex = 7;
             this.label3.Text = "Seleccionar Distrito";
-            // 
-            // btnExcelRecuento
-            // 
-            this.btnExcelRecuento.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnExcelRecuento.Location = new System.Drawing.Point(94, 0);
-            this.btnExcelRecuento.Name = "btnExcelRecuento";
-            this.btnExcelRecuento.Size = new System.Drawing.Size(100, 56);
-            this.btnExcelRecuento.TabIndex = 42;
-            this.btnExcelRecuento.Text = "Generar Excel Recuento";
-            this.btnExcelRecuento.UseVisualStyleBackColor = true;
-            // 
-            // btnDescargar
-            // 
-            this.btnDescargar.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnDescargar.Location = new System.Drawing.Point(-6, 0);
-            this.btnDescargar.Name = "btnDescargar";
-            this.btnDescargar.Size = new System.Drawing.Size(100, 56);
-            this.btnDescargar.TabIndex = 43;
-            this.btnDescargar.Text = "Descargar Datos";
-            this.btnDescargar.UseVisualStyleBackColor = true;
-            this.btnDescargar.Visible = false;
-            // 
-            // btnActualizarGrid
-            // 
-            this.btnActualizarGrid.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnActualizarGrid.Location = new System.Drawing.Point(-106, 0);
-            this.btnActualizarGrid.Name = "btnActualizarGrid";
-            this.btnActualizarGrid.Size = new System.Drawing.Size(100, 56);
-            this.btnActualizarGrid.TabIndex = 44;
-            this.btnActualizarGrid.Text = "Actualizar Tabla";
-            this.btnActualizarGrid.UseVisualStyleBackColor = true;
-            this.btnActualizarGrid.Visible = false;
             // 
             // Reportes
             // 

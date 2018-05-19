@@ -251,7 +251,7 @@ namespace Sistema.ComputosElectorales
                 dgvResultados.Columns.Add(LnominalColumna);
 
                 DataGridViewTextBoxColumn PparticipacionColumna = new DataGridViewTextBoxColumn();
-                PparticipacionColumna.Name = "porcentajep";
+                PparticipacionColumna.Name = "porcentaje";
                 PparticipacionColumna.HeaderText = "Porcentaje Participación";
                 PparticipacionColumna.ValueType = typeof(System.Decimal);
                 PparticipacionColumna.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -712,6 +712,22 @@ namespace Sistema.ComputosElectorales
             }
             
 
+        }
+
+        private void btnExcelRecuento_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                btnExcelRecuento.Enabled = false;
+                ((MDIMainComputosElectorales)this.MdiParent).GenerarExcel(0, true,"RECUENTO");
+                
+
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
         }
     }
 }

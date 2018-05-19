@@ -15,6 +15,8 @@ namespace Sistema.ComputosElectorales
     public partial class ConfiguracionRecuento : Form
     {
         private MsgBox msgBox;
+        private int totalCasillasRecuento = 0;
+        private int horas_disponibles = 0;
         public ConfiguracionRecuento()
         {
             InitializeComponent();
@@ -43,13 +45,23 @@ namespace Sistema.ComputosElectorales
         {
             try
             {
+
+                DateTime fecha1 = new DateTime(2018, 7, 8, 8, 0, 0);
+                DateTime fecha2 = new DateTime(2018, 7, 11, 0, 0, 0);
+                double horasRestantes = Math.Floor((fecha2 - fecha1).TotalHours);
+                this.horas_disponibles = Convert.ToInt32(horasRestantes);
+                lblHorasDisponibles.Text = horasRestantes.ToString();
+
                 ComputosElectoralesGenerales comp = new ComputosElectoralesGenerales();
+                this.totalCasillasRecuento = comp.ListaCasillasRecuentos(0, true).Count();
+                this.lblTotalCasillas.Text = this.totalCasillasRecuento.ToString();
                 sice_configuracion_recuento conf = comp.Configuracion_Recuento("SICE");
                 if (conf != null)
                 {
                     txtHoras.Text = conf.horas_disponibles.ToString();
                     txtPropietarios.Text = conf.no_consejeros.ToString();
                     txtSuplentes.Text = conf.no_suplentes.ToString();
+                    ValidarCampos();
                 }
 
 
@@ -116,6 +128,17 @@ namespace Sistema.ComputosElectorales
             }
         }
 
+        public int Round(double numero)
+        {
+            if (numero < 1.0)
+                return 1;
+            double decimalpoints = Math.Abs(numero - Math.Floor(numero));
+            if (decimalpoints > 0.30)
+                return (int)Math.Floor(numero) + 1;
+            else
+                return (int)Math.Floor(numero);
+        }
+
 
         private void ValidarCampos(object sender = null)
         {
@@ -128,7 +151,85 @@ namespace Sistema.ComputosElectorales
                 {
                     textBox.Text = "0";
                     textBox.SelectAll();
+                    return;
                 }
+
+
+
+                int propietarios = Convert.ToInt32(txtPropietarios.Text);
+
+                if (textBox != null && textBox.Name == "txtPropietarios")
+                {
+                    if (propietarios != 5)
+                        throw new Exception("El número de Consejeros Propietarios debe ser 5");
+                }
+
+                int suplentes = Convert.ToInt32(txtSuplentes.Text);
+                if (textBox != null && textBox.Name == "txtSuplentes")
+                {
+                    if (suplentes < 1 || suplentes > 4)
+                        throw new Exception("El número de Consejeros Suplentes debe ser minímo 1 y Máximo 4");
+                }
+
+
+                int grupos_tabajo = (propietarios - 3) + suplentes;
+                if (grupos_tabajo > 5)
+                    grupos_tabajo = 5;
+                int segmentos = this.horas_disponibles - Convert.ToInt32(txtHoras.Text);
+                if (segmentos > 0)
+                {
+                    lblHorasDisponibles.Text = segmentos.ToString();
+                }
+                else
+                {
+                    lblHorasDisponibles.Text = "0";
+                }
+                segmentos = segmentos * 2;
+
+                if (totalCasillasRecuento <= 0)
+                {
+                    lblNcr.Text = "0";
+                    return;
+                }
+                else
+                {
+                    lblNcr.Text = totalCasillasRecuento.ToString();
+                }
+
+                if (grupos_tabajo <= 0)
+                {
+                    lblGt.Text = "0";
+                    return;
+                }
+                else
+                {
+                    lblGt.Text = grupos_tabajo.ToString();
+                }
+
+                if (segmentos <= 0)
+                {
+                    lblSegmento.Text = "0";
+                    return;
+                }
+                else
+                {
+                    lblSegmento.Text = segmentos.ToString();
+                }
+
+
+                double parcialPuntoRecuento = (((double)this.totalCasillasRecuento / (double)grupos_tabajo) / (double)segmentos);
+                int puntos_recuento = this.Round(parcialPuntoRecuento);
+                if (puntos_recuento <= 0)
+                {
+                    lblPrDecimal.Text = "0";
+                    lblPr.Text = "0";
+                }
+                else
+                {
+                    lblPrDecimal.Text = (Math.Truncate(parcialPuntoRecuento * 100) / 100).ToString();
+                    lblPr.Text = puntos_recuento.ToString() + "PR";
+                }
+
 
             }
             catch (Exception ex)
@@ -174,10 +275,6 @@ namespace Sistema.ComputosElectorales
             else if (Char.IsSeparator(e.KeyChar))
             {
                 e.Handled = true;
-            }
-            else if (e.KeyChar == '.')
-            {
-                e.Handled = false;
             }
             else
             {
@@ -250,6 +347,11 @@ namespace Sistema.ComputosElectorales
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             this.GuardarDatos();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
