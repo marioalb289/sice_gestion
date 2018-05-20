@@ -35,7 +35,7 @@ namespace Sistema.RegistroActasLocal
             //this.RunWatchFile();
         }
         delegate void DelegateOcultar(int res);
-        delegate void DelegateOcultarExcel(int res,bool completo);
+        delegate void DelegateOcultarExcel(int res, bool completo, string tipo);
 
         private void EjecutarProceso(int distrito)
         {
@@ -73,12 +73,21 @@ namespace Sistema.RegistroActasLocal
                 MessageBox.Show("Error al descargar Datos. Intentalo de nuevo", "Atencion", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
-        private void ProcesoGeneraExcel(int distrito,bool completo, SaveFileDialog fichero)
+        private void ProcesoGeneraExcel(int distrito,bool completo, SaveFileDialog fichero, string tipo = "RECUENTO")
         {
             try
             {
                 rgActas = new RegistroLocalGenerales();
-                int res = rgActas.generarExcelRecuento(fichero,distrito,completo);
+                int res = 0;
+                if(tipo == "RECUENTO")
+                {
+                    res = rgActas.generarExcelRecuento(fichero, distrito, completo);
+                }
+                else if(tipo == "RESPALDO")
+                {
+                    res = rgActas.generarExcelRespaldo(fichero, distrito, completo);
+                }
+                
 
                 if (this.IsDisposed)
                 {
@@ -95,7 +104,7 @@ namespace Sistema.RegistroActasLocal
                 else
                 {
                     DelegateOcultarExcel MD = new DelegateOcultarExcel(showMesageExcel);
-                    this.Invoke(MD, new object[] { res,completo });
+                    this.Invoke(MD, new object[] { res,completo,tipo });
                 }
 
             }
@@ -140,32 +149,61 @@ namespace Sistema.RegistroActasLocal
             }
         }
 
-        public void GenerarExcel(int selected, bool completo = false)
+        public void GenerarExcel(int selected, bool completo = false, string tipo = "RECUENTO")
         {
             try
             {
-                DateTime localDate = DateTime.Now;
-                string date = localDate.ToString("MM-dd-yyyy_HH-mm-ss");
-                //string namefile = (completo) ? "Reporte_Excel_Completo_Recuento_" + date : "Reporte_Excel_Recuento_Distrito_" + selected + "_" + date;
-                string namefile = "Reporte_Excel_Recuento_"+ date;
-                SaveFileDialog fichero = new SaveFileDialog();
-                fichero.Filter = "Excel (*.xlsx)|*.xlsx";
-                fichero.FileName = namefile;
-                if (fichero.ShowDialog() == DialogResult.OK)
+                if( tipo == "RECUENTO")
                 {
-                    //Creamos el delegado 
-                    lblGenerarExcel.Visible = true;
-                    pictureExcel.Visible = true;
-                    ThreadStart delegado = new ThreadStart(() => ProcesoGeneraExcel(selected, completo,fichero));
-                    //Creamos la instancia del hilo 
-                    Thread hilo = new Thread(delegado) { IsBackground = true };
-                    //Iniciamos el hilo 
-                    hilo.Start();
+                    DateTime localDate = DateTime.Now;
+                    string date = localDate.ToString("MM-dd-yyyy_HH-mm-ss");
+                    //string namefile = (completo) ? "Reporte_Excel_Completo_Recuento_" + date : "Reporte_Excel_Recuento_Distrito_" + selected + "_" + date;
+                    string namefile = "Reporte_Excel_Recuento_" + date;
+                    SaveFileDialog fichero = new SaveFileDialog();
+                    fichero.Filter = "Excel (*.xlsx)|*.xlsx";
+                    fichero.FileName = namefile;
+                    if (fichero.ShowDialog() == DialogResult.OK)
+                    {
+                        //Creamos el delegado 
+                        lblGenerarExcel.Visible = true;
+                        pictureExcel.Visible = true;
+                        ThreadStart delegado = new ThreadStart(() => ProcesoGeneraExcel(selected, completo, fichero,tipo));
+                        //Creamos la instancia del hilo 
+                        Thread hilo = new Thread(delegado) { IsBackground = true };
+                        //Iniciamos el hilo 
+                        hilo.Start();
+                    }
+                    else
+                    {
+                        Form active = this.ActiveMdiChild;
+                        BuscarControl(active.Controls, (completo) ? "btnGenerarExcelTodo" : "btnGenerarExcel");
+                    }
                 }
-                else
+                else if(tipo == "RESPALDO")
                 {
-                    Form active = this.ActiveMdiChild;
-                    BuscarControl(active.Controls, (completo) ? "btnGenerarExcelTodo" : "btnGenerarExcel");
+                    DateTime localDate = DateTime.Now;
+                    string date = localDate.ToString("MM-dd-yyyy_HH-mm-ss");
+                    //string namefile = (completo) ? "Reporte_Excel_Completo_Recuento_" + date : "Reporte_Excel_Recuento_Distrito_" + selected + "_" + date;
+                    string namefile = "Respaldo_" + date;
+                    SaveFileDialog fichero = new SaveFileDialog();
+                    fichero.Filter = "Excel (*.xlsx)|*.xlsx";
+                    fichero.FileName = namefile;
+                    if (fichero.ShowDialog() == DialogResult.OK)
+                    {
+                        //Creamos el delegado 
+                        lblGenerarExcel.Visible = true;
+                        pictureExcel.Visible = true;
+                        ThreadStart delegado = new ThreadStart(() => ProcesoGeneraExcel(selected, completo, fichero,tipo));
+                        //Creamos la instancia del hilo 
+                        Thread hilo = new Thread(delegado) { IsBackground = true };
+                        //Iniciamos el hilo 
+                        hilo.Start();
+                    }
+                    else
+                    {
+                        Form active = this.ActiveMdiChild;
+                        BuscarControl(active.Controls, "btnRespaldo");
+                    }
                 }
                     
             }
@@ -211,7 +249,7 @@ namespace Sistema.RegistroActasLocal
             }
             
         }
-        private void showMesageExcel(int res,bool completo)
+        private void showMesageExcel(int res,bool completo,string tipo)
         {
             try
             {
@@ -221,7 +259,14 @@ namespace Sistema.RegistroActasLocal
                 string formname = active.Name.ToString();
                 if (formname == "Reportes")
                 {
-                    BuscarControl(active.Controls,(completo)? "btnGenerarExcelTodo" : "btnGenerarExcel");
+                    if (tipo == "RECUENTO")
+                    {
+                        BuscarControl(active.Controls, (completo) ? "btnGenerarExcelTodo" : "btnGenerarExcel");
+                    }                    
+                }
+                else if(formname == "MainRegistroLocal")
+                {
+                    BuscarControl(active.Controls, "btnRespaldo");
                 }
                 switch (res)
                 {

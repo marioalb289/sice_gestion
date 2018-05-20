@@ -154,5 +154,26 @@ namespace Sistema.RegistroActasLocal
             form3.FormClosed += Form_FormClosed;
             form3.Show();
         }
+
+        private void btnRespaldo_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //int? selected = Convert.ToInt32(cmbDistrito.SelectedValue);
+                //if (selected > 0 && selected != null)
+                //{
+                //this.ValidarRecuento();
+                btnRespaldo.Enabled = false;
+                ((MDIMainRegistroActas)this.MdiParent).GenerarExcel(0, false,"RESPALDO");
+
+                //}
+
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+        }
     }
 }

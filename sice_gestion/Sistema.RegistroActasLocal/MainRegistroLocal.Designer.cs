@@ -119,6 +119,7 @@
             this.btnRespaldo.Text = "Generar Respaldo";
             this.btnRespaldo.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnRespaldo.UseVisualStyleBackColor = false;
+            this.btnRespaldo.Click += new System.EventHandler(this.btnRespaldo_Click);
             // 
             // label2
             // 
