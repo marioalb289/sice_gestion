@@ -339,6 +339,36 @@ namespace Sistema.Generales
                 throw ex;
             }
         }
+        public List<sice_votos> ResultadosSiceVotos()
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    string result = string.Join(",", LoginInfo.lista_distritos);
+                    string condicion = " AND C.id_distrito_local IN (" + result + ") ";
+                    string consulta =
+                        "SELECT " +
+                             "RV.* " +
+                        "FROM sice_votos RV " +
+                        "LEFT JOIN sice_reserva_captura RC ON RC.id_casilla = RV.id_casilla " +
+                        "LEFT JOIN sice_candidatos CND ON CND.id = RV.id_candidato " +
+                        "LEFT JOIN sice_partidos_politicos P ON P.id = CND.fk_partido " +
+                        "JOIN sice_casillas C ON C.id = RV.id_casilla " + condicion +
+                        "JOIN sice_municipios M ON M.id = C.id_municipio " +
+                        "JOIN sice_municipios M2 ON M2.id = C.id_cabecera_local " +
+                        "ORDER BY C.seccion ASC, RV.id_casilla ASC, prelacion ASC ";
+
+                    return contexto.Database.SqlQuery<sice_votos>(consulta).ToList();
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public sice_ar_supuestos getSupuesto(int id_casilla)
         {
@@ -893,6 +923,182 @@ namespace Sistema.Generales
             }
         }
 
+        public int generarExcelRespaldo(SaveFileDialog fichero)
+        {
+            try
+            {
+
+                Excel.Application excel = new Excel.Application();
+                Excel._Workbook libro = null;
+
+                //creamos un libro nuevo y la hoja con la que vamos a trabajar
+                libro = (Excel._Workbook)excel.Workbooks.Add(Excel.XlWBATemplate.xlWBATWorksheet);
+
+                List<string> entidades = new List<string>(new string[] { "sice_historico", "sice_reserva_captura", "sice_votos" });
+
+                foreach (string entidad in entidades)
+                {
+                    this.generaHojaRespaldo(entidad, libro);
+                }
+
+
+
+                ((Excel.Worksheet)excel.ActiveWorkbook.Sheets["Hoja1"]).Delete();   //Borramos la hoja que crea en el libro por defecto
+
+
+                libro.Saved = true;
+                //libro.SaveAs(Environment.CurrentDirectory + @"\Ejemplo2.xlsx");  // Si es un libro nuevo
+                //libro.SaveAs(fichero.FileName,
+                //Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookNormal);
+                object misValue = System.Reflection.Missing.Value;
+                libro.SaveAs(fichero.FileName, Excel.XlFileFormat.xlOpenXMLWorkbook, misValue,
+                misValue, false, false, Excel.XlSaveAsAccessMode.xlNoChange,
+                Excel.XlSaveConflictResolution.xlUserResolution, true,
+                misValue, misValue, misValue);
+
+                libro.Close(true, misValue, misValue);
+
+                excel.UserControl = false;
+                excel.Quit();
+
+                Marshal.ReleaseComObject(libro);
+                //Marshal.ReleaseComObject(xlWorkBook);
+                Marshal.ReleaseComObject(excel);
+                return 1;
+
+
+
+            }
+            catch (Exception E)
+            {
+                return 0;
+            }
+        }
+        public void generaHojaRespaldo(string entidad, Excel._Workbook libro)
+        {
+            try
+            {
+                Excel._Worksheet hoja = null;
+                Excel.Range rango = null;
+                int filaInicialTabla = 11;
+
+
+                //creamos un libro nuevo y la hoja con la que vamos a trabajar
+                hoja = (Excel._Worksheet)libro.Worksheets.Add();
+                hoja.Name = entidad;  //Aqui debe ir el nombre de la tabla a respaldar
+
+
+                //Montamos las cabeceras 
+                CrearEncabezadosRespaldo(ref hoja, entidad);
+
+
+                //return;
+                //Agregar Datos
+                int fila = 2; int columna = 1;
+
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    switch (entidad)
+                    {
+                        
+                        case "sice_historico":
+                            List<sice_historico> data2 = (from d in contexto.sice_historico select d).ToList();
+                            foreach (sice_historico d in data2)
+                            {
+                                hoja.Cells[fila, 1] = d.id;
+                                hoja.Cells[fila, 2] = d.id_supuesto;
+                                hoja.Cells[fila, 3] = d.fecha;
+                                hoja.Cells[fila, 4] = d.id_casilla;
+                                hoja.Cells[fila, 5] = d.importado;
+                                fila++;
+                            }
+                            break;
+                        case "sice_reserva_captura":
+                            List<sice_reserva_captura> data3 = (from d in contexto.sice_reserva_captura select d).ToList();
+                            foreach (sice_reserva_captura d in data3)
+                            {
+                                hoja.Cells[fila, 1] = d.id;
+                                hoja.Cells[fila, 2] = d.id_casilla;
+                                hoja.Cells[fila, 3] = d.tipo_reserva;
+                                hoja.Cells[fila, 4] = d.importado;
+                                hoja.Cells[fila, 5] = d.id_supuesto;
+                                hoja.Cells[fila, 6] = d.num_escritos;
+                                hoja.Cells[fila, 7] = d.boletas_sobrantes;
+                                hoja.Cells[fila, 8] = d.create_at;
+                                hoja.Cells[fila, 9] = d.updated_at;
+                                hoja.Cells[fila, 10] = d.personas_votaron;
+                                hoja.Cells[fila, 11] = d.num_representantes_votaron;
+                                hoja.Cells[fila, 12] = d.votos_sacados;
+                                hoja.Cells[fila, 13] = d.casilla_instalada;
+                                hoja.Cells[fila, 14] = d.id_estatus_acta;
+                                hoja.Cells[fila, 15] = d.id_estatus_paquete;
+                                hoja.Cells[fila, 16] = d.id_incidencias;
+                                hoja.Cells[fila, 17] = d.inicializada;
+                                fila++;
+                            }
+                            break;
+                        case "sice_votos":
+                            List<sice_votos> data4 = this.ResultadosSiceVotos();
+                            foreach (sice_votos d in data4)
+                            {
+                                hoja.Cells[fila, 1] = d.id;
+                                hoja.Cells[fila, 2] = d.id_candidato;
+                                hoja.Cells[fila, 3] = d.id_casilla;
+                                hoja.Cells[fila, 4] = d.votos;
+                                hoja.Cells[fila, 5] = d.tipo;
+                                hoja.Cells[fila, 6] = d.importado;
+                                hoja.Cells[fila, 7] = d.estatus;
+                                fila++;
+                            }
+                            break;
+                    }
+                }
+
+            }
+            catch (Exception E)
+            {
+                throw E;
+            }
+        }
+        private void CrearEncabezadosRespaldo(ref Excel._Worksheet hoja, string entidad)
+        {
+            try
+            {
+                Excel.Range rango;
+                List<string> nombres = new List<string>();
+                switch (entidad)
+                {
+                    case "sice_historico":
+                        nombres = typeof(sice_historico).GetProperties()
+                       .Select(property => property.Name)
+                       .ToList();
+                        break;
+                    case "sice_reserva_captura":
+                        nombres = typeof(sice_reserva_captura).GetProperties()
+                       .Select(property => property.Name)
+                       .ToList();
+                        break;
+                    case "sice_votos":
+                        nombres = typeof(sice_votos).GetProperties()
+                       .Select(property => property.Name)
+                       .ToList();
+                        break;
+                }
+
+                int cont = 1;
+                foreach (string nombre in nombres)
+                {
+                    hoja.Cells[1, cont] = nombre;
+                    cont++;
+                }
+            }
+            catch (Exception E)
+            {
+                throw E;
+            }
+        }
+
+
         public int Round(double numero)
         {
             if (numero < 1.0)
@@ -1351,7 +1557,7 @@ namespace Sistema.Generales
                         {
                             //Agregar Columnas
                             hoja.Cells[fila, 1] = v.id_casilla;
-                            hoja.Cells[fila, 2] = v.seccion;
+                            hoja.Cells[fila, 2] = v.seccion; hoja.Cells[fila, 2].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
                             hoja.Cells[fila, 3] = v.casilla;
                             hoja.Cells[fila, 4] = (v.estatus != null) ? v.estatus : "NO CAPTURADA";
 
@@ -1404,8 +1610,8 @@ namespace Sistema.Generales
 
                     //Agregar Columnas
                     hoja.Cells[fila,1] = v.id_casilla;
-                    hoja.Cells[fila,2] = v.seccion;
-                    hoja.Cells[fila,3] = v.casilla;
+                    hoja.Cells[fila,2] = v.seccion; hoja.Cells[fila, 2].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+                    hoja.Cells[fila,3] = v.casilla; hoja.Cells[fila, 3].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
                     hoja.Cells[fila,4] = (v.estatus != null) ? v.estatus : "NO CAPTURADA";
                     Lnominal = v.lista_nominal + tempC * 2;
 
@@ -1443,6 +1649,18 @@ namespace Sistema.Generales
                 const float ImageSize = 42; //Tamaño Imagen Partidos
                 string rutaImagen = System.AppDomain.CurrentDomain.BaseDirectory + "Resources\\";
 
+                //Configuracon Hoja
+                hoja.PageSetup.Orientation = Excel.XlPageOrientation.xlLandscape;
+                hoja.PageSetup.Zoom = 80;
+                hoja.PageSetup.PrintTitleRows = "$1:$7";
+
+                hoja.PageSetup.TopMargin = 37.79;
+                hoja.PageSetup.BottomMargin = 37.79;
+                hoja.PageSetup.LeftMargin = 22.67;
+                hoja.PageSetup.RightMargin = 22.67;
+
+
+
                 //** Montamos el título en la línea 1 **
                 hoja.Cells[1, 3] = "SISTEMA DE REGISTRO DE ACTAS DEL PROCESO ELECTORAL LÓCAL 2017-2018";
                 hoja.Cells[2, 3] = "RESULTADOS ELECTORALES POR PARTIDOS POLÍTICOS O CANDIDATURA INDEPENDIENTE";
@@ -1462,8 +1680,8 @@ namespace Sistema.Generales
 
                 hoja.Cells[fila, columnaInicial] = "No."; columnaInicial++; columnaLetra++; widths.Add(8.57);
                 hoja.Cells[fila, columnaInicial] = "Sección"; columnaInicial++; columnaLetra++; widths.Add(14.43);
-                hoja.Cells[fila, columnaInicial] = "Casilla"; columnaInicial++; columnaLetra++; widths.Add(25.29);
-                hoja.Cells[fila, columnaInicial] = "Estatus"; columnaInicial++; columnaLetra++; widths.Add(12.29);
+                hoja.Cells[fila, columnaInicial] = "Casilla"; columnaInicial++; columnaLetra++; widths.Add(10.29);
+                hoja.Cells[fila, columnaInicial] = "Estatus"; columnaInicial++; columnaLetra++; widths.Add(15.29);
 
                 hoja.Cells[fila, columnaInicial] = "Diferencia entre 1° y 2° Lugar"; columnaInicial++; columnaLetra++; widths.Add(12.29);
                 hoja.Cells[fila, columnaInicial - 1].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(149)))), ((int)(((byte)(90))))));
@@ -1483,8 +1701,10 @@ namespace Sistema.Generales
                     Left = 3 + (float)((double)rango.Left);
                     Top = (float)((double)rango.Top);
 
-                    hoja.Shapes.AddPicture(rutaImagen + "pri.png", Microsoft.Office.Core.MsoTriState.msoFalse, Microsoft.Office.Core.MsoTriState.msoCTrue, Left, Top, ImageSize, ImageSize);
-                    hoja.Cells[fila, columnaInicial] = c.partido; columnaInicial++; columnaLetra++; widths.Add(8.57);
+                    hoja.Shapes.AddPicture(rutaImagen + c.imagen + ".jpg", Microsoft.Office.Core.MsoTriState.msoFalse, Microsoft.Office.Core.MsoTriState.msoCTrue, Left, Top, ImageSize, ImageSize);
+                    hoja.Cells[fila, columnaInicial] = c.partido;
+                    hoja.Cells[fila, columnaInicial].Font.Size = 10;
+                    columnaInicial++; columnaLetra++; widths.Add(9.57);
                 }
                 //Agregar columnas adicionales
 

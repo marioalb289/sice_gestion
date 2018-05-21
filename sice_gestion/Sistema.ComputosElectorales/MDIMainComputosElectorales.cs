@@ -117,12 +117,14 @@ namespace Sistema.ComputosElectorales
                 {
                     res = CompElec.generarExcel(fichero, distrito, completo);
                 }
+                else if(tipo == "RESPALDO")
+                {
+                    res = CompElec.generarExcelRespaldo(fichero);
+                }
                 else
                 {
                     res = CompElec.generarExcelRecuento(fichero, distrito, completo);
                 }
-                
-
                 if (this.IsDisposed)
                 {
                     switch (res)
@@ -152,51 +154,38 @@ namespace Sistema.ComputosElectorales
         {
             try
             {
-                if(tipo == "CAPTURA")
+                string nameFile = "";
+                DateTime localDate = DateTime.Now;
+                string date = localDate.ToString("MM-dd-yyyy_HH-mm-ss");
+                if (tipo == "CAPTURA")
                 {
-                    DateTime localDate = DateTime.Now;
-                    string date = localDate.ToString("MM-dd-yyyy_HH-mm-ss");
-                    //string namefile = (completo) ? "Reporte_Excel_Completo_" + date : "Reporte_Excel_Distrito_" + selected + "_" + date;
-                    string namefile = "Reporte_Excel_Captura_" + date;
-                    SaveFileDialog fichero = new SaveFileDialog();
-                    fichero.Filter = "Excel (*.xlsx)|*.xlsx";
-                    fichero.FileName = namefile;
-                    if (fichero.ShowDialog() == DialogResult.OK)
-                    {
-                        //Creamos el delegado 
-                        lblGenerarExcel.Visible = true;
-                        pictureExcel.Visible = true;
-                        ThreadStart delegado = new ThreadStart(() => ProcesoGeneraExcel(selected, completo, fichero));
-                        //Creamos la instancia del hilo 
-                        Thread hilo = new Thread(delegado) { IsBackground = true };
-                        //Iniciamos el hilo 
-                        hilo.Start();
-                    }
+                    nameFile = "Reporte_Excel_Captura_" + date;
+                }
+                else if(tipo == "RESPALDO")
+                {
+                    nameFile = "Respaldo_Sice_" + date;
                 }
                 else
                 {
-                    DateTime localDate = DateTime.Now;
-                    string date = localDate.ToString("MM-dd-yyyy_HH-mm-ss");
-                    //string namefile = (completo) ? "Reporte_Excel_Completo_" + date : "Reporte_Excel_Distrito_" + selected + "_" + date;
-                    string namefile = "Reporte_Excel_Recuento_" + date;
-                    SaveFileDialog fichero = new SaveFileDialog();
-                    fichero.Filter = "Excel (*.xlsx)|*.xlsx";
-                    fichero.FileName = namefile;
-                    if (fichero.ShowDialog() == DialogResult.OK)
-                    {
-                        //Creamos el delegado 
-                        lblGenerarExcel.Visible = true;
-                        pictureExcel.Visible = true;
-                        ThreadStart delegado = new ThreadStart(() => ProcesoGeneraExcel(selected, completo, fichero,tipo));
-                        //Creamos la instancia del hilo 
-                        Thread hilo = new Thread(delegado) { IsBackground = true };
-                        //Iniciamos el hilo 
-                        hilo.Start();
-                    }
+                    nameFile = "Reporte_Excel_Recuento_" + date;
                 }
 
                 
-
+                //string namefile = (completo) ? "Reporte_Excel_Completo_" + date : "Reporte_Excel_Distrito_" + selected + "_" + date;
+                SaveFileDialog fichero = new SaveFileDialog();
+                fichero.Filter = "Excel (*.xlsx)|*.xlsx";
+                fichero.FileName = nameFile;
+                if (fichero.ShowDialog() == DialogResult.OK)
+                {
+                    //Creamos el delegado 
+                    lblGenerarExcel.Visible = true;
+                    pictureExcel.Visible = true;
+                    ThreadStart delegado = new ThreadStart(() => ProcesoGeneraExcel(selected, completo, fichero, tipo));
+                    //Creamos la instancia del hilo 
+                    Thread hilo = new Thread(delegado) { IsBackground = true };
+                    //Iniciamos el hilo 
+                    hilo.Start();
+                }
             }
             catch (Exception ex)
             {
@@ -260,6 +249,10 @@ namespace Sistema.ComputosElectorales
                         BuscarControl(active.Controls, "btnExcelRecuento");
                     }
                     
+                }
+                else if (formname == "MainComputosElectorales")
+                {
+                    BuscarControl(active.Controls, "btnRespaldo");
                 }
                 switch (res)
                 {

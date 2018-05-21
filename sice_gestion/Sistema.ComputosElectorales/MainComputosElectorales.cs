@@ -174,5 +174,20 @@ namespace Sistema.ComputosElectorales
                 msgBox.ShowDialog(this);
             }
         }
+
+        private void btnRespaldo_Click(object sender, EventArgs e)
+        {
+            try
+            {                
+                btnRespaldo.Enabled = false;
+                ((MDIMainComputosElectorales)this.MdiParent).GenerarExcel(0, false, "RESPALDO");
+
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+        }
     }
 }

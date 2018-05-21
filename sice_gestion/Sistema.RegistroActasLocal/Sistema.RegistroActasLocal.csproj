@@ -381,7 +381,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\pan-prd-pd.JPG">
+    <None Include="Resources\pan_prd_pd.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

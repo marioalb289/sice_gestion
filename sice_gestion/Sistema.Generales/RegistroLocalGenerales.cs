@@ -1316,7 +1316,7 @@ namespace Sistema.Generales
                 }
                 //Configuracon Hoja
                 hoja.PageSetup.Orientation = Excel.XlPageOrientation.xlLandscape;
-                hoja.PageSetup.Zoom = 80;
+                hoja.PageSetup.Zoom = 60;
                 hoja.PageSetup.PrintTitleRows = "$10:$11";
 
                 //** Montamos el título en la línea 1 **

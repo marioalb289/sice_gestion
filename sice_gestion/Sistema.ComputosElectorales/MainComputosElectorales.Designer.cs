@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnConfRecuento = new System.Windows.Forms.Button();
             this.btnSalir = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.btnConsultarActas = new System.Windows.Forms.Button();
@@ -36,7 +37,6 @@
             this.btnReportes = new System.Windows.Forms.Button();
             this.btnModificar = new System.Windows.Forms.Button();
             this.btnRespaldo = new System.Windows.Forms.Button();
-            this.btnConfRecuento = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -66,6 +66,23 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 38.17204F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(800, 600);
             this.tableLayoutPanel1.TabIndex = 8;
+            // 
+            // btnConfRecuento
+            // 
+            this.btnConfRecuento.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnConfRecuento.BackColor = System.Drawing.Color.Transparent;
+            this.btnConfRecuento.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnConfRecuento.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnConfRecuento.Image = global::Sistema.ComputosElectorales.Properties.Resources.reload;
+            this.btnConfRecuento.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnConfRecuento.Location = new System.Drawing.Point(172, 403);
+            this.btnConfRecuento.Name = "btnConfRecuento";
+            this.btnConfRecuento.Size = new System.Drawing.Size(136, 163);
+            this.btnConfRecuento.TabIndex = 25;
+            this.btnConfRecuento.Text = "Configuración Recuento";
+            this.btnConfRecuento.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnConfRecuento.UseVisualStyleBackColor = false;
+            this.btnConfRecuento.Click += new System.EventHandler(this.btnConfRecuento_Click);
             // 
             // btnSalir
             // 
@@ -180,23 +197,7 @@
             this.btnRespaldo.Text = "Generar Respaldo";
             this.btnRespaldo.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnRespaldo.UseVisualStyleBackColor = false;
-            // 
-            // btnConfRecuento
-            // 
-            this.btnConfRecuento.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnConfRecuento.BackColor = System.Drawing.Color.Transparent;
-            this.btnConfRecuento.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnConfRecuento.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnConfRecuento.Image = global::Sistema.ComputosElectorales.Properties.Resources.reload;
-            this.btnConfRecuento.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnConfRecuento.Location = new System.Drawing.Point(172, 403);
-            this.btnConfRecuento.Name = "btnConfRecuento";
-            this.btnConfRecuento.Size = new System.Drawing.Size(136, 163);
-            this.btnConfRecuento.TabIndex = 25;
-            this.btnConfRecuento.Text = "Configuración Recuento";
-            this.btnConfRecuento.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnConfRecuento.UseVisualStyleBackColor = false;
-            this.btnConfRecuento.Click += new System.EventHandler(this.btnConfRecuento_Click);
+            this.btnRespaldo.Click += new System.EventHandler(this.btnRespaldo_Click);
             // 
             // MainComputosElectorales
             // 
