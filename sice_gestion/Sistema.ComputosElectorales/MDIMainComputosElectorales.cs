@@ -155,19 +155,24 @@ namespace Sistema.ComputosElectorales
             try
             {
                 string nameFile = "";
+                string btnEnable = "";
                 DateTime localDate = DateTime.Now;
                 string date = localDate.ToString("MM-dd-yyyy_HH-mm-ss");
                 if (tipo == "CAPTURA")
                 {
                     nameFile = "Reporte_Excel_Captura_" + date;
+                    btnEnable = (completo) ? "btnGenerarExcelTodo" : "btnGenerarExcel";
+
                 }
                 else if(tipo == "RESPALDO")
                 {
                     nameFile = "Respaldo_Sice_" + date;
+                    btnEnable = "btnRespaldo";
                 }
                 else
                 {
                     nameFile = "Reporte_Excel_Recuento_" + date;
+                    btnEnable = "btnExcelRecuento";
                 }
 
                 
@@ -185,6 +190,11 @@ namespace Sistema.ComputosElectorales
                     Thread hilo = new Thread(delegado) { IsBackground = true };
                     //Iniciamos el hilo 
                     hilo.Start();
+                }
+                else
+                {
+                    Form active = this.ActiveMdiChild;
+                    BuscarControl(active.Controls, btnEnable);
                 }
             }
             catch (Exception ex)

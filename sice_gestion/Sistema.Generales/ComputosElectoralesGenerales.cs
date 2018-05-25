@@ -274,6 +274,7 @@ namespace Sistema.Generales
                         "CONCAT(C.nombre,' ',C.apellido_paterno,' ',C.apellido_materno)as candidato, " +
                         "CD.nombre_candidatura, " +
                         "P.siglas_par as partido, " +
+                        "P.local as partido_local, " +
                         "P.img_par as imagen " +
                         "FROM " + tabla + " V " +
                         "LEFT JOIN sice_candidatos C ON C.id = V.id_candidato " +
@@ -413,7 +414,9 @@ namespace Sistema.Generales
                         consulta =
                        "SELECT C.* FROM sice_casillas C " +
                        "LEFT JOIN sice_reserva_captura RC ON RC.id_casilla = C.id " +
-                       "WHERE RC.id IS NULL" + " AND C.id_cabecera_local = " + LoginInfo.id_municipio;
+                       "WHERE RC.id IS NULL" + " AND C.id_cabecera_local = " + LoginInfo.id_municipio + " " +
+                       "ORDER BY C.id_distrito_local ASC,C.seccion, C.id ASC";
+
                     }
 
                     
@@ -479,9 +482,10 @@ namespace Sistema.Generales
                         "CONCAT(C.nombre,' ',C.apellido_paterno,' ',C.apellido_materno)as candidato, " +
                         "CD.nombre_candidatura, " +
                         "P.siglas_par as partido, " +
+                        "P.local as partido_local, " +
                         "P.img_par as imagen " +
                         "FROM sice_candidatos C " +
-                        "JOIN sice_candidaturas CD ON CD.id = C.fk_cargo AND CD.titular = 1 " + //"AND CD.id_distrito =" + distrito +
+                        "JOIN sice_candidaturas CD ON CD.id = C.fk_cargo AND CD.titular = 1 " + "AND CD.id_distrito =" + distrito + " " +
                         "JOIN sice_partidos_politicos P ON P.id = C.fk_partido " +
                         "ORDER BY P.prelacion ASC";
                     return contexto.Database.SqlQuery<Candidatos>(consulta).ToList();
@@ -1007,7 +1011,8 @@ namespace Sistema.Generales
                             {
                                 hoja.Cells[fila, 1] = d.id;
                                 hoja.Cells[fila, 2] = d.id_supuesto;
-                                hoja.Cells[fila, 3] = d.fecha;
+                                hoja.Cells[fila, 3].NumberFormat = "@";
+                                hoja.Cells[fila, 3] = d.fecha != null ? ((DateTime)d.fecha).ToString("yyyy-MM-dd hh:mm:ss") : "";
                                 hoja.Cells[fila, 4] = d.id_casilla;
                                 hoja.Cells[fila, 5] = d.importado;
                                 fila++;
@@ -1024,8 +1029,10 @@ namespace Sistema.Generales
                                 hoja.Cells[fila, 5] = d.id_supuesto;
                                 hoja.Cells[fila, 6] = d.num_escritos;
                                 hoja.Cells[fila, 7] = d.boletas_sobrantes;
-                                hoja.Cells[fila, 8] = d.create_at;
-                                hoja.Cells[fila, 9] = d.updated_at;
+                                hoja.Cells[fila, 8].NumberFormat = "@";
+                                hoja.Cells[fila, 8] = d.create_at != null ? ((DateTime)d.create_at).ToString("yyyy-MM-dd hh:mm:ss"): "";
+                                hoja.Cells[fila, 9].NumberFormat = "@";
+                                hoja.Cells[fila, 9] = d.updated_at != null ? ((DateTime)d.updated_at).ToString("yyyy-MM-dd hh:mm:ss"): "";
                                 hoja.Cells[fila, 10] = d.personas_votaron;
                                 hoja.Cells[fila, 11] = d.num_representantes_votaron;
                                 hoja.Cells[fila, 12] = d.votos_sacados;
@@ -1527,10 +1534,22 @@ namespace Sistema.Generales
                 List<VotosSeccion> vSeccion = this.ResultadosSeccion(0, 0, (int)distrito);
                 //List<VotosSeccion> vSeccion = this.ResultadosSeccion(1, 1, (int)distrito);
                 List<Candidatos> candidatos = this.ListaCandidatos((int)distrito);
-                int tempC = candidatos.Count;
+                //int tempC = candidatos.Count;
+                var groupTotalNacional = candidatos.GroupBy(x => x.partido_local).Select(grp => new {
+                    local = grp.Key,
+                    total = grp.Count(),
+                }).ToArray();
+                int TotalRepresentantes = 0;
+                foreach (var numInfo in groupTotalNacional)
+                {
+                    if (numInfo.local == 1)
+                        TotalRepresentantes += numInfo.total;
+                    else if (numInfo.local == 0)
+                        TotalRepresentantes += numInfo.total * 2;
+                }
 
                 //Montamos las cabeceras 
-                char letraFinal = CrearEncabezados(filaInicialTabla, ref hoja,vSeccion,candidatos,1);
+                char letraFinal = CrearEncabezados(filaInicialTabla, ref hoja,vSeccion,candidatos,distrito,1);
 
 
                 //Agregar Datos
@@ -1613,7 +1632,7 @@ namespace Sistema.Generales
                     hoja.Cells[fila,2] = v.seccion; hoja.Cells[fila, 2].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
                     hoja.Cells[fila,3] = v.casilla; hoja.Cells[fila, 3].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
                     hoja.Cells[fila,4] = (v.estatus != null) ? v.estatus : "NO CAPTURADA";
-                    Lnominal = v.lista_nominal + tempC * 2;
+                    Lnominal = v.lista_nominal + TotalRepresentantes;
 
                     hoja.Cells[fila,contCand] = v.votos;
                     if (v.tipo == "VOTO")
@@ -1638,7 +1657,7 @@ namespace Sistema.Generales
             }
         }
 
-        private char CrearEncabezados(int fila, ref Excel._Worksheet hoja, List<VotosSeccion> vSeccion, List<Candidatos> candidatos, int columnaInicial = 1)
+        private char CrearEncabezados(int fila, ref Excel._Worksheet hoja, List<VotosSeccion> vSeccion, List<Candidatos> candidatos,int distrito, int columnaInicial = 1)
         {
             try
             {
@@ -1648,6 +1667,17 @@ namespace Sistema.Generales
                 float Top = 0;
                 const float ImageSize = 42; //Tamaño Imagen Partidos
                 string rutaImagen = System.AppDomain.CurrentDomain.BaseDirectory + "Resources\\";
+
+                sice_casillas casilla = null;
+                sice_distritos_locales dlocal = null;
+                sice_municipios mun = null;
+
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    casilla = (from c in contexto.sice_casillas where c.id_distrito_local == distrito select c).FirstOrDefault();
+                    mun = (from m in contexto.sice_municipios where m.id == casilla.id_cabecera_local select m).FirstOrDefault();
+                    dlocal = (from d in contexto.sice_distritos_locales where d.id == distrito select d).FirstOrDefault();
+                }
 
                 //Configuracon Hoja
                 hoja.PageSetup.Orientation = Excel.XlPageOrientation.xlLandscape;
@@ -1672,7 +1702,7 @@ namespace Sistema.Generales
                 List<double> widths = new List<double>();
 
                 //Agregar encabezados
-                hoja.Cells[fila - 3, columnaInicial] = "DISTRITO 1 CABECERA VICTORIA DE DURANGO";
+                hoja.Cells[fila - 3, columnaInicial] = dlocal.distrito + " CABECERA " + mun.municipio;
                 hoja.Range[hoja.Cells[fila - 3, columnaInicial], hoja.Cells[fila - 1, columnaInicial + 3]].Merge();
                 hoja.Cells[fila - 3, columnaInicial].WrapText = true;
                 hoja.Cells[fila - 3, columnaInicial].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;

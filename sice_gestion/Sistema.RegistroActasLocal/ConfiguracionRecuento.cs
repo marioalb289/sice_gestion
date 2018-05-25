@@ -130,7 +130,7 @@ namespace Sistema.RegistroActasLocal
 
         public int Round(double numero)
         {
-            if (numero < 1.0)
+            if(numero < 1.0)
                 return 1;
             double decimalpoints = Math.Abs(numero - Math.Floor(numero));
             if (decimalpoints > 0.30)
@@ -183,6 +183,9 @@ namespace Sistema.RegistroActasLocal
                 else
                 {
                     lblHorasDisponibles.Text = "0";
+                    lblPrDecimal.Text = "0";
+                    lblPr.Text = "0";
+                    return;
                 }
                 segmentos = segmentos * 2;                 
                 

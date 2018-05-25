@@ -27,8 +27,9 @@ namespace sice_gestion
             {
                 conf = new SistemaConfiguracion();
                 int res = conf.Inicializar();
-                msgBox = new MsgBox(this, "Respuesta: " + res, "Atención", MessageBoxButtons.OK, "Advertencia");
-                msgBox.ShowDialog(this);
+                MessageBox.Show("Proceso Terminado");
+                //msgBox = new MsgBox(this, "Respuesta: " + res, "Atención", MessageBoxButtons.OK, "Advertencia");
+                //msgBox.ShowDialog(this);
             }
             catch(Exception ex)
             {
@@ -47,7 +48,7 @@ namespace sice_gestion
                 ThreadStart delegado = new ThreadStart(EjecutarProceso);
                 delegado += () => {
                     // Do what you want in the callback
-                    this.btnInicializarTablas.Enabled = true;
+                    //this.btnInicializarTablas.Enabled = true;
                 };
                 //Creamos la instancia del hilo 
                 Thread hilo = new Thread(delegado) { IsBackground = true };
@@ -61,6 +62,30 @@ namespace sice_gestion
                 msgBox.ShowDialog(this);
             }
 
+        }
+
+        private void btnCargarRespaldo_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                btnInicializarTablas.Enabled = false;
+                //Creamos el delegado 
+                ThreadStart delegado = new ThreadStart(EjecutarProceso);
+                delegado += () => {
+                    // Do what you want in the callback
+                    this.btnInicializarTablas.Enabled = true;
+                };
+                //Creamos la instancia del hilo 
+                Thread hilo = new Thread(delegado) { IsBackground = true };
+                //Iniciamos el hilo 
+                hilo.Start();
+
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
         }
     }
 }

@@ -366,11 +366,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\morena.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\pan.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -404,6 +399,12 @@
     <None Include="Resources\alejandro.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\subida.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\morena.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

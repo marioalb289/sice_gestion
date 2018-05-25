@@ -31,6 +31,7 @@ namespace sice_gestion
                 {
                     this.btnRegistroActas.Enabled = true;
                     this.btnComputos.Enabled = true;
+                    this.btnConf.Visible = true;
                 }
             }
             catch(Exception ex)
@@ -43,7 +44,7 @@ namespace sice_gestion
         private void btnRegistroActas_Click(object sender, EventArgs e)
         {
             this.MdiParent.Hide();
-            if (LoginInfo.privilegios == 5 || LoginInfo.privilegios == 6)
+            if (LoginInfo.privilegios == 5 || LoginInfo.privilegios == 6 || LoginInfo.privilegios == 4)
             {
                 Sistema.RegistroActasLocal.MDIMainRegistroActas form = new Sistema.RegistroActasLocal.MDIMainRegistroActas();
                 form.FormClosed += Form_FormClosed;

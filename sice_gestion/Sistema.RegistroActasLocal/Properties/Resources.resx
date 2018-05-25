@@ -244,9 +244,6 @@
   <data name="mc" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\mc.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="morena" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\morena.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="pan" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\pan.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -282,5 +279,11 @@
   </data>
   <data name="pan_prd_pd" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\pan_prd_pd.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="subida" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\subida.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="morena" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\morena.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

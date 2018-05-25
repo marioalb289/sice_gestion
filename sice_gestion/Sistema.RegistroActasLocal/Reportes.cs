@@ -121,9 +121,20 @@ namespace Sistema.RegistroActasLocal
             {
                 rgActas = new RegistroLocalGenerales();
                 this.listaCandidatos = rgActas.ListaCandidatos(distrito);
-                int tc = listaCandidatos.Count;
+                var groupTotalNacional = this.listaCandidatos.GroupBy(x => x.partido_local).Select(grp => new {
+                    local = grp.Key,
+                    total = grp.Count(),
+                }).ToArray();
+                int TotalRepresentantes = 0;
+                foreach (var numInfo in groupTotalNacional)
+                {
+                    if (numInfo.local == 1)
+                        TotalRepresentantes += numInfo.total;
+                    else
+                        TotalRepresentantes += numInfo.total * 2;
+                }
                 List<VotosSeccion> vSeccionTotales = rgActas.ResultadosSeccionCaptura(0, 0, (int)distrito);
-                List<VotosSeccion> totalAgrupado =vSeccionTotales.GroupBy(x => x.id_casilla).Select(data => new VotosSeccion { id_candidato = data.First().id_candidato, casilla = data.First().casilla,lista_nominal = data.First().lista_nominal + tc * 2, votos = data.First().votos }).ToList();
+                List<VotosSeccion> totalAgrupado =vSeccionTotales.GroupBy(x => x.id_casilla).Select(data => new VotosSeccion { id_candidato = data.First().id_candidato, casilla = data.First().casilla,lista_nominal = data.First().lista_nominal + TotalRepresentantes, votos = data.First().votos }).ToList();
                 int LnominalDistrito = totalAgrupado.Sum(x => x.lista_nominal);
                 int TotalVotosDistrito = vSeccionTotales.Sum(x => (int)x.votos);
 
@@ -288,7 +299,20 @@ namespace Sistema.RegistroActasLocal
                 int Lnominal = 0;
 
                 List<Candidatos> listaCandidatos = rgActas.ListaCandidatos((int)distrito);
-                int tempC = listaCandidatos.Count;
+                //int tempC = listaCandidatos.Count;
+
+                var groupTotalNacional = listaCandidatos.GroupBy(x => x.partido_local).Select(grp => new {
+                    local = grp.Key,
+                    total = grp.Count(),
+                }).ToArray();
+                int TotalRepresentantes = 0;
+                foreach (var numInfo in groupTotalNacional)
+                {
+                    if (numInfo.local == 1)
+                        TotalRepresentantes += numInfo.total;
+                    else
+                        TotalRepresentantes += numInfo.total * 2;
+                }
 
                 foreach (VotosSeccion v in vSeccion)
                 {
@@ -358,7 +382,7 @@ namespace Sistema.RegistroActasLocal
                     row.Cells[1].Value = v.seccion;
                     row.Cells[2].Value = v.casilla;
                     row.Cells[3].Value = v.estatus_acta != null ? v.estatus_acta : "NO CAPTURADA";
-                    Lnominal = v.lista_nominal + tempC*2;
+                    Lnominal =  v.lista_nominal + TotalRepresentantes;
 
                     row.Cells[contCand].Value = v.votos;
                     if (v.tipo == "VOTO")
@@ -676,60 +700,69 @@ namespace Sistema.RegistroActasLocal
 
         private void dgvResultados_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            int inicio = 5;
-            int fin = this.listaCandidatos.Count + 4;
-            if(this.listaCandidatos.Count > 0)
+            try
             {
-                if (e.RowIndex < 0 && (e.ColumnIndex >= inicio && e.ColumnIndex <= fin))
-
+                int inicio = 5;
+                int fin = this.listaCandidatos.Count + 4;
+                if (this.listaCandidatos.Count > 0)
                 {
+                    if (e.RowIndex < 0 && (e.ColumnIndex >= inicio && e.ColumnIndex <= fin))
 
-                    //e.Graphics.DrawImage((System.Drawing.Image)(Resources.pri), e.CellBounds);
+                    {
 
-                   
-                    //Image img = (System.Drawing.Image)(Resources.pri);
-                    Image img = (System.Drawing.Image)(resources.GetObject(listaCandidatos[e.ColumnIndex - inicio].imagen));
-                    Rectangle r32 = new Rectangle(e.CellBounds.Left + e.CellBounds.Width - 65, 5, 50, 50);
-                    Rectangle r96 = new Rectangle(0, 0, 135, 120);
-                    string header = dgvResultados.Columns[e.ColumnIndex].HeaderText;
-                    e.PaintBackground(e.CellBounds, true);  // or maybe false ie no selection?
-                    e.PaintContent(e.CellBounds);
-
-                    e.Graphics.DrawImage(img, r32, r96, GraphicsUnit.Pixel);
+                        //e.Graphics.DrawImage((System.Drawing.Image)(Resources.pri), e.CellBounds);
 
 
-                    e.Handled = true;
+                        //Image img = (System.Drawing.Image)(Resources.pri);
+                        Image img = (System.Drawing.Image)(resources.GetObject(listaCandidatos[e.ColumnIndex - inicio].imagen));
+                        Rectangle r32 = new Rectangle(e.CellBounds.Left + e.CellBounds.Width - 65, 5, 50, 50);
+                        Rectangle r96 = new Rectangle(0, 0, 135, 120);
+                        string header = dgvResultados.Columns[e.ColumnIndex].HeaderText;
+                        e.PaintBackground(e.CellBounds, true);  // or maybe false ie no selection?
+                        e.PaintContent(e.CellBounds);
 
+                        e.Graphics.DrawImage(img, r32, r96, GraphicsUnit.Pixel);
+
+
+                        e.Handled = true;
+
+                    }
+                    else if (e.RowIndex < 0 && e.ColumnIndex == fin + 1)
+                    {
+                        Image img = (System.Drawing.Image)(Resources.no_regis);
+                        Rectangle r32 = new Rectangle(e.CellBounds.Left + e.CellBounds.Width - 83, 5, 50, 50);
+                        Rectangle r96 = new Rectangle(0, 0, 60, 60);
+                        string header = dgvResultados.Columns[e.ColumnIndex].HeaderText;
+                        e.PaintBackground(e.CellBounds, true);  // or maybe false ie no selection?
+                        e.PaintContent(e.CellBounds);
+
+                        e.Graphics.DrawImage(img, r32, r96, GraphicsUnit.Pixel);
+
+
+                        e.Handled = true;
+                    }
+                    else if (e.RowIndex < 0 && e.ColumnIndex == fin + 2)
+                    {
+                        Image img = (System.Drawing.Image)(Resources.nulos);
+                        Rectangle r32 = new Rectangle(e.CellBounds.Left + e.CellBounds.Width - 56, 5, 50, 50);
+                        Rectangle r96 = new Rectangle(0, 0, 60, 60);
+                        string header = dgvResultados.Columns[e.ColumnIndex].HeaderText;
+                        e.PaintBackground(e.CellBounds, true);  // or maybe false ie no selection?
+                        e.PaintContent(e.CellBounds);
+
+                        e.Graphics.DrawImage(img, r32, r96, GraphicsUnit.Pixel);
+
+
+                        e.Handled = true;
+                    }
                 }
-                else if (e.RowIndex < 0 && e.ColumnIndex == fin+1 )
-                {
-                    Image img = (System.Drawing.Image)(Resources.no_regis);
-                    Rectangle r32 = new Rectangle(e.CellBounds.Left + e.CellBounds.Width - 83, 5, 50, 50);
-                    Rectangle r96 = new Rectangle(0, 0, 60, 60);
-                    string header = dgvResultados.Columns[e.ColumnIndex].HeaderText;
-                    e.PaintBackground(e.CellBounds, true);  // or maybe false ie no selection?
-                    e.PaintContent(e.CellBounds);
 
-                    e.Graphics.DrawImage(img, r32, r96, GraphicsUnit.Pixel);
-
-
-                    e.Handled = true;
-                }
-                else if (e.RowIndex < 0 && e.ColumnIndex == fin + 2)
-                {
-                    Image img = (System.Drawing.Image)(Resources.nulos);
-                    Rectangle r32 = new Rectangle(e.CellBounds.Left + e.CellBounds.Width -56, 5, 50, 50);
-                    Rectangle r96 = new Rectangle(0, 0, 60, 60);
-                    string header = dgvResultados.Columns[e.ColumnIndex].HeaderText;
-                    e.PaintBackground(e.CellBounds, true);  // or maybe false ie no selection?
-                    e.PaintContent(e.CellBounds);
-
-                    e.Graphics.DrawImage(img, r32, r96, GraphicsUnit.Pixel);
-
-
-                    e.Handled = true;
-                }
             }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }          
             
         }
     }

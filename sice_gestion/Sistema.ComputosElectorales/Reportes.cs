@@ -107,9 +107,21 @@ namespace Sistema.ComputosElectorales
             {
                 CompElec = new ComputosElectoralesGenerales();
                 List<Candidatos> listaCandidatos = CompElec.ListaCandidatos(distrito);
-                int totalCandidatos = listaCandidatos.Count;
+                var groupTotalNacional = listaCandidatos.GroupBy(x => x.partido_local).Select(grp => new {
+                    local = grp.Key,
+                    total = grp.Count(),
+                }).ToArray();
+                int TotalRepresentantes = 0;
+                foreach (var numInfo in groupTotalNacional)
+                {
+                    if (numInfo.local == 1)
+                        TotalRepresentantes += numInfo.total;
+                    else if (numInfo.local == 0)
+                        TotalRepresentantes += numInfo.total * 2;
+                }
+                
                 List<VotosSeccion> vSeccionTotales = CompElec.ResultadosSeccion(0, 0, (int)distrito);
-                List<VotosSeccion> totalAgrupado = vSeccionTotales.GroupBy(x => x.id_casilla).Select(data => new VotosSeccion { id_candidato = data.First().id_candidato, casilla = data.First().casilla, lista_nominal = data.First().lista_nominal + totalCandidatos*2, votos = data.First().votos }).ToList();
+                List<VotosSeccion> totalAgrupado = vSeccionTotales.GroupBy(x => x.id_casilla).Select(data => new VotosSeccion { id_candidato = data.First().id_candidato, casilla = data.First().casilla, lista_nominal = data.First().lista_nominal + TotalRepresentantes, votos = data.First().votos }).ToList();
                 
                 int LnominalDistrito = totalAgrupado.Sum(x => x.lista_nominal);
                 int TotalVotosDistrito = vSeccionTotales.Sum(x => (int)x.votos);
@@ -272,7 +284,20 @@ namespace Sistema.ComputosElectorales
                 int Lnominal = 0;
 
                 this.listaCandidatos = CompElec.ListaCandidatos((int)distrito);
-                int tempC = listaCandidatos.Count;
+                //int tempC = listaCandidatos.Count;
+
+                var groupTotalNacional = listaCandidatos.GroupBy(x => x.partido_local).Select(grp => new {
+                    local = grp.Key,
+                    total = grp.Count(),
+                }).ToArray();
+                int TotalRepresentantes = 0;
+                foreach (var numInfo in groupTotalNacional)
+                {
+                    if (numInfo.local == 1)
+                        TotalRepresentantes += numInfo.total;
+                    else if (numInfo.local == 0)
+                        TotalRepresentantes += numInfo.total * 2;
+                }
 
                 foreach (VotosSeccion v in vSeccion)
                 {
@@ -307,7 +332,7 @@ namespace Sistema.ComputosElectorales
                             diferencia = Math.Round((Convert.ToDecimal(diferenciaTotal) * 100) / totalVotacionEmitida, 2);
                         }
                         row.Cells[4].Value = diferencia + "%";
-
+                         
                         //Votacion Emitida
                         row.Cells[contCand].Value = totalVotacionEmitida;
 
@@ -335,7 +360,7 @@ namespace Sistema.ComputosElectorales
                     row.Cells[1].Value = v.seccion;
                     row.Cells[2].Value = v.casilla;
                     row.Cells[3].Value = (v.estatus != null ) ? v.estatus: "NO CAPTURADA";
-                    Lnominal = v.lista_nominal + tempC * 2; 
+                    Lnominal = v.lista_nominal + TotalRepresentantes; 
 
                     row.Cells[contCand].Value = v.votos;
                     if (v.tipo == "VOTO")

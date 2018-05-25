@@ -450,9 +450,21 @@ namespace Sistema.ComputosElectorales
                 sice_reserva_captura detallesActa = CompElec.DetallesActa(Convert.ToInt32(cmbCasilla.SelectedValue));
                 if (lsCandidatos != null && detallesActa != null)
                 {
+                    var groupTotalNacional = lsCandidatos.GroupBy(x => x.partido_local).Select(grp => new {
+                        local = grp.Key,
+                        total = grp.Count(),
+                    }).ToArray();
+                    int TotalRepresentantes = 0;
+                    foreach (var numInfo in groupTotalNacional)
+                    {
+                        if (numInfo.local == 1)
+                            TotalRepresentantes += numInfo.total;
+                        else if (numInfo.local == 0)
+                            TotalRepresentantes += numInfo.total * 2;
+                    }
+
                     this.totalCandidatos = lsCandidatos.Count() + 2;
                     this.cmbSupuesto.Enabled = true;
-                    this.boletasRecibidas = lsCandidatos.Count();
                     sice_reserva_captura rs = CompElec.EstatusActa(Convert.ToInt32(cmbCasilla.SelectedValue));
                     this.lblEstatus.Text = rs.tipo_reserva;
 
@@ -475,7 +487,7 @@ namespace Sistema.ComputosElectorales
                     this.lblListaNominal.Text = tempSec.listaNominal.ToString();
                     this.lblDistrito.Text = tempSec.distrito.ToString();
                     this.Lnominal = tempSec.listaNominal;
-                    this.boletasRecibidas = this.Lnominal + (lsCandidatos.Count() * 2); //Lista nominal + 2 veces el numero de representantes de casillas
+                    this.boletasRecibidas = this.Lnominal + TotalRepresentantes; //Lista nominal + 2 veces el numero de representantes de casillas
                     this.txtBoletasR.Text = this.boletasRecibidas.ToString();
 
                     this.cmbEstatusActa.SelectedValue = detallesActa.id_estatus_acta != null ? detallesActa.id_estatus_acta:1;

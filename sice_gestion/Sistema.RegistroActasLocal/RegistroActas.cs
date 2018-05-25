@@ -416,8 +416,20 @@ namespace Sistema.RegistroActasLocal
 
                 if (lsCandidatos != null)
                 {
+                    var groupTotalNacional = lsCandidatos.GroupBy(x => x.partido_local).Select(grp => new {
+                        local = grp.Key,
+                        total = grp.Count(),
+                    }).ToArray();
+                    int TotalRepresentantes = 0;
+                    foreach (var numInfo in groupTotalNacional)
+                    {
+                        if (numInfo.local == 1)
+                            TotalRepresentantes += numInfo.total;
+                        else
+                            TotalRepresentantes += numInfo.total * 2;
+                    }
+
                     this.totalCandidatos = lsCandidatos.Count() + 2;
-                    this.boletasRecibidas = lsCandidatos.Count();
 
 
                     this.pictureBoxes = new PictureBox[lsCandidatos.Count + 2];
@@ -431,7 +443,7 @@ namespace Sistema.RegistroActasLocal
                     this.lblListaNominal.Text = tempSec.listaNominal.ToString();
                     this.lblDistrito.Text = tempSec.distrito.ToString();
                     this.Lnominal = tempSec.listaNominal;
-                    this.boletasRecibidas = tempSec.listaNominal + (lsCandidatos.Count() * 2); //Lista nominal + 2 veces el numero de representantes de casillas
+                    this.boletasRecibidas = tempSec.listaNominal + TotalRepresentantes; //Lista nominal + 2 veces el numero de representantes de casillas
                     this.txtBoletasR.Text = this.boletasRecibidas.ToString();
 
 

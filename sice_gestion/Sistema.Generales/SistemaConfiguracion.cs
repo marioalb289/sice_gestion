@@ -119,7 +119,7 @@ namespace Sistema.Generales
                         "P.siglas_par as partido, " +
                         "P.img_par as imagen " +
                         "FROM sice_candidatos C " +
-                        "JOIN sice_candidaturas CD ON CD.id = C.fk_cargo AND CD.titular = 1 " + // "AND CD.id_distrito =" + distrito + " "+
+                        "JOIN sice_candidaturas CD ON CD.id = C.fk_cargo AND CD.titular = 1 " + "AND CD.id_distrito =" + distrito + " " +
                         "JOIN sice_partidos_politicos P ON P.id = C.fk_partido";
                     return contexto.Database.SqlQuery<Candidatos>(consulta).ToList();
                 }

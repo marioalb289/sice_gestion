@@ -29,8 +29,9 @@ namespace Sistema.ComputosElectorales
                 switch (LoginInfo.privilegios)
                 {
                     case 4:
-                        btnModificar.Visible = false;
+                        btnModificar.Visible = true;
                         btnRecuentoVotos.Enabled = false;
+                        btnConsultarActas.Enabled = false;
                         break;
                     case 5:
                         btnModificar.Visible = false;

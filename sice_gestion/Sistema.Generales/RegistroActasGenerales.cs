@@ -1204,6 +1204,7 @@ namespace Sistema.Generales
         public string nombre_candidatura { get; set; }
         public string partido { get; set; }
         public string imagen { get; set; }
+        public Nullable<int> partido_local { get; set; }
 
     }
 
@@ -1213,6 +1214,7 @@ namespace Sistema.Generales
         public string candidato { get; set; }
         public string nombre_candidatura { get; set; }
         public string partido { get; set; }
+        public int partido_local { get; set; }
         public string imagen { get; set; }
         public int prelacion { get; set; }
 
@@ -1238,6 +1240,7 @@ namespace Sistema.Generales
         public string tipo { get; set; }
         public string candidato { get; set; }
         public string partido { get; set; }
+        public Nullable<int> partido_local { get; set; }
         public string imagen { get; set; }
         public int distrito_local { get; set; }
         public string municipio { get; set; }

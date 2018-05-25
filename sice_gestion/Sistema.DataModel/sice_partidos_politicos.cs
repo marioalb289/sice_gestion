@@ -30,6 +30,7 @@ namespace Sistema.DataModel
         public string info_creado { get; set; }
         public Nullable<int> prelacion { get; set; }
         public string tipo { get; set; }
+        public Nullable<int> local { get; set; }
     
         public virtual ICollection<sice_candidatos> sice_candidatos { get; set; }
     }

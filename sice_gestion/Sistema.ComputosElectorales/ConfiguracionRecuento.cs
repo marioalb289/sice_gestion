@@ -183,6 +183,9 @@ namespace Sistema.ComputosElectorales
                 else
                 {
                     lblHorasDisponibles.Text = "0";
+                    lblPrDecimal.Text = "0";
+                    lblPr.Text = "0";
+                    return;
                 }
                 segmentos = segmentos * 2;
 

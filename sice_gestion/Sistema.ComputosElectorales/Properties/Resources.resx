@@ -163,24 +163,6 @@
   <data name="Information_641" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Information_641.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="morena" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAEAAAAA9CAIAAACSt/iWAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wwAADsMBx2+oZAAAArRJREFUaEPtls+LjWEUx+/fKCULKVlIyYLFZMGChSxYyIIFG4oFC6aY0kgjGcWU
-        bjGKKd2aRjLKKN3S48P3na+n9317mbs5qfPtdHvOr+c53/P8eO+o/OdIAtFIAtFIAtFIAtFIAtFIAtFI
-        AtFIAtFIAtFIAtFIAtEYTZ4svbl188va+42VlwyQtYUHP6ZTLFKRT+NxE76Nbx837CWxsZZC4ts7tzF+
-        39z8vLr66splRC5S5GqlrC8vy0I8gxcXzr+bv0d6494GNeBlNsqbbm01Vgjc3b2rK/f372tZmLTJKIWJ
-        Wt6np05qUqqUZeHgAQ2enzuLnXSpFgr9PVl5ePhQy4VQgLsGQ89mL/2V9w8BgqjDKrJ0Ym7x6BGN8SqB
-        BsjCLMR7eYLxmoDl9Y3rdFdjLeHuqCmegQHeekX2k4Cvk4kseM2EsF/V1ASkj69dlbpy6SIqUzhA2+op
-        2HFUGu8KKLTeAVqoFPdFKXRU6uPjx1Cdrpazojn4pJEoMixn/qyFpU3gw6NFqSIAHEACG6exGwDosYyQ
-        NwHKatylzO/dIyNnD3E8drwtAsCEKUYWwMxqh+NnIWAva8gLfKhI6RKwpVcI+CsB7N6TWmYhwJOlcU3A
-        F3SYAP3WDrBRpCNaYpgA6d7AlsxCoFsf4GmTkeJ6A3xqu48jGCbAnBq7HsfPQgCVmyeVSFSMvtbckF4C
-        vJgyPjtzWhz45SrrKRwm4EeFXFxcYi/HccCyYwIsY0st+mD1EqDQ3mPAdw3vMAHeH417hZl3TAB0vyw8
-        LHL1EgA8iD5IEu6lXslhAqjwlIro46MxTWGGEWkSJbO5Uvl8yOIAvcSG7fWHnRgZ9eTXsAtxL/4RxCtR
-        NdTj/DcajSQQjSQQjSQQjSQQjSQQjSQQjSQQjSQQjSQQjSQQjSQQjSQQi1J+Avay5V/9cuYTAAAAAElF
-        TkSuQmCC
-</value>
-  </data>
   <data name="no_regis" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\no-regis1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -256,7 +238,7 @@
   <data name="mc" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\mc.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="morena1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="morena" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\morena.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="pan" type="System.Resources.ResXFileRef, System.Windows.Forms">

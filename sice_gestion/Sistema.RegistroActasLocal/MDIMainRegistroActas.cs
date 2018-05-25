@@ -113,6 +113,42 @@ namespace Sistema.RegistroActasLocal
                 MessageBox.Show("Error al descargar Datos. Intentalo de nuevo", "Atencion", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+        private void ProcesoImportarExcel(OpenFileDialog fichero)
+        {
+            try
+            {
+                rgActas = new RegistroLocalGenerales();
+                int res = 0;
+                res = rgActas.importarExcel(fichero);
+
+
+                if (this.IsDisposed)
+                {
+                    switch (res)
+                    {
+                        case 0:
+                            MessageBox.Show("Se produjo un error al Generar el archivo. Intentalo de nuevo. \nSi el problema persiste notifique al administrador del sistema", "Atencion", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
+                        case 1:
+                            MessageBox.Show("Archivo en Excel generado correctamente", "Atencion", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            break;
+                    }
+                }
+                else
+                {
+                    DelegateOcultarExcel MD = new DelegateOcultarExcel(showMesageExcel);
+                    this.Invoke(MD, new object[] { res, false, "IMPORTAR" });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al descargar Datos. Intentalo de nuevo", "Atencion", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+        
+
+
         public void DescargarDatosLocal(int selected)
         {
             try
@@ -213,6 +249,39 @@ namespace Sistema.RegistroActasLocal
                 msgBox.ShowDialog(this);
             }
         }
+
+        public void ImportarExcel()
+        {
+            try
+            {
+                OpenFileDialog fichero = new OpenFileDialog();
+                fichero.Title = "Buscar Archivos Excel";
+                fichero.Filter = "Excel Files|*.xls;*.xlsx";
+                if (fichero.ShowDialog() == DialogResult.OK)
+                {
+                    //Creamos el delegado 
+                    lblGenerarExcel.Visible = true;
+                    pictureExcel.Visible = true;
+                    ThreadStart delegado = new ThreadStart(() => ProcesoImportarExcel(fichero));
+                    //Creamos la instancia del hilo 
+                    Thread hilo = new Thread(delegado) { IsBackground = true };
+                    //Iniciamos el hilo 
+                    hilo.Start();
+                }
+                else
+                {
+                    Form active = this.ActiveMdiChild;
+                    BuscarControl(active.Controls, "btnImportarRespaldo");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+        }
+
 
         private void showMesage(int res)
         {

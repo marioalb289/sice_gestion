@@ -253,16 +253,6 @@ namespace Sistema.ComputosElectorales.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap morena1 {
-            get {
-                object obj = ResourceManager.GetObject("morena1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap no_regis {
             get {
                 object obj = ResourceManager.GetObject("no_regis", resourceCulture);

@@ -38,6 +38,7 @@
             this.btnReportes = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.btnIdentificar = new System.Windows.Forms.Button();
+            this.btnImportarRespaldo = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -50,6 +51,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.Controls.Add(this.btnImportarRespaldo, 4, 2);
             this.tableLayoutPanel1.Controls.Add(this.btnConfRecuento, 3, 1);
             this.tableLayoutPanel1.Controls.Add(this.btnModificar, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.btnRespaldo, 3, 2);
@@ -219,6 +221,23 @@
             this.btnIdentificar.UseVisualStyleBackColor = false;
             this.btnIdentificar.Click += new System.EventHandler(this.btnIdentificar_Click);
             // 
+            // btnImportarRespaldo
+            // 
+            this.btnImportarRespaldo.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnImportarRespaldo.BackColor = System.Drawing.Color.Transparent;
+            this.btnImportarRespaldo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnImportarRespaldo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnImportarRespaldo.Image = global::Sistema.RegistroActasLocal.Properties.Resources.subida;
+            this.btnImportarRespaldo.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnImportarRespaldo.Location = new System.Drawing.Point(652, 409);
+            this.btnImportarRespaldo.Name = "btnImportarRespaldo";
+            this.btnImportarRespaldo.Size = new System.Drawing.Size(136, 163);
+            this.btnImportarRespaldo.TabIndex = 25;
+            this.btnImportarRespaldo.Text = "Importar Respaldo";
+            this.btnImportarRespaldo.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnImportarRespaldo.UseVisualStyleBackColor = false;
+            this.btnImportarRespaldo.Click += new System.EventHandler(this.btnImportarRespaldo_Click);
+            // 
             // MainRegistroLocal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -245,5 +264,6 @@
         private System.Windows.Forms.Button btnRespaldo;
         private System.Windows.Forms.Button btnModificar;
         private System.Windows.Forms.Button btnConfRecuento;
+        private System.Windows.Forms.Button btnImportarRespaldo;
     }
 }

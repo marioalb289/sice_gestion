@@ -434,6 +434,20 @@ namespace Sistema.ComputosElectorales
                 this.totalCandidatos = lsCandidatos.Count();
                 if (lsCandidatos != null)
                 {
+
+                    var groupTotalNacional = lsCandidatos.GroupBy(x => x.partido_local).Select(grp => new {
+                        local = grp.Key,
+                        total = grp.Count(),
+                    }).ToArray();
+                    int TotalRepresentantes = 0;
+                    foreach (var numInfo in groupTotalNacional)
+                    {
+                        if (numInfo.local == 1)
+                            TotalRepresentantes += numInfo.total;
+                        else if (numInfo.local == 0)
+                            TotalRepresentantes += numInfo.total * 2;
+                    }
+
                     this.totalCandidatos = lsCandidatos.Count() + 2;
                     this.cmbSupuesto.Enabled = true;
                     this.boletasRecibidas = lsCandidatos.Count();
@@ -446,7 +460,7 @@ namespace Sistema.ComputosElectorales
                     this.tablePanelPartidos.RowCount = 1;
                     this.btnGuardar.Enabled = true;
 
-                    this.boletasRecibidas = this.Lnominal + (lsCandidatos.Count() * 2); //Lista nominal + 2 veces el numero de representantes de casillas
+                    this.boletasRecibidas = this.Lnominal + TotalRepresentantes; //Lista nominal + 2 veces el numero de representantes de casillas
                     this.txtBoletasR.Text = this.boletasRecibidas.ToString();
 
                     //Agregar Columnas
