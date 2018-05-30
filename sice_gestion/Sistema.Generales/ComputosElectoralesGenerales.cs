@@ -19,13 +19,14 @@ namespace Sistema.Generales
 
         public ComputosElectoralesGenerales()
         {
-            if (LoginInfo.privilegios == 6)
-            {
-                con = "MYSQLSERVER";
-            }
-            else
+            if (LoginInfo.privilegios == 5 || LoginInfo.privilegios == 6 || LoginInfo.privilegios == 7)
             {
                 con = "MYSQLOCAL";
+
+            }
+            else if (LoginInfo.privilegios == 4)
+            {
+                con = "MYSQLSERVER";
             }
         }
 
