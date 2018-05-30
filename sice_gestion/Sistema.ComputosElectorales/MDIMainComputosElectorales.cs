@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Sistema.Generales;
 using System.Threading;
+using Sistema.ComputosElectorales.Properties;
 
 namespace Sistema.ComputosElectorales
 {
@@ -22,6 +23,7 @@ namespace Sistema.ComputosElectorales
         public MDIMainComputosElectorales()
         {
             InitializeComponent();
+            this.Icon = Resources.logo;
             this.InicializarComputos();
         }
         public void InicializarComputos()
@@ -149,6 +151,39 @@ namespace Sistema.ComputosElectorales
                 MessageBox.Show("Error al descargar Datos. Intentalo de nuevo", "Atencion", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+        private void ProcesoImportarExcel(OpenFileDialog fichero)
+        {
+            try
+            {
+                CompElec = new ComputosElectoralesGenerales();
+                int res = 0;
+                res = CompElec.importarExcel(fichero);
+
+
+                if (this.IsDisposed)
+                {
+                    switch (res)
+                    {
+                        case 0:
+                            MessageBox.Show("Se produjo un error al Generar el archivo. Intentalo de nuevo. \nSi el problema persiste notifique al administrador del sistema", "Atencion", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
+                        case 1:
+                            MessageBox.Show("Archivo en Excel generado correctamente", "Atencion", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            break;
+                    }
+                }
+                else
+                {
+                    DelegateOcultarExcel MD = new DelegateOcultarExcel(showMesageExcel);
+                    this.Invoke(MD, new object[] { res, false, "IMPORTAR" });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al descargar Datos. Intentalo de nuevo", "Atencion", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
 
         public void GenerarExcel(int selected, bool completo = false,string tipo="CAPTURA")
         {
@@ -163,7 +198,7 @@ namespace Sistema.ComputosElectorales
                     nameFile = "Reporte_Excel_Captura_" + date;
                     btnEnable = (completo) ? "btnGenerarExcelTodo" : "btnGenerarExcel";
 
-                }
+                }   
                 else if(tipo == "RESPALDO")
                 {
                     nameFile = "Respaldo_Sice_" + date;
@@ -196,6 +231,37 @@ namespace Sistema.ComputosElectorales
                     Form active = this.ActiveMdiChild;
                     BuscarControl(active.Controls, btnEnable);
                 }
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+        }
+        public void ImportarExcel()
+        {
+            try
+            {
+                OpenFileDialog fichero = new OpenFileDialog();
+                fichero.Title = "Buscar Archivos Excel";
+                fichero.Filter = "Excel Files|*.xls;*.xlsx";
+                if (fichero.ShowDialog() == DialogResult.OK)
+                {
+                    //Creamos el delegado 
+                    lblGenerarExcel.Visible = true;
+                    pictureExcel.Visible = true;
+                    ThreadStart delegado = new ThreadStart(() => ProcesoImportarExcel(fichero));
+                    //Creamos la instancia del hilo 
+                    Thread hilo = new Thread(delegado) { IsBackground = true };
+                    //Iniciamos el hilo 
+                    hilo.Start();
+                }
+                else
+                {
+                    Form active = this.ActiveMdiChild;
+                    BuscarControl(active.Controls, "btnImportarRespaldo");
+                }
+
             }
             catch (Exception ex)
             {
@@ -262,7 +328,15 @@ namespace Sistema.ComputosElectorales
                 }
                 else if (formname == "MainComputosElectorales")
                 {
-                    BuscarControl(active.Controls, "btnRespaldo");
+                    if (tipo == "RESPALDO")
+                    {
+                        BuscarControl(active.Controls, "btnRespaldo");
+
+                    }
+                    else if (tipo == "IMPORTAR")
+                    {
+                        BuscarControl(active.Controls, "btnImportarRespaldo");
+                    }
                 }
                 switch (res)
                 {

@@ -109,27 +109,27 @@ namespace sice_gestion
 
         private void btnAcceso_Click(object sender, EventArgs e)
         {
-            //this.Validar();
-            try
-            {
-                OpenFileDialog fichero = new OpenFileDialog();
-                fichero.Title = "Buscar Archivos Excel";
-                fichero.Filter = "Excel Files|*.xls;*.xlsx";
-                if (fichero.ShowDialog() == DialogResult.OK)
-                {
-                    RegistroLocalGenerales temp = new RegistroLocalGenerales();
-                    temp.importarExcel(fichero);
-                }
-                else
-                {
-                    return;
-                }
-            }
-            catch (Exception ex)
-            {
-                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
-                msgBox.ShowDialog();
-            }
+            this.Validar();
+            //try
+            //{
+            //    OpenFileDialog fichero = new OpenFileDialog();
+            //    fichero.Title = "Buscar Archivos Excel";
+            //    fichero.Filter = "Excel Files|*.xls;*.xlsx";
+            //    if (fichero.ShowDialog() == DialogResult.OK)
+            //    {
+            //        RegistroLocalGenerales temp = new RegistroLocalGenerales();
+            //        temp.importarExcel(fichero);
+            //    }
+            //    else
+            //    {
+            //        return;
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+            //    msgBox.ShowDialog();
+            //}
 
         }
 

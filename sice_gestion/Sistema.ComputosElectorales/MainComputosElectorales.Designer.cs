@@ -29,10 +29,11 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnImportarRespaldo = new System.Windows.Forms.Button();
             this.btnConfRecuento = new System.Windows.Forms.Button();
             this.btnSalir = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.btnConsultarActas = new System.Windows.Forms.Button();
+            this.btnCasillasReserva = new System.Windows.Forms.Button();
             this.btnRecuentoVotos = new System.Windows.Forms.Button();
             this.btnReportes = new System.Windows.Forms.Button();
             this.btnModificar = new System.Windows.Forms.Button();
@@ -49,10 +50,11 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.Controls.Add(this.btnImportarRespaldo, 4, 2);
             this.tableLayoutPanel1.Controls.Add(this.btnConfRecuento, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.btnSalir, 3, 2);
             this.tableLayoutPanel1.Controls.Add(this.label2, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.btnConsultarActas, 2, 1);
+            this.tableLayoutPanel1.Controls.Add(this.btnCasillasReserva, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.btnRecuentoVotos, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.btnReportes, 3, 1);
             this.tableLayoutPanel1.Controls.Add(this.btnModificar, 4, 1);
@@ -66,6 +68,23 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 38.17204F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(800, 600);
             this.tableLayoutPanel1.TabIndex = 8;
+            // 
+            // btnImportarRespaldo
+            // 
+            this.btnImportarRespaldo.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnImportarRespaldo.BackColor = System.Drawing.Color.Transparent;
+            this.btnImportarRespaldo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnImportarRespaldo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnImportarRespaldo.Image = global::Sistema.ComputosElectorales.Properties.Resources.subida;
+            this.btnImportarRespaldo.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnImportarRespaldo.Location = new System.Drawing.Point(652, 403);
+            this.btnImportarRespaldo.Name = "btnImportarRespaldo";
+            this.btnImportarRespaldo.Size = new System.Drawing.Size(136, 163);
+            this.btnImportarRespaldo.TabIndex = 26;
+            this.btnImportarRespaldo.Text = "Importar Respaldo";
+            this.btnImportarRespaldo.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnImportarRespaldo.UseVisualStyleBackColor = false;
+            this.btnImportarRespaldo.Click += new System.EventHandler(this.btnImportarRespaldo_Click);
             // 
             // btnConfRecuento
             // 
@@ -89,7 +108,7 @@
             this.btnSalir.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnSalir.BackColor = System.Drawing.Color.Transparent;
             this.btnSalir.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnSalir.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSalir.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSalir.Image = global::Sistema.ComputosElectorales.Properties.Resources.salir;
             this.btnSalir.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnSalir.Location = new System.Drawing.Point(492, 403);
@@ -114,29 +133,29 @@
             this.label2.Text = "Seleccionar Módulo";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // btnConsultarActas
+            // btnCasillasReserva
             // 
-            this.btnConsultarActas.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnConsultarActas.BackColor = System.Drawing.Color.Transparent;
-            this.btnConsultarActas.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnConsultarActas.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnConsultarActas.Image = global::Sistema.ComputosElectorales.Properties.Resources.reservar;
-            this.btnConsultarActas.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnConsultarActas.Location = new System.Drawing.Point(332, 184);
-            this.btnConsultarActas.Name = "btnConsultarActas";
-            this.btnConsultarActas.Size = new System.Drawing.Size(136, 163);
-            this.btnConsultarActas.TabIndex = 14;
-            this.btnConsultarActas.Text = "Casillas Reservadas";
-            this.btnConsultarActas.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnConsultarActas.UseVisualStyleBackColor = false;
-            this.btnConsultarActas.Click += new System.EventHandler(this.btnConsultarActas_Click);
+            this.btnCasillasReserva.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnCasillasReserva.BackColor = System.Drawing.Color.Transparent;
+            this.btnCasillasReserva.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnCasillasReserva.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCasillasReserva.Image = global::Sistema.ComputosElectorales.Properties.Resources.reservar;
+            this.btnCasillasReserva.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnCasillasReserva.Location = new System.Drawing.Point(332, 184);
+            this.btnCasillasReserva.Name = "btnCasillasReserva";
+            this.btnCasillasReserva.Size = new System.Drawing.Size(136, 163);
+            this.btnCasillasReserva.TabIndex = 14;
+            this.btnCasillasReserva.Text = "Casillas Reservadas";
+            this.btnCasillasReserva.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnCasillasReserva.UseVisualStyleBackColor = false;
+            this.btnCasillasReserva.Click += new System.EventHandler(this.btnCasillasReserva_Click);
             // 
             // btnRecuentoVotos
             // 
             this.btnRecuentoVotos.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnRecuentoVotos.BackColor = System.Drawing.Color.Transparent;
             this.btnRecuentoVotos.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnRecuentoVotos.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRecuentoVotos.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRecuentoVotos.Image = global::Sistema.ComputosElectorales.Properties.Resources.editar;
             this.btnRecuentoVotos.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnRecuentoVotos.Location = new System.Drawing.Point(172, 184);
@@ -153,7 +172,7 @@
             this.btnReportes.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnReportes.BackColor = System.Drawing.Color.Transparent;
             this.btnReportes.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnReportes.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReportes.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnReportes.Image = global::Sistema.ComputosElectorales.Properties.Resources.reporte;
             this.btnReportes.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnReportes.Location = new System.Drawing.Point(492, 184);
@@ -170,7 +189,7 @@
             this.btnModificar.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnModificar.BackColor = System.Drawing.Color.Transparent;
             this.btnModificar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnModificar.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnModificar.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnModificar.Image = global::Sistema.ComputosElectorales.Properties.Resources.reload;
             this.btnModificar.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnModificar.Location = new System.Drawing.Point(652, 184);
@@ -187,7 +206,7 @@
             this.btnRespaldo.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnRespaldo.BackColor = System.Drawing.Color.Transparent;
             this.btnRespaldo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnRespaldo.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRespaldo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRespaldo.Image = global::Sistema.ComputosElectorales.Properties.Resources.descarga;
             this.btnRespaldo.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnRespaldo.Location = new System.Drawing.Point(332, 403);
@@ -218,12 +237,13 @@
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button btnConsultarActas;
+        private System.Windows.Forms.Button btnCasillasReserva;
         private System.Windows.Forms.Button btnRecuentoVotos;
         private System.Windows.Forms.Button btnReportes;
         private System.Windows.Forms.Button btnSalir;
         private System.Windows.Forms.Button btnModificar;
         private System.Windows.Forms.Button btnRespaldo;
         private System.Windows.Forms.Button btnConfRecuento;
+        private System.Windows.Forms.Button btnImportarRespaldo;
     }
 }

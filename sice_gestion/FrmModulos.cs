@@ -27,11 +27,23 @@ namespace sice_gestion
             try
             {
                 //throw new Exception("Pribando");
-                if(LoginInfo.privilegios == 1 || LoginInfo.privilegios == 2 || LoginInfo.privilegios == 3 || LoginInfo.privilegios == 5 || LoginInfo.privilegios == 6)
+                if(LoginInfo.privilegios == 7)
                 {
                     this.btnRegistroActas.Enabled = true;
                     this.btnComputos.Enabled = true;
-                    this.btnConf.Visible = true;
+                    this.btnConf.Visible = false;
+                }
+                else if(LoginInfo.privilegios == 4 || LoginInfo.privilegios == 5 )
+                {
+                    this.btnRegistroActas.Enabled = true;
+                    this.btnComputos.Enabled = true;
+                    this.btnConf.Visible = false;
+                }
+                else if(LoginInfo.privilegios == 6)
+                {
+                    this.btnRegistroActas.Enabled = false;
+                    this.btnComputos.Enabled = true;
+                    this.btnConf.Visible = false;
                 }
             }
             catch(Exception ex)
@@ -44,20 +56,24 @@ namespace sice_gestion
         private void btnRegistroActas_Click(object sender, EventArgs e)
         {
             this.MdiParent.Hide();
-            if (LoginInfo.privilegios == 5 || LoginInfo.privilegios == 6 || LoginInfo.privilegios == 4)
-            {
-                Sistema.RegistroActasLocal.MDIMainRegistroActas form = new Sistema.RegistroActasLocal.MDIMainRegistroActas();
-                form.FormClosed += Form_FormClosed;
-                form.Show();
+            Sistema.RegistroActasLocal.MDIMainRegistroActas form = new Sistema.RegistroActasLocal.MDIMainRegistroActas();
+            form.FormClosed += Form_FormClosed;
+            form.Show();
+
+            //if (LoginInfo.privilegios == 5 || LoginInfo.privilegios == 6 || LoginInfo.privilegios == 4)
+            //{
+            //    Sistema.RegistroActasLocal.MDIMainRegistroActas form = new Sistema.RegistroActasLocal.MDIMainRegistroActas();
+            //    form.FormClosed += Form_FormClosed;
+            //    form.Show();
                 
-            }
-            else
-            {
+            //}
+            //else
+            //{
                 
-                msgBox = new MsgBox(this, "No tienes permisos para acceder", "Atención", MessageBoxButtons.OK, "Error");
-                msgBox.ShowDialog();
-                this.MdiParent.Show();
-            }
+            //    msgBox = new MsgBox(this, "No tienes permisos para acceder", "Atención", MessageBoxButtons.OK, "Error");
+            //    msgBox.ShowDialog();
+            //    this.MdiParent.Show();
+            //}
             //else if(LoginInfo.privilegios == 1 || LoginInfo.privilegios == 2 || LoginInfo.privilegios == 3 )
             //{
             //    Sistema.RegistroActas.MainRegistroActas form = new Sistema.RegistroActas.MainRegistroActas();

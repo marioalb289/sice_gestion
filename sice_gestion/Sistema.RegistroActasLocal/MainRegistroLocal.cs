@@ -26,14 +26,45 @@ namespace Sistema.RegistroActasLocal
             {
                 switch (LoginInfo.privilegios)
                 {
+                    case 4:
+                        btnIdentificar.Enabled = false;
+                        btnRegistrarActas.Enabled = false;
+                        btnModificar.Enabled = false;
+                        btnConfRecuento.Enabled = false;
+                        btnConsultarActas.Enabled = true;
+                        btnReportes.Enabled = true;
+                        btnRespaldo.Enabled = false;
+                        btnImportarRespaldo.Visible = false;
+                        break;
                     case 5:
-                        this.btnIdentificar.Enabled = true;
-                        this.btnRegistrarActas.Enabled = true;
+                        btnIdentificar.Enabled = true;
+                        btnRegistrarActas.Enabled = true;
+                        btnModificar.Enabled = true;
+                        btnConfRecuento.Enabled = true;
+                        btnConsultarActas.Enabled = true;
+                        btnReportes.Enabled = true;
+                        btnRespaldo.Enabled = true;
+                        btnImportarRespaldo.Visible = false;
+                        break;
+                    case 7:
+                        btnIdentificar.Enabled = true;
+                        btnRegistrarActas.Enabled = true;
+                        btnModificar.Enabled = true;
+                        btnConfRecuento.Enabled = true;
+                        btnConsultarActas.Enabled = true;
+                        btnReportes.Enabled = true;
+                        btnRespaldo.Enabled = true;
+                        btnImportarRespaldo.Visible = true;
                         break;
                     default:
-                        this.btnIdentificar.Enabled = false;
-                        this.btnRegistrarActas.Enabled = false;
-                        this.btnModificar.Enabled = false;
+                        btnIdentificar.Enabled = false;
+                        btnRegistrarActas.Enabled = false;
+                        btnModificar.Enabled = false;
+                        btnConfRecuento.Enabled = false;
+                        btnConsultarActas.Enabled = true;
+                        btnReportes.Enabled = true;
+                        btnRespaldo.Enabled = false;
+                        btnImportarRespaldo.Visible = false;
                         break;
                 }
                 //asignar la imagen aqui
@@ -185,7 +216,7 @@ namespace Sistema.RegistroActasLocal
                 //{
                 //this.ValidarRecuento();
                 btnRespaldo.Enabled = false;
-                ((MDIMainRegistroActas)this.MdiParent).GenerarExcel(0, false, "RESPALDO");
+                ((MDIMainRegistroActas)this.MdiParent).ImportarExcel();
 
                 //}
 

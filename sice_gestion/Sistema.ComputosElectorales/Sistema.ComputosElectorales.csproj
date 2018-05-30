@@ -316,5 +316,11 @@
   <ItemGroup>
     <None Include="Resources\pd.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\subida.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logo.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

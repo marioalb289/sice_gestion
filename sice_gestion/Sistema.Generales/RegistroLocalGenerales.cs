@@ -947,23 +947,8 @@ namespace Sistema.Generales
                     foreach (ExcelWorksheet hojaActual in listaHojas)
                     {
                         this.guardarDatosExcel(hojaActual);
-                        //int totalRows = hojaActual.Dimension.End.Row;
-                        //for (int rowNum = filaInicio; rowNum <= totalRows; rowNum++) //selet starting row here
-                        //{
-                        //    //var row = myWorksheet.Cells[rowNum, 1].Value;
-                        //    Console.WriteLine("Valor: " + hojaActual.Cells[rowNum, 1].Value);
-                        //}
                     }
-
-                    int x = 0;
-                    //var totalRows = myWorksheet.Dimension.End.Row;
-                    //var totalColumns = myWorksheet.Dimension.End.Column;
-
-                    //var sb = new StringBuilder(); //this is your your data
-
                 }
-
-
                 return 1;
             }
             catch (Exception E)

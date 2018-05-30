@@ -335,7 +335,15 @@ namespace Sistema.RegistroActasLocal
                 }
                 else if(formname == "MainRegistroLocal")
                 {
-                    BuscarControl(active.Controls, "btnRespaldo");
+                    if(tipo== "RESPALDO")
+                    {
+                        BuscarControl(active.Controls, "btnRespaldo");
+
+                    }
+                    else if(tipo == "IMPORTAR")
+                    {
+                        BuscarControl(active.Controls, "btnImportarRespaldo");
+                    }
                 }
                 switch (res)
                 {

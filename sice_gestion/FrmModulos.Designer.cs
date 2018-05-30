@@ -83,7 +83,7 @@
             this.btnComputos.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnComputos.BackColor = System.Drawing.Color.Transparent;
             this.btnComputos.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnComputos.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnComputos.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnComputos.Image = ((System.Drawing.Image)(resources.GetObject("btnComputos.Image")));
             this.btnComputos.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnComputos.Location = new System.Drawing.Point(420, 280);
@@ -100,14 +100,14 @@
             this.btnConf.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnConf.BackColor = System.Drawing.Color.Transparent;
             this.btnConf.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnConf.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnConf.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnConf.Image = ((System.Drawing.Image)(resources.GetObject("btnConf.Image")));
             this.btnConf.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnConf.Location = new System.Drawing.Point(28, 280);
             this.btnConf.Name = "btnConf";
             this.btnConf.Size = new System.Drawing.Size(140, 135);
             this.btnConf.TabIndex = 17;
-            this.btnConf.Text = "Configuracion";
+            this.btnConf.Text = "Configuración";
             this.btnConf.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnConf.UseVisualStyleBackColor = false;
             this.btnConf.Visible = false;
@@ -118,7 +118,7 @@
             this.btnRegistroActas.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnRegistroActas.BackColor = System.Drawing.Color.Transparent;
             this.btnRegistroActas.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnRegistroActas.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRegistroActas.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRegistroActas.Image = ((System.Drawing.Image)(resources.GetObject("btnRegistroActas.Image")));
             this.btnRegistroActas.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnRegistroActas.Location = new System.Drawing.Point(224, 280);

@@ -29,20 +29,36 @@ namespace Sistema.ComputosElectorales
                 switch (LoginInfo.privilegios)
                 {
                     case 4:
-                        btnModificar.Visible = true;
                         btnRecuentoVotos.Enabled = false;
-                        btnConsultarActas.Enabled = false;
+                        btnCasillasReserva.Enabled = false;
+                        btnModificar.Visible = false;
+                        btnConfRecuento.Enabled = false;
+                        btnRespaldo.Enabled = false;
+                        btnImportarRespaldo.Visible = false;
                         break;
                     case 5:
+                        btnRecuentoVotos.Enabled = true;
+                        btnCasillasReserva.Enabled = true;
                         btnModificar.Visible = false;
+                        btnConfRecuento.Enabled = true;
+                        btnRespaldo.Enabled = true;
+                        btnImportarRespaldo.Visible = false;
                         break;
                     case 6:
                         btnRecuentoVotos.Enabled = false;
-                        btnConsultarActas.Enabled = false;
+                        btnCasillasReserva.Enabled = true;
+                        btnModificar.Visible = false;
+                        btnConfRecuento.Enabled = false;
+                        btnRespaldo.Enabled = false;
+                        btnImportarRespaldo.Visible = false;
                         break;
                     case 7:
-                        btnRecuentoVotos.Enabled = false;
-                        btnConsultarActas.Enabled = false;
+                        btnRecuentoVotos.Enabled = true;
+                        btnCasillasReserva.Enabled = true;
+                        btnModificar.Visible = true;
+                        btnConfRecuento.Enabled = true;
+                        btnRespaldo.Enabled = true;
+                        btnImportarRespaldo.Visible = true;
                         break;
 
                 }
@@ -75,23 +91,6 @@ namespace Sistema.ComputosElectorales
             try
             {
                 RecuentoVotos form = new RecuentoVotos();
-                form.MdiParent = this.MdiParent;
-                form.Dock = DockStyle.Fill;
-                form.FormClosed += Form_FormClosed;
-                form.Show();
-            }
-            catch (Exception ex)
-            {
-                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
-                msgBox.ShowDialog(this);
-            }
-        }
-
-        private void btnConsultarActas_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                frmReserva form = new frmReserva();
                 form.MdiParent = this.MdiParent;
                 form.Dock = DockStyle.Fill;
                 form.FormClosed += Form_FormClosed;
@@ -183,6 +182,38 @@ namespace Sistema.ComputosElectorales
                 btnRespaldo.Enabled = false;
                 ((MDIMainComputosElectorales)this.MdiParent).GenerarExcel(0, false, "RESPALDO");
 
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+        }
+
+        private void btnImportarRespaldo_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                btnRespaldo.Enabled = false;
+                ((MDIMainComputosElectorales)this.MdiParent).GenerarExcel(0, false, "RESPALDO");
+
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+        }
+
+        private void btnCasillasReserva_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                frmReserva form = new frmReserva();
+                form.MdiParent = this.MdiParent;
+                form.Dock = DockStyle.Fill;
+                form.FormClosed += Form_FormClosed;
+                form.Show();
             }
             catch (Exception ex)
             {
