@@ -201,7 +201,7 @@ namespace Sistema.RegistroActasLocal
             try
             {
                 regActas = new RegistroLocalGenerales();
-                int res = regActas.verificarCasillaRegistrada(Convert.ToInt32(cmbCasilla.SelectedValue));
+                int res = regActas.verificarCasillaRegistrada(Convert.ToInt32(cmbCasilla.SelectedValue),"MR");
                 if (res == 0)
                 {
                     this.btnGuardar.Enabled = true;

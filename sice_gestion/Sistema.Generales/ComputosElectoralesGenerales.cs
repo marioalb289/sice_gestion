@@ -499,6 +499,39 @@ namespace Sistema.Generales
             { throw E; }
         }
 
+        public List<CandidatosResultados> ListaResultadosCandidatos(int distrito)
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    string consulta =
+                        "SELECT " +
+                        "CND.id AS id_candidato, " +
+                        "CONCAT(CND.nombre, ' ', CND.apellido_paterno, ' ', CND.apellido_materno) AS candidato,CD.nombre_candidatura, " +
+                        " P.siglas_par AS partido, " +
+                        "P.LOCAL AS partido_local, " +
+                        "P.img_par AS imagen, " +
+                        "SUM(RV.votos) as votos, " +
+                        "RV.tipo, " +
+                        "CASE WHEN RV.tipo = 'VOTO' THEN P.prelacion WHEN RV.tipo = 'NULO' THEN 200 WHEN RV.tipo = 'NO REGISTRADO' THEN  100 END AS prelacion " +
+                        "FROM sice_votos RV " +
+                        "LEFT JOIN sice_candidatos CND ON CND.id = RV.id_candidato " +
+                        "LEFT JOIN sice_candidaturas CD ON CD.id = CND.fk_cargo " +
+                        "LEFT JOIN sice_partidos_politicos P ON P.id = CND.fk_partido " +
+                        "JOIN sice_casillas C ON C.id = RV.id_casilla "  + "AND C.id_distrito_local =" + distrito + " " +
+                        "JOIN sice_municipios M ON M.id = C.id_municipio " +
+                        "JOIN sice_municipios M2 ON M2.id = C.id_cabecera_local " +
+                        "GROUP BY C.id_distrito_local,RV.id_candidato,RV.tipo " +
+                        "ORDER BY prelacion ASC ";
+                    return contexto.Database.SqlQuery<CandidatosResultados>(consulta).ToList();
+                }
+
+            }
+            catch (Exception E)
+            { throw E; }
+        }
+
         public int CasillaReserva(int id_casilla,string motivo,int? supuesto = null)
         {
             try
@@ -2107,6 +2140,7 @@ namespace Sistema.Generales
         public int distrito { get; set; }
         public int municipio { get; set; }
         public int listaNominal { get; set; }
+        public string tipo { get; set; }
     }
 
     public class TempVotosEstatus

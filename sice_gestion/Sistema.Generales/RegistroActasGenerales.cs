@@ -1205,6 +1205,20 @@ namespace Sistema.Generales
         public string partido { get; set; }
         public string imagen { get; set; }
         public Nullable<int> partido_local { get; set; }
+        public string coalicion { get; set; }
+
+    }
+    public class PartidosVotosRP
+    {
+        public int id { get; set; }
+        public Nullable<int> id_casilla { get; set; }
+        public string tipo { get; set; }
+        public Nullable<int> votos { get; set; }
+        public Nullable<int> id_partido { get; set; }
+        public string partido { get; set; }
+        public string imagen { get; set; }
+        public Nullable<int> partido_local { get; set; }
+        public string coalicion { get; set; }
 
     }
 
@@ -1216,6 +1230,21 @@ namespace Sistema.Generales
         public string partido { get; set; }
         public int partido_local { get; set; }
         public string imagen { get; set; }
+        public int prelacion { get; set; }
+        public string coalicion { get; set; }
+        public string tipo_partido { get; set; }
+
+    }
+    public class CandidatosResultados
+    {
+        public Nullable<int> id_candidato { get; set; }
+        public string candidato { get; set; }
+        public string nombre_candidatura { get; set; }
+        public string partido { get; set; }
+        public Nullable<int> partido_local { get; set; }
+        public string imagen { get; set; }
+        public int votos { get; set; }
+        public string tipo { get; set; }
         public int prelacion { get; set; }
 
     }

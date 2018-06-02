@@ -75,6 +75,9 @@
     <Compile Include="sice_ar_documentos_local.cs">
       <DependentUpon>DatacenterModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="sice_ar_estado_paquete.cs">
+      <DependentUpon>DatacenterModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="sice_ar_estatus_acta.cs">
       <DependentUpon>DatacenterModel.tt</DependentUpon>
     </Compile>
@@ -97,6 +100,9 @@
       <DependentUpon>DatacenterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="sice_ar_votos_cotejo.cs">
+      <DependentUpon>DatacenterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sice_ar_votos_cotejo_rp.cs">
       <DependentUpon>DatacenterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="sice_ar_votos_valida1.cs">
@@ -139,6 +145,9 @@
       <DependentUpon>DatacenterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="sice_votos.cs">
+      <DependentUpon>DatacenterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sice_votos_rp.cs">
       <DependentUpon>DatacenterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="sice_votos_test.cs">

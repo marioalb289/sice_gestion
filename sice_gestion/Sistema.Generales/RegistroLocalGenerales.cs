@@ -38,7 +38,20 @@ namespace Sistema.Generales
                 return (from p in contexto.sice_configuracion_recuento where p.sistema == sistema select p).FirstOrDefault();
             }
         }
+        public List<sice_partidos_politicos> ListaPartidosPoliticos()
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    return (from p in contexto.sice_partidos_politicos where p.tipo == "PARTIDO" select p).OrderBy(x=> x.prelacion).ToList();
+                    //return contexto.sice_casillas.Select(x => new SeccionCasilla { id = x.id, seccion = (int)x.seccion, casilla = (string)x.tipo_casilla }).ToList();
+                }
 
+            }
+            catch (Exception E)
+            { throw E; }
+        }
         public List<sice_ar_supuestos> ListaSupuestos()
         {
             try
@@ -74,7 +87,8 @@ namespace Sistema.Generales
                                 consecutivo = (int)p.consecutivo_total,
                                 listaNominal = (int)p.lista_nominal,
                                 distrito = (int)p.id_distrito_local,
-                                municipio = (int)p.id_municipio
+                                municipio = (int)p.id_municipio,
+                                tipo = "MR"
                             }).ToList();
                     //return contexto.sice_casillas.Select(x => new SeccionCasilla { id = x.id, seccion = (int)x.seccion, casilla = (string)x.tipo_casilla }).ToList();
                 }
@@ -120,6 +134,20 @@ namespace Sistema.Generales
                 using (DatabaseContext contexto = new DatabaseContext(con))
                 {
                     return (from p in contexto.sice_ar_incidencias select p).ToList();
+                }
+            }
+            catch (Exception E)
+            {
+                throw E;
+            }
+        }
+        public List<sice_ar_estado_paquete> ListaCondicionesPaquete()
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    return (from p in contexto.sice_ar_estado_paquete select p).ToList();
                 }
             }
             catch (Exception E)
@@ -195,13 +223,13 @@ namespace Sistema.Generales
 
         }
 
-        public int verificarCasillaRegistrada(int id_casilla)
+        public int verificarCasillaRegistrada(int id_casilla,string tipo_votacion)
         {
             try
             {                
                 using (DatabaseContext contexto = new DatabaseContext(con))
                 {
-                    sice_ar_reserva reserva = (from r in contexto.sice_ar_reserva where (r.tipo_reserva == "ATENDIDO" || r.tipo_reserva == "NO LEGIBLE") && r.id_casilla == id_casilla select r).FirstOrDefault();
+                    sice_ar_reserva reserva = (from r in contexto.sice_ar_reserva where (r.tipo_reserva == "ATENDIDO" || r.tipo_reserva == "NO LEGIBLE") && r.id_casilla == id_casilla && r.tipo_votacion == tipo_votacion select r).FirstOrDefault();
                     if (reserva != null)
                     {
                         return 1;
@@ -261,12 +289,40 @@ namespace Sistema.Generales
                         "CD.nombre_candidatura, " +
                         "P.siglas_par as partido, " +
                         "P.img_par as imagen, " +
-                        "P.local as partido_local "+
+                        "P.local as partido_local, "+
+                        "P.info_creado as coalicion, " +
+                        "P.tipo as tipo_partido " +
                         "FROM sice_candidatos C " +
                         "JOIN sice_candidaturas CD ON CD.id = C.fk_cargo AND CD.titular = 1 " + "AND CD.id_distrito =" + distrito + " "+
                         "JOIN sice_partidos_politicos P ON P.id = C.fk_partido " +
                         "ORDER BY P.prelacion ASC";
                     return contexto.Database.SqlQuery<Candidatos>(consulta).ToList();
+                }
+
+            }
+            catch (Exception E)
+            { throw E; }
+        }
+        public int RepresentantesCComun(string coalicion)
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    int representantes = 0;
+                    string result = string.Join(",", coalicion);
+                    string condicion = "WHERE id IN (" + result + ") ";
+                    string consulta = "SELECT * FROM sice_partidos_politicos "+ condicion;
+                    List<sice_partidos_politicos> listaPartidos = contexto.Database.SqlQuery<sice_partidos_politicos>(consulta).ToList();
+                    foreach(sice_partidos_politicos p in listaPartidos)
+                    {
+                        if (p.local == 1)
+                            representantes += 1;
+                        else
+                            representantes += 2;
+                    }
+
+                    return representantes;
                 }
 
             }
@@ -391,13 +447,13 @@ namespace Sistema.Generales
             }
         }
 
-        public sice_ar_reserva DetallesActa(int id_casilla)
+        public sice_ar_reserva DetallesActa(int id_casilla, string tipo_votacion)
         {
             try
             {
                 using (DatabaseContext contexto = new DatabaseContext(con))
                 {
-                    return (from r in contexto.sice_ar_reserva where r.id_casilla == id_casilla select r).FirstOrDefault();
+                    return (from r in contexto.sice_ar_reserva where r.id_casilla == id_casilla && r.tipo_votacion == tipo_votacion select r).FirstOrDefault();
                 }
             }
             catch (Exception E)
@@ -426,6 +482,7 @@ namespace Sistema.Generales
                         "CD.nombre_candidatura, " +
                         "P.siglas_par as partido, " +
                         "P.local as partido_local, " +
+                        "P.info_creado as coalicion, " +
                         "P.img_par as imagen " +
                         "FROM " + tabla + " V " +
                         "LEFT JOIN sice_candidatos C ON C.id = V.id_candidato " +
@@ -434,6 +491,38 @@ namespace Sistema.Generales
                         "WHERE V.id_casilla = " + casilla + " " + " AND V.tipo <> 'NO VALIDO' " +
                         "ORDER BY prelacion ASC";
                     return contexto.Database.SqlQuery<CandidatosVotos>(consulta).ToList();
+                }
+
+            }
+            catch (Exception E)
+            { throw E; }
+        }
+
+        public List<PartidosVotosRP> ListaResultadosCasillaRP(int casilla, string tabla = "")
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    if (tabla == "")
+                        tabla = "sice_ar_votos_cotejo_rp";
+                    string consulta =
+                        "SELECT "+
+                        "V.id, "+
+	                    "V.id_casilla AS id_casilla, "+
+	                    "V.tipo AS tipo, "+
+	                    "V.votos AS votos, "+
+	                    "CASE WHEN V.tipo = 'VOTO' THEN V.id_partido WHEN V.tipo = 'NULO' THEN - 2 WHEN V.tipo = 'NO REGISTRADO' THEN - 1 END AS id_partido, "+
+                        "CASE WHEN V.tipo = 'VOTO' THEN P.prelacion WHEN V.tipo = 'NULO' THEN  200 WHEN V.tipo = 'NO REGISTRADO' THEN 100 END AS prelacion, "+
+                        "P.siglas_par AS partido, " +
+                        "P.LOCAL AS partido_local, " +
+                        "P.info_creado AS coalicion, "+
+                        "P.img_par AS imagen "+
+                        "FROM " + tabla + " V " +
+                        "LEFT JOIN sice_partidos_politicos P ON P.id = V.id_partido " +
+                         "WHERE V.id_casilla = " + casilla + " " + " AND V.tipo <> 'NO VALIDO' " +
+                        "ORDER BY prelacion ASC ";
+                    return contexto.Database.SqlQuery<PartidosVotosRP>(consulta).ToList();
                 }
 
             }
@@ -599,11 +688,131 @@ namespace Sistema.Generales
                 throw E;
             }
         }
+        public int guardarDatosVotosRP(List<sice_ar_votos_cotejo_rp> listaVotos, int id_casilla, int supuesto, int boletasSobrantes, int numEscritos, int personas_votaron,
+            int representantes, int votos_sacados, int incidencias, int estatus_acta, int estatus_paquete, int condiciones_paquete, bool modificar = false)
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    using (var TransactionContexto = new TransactionScope())
+                    {
+                        bool ceros = true;
+                        if (estatus_acta == 1 || estatus_acta == 2 || estatus_acta == 8)
+                        {
+                            ceros = false;
+                        }
+                        sice_ar_votos_cotejo_rp v1 = null;
+                        foreach (sice_ar_votos_cotejo_rp voto in listaVotos)
+                        {
+                            if (voto.id_partido != null)
+                            {
+                                v1 = (from d in contexto.sice_ar_votos_cotejo_rp where d.id_partido == voto.id_partido && d.id_casilla == voto.id_casilla select d).FirstOrDefault();
+                            }
+                            else
+                            {
+                                if (voto.tipo == "NULO")
+                                    v1 = (from d in contexto.sice_ar_votos_cotejo_rp where d.tipo == "NULO" && d.id_casilla == voto.id_casilla select d).FirstOrDefault();
+                                else if (voto.tipo == "NO REGISTRADO")
+                                    v1 = (from d in contexto.sice_ar_votos_cotejo_rp where d.tipo == "NO REGISTRADO" && d.id_casilla == voto.id_casilla select d).FirstOrDefault();
+                            }
 
+                            if (v1 != null)
+                            {
+                                v1.id_partido = voto.id_partido;
+                                v1.id_casilla = voto.id_casilla;
+                                v1.tipo = voto.tipo;
+                                v1.votos = ceros ? 0 : voto.votos;
+                                v1.importado = 0;
+                                v1.estatus = 1;
+                                contexto.SaveChanges();
+                            }
+                            else
+                            {
+                                return 0;
+                            }
+                        }
+
+                        sice_ar_reserva rc = (from p in contexto.sice_ar_reserva where p.id_casilla == id_casilla && p.tipo_votacion == "RP" select p).FirstOrDefault();
+                        if (rc != null)
+                        {
+                            rc.tipo_reserva = "ATENDIDO";
+                            rc.num_escritos = ceros ? 0 : numEscritos;
+                            if (supuesto == 0)
+                                rc.id_supuesto = null;
+                            else
+                                rc.id_supuesto = supuesto;
+                            rc.boletas_sobrantes = ceros ? 0 : boletasSobrantes;
+                            rc.personas_votaron = ceros ? 0 : personas_votaron;
+                            rc.num_representantes_votaron = ceros ? 0 : representantes;
+                            rc.votos_sacados = ceros ? 0 : votos_sacados;
+                            rc.id_estatus_acta = estatus_acta;
+                            rc.id_estatus_paquete = estatus_paquete;
+                            rc.id_condiciones_paquete = condiciones_paquete;
+                            if (incidencias == 0)
+                                rc.id_incidencias = null;
+                            else
+                                rc.id_incidencias = incidencias;
+                            rc.importado = 0;
+                            rc.inicializada = 0;
+                            rc.tipo_votacion = "RP";
+                            rc.updated_at = DateTime.Now;
+                        }
+                        else
+                        {
+                            rc = new sice_ar_reserva();
+                            rc.id_casilla = id_casilla;
+                            rc.tipo_reserva = "ATENDIDO";
+                            rc.create_at = DateTime.Now;
+                            rc.updated_at = DateTime.Now;
+                            rc.num_escritos = ceros ? 0 : numEscritos;
+                            rc.importado = 0;
+                            if (supuesto == 0)
+                                rc.id_supuesto = null;
+                            else
+                                rc.id_supuesto = supuesto;
+                            rc.boletas_sobrantes = ceros ? 0 : boletasSobrantes;
+                            rc.personas_votaron = ceros ? 0 : personas_votaron;
+                            rc.num_representantes_votaron = ceros ? 0 : representantes;
+                            rc.votos_sacados = ceros ? 0 : votos_sacados;
+                            rc.id_estatus_acta = estatus_acta;
+                            rc.id_estatus_paquete = estatus_paquete;
+                            rc.id_condiciones_paquete = condiciones_paquete;
+                            rc.tipo_votacion = "RP";
+                            rc.inicializada = 0;
+                            if (incidencias == 0)
+                                rc.id_incidencias = null;
+                            else
+                                rc.id_incidencias = incidencias;
+                            contexto.sice_ar_reserva.Add(rc);
+                        }
+                        if (modificar)
+                        {
+                            sice_ar_historico hs = new sice_ar_historico();
+                            hs.id_casilla = id_casilla;
+                            if (supuesto == 0)
+                                hs.id_supuesto = null;
+                            else
+                                hs.id_supuesto = supuesto;
+                            hs.fecha = DateTime.Now;
+                            contexto.sice_ar_historico.Add(hs);
+                        }
+                        contexto.SaveChanges();
+                        TransactionContexto.Complete();
+                        return 1;
+                    }
+                }
+
+            }
+            catch (Exception E)
+            {
+                throw E;
+            }
+        }
 
 
         public int guardarDatosVotos(List<sice_ar_votos_cotejo> listaVotos, int id_casilla, int supuesto,int boletasSobrantes,int numEscritos,int personas_votaron,
-            int representantes,int votos_sacados,int incidencias,int estatus_acta,int estatus_paquete,bool modificar = false)
+            int representantes,int votos_sacados,int incidencias,int estatus_acta,int estatus_paquete,int condiciones_paquete,bool modificar = false)
         {
             try
             {
@@ -647,7 +856,7 @@ namespace Sistema.Generales
                             }
                         }
 
-                        sice_ar_reserva rc = (from p in contexto.sice_ar_reserva where p.id_casilla == id_casilla select p).FirstOrDefault();
+                        sice_ar_reserva rc = (from p in contexto.sice_ar_reserva where p.id_casilla == id_casilla && p.tipo_votacion == "MR" select p).FirstOrDefault();
                         if (rc != null)
                         {
                             rc.tipo_reserva = "ATENDIDO";
@@ -662,11 +871,13 @@ namespace Sistema.Generales
                             rc.votos_sacados = ceros ? 0 : votos_sacados;
                             rc.id_estatus_acta = estatus_acta;
                             rc.id_estatus_paquete = estatus_paquete;
+                            rc.id_condiciones_paquete = condiciones_paquete;
                             if (incidencias == 0)
                                 rc.id_incidencias = null;
                             else
                                 rc.id_incidencias = incidencias;
                             rc.importado = 0;
+                            rc.tipo_votacion = "MR";
                             rc.inicializada = 0;
                             rc.updated_at = DateTime.Now;
                         }
@@ -689,6 +900,8 @@ namespace Sistema.Generales
                             rc.votos_sacados = ceros ? 0  : votos_sacados;
                             rc.id_estatus_acta = estatus_acta;
                             rc.id_estatus_paquete = estatus_paquete;
+                            rc.tipo_votacion = "MR";
+                            rc.id_condiciones_paquete = condiciones_paquete;
                             rc.inicializada = 0;
                             if (incidencias == 0)
                                 rc.id_incidencias = null;

@@ -32,5 +32,7 @@ namespace Sistema.DataModel
         public Nullable<int> id_estatus_paquete { get; set; }
         public Nullable<int> id_incidencias { get; set; }
         public Nullable<int> inicializada { get; set; }
+        public Nullable<int> id_condiciones_paquete { get; set; }
+        public string tipo_votacion { get; set; }
     }
 }

@@ -404,7 +404,14 @@
     <None Include="Resources\subida.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\morena.jpg" />
+    <None Include="Resources\morena.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pt_morena.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

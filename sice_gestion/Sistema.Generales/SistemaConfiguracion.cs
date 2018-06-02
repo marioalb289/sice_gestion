@@ -15,7 +15,10 @@ namespace Sistema.Generales
             {
                 using (DatabaseContext contexto = new DatabaseContext("MYSQLSERVER"))
                 {
-                    int result = contexto.Database.ExecuteSqlCommand("TRUNCATE sice_votos_test");
+                    //int result = contexto.Database.ExecuteSqlCommand("TRUNCATE sice_votos");
+                    //if (result != 0)
+                    //    throw new Exception("No se pudo Inicializar bd");
+                    int result = contexto.Database.ExecuteSqlCommand("TRUNCATE sice_votos_rp");
                     if (result != 0)
                         throw new Exception("No se pudo Inicializar bd");
                     List<sice_distritos_locales> listaDistritos = this.ListaDistritos();
@@ -30,23 +33,43 @@ namespace Sistema.Generales
                             List<sice_casillas> listaCasillasDistrito = this.ListaCasillasDistrito(d.id);
                             if (listaCasillasDistrito.Count == 0)
                                 throw new Exception("No se pudo Inicializar bd");
-                            foreach(sice_casillas casilla in listaCasillasDistrito)
+                            //foreach (sice_casillas casilla in listaCasillasDistrito)
+                            //{
+                            //    Console.WriteLine("Insertando casilla: " + casilla.id);
+                            //    sice_votos v1 = new sice_votos();
+                            //    for (int x = 0; x < listaCandidatosDistrito.Count + 2; x++)
+                            //    {
+                            //        if (x >= listaCandidatosDistrito.Count)
+                            //            v1.id_candidato = null;
+                            //        else
+                            //            v1.id_candidato = listaCandidatosDistrito[x].id_candidato;
+                            //        v1.id_casilla = casilla.id;
+                            //        v1.tipo = (x > listaCandidatosDistrito.Count - 1) ? x == listaCandidatosDistrito.Count ? "NO REGISTRADO" : "NULO" : "VOTO";
+                            //        v1.votos = 0;
+                            //        v1.estatus = 0;
+                            //        v1.importado = 0;
+                            //        contexto.sice_votos.Add(v1);
+                            //        contexto.SaveChanges();
+                            //    }
+
+                            //}
+
+                            List<sice_casillas> listaCasillasDistritoEspeciales = this.ListaCasillasDistrito(d.id,true);
+                            foreach (sice_casillas casilla in listaCasillasDistritoEspeciales)
                             {
-                                Console.WriteLine("Insertando casilla: " + casilla.id);
-                                sice_votos_test v1 = new sice_votos_test();
-                                for (int x = 0; x < listaCandidatosDistrito.Count +2; x++)
+                                Console.WriteLine("Insertando casilla Especial: " + casilla.id);
+                                sice_votos_rp v1 = new sice_votos_rp();
+                                for (int x = 0; x < listaPartidos.Count +2; x++)
                                 {
-                                    if (x >= listaCandidatosDistrito.Count)
-                                        v1.id_candidato = null;
-                                    else
-                                        v1.id_candidato = listaCandidatosDistrito[x].id_candidato;
+                                    v1.id_partido = (x >= listaPartidos.Count) ? (int?)null : listaPartidos[x].id;
                                     v1.id_casilla = casilla.id;
-                                    v1.tipo = (x > listaCandidatosDistrito.Count - 1) ? x == listaCandidatosDistrito.Count ? "NO REGISTRADO" : "NULO" : "VOTO";
+                                    v1.tipo = (x > listaPartidos.Count - 1) ? x == listaPartidos.Count ? "NO REGISTRADO" : "NULO" : "VOTO";
                                     v1.votos = 0;
-                                    contexto.sice_votos_test.Add(v1);
+                                    v1.estatus = 0;
+                                    v1.importado = 0;
+                                    contexto.sice_votos_rp.Add(v1);
                                     contexto.SaveChanges();
                                 }
-                                
                             }
                         }
                     }
@@ -76,13 +99,19 @@ namespace Sistema.Generales
             { throw E; }
         }
 
-        public List<sice_casillas> ListaCasillasDistrito(int distrito)
+        public List<sice_casillas> ListaCasillasDistrito(int distrito,bool especial = false)
         {
             try
             {
                 using (DatabaseContext contexto = new DatabaseContext("MYSQLSERVER"))
                 {
-                    return (from p in contexto.sice_casillas where p.id_distrito_local == distrito select p).ToList();
+                    if(!especial)
+                        return (from p in contexto.sice_casillas where p.id_distrito_local == distrito select p).ToList();
+                    else
+                        return (from p in contexto.sice_casillas where p.id_distrito_local == distrito && p.tipo_casilla == "S1" select p).ToList();
+
+
+
                     //return contexto.sice_casillas.Select(x => new SeccionCasilla { id = x.id, seccion = (int)x.seccion, casilla = (string)x.tipo_casilla }).ToList();
                 }
 

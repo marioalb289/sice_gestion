@@ -403,6 +403,16 @@ namespace Sistema.ComputosElectorales.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap pt_morena {
+            get {
+                object obj = ResourceManager.GetObject("pt_morena", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap recuento {
             get {
                 object obj = ResourceManager.GetObject("recuento", resourceCulture);

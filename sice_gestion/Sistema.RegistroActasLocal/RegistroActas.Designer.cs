@@ -33,19 +33,17 @@
             this.tablePanelPartidos = new System.Windows.Forms.TableLayoutPanel();
             this.tblPanaelTitulo = new System.Windows.Forms.TableLayoutPanel();
             this.pnlTableTitulo = new System.Windows.Forms.Panel();
-            this.label21 = new System.Windows.Forms.Label();
+            this.lblTituloCaptura = new System.Windows.Forms.Label();
             this.panel7 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.cmbEstadoPaquete = new System.Windows.Forms.ComboBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.cmbSupuesto = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
             this.txtEscritos = new System.Windows.Forms.TextBox();
-            this.label16 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.cmbEstatusActa = new System.Windows.Forms.ComboBox();
             this.cmbEstatusPaquete = new System.Windows.Forms.ComboBox();
-            this.cmbIncidencias = new System.Windows.Forms.ComboBox();
             this.tblPanelBoletas = new System.Windows.Forms.TableLayoutPanel();
             this.txtTotalCapturado = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
@@ -100,7 +98,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 100);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1024, 449);
+            this.panel2.Size = new System.Drawing.Size(1024, 572);
             this.panel2.TabIndex = 3;
             // 
             // panelCaptura
@@ -112,7 +110,7 @@
             this.panelCaptura.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelCaptura.Location = new System.Drawing.Point(0, 75);
             this.panelCaptura.Name = "panelCaptura";
-            this.panelCaptura.Size = new System.Drawing.Size(1024, 374);
+            this.panelCaptura.Size = new System.Drawing.Size(1024, 497);
             this.panelCaptura.TabIndex = 10;
             this.panelCaptura.Visible = false;
             // 
@@ -124,11 +122,11 @@
             this.tablePanelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tablePanelPartidos.Dock = System.Windows.Forms.DockStyle.Top;
             this.tablePanelPartidos.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
-            this.tablePanelPartidos.Location = new System.Drawing.Point(0, 454);
+            this.tablePanelPartidos.Location = new System.Drawing.Point(0, 458);
             this.tablePanelPartidos.Name = "tablePanelPartidos";
             this.tablePanelPartidos.Padding = new System.Windows.Forms.Padding(40, 0, 40, 0);
             this.tablePanelPartidos.RowCount = 1;
-            this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 279F));
+            this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 285F));
             this.tablePanelPartidos.Size = new System.Drawing.Size(1007, 213);
             this.tablePanelPartidos.TabIndex = 20;
             this.tablePanelPartidos.Visible = false;
@@ -147,31 +145,31 @@
             this.tblPanaelTitulo.Name = "tblPanaelTitulo";
             this.tblPanaelTitulo.Padding = new System.Windows.Forms.Padding(40, 10, 40, 10);
             this.tblPanaelTitulo.RowCount = 1;
-            this.tblPanaelTitulo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 90F));
-            this.tblPanaelTitulo.Size = new System.Drawing.Size(1007, 114);
+            this.tblPanaelTitulo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 94F));
+            this.tblPanaelTitulo.Size = new System.Drawing.Size(1007, 118);
             this.tblPanaelTitulo.TabIndex = 19;
             // 
             // pnlTableTitulo
             // 
             this.pnlTableTitulo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(158)))), ((int)(((byte)(150)))));
-            this.pnlTableTitulo.Controls.Add(this.label21);
+            this.pnlTableTitulo.Controls.Add(this.lblTituloCaptura);
             this.pnlTableTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableTitulo.Location = new System.Drawing.Point(45, 15);
             this.pnlTableTitulo.Name = "pnlTableTitulo";
-            this.pnlTableTitulo.Size = new System.Drawing.Size(917, 84);
+            this.pnlTableTitulo.Size = new System.Drawing.Size(917, 88);
             this.pnlTableTitulo.TabIndex = 39;
             // 
-            // label21
+            // lblTituloCaptura
             // 
-            this.label21.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.ForeColor = System.Drawing.Color.White;
-            this.label21.Location = new System.Drawing.Point(0, 0);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(917, 44);
-            this.label21.TabIndex = 0;
-            this.label21.Text = "PARTIDO, COALICIÓN O CANDIDATURA";
-            this.label21.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lblTituloCaptura.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblTituloCaptura.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTituloCaptura.ForeColor = System.Drawing.Color.White;
+            this.lblTituloCaptura.Location = new System.Drawing.Point(0, 0);
+            this.lblTituloCaptura.Name = "lblTituloCaptura";
+            this.lblTituloCaptura.Size = new System.Drawing.Size(917, 44);
+            this.lblTituloCaptura.TabIndex = 0;
+            this.lblTituloCaptura.Text = "PARTIDO, COALICIÓN O CANDIDATURA";
+            this.lblTituloCaptura.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // panel7
             // 
@@ -192,16 +190,14 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 125F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel2.Controls.Add(this.label17, 2, 0);
-            this.tableLayoutPanel2.Controls.Add(this.cmbSupuesto, 3, 0);
-            this.tableLayoutPanel2.Controls.Add(this.label7, 4, 1);
-            this.tableLayoutPanel2.Controls.Add(this.txtEscritos, 5, 1);
-            this.tableLayoutPanel2.Controls.Add(this.label16, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.label15, 2, 1);
-            this.tableLayoutPanel2.Controls.Add(this.label14, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.cmbEstatusActa, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.cmbEstatusPaquete, 3, 1);
-            this.tableLayoutPanel2.Controls.Add(this.cmbIncidencias, 1, 1);
+            this.tableLayoutPanel2.Controls.Add(this.cmbEstadoPaquete, 4, 0);
+            this.tableLayoutPanel2.Controls.Add(this.label9, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.label17, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.cmbSupuesto, 1, 1);
+            this.tableLayoutPanel2.Controls.Add(this.label7, 3, 1);
+            this.tableLayoutPanel2.Controls.Add(this.txtEscritos, 4, 1);
+            this.tableLayoutPanel2.Controls.Add(this.label15, 3, 0);
+            this.tableLayoutPanel2.Controls.Add(this.cmbEstatusPaquete, 1, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 172);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -209,8 +205,36 @@
             this.tableLayoutPanel2.RowCount = 2;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 72F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 72F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(1007, 148);
             this.tableLayoutPanel2.TabIndex = 21;
+            // 
+            // cmbEstadoPaquete
+            // 
+            this.tableLayoutPanel2.SetColumnSpan(this.cmbEstadoPaquete, 2);
+            this.cmbEstadoPaquete.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cmbEstadoPaquete.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbEstadoPaquete.Enabled = false;
+            this.cmbEstadoPaquete.FormattingEnabled = true;
+            this.cmbEstadoPaquete.Location = new System.Drawing.Point(694, 35);
+            this.cmbEstadoPaquete.Margin = new System.Windows.Forms.Padding(20, 25, 20, 5);
+            this.cmbEstadoPaquete.Name = "cmbEstadoPaquete";
+            this.cmbEstadoPaquete.Size = new System.Drawing.Size(193, 21);
+            this.cmbEstadoPaquete.TabIndex = 16;
+            // 
+            // label9
+            // 
+            this.label9.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
+            this.label9.AutoSize = true;
+            this.label9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(103, 10);
+            this.label9.Name = "label9";
+            this.label9.Padding = new System.Windows.Forms.Padding(10);
+            this.label9.Size = new System.Drawing.Size(119, 72);
+            this.label9.TabIndex = 32;
+            this.label9.Text = "Estatus Paquete:";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label17
             // 
@@ -218,7 +242,7 @@
             this.label17.AutoSize = true;
             this.label17.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.Location = new System.Drawing.Point(444, 10);
+            this.label17.Location = new System.Drawing.Point(103, 82);
             this.label17.Name = "label17";
             this.label17.Padding = new System.Windows.Forms.Padding(10);
             this.label17.Size = new System.Drawing.Size(119, 72);
@@ -228,16 +252,15 @@
             // 
             // cmbSupuesto
             // 
-            this.tableLayoutPanel2.SetColumnSpan(this.cmbSupuesto, 3);
+            this.tableLayoutPanel2.SetColumnSpan(this.cmbSupuesto, 2);
             this.cmbSupuesto.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cmbSupuesto.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbSupuesto.Enabled = false;
             this.cmbSupuesto.FormattingEnabled = true;
-            this.cmbSupuesto.Location = new System.Drawing.Point(586, 35);
+            this.cmbSupuesto.Location = new System.Drawing.Point(245, 107);
             this.cmbSupuesto.Margin = new System.Windows.Forms.Padding(20, 25, 20, 5);
             this.cmbSupuesto.Name = "cmbSupuesto";
             this.cmbSupuesto.Size = new System.Drawing.Size(301, 21);
-            this.cmbSupuesto.TabIndex = 30;
+            this.cmbSupuesto.TabIndex = 17;
             this.cmbSupuesto.TabStop = false;
             // 
             // label7
@@ -246,10 +269,10 @@
             this.label7.AutoSize = true;
             this.label7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(677, 82);
+            this.label7.Location = new System.Drawing.Point(569, 82);
             this.label7.Name = "label7";
             this.label7.Padding = new System.Windows.Forms.Padding(10);
-            this.label7.Size = new System.Drawing.Size(119, 72);
+            this.label7.Size = new System.Drawing.Size(102, 72);
             this.label7.TabIndex = 20;
             this.label7.Text = "Num Escritos:";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -258,28 +281,14 @@
             // 
             this.txtEscritos.Dock = System.Windows.Forms.DockStyle.Top;
             this.txtEscritos.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtEscritos.Location = new System.Drawing.Point(819, 107);
+            this.txtEscritos.Location = new System.Drawing.Point(694, 107);
             this.txtEscritos.Margin = new System.Windows.Forms.Padding(20, 25, 20, 5);
             this.txtEscritos.MaxLength = 3;
             this.txtEscritos.Name = "txtEscritos";
-            this.txtEscritos.Size = new System.Drawing.Size(68, 29);
-            this.txtEscritos.TabIndex = 17;
+            this.txtEscritos.Size = new System.Drawing.Size(85, 29);
+            this.txtEscritos.TabIndex = 18;
             this.txtEscritos.Text = "0";
             this.txtEscritos.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label16
-            // 
-            this.label16.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
-            this.label16.AutoSize = true;
-            this.label16.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.Location = new System.Drawing.Point(103, 82);
-            this.label16.Name = "label16";
-            this.label16.Padding = new System.Windows.Forms.Padding(10);
-            this.label16.Size = new System.Drawing.Size(119, 72);
-            this.label16.TabIndex = 18;
-            this.label16.Text = "Incidencias:";
-            this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label15
             // 
@@ -287,61 +296,26 @@
             this.label15.AutoSize = true;
             this.label15.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(444, 82);
+            this.label15.Location = new System.Drawing.Point(569, 10);
             this.label15.Name = "label15";
             this.label15.Padding = new System.Windows.Forms.Padding(10);
-            this.label15.Size = new System.Drawing.Size(119, 72);
+            this.label15.Size = new System.Drawing.Size(102, 72);
             this.label15.TabIndex = 17;
-            this.label15.Text = "Estatus Paquete:";
+            this.label15.Text = "Condciones del Paquete";
             this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label14
-            // 
-            this.label14.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
-            this.label14.AutoSize = true;
-            this.label14.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(103, 10);
-            this.label14.Name = "label14";
-            this.label14.Padding = new System.Windows.Forms.Padding(10);
-            this.label14.Size = new System.Drawing.Size(119, 72);
-            this.label14.TabIndex = 16;
-            this.label14.Text = "Estatus Acta:";
-            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // cmbEstatusActa
-            // 
-            this.cmbEstatusActa.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmbEstatusActa.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbEstatusActa.FormattingEnabled = true;
-            this.cmbEstatusActa.Location = new System.Drawing.Point(245, 35);
-            this.cmbEstatusActa.Margin = new System.Windows.Forms.Padding(20, 25, 20, 5);
-            this.cmbEstatusActa.Name = "cmbEstatusActa";
-            this.cmbEstatusActa.Size = new System.Drawing.Size(176, 21);
-            this.cmbEstatusActa.TabIndex = 15;
             // 
             // cmbEstatusPaquete
             // 
+            this.tableLayoutPanel2.SetColumnSpan(this.cmbEstatusPaquete, 2);
             this.cmbEstatusPaquete.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cmbEstatusPaquete.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbEstatusPaquete.FormattingEnabled = true;
-            this.cmbEstatusPaquete.Location = new System.Drawing.Point(586, 107);
+            this.cmbEstatusPaquete.Location = new System.Drawing.Point(245, 35);
             this.cmbEstatusPaquete.Margin = new System.Windows.Forms.Padding(20, 25, 20, 5);
             this.cmbEstatusPaquete.Name = "cmbEstatusPaquete";
-            this.cmbEstatusPaquete.Size = new System.Drawing.Size(68, 21);
-            this.cmbEstatusPaquete.TabIndex = 16;
-            // 
-            // cmbIncidencias
-            // 
-            this.cmbIncidencias.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmbIncidencias.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbIncidencias.Enabled = false;
-            this.cmbIncidencias.FormattingEnabled = true;
-            this.cmbIncidencias.Location = new System.Drawing.Point(245, 107);
-            this.cmbIncidencias.Margin = new System.Windows.Forms.Padding(20, 25, 20, 5);
-            this.cmbIncidencias.Name = "cmbIncidencias";
-            this.cmbIncidencias.Size = new System.Drawing.Size(176, 21);
-            this.cmbIncidencias.TabIndex = 18;
+            this.cmbEstatusPaquete.Size = new System.Drawing.Size(301, 21);
+            this.cmbEstatusPaquete.TabIndex = 15;
+            this.cmbEstatusPaquete.SelectedValueChanged += new System.EventHandler(this.cmbEstatusPaquete_SelectedValueChanged);
             // 
             // tblPanelBoletas
             // 
@@ -711,7 +685,7 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(1018, 44);
             this.label6.TabIndex = 0;
-            this.label6.Text = "Modificar Registro Votos";
+            this.label6.Text = "Registro Votos";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panel3
@@ -796,7 +770,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1024, 549);
+            this.ClientSize = new System.Drawing.Size(1024, 672);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -850,7 +824,7 @@
         private System.Windows.Forms.TableLayoutPanel tablePanelPartidos;
         private System.Windows.Forms.TableLayoutPanel tblPanaelTitulo;
         private System.Windows.Forms.Panel pnlTableTitulo;
-        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label lblTituloCaptura;
         private System.Windows.Forms.TableLayoutPanel tblPanelBoletas;
         private System.Windows.Forms.TextBox txtVotosSacados;
         private System.Windows.Forms.Label label13;
@@ -859,12 +833,8 @@
         private System.Windows.Forms.TextBox txtPersonasVotaron;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.ComboBox cmbEstatusActa;
         private System.Windows.Forms.ComboBox cmbEstatusPaquete;
-        private System.Windows.Forms.ComboBox cmbIncidencias;
         private System.Windows.Forms.TextBox txtTotalCapturado;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label5;
@@ -875,5 +845,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.ComboBox cmbSupuesto;
+        private System.Windows.Forms.ComboBox cmbEstadoPaquete;
+        private System.Windows.Forms.Label label9;
     }
 }

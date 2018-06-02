@@ -12,7 +12,7 @@
         <EntityTypeShape EntityType="sice_pruebasModel.sice_candidaturas" Width="1.5" PointX="0.75" PointY="5" />
         <EntityTypeShape EntityType="sice_pruebasModel.sice_distritos_locales" Width="1.5" PointX="2.75" PointY="10.75" />
         <EntityTypeShape EntityType="sice_pruebasModel.sice_municipios" Width="1.5" PointX="9.75" PointY="2.75" />
-        <EntityTypeShape EntityType="sice_pruebasModel.sice_usuarios" Width="1.5" PointX="4.75" PointY="11.75" />
+        <EntityTypeShape EntityType="sice_pruebasModel.sice_usuarios" Width="1.5" PointX="1.125" PointY="10.125" />
         <AssociationConnector Association="sice_pruebasModel.CARGOFK" />
         <EntityTypeShape EntityType="sice_pruebasModel.sice_ar_votos_valida1" Width="1.5" PointX="5.375" PointY="5.75" />
         <EntityTypeShape EntityType="sice_pruebasModel.sice_ar_votos_valida2" Width="1.5" PointX="8.375" PointY="8.75" />
@@ -21,7 +21,7 @@
         <EntityTypeShape EntityType="sice_pruebasModel.sice_reserva_captura" Width="1.5" PointX="12.75" PointY="8.75" />
         <EntityTypeShape EntityType="sice_pruebasModel.sice_votos_test" Width="1.5" PointX="7.375" PointY="5.75" />
         <EntityTypeShape EntityType="sice_pruebasModel.sice_ar_supuestos" Width="1.5" PointX="12.375" PointY="5.75" />
-        <EntityTypeShape EntityType="sice_pruebasModel.sice_ar_historico" Width="1.5" PointX="13.375" PointY="11.75" />
+        <EntityTypeShape EntityType="sice_pruebasModel.sice_ar_historico" Width="1.5" PointX="17" PointY="10.5" />
         <EntityTypeShape EntityType="sice_pruebasModel.sice_historico" Width="1.5" PointX="14.375" PointY="0.75" />
         <EntityTypeShape EntityType="sice_pruebasModel.sice_ar_estatus_acta" Width="1.5" PointX="14.375" PointY="3.75" />
         <EntityTypeShape EntityType="sice_pruebasModel.sice_ar_estatus_paquete" Width="1.5" PointX="13.375" PointY="14.75" />
@@ -33,6 +33,9 @@
         <AssociationConnector Association="sice_pruebasModel.sice_candidatos_ibfk_2" />
         <EntityTypeShape EntityType="sice_pruebasModel.sice_ar_votos_cotejo" Width="1.5" PointX="0.75" PointY="13.75" />
         <EntityTypeShape EntityType="sice_pruebasModel.sice_votos" Width="1.5" PointX="16.75" PointY="0.75" />
+        <EntityTypeShape EntityType="sice_pruebasModel.sice_ar_estado_paquete" Width="1.5" PointX="9.375" PointY="5.75" />
+        <EntityTypeShape EntityType="sice_pruebasModel.sice_ar_votos_cotejo_rp" Width="1.5" PointX="3.375" PointY="14.75" />
+        <EntityTypeShape EntityType="sice_pruebasModel.sice_votos_rp" Width="1.5" PointX="5.375" PointY="14.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

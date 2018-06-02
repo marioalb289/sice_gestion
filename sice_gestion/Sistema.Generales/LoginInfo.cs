@@ -26,5 +26,6 @@ namespace Sistema.Generales
         public const string User = "iepc_ftp_centos";
         public const string Pass = "$i$t3m4s2018utc";
         public const string Repo = "sice_archivos";
+        public const int BoletasEspecial = 750;
     }
 }

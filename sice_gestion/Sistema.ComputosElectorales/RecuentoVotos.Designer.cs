@@ -30,7 +30,6 @@
         {
             this.panel2 = new System.Windows.Forms.Panel();
             this.panelCaptura = new System.Windows.Forms.Panel();
-            this.tablePanelPartidos = new System.Windows.Forms.TableLayoutPanel();
             this.tblPanaelTitulo = new System.Windows.Forms.TableLayoutPanel();
             this.pnlTableTitulo = new System.Windows.Forms.Panel();
             this.label21 = new System.Windows.Forms.Label();
@@ -82,6 +81,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.tablePanelPartidos = new System.Windows.Forms.TableLayoutPanel();
             this.panel2.SuspendLayout();
             this.panelCaptura.SuspendLayout();
             this.tblPanaelTitulo.SuspendLayout();
@@ -123,23 +123,6 @@
             this.panelCaptura.TabIndex = 11;
             this.panelCaptura.Visible = false;
             // 
-            // tablePanelPartidos
-            // 
-            this.tablePanelPartidos.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.tablePanelPartidos.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.InsetDouble;
-            this.tablePanelPartidos.ColumnCount = 1;
-            this.tablePanelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tablePanelPartidos.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tablePanelPartidos.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
-            this.tablePanelPartidos.Location = new System.Drawing.Point(0, 444);
-            this.tablePanelPartidos.Name = "tablePanelPartidos";
-            this.tablePanelPartidos.Padding = new System.Windows.Forms.Padding(40, 0, 40, 0);
-            this.tablePanelPartidos.RowCount = 1;
-            this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 264F));
-            this.tablePanelPartidos.Size = new System.Drawing.Size(1007, 213);
-            this.tablePanelPartidos.TabIndex = 20;
-            this.tablePanelPartidos.Visible = false;
-            // 
             // tblPanaelTitulo
             // 
             this.tblPanaelTitulo.AutoSize = true;
@@ -154,8 +137,8 @@
             this.tblPanaelTitulo.Name = "tblPanaelTitulo";
             this.tblPanaelTitulo.Padding = new System.Windows.Forms.Padding(40, 10, 40, 10);
             this.tblPanaelTitulo.RowCount = 1;
-            this.tblPanaelTitulo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-            this.tblPanaelTitulo.Size = new System.Drawing.Size(1007, 104);
+            this.tblPanaelTitulo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 82F));
+            this.tblPanaelTitulo.Size = new System.Drawing.Size(1007, 106);
             this.tblPanaelTitulo.TabIndex = 19;
             // 
             // pnlTableTitulo
@@ -165,7 +148,7 @@
             this.pnlTableTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableTitulo.Location = new System.Drawing.Point(45, 15);
             this.pnlTableTitulo.Name = "pnlTableTitulo";
-            this.pnlTableTitulo.Size = new System.Drawing.Size(917, 74);
+            this.pnlTableTitulo.Size = new System.Drawing.Size(917, 76);
             this.pnlTableTitulo.TabIndex = 39;
             // 
             // label21
@@ -876,6 +859,23 @@
             this.panel1.Size = new System.Drawing.Size(1024, 100);
             this.panel1.TabIndex = 2;
             // 
+            // tablePanelPartidos
+            // 
+            this.tablePanelPartidos.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tablePanelPartidos.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.InsetDouble;
+            this.tablePanelPartidos.ColumnCount = 1;
+            this.tablePanelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tablePanelPartidos.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tablePanelPartidos.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
+            this.tablePanelPartidos.Location = new System.Drawing.Point(0, 446);
+            this.tablePanelPartidos.Name = "tablePanelPartidos";
+            this.tablePanelPartidos.Padding = new System.Windows.Forms.Padding(40, 0, 40, 0);
+            this.tablePanelPartidos.RowCount = 1;
+            this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 267F));
+            this.tablePanelPartidos.Size = new System.Drawing.Size(1007, 213);
+            this.tablePanelPartidos.TabIndex = 20;
+            this.tablePanelPartidos.Visible = false;
+            // 
             // RecuentoVotos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -936,7 +936,6 @@
         private System.Windows.Forms.Label lblDistrito;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Panel panelCaptura;
-        private System.Windows.Forms.TableLayoutPanel tablePanelPartidos;
         private System.Windows.Forms.TableLayoutPanel tblPanaelTitulo;
         private System.Windows.Forms.Panel pnlTableTitulo;
         private System.Windows.Forms.Label label21;
@@ -965,5 +964,6 @@
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.TextBox txtPersonasVotaron;
         private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.TableLayoutPanel tablePanelPartidos;
     }
 }

@@ -110,7 +110,6 @@
             this.btnConf.Text = "Configuración";
             this.btnConf.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnConf.UseVisualStyleBackColor = false;
-            this.btnConf.Visible = false;
             this.btnConf.Click += new System.EventHandler(this.btnConf_Click);
             // 
             // btnRegistroActas

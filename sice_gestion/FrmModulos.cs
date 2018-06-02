@@ -31,7 +31,7 @@ namespace sice_gestion
                 {
                     this.btnRegistroActas.Enabled = true;
                     this.btnComputos.Enabled = true;
-                    this.btnConf.Visible = false;
+                    this.btnConf.Visible = true;
                 }
                 else if(LoginInfo.privilegios == 4 || LoginInfo.privilegios == 5 )
                 {
