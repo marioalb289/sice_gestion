@@ -25,6 +25,15 @@ namespace Sistema.RegistroActasLocal
         static Control.ControlCollection testC;
         List<Candidatos> listaCandidatos;
 
+        int TotalVotosDistrito = 0;
+        private PictureBox[] pictureBoxes;
+        private TextBox[] textBoxes;
+        private Panel[] panels;
+        private Label[] labelsName;
+        private Panel[] panelRes;
+        private Label[] labelsRes;
+        private Label[] labelsPor;
+
         public Reportes()
         {
             InitializeComponent();
@@ -70,10 +79,10 @@ namespace Sistema.RegistroActasLocal
         {
             try
             {
-                if (LoginInfo.privilegios == 6 || LoginInfo.privilegios == 1)
-                    btnGenerarExcelTodo.Visible = true;
-                else
-                    btnGenerarExcelTodo.Visible = false;
+                //if (LoginInfo.privilegios == 6 || LoginInfo.privilegios == 1)
+                //    btnGenerarExcelTodo.Visible = true;
+                //else
+                //    btnGenerarExcelTodo.Visible = false;
                 rgActas = new RegistroLocalGenerales();
                 List<sice_distritos_locales> ds = rgActas.ListaDistritos();
                 ds.Insert(0, new sice_distritos_locales() { id = 0, distrito = "Seleccionar Distrito" });
@@ -136,7 +145,7 @@ namespace Sistema.RegistroActasLocal
                 List<VotosSeccion> vSeccionTotales = rgActas.ResultadosSeccionCaptura(0, 0, (int)distrito);
                 List<VotosSeccion> totalAgrupado =vSeccionTotales.GroupBy(x => x.id_casilla).Select(data => new VotosSeccion { id_candidato = data.First().id_candidato, casilla = data.First().casilla,lista_nominal = data.First().lista_nominal + TotalRepresentantes, votos = data.First().votos }).ToList();
                 int LnominalDistrito = totalAgrupado.Sum(x => x.lista_nominal);
-                int TotalVotosDistrito = vSeccionTotales.Sum(x => (int)x.votos);
+                this.TotalVotosDistrito = vSeccionTotales.Sum(x => (int)x.votos);
 
                 this.lblListaNominal.Text = String.Format(CultureInfo.InvariantCulture, "{0:#,#}", LnominalDistrito);
                 this.lblTotalVotos.Text = String.Format(CultureInfo.InvariantCulture, "{0:#,#}", TotalVotosDistrito);
@@ -313,6 +322,7 @@ namespace Sistema.RegistroActasLocal
                     else
                         TotalRepresentantes += numInfo.total * 2;
                 }
+                
 
                 foreach (VotosSeccion v in vSeccion)
                 {
@@ -382,7 +392,7 @@ namespace Sistema.RegistroActasLocal
                     row.Cells[1].Value = v.seccion;
                     row.Cells[2].Value = v.casilla;
                     row.Cells[3].Value = v.estatus_acta != null ? v.estatus_acta : "NO CAPTURADA";
-                    Lnominal =  v.lista_nominal + TotalRepresentantes;
+                    Lnominal = v.casilla == "S1" ? Configuracion.BoletasEspecial :  v.lista_nominal + TotalRepresentantes;
 
                     row.Cells[contCand].Value = v.votos;
                     if (v.tipo == "VOTO")
@@ -407,8 +417,153 @@ namespace Sistema.RegistroActasLocal
                     //column.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                 }
                 dgvResultados.ScrollBars = ScrollBars.Both;
+                this.cargarCandidatosTotales((int)distrito);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void cargarCandidatosTotales(int distrito)
+        {
+            try
+            {
+                this.tablePanelPartidos.Visible = false;
+                this.tablePanelPartidos.Controls.Clear();
+                this.tablePanelPartidos.RowStyles.Clear();
+                this.tablePanelPartidos.ColumnStyles.Clear();
+                this.tablePanelPartidos.RowCount = 0;
+                this.tablePanelPartidos.ColumnCount = 0;
+                this.tablePanelPartidos.SuspendLayout();
+
+                List<CandidatosResultados> lsCandidatos = rgActas.ListaResultadosCandidatos(distrito);
+                int totalCandidatos = lsCandidatos.Count();
+                if (lsCandidatos != null)
+                {                  
+
+                    totalCandidatos = lsCandidatos.Count();
 
 
+                    this.pictureBoxes = new PictureBox[lsCandidatos.Count];
+                    this.textBoxes = new TextBox[lsCandidatos.Count];
+                    this.panels = new Panel[lsCandidatos.Count];
+                    this.labelsName = new Label[lsCandidatos.Count];
+
+                    this.panelRes = new Panel[lsCandidatos.Count];
+                    this.labelsPor = new Label[lsCandidatos.Count];
+                    this.labelsRes = new Label[lsCandidatos.Count];
+
+                    this.tablePanelPartidos.RowCount = 1;
+
+                    //Agregar Columnas
+                    this.tablePanelPartidos.AutoScroll = true;
+                    this.tablePanelPartidos.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+                    this.tablePanelPartidos.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.InsetDouble;
+                    this.tablePanelPartidos.ColumnCount = totalCandidatos;
+                    decimal anchoColumnas = Math.Round(100 / (Convert.ToDecimal(totalCandidatos)), 6);
+                    for (int i = 0; i < totalCandidatos; i++)
+                    {
+                        this.tablePanelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, (float)anchoColumnas));
+                        //this.tablePanelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.692307F));
+                    }
+
+                    System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Properties.Resources));
+                    //Agregar Imagen, Etiqueta, TextBox por fila
+                    for (int i = 0; i < lsCandidatos.Count; i++)
+                    {
+
+                        pictureBoxes[i] = new PictureBox();
+                        textBoxes[i] = new TextBox();
+                        labelsName[i] = new Label();
+                        panels[i] = new Panel();
+
+                        panelRes[i] = new Panel();
+                        labelsPor[i] = new Label();
+                        labelsRes[i] = new Label();
+
+                        //Imagen
+                        pictureBoxes[i].Anchor = System.Windows.Forms.AnchorStyles.None;
+                        pictureBoxes[i].Image = lsCandidatos[i].tipo == "NO REGISTRADO" ? (System.Drawing.Image)(Properties.Resources.no_regis) : lsCandidatos[i].tipo == "NULO" ? (System.Drawing.Image)(Properties.Resources.nulos) : ((System.Drawing.Image)(resources.GetObject(lsCandidatos[i].imagen)));
+                        pictureBoxes[i].Location = new System.Drawing.Point(125, 8);
+                        pictureBoxes[i].Margin = new System.Windows.Forms.Padding(10, 5, 10, 5);
+                        pictureBoxes[i].Name = "pictureBox" + i;
+                        pictureBoxes[i].Size = new System.Drawing.Size(49, 70);
+                        pictureBoxes[i].SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+                        pictureBoxes[i].TabIndex = 20 + i;
+                        pictureBoxes[i].TabStop = false;
+
+                        //Etiqueta
+                        labelsName[i].Dock = System.Windows.Forms.DockStyle.Fill;
+                        labelsName[i].Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                        labelsName[i].Location = new System.Drawing.Point(910, 86);
+                        labelsName[i].Name = "labelNameCandidato" + i;
+                        labelsName[i].Size = new System.Drawing.Size(68, 65);
+                        labelsName[i].TabIndex = 51;
+                        labelsName[i].Text = lsCandidatos[i].tipo == "NO REGISTRADO" ? "Candidato No Registrado" : lsCandidatos[i].tipo == "NULO" ? "Votos Nulos" : lsCandidatos[i].candidato;
+                        labelsName[i].TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+
+                        // 
+                        // labelRes
+                        // 
+                        labelsRes[i].Dock = System.Windows.Forms.DockStyle.Top;
+                        labelsRes[i].Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                        labelsRes[i].Location = new System.Drawing.Point(0, 0);
+                        labelsRes[i].Name = "label1";
+                        labelsRes[i].Size = new System.Drawing.Size(150, 26);
+                        labelsRes[i].TabIndex = 0;
+                        labelsRes[i].Text = lsCandidatos[i].votos > 0 ? String.Format(CultureInfo.InvariantCulture, "{0:#,#}", lsCandidatos[i].votos) : "0";
+                        labelsRes[i].TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+                        // 
+                        // labelPor
+                        // 
+                        decimal porcentaje = 0;
+                        if (this.TotalVotosDistrito > 0 && lsCandidatos[i].votos > 0)
+                        {
+                            porcentaje = Math.Round((Convert.ToDecimal(lsCandidatos[i].votos) * 100) / Convert.ToDecimal(TotalVotosDistrito), 2);
+                        }
+
+
+                        labelsPor[i].Dock = System.Windows.Forms.DockStyle.Top;
+                        labelsPor[i].Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                        labelsPor[i].Location = new System.Drawing.Point(0, 26);
+                        labelsPor[i].Name = "label2";
+                        labelsPor[i].Size = new System.Drawing.Size(150, 30);
+                        labelsPor[i].TabIndex = 1;
+                        labelsPor[i].Text = porcentaje.ToString() + "%";
+                        labelsPor[i].TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+
+                        panelRes[i].Controls.Add(labelsPor[i]);
+                        panelRes[i].Controls.Add(labelsRes[i]);
+                        panelRes[i].Dock = System.Windows.Forms.DockStyle.Fill;
+                        panelRes[i].Location = new System.Drawing.Point(3, 64);
+                        panelRes[i].Name = "panelRes" + i;
+                        panelRes[i].Size = new System.Drawing.Size(150, 56);
+                        panelRes[i].TabIndex = 0;
+
+                        //Agregar Imagen
+                        this.tablePanelPartidos.Controls.Add(pictureBoxes[i], i, 0);
+                        //Agregar Etiqueta
+                        this.tablePanelPartidos.Controls.Add(labelsName[i], i, 1);
+                        //Agregar Textbox
+                        this.tablePanelPartidos.Controls.Add(panelRes[i], i, 2);
+
+
+                    }
+
+                    //Agregar Filas
+                    this.tablePanelPartidos.RowCount = 3;
+                    this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+                    this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle());
+                    this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+                    //this.tablePanelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.692307F));
+                    //this.tblPanaelPartidos.RowStyles.Add(new RowStyle(SizeType.Absolute, 70F));
+                    this.tablePanelPartidos.ResumeLayout(false);
+                    this.tablePanelPartidos.Visible = true;
+                    //textBoxes[0].Focus();
+                    //ShowScrollBar(this.tableLayoutPanel2.Handle, SB_HORZ, false);
+                }
             }
             catch (Exception ex)
             {
@@ -466,14 +621,15 @@ namespace Sistema.RegistroActasLocal
         {
             try
             {
+                this.TotalVotosDistrito = 0;
                 this.pageNumber = 1;
                 int? selected = Convert.ToInt32(cmbDistrito.SelectedValue);
                 if (selected > 0 && selected != null)
                 {
                     //Buscar Distritos no validos
                     this.BuscarDistritos((int)selected);
-                    this.InicializarPaginador(selected);
                     this.cargarResultadosTotales((int)selected);
+                    this.InicializarPaginador(selected);                    
                     if (this.totalPages > 0)
                     {
                         btnPrimero.Enabled = !this.IsFirstPage();

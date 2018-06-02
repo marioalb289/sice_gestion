@@ -35,18 +35,30 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.button1 = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel6 = new System.Windows.Forms.Panel();
+            this.btnActualizarGrid = new System.Windows.Forms.Button();
+            this.btnDescargar = new System.Windows.Forms.Button();
+            this.btnGenerarExcel = new System.Windows.Forms.Button();
+            this.cmbDistrito = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.tblPanaelTitulo = new System.Windows.Forms.TableLayoutPanel();
+            this.pnlTableTitulo = new System.Windows.Forms.Panel();
+            this.label21 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.panel5 = new System.Windows.Forms.Panel();
+            this.panel9 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.btnAnterior = new System.Windows.Forms.Button();
             this.btnUltimo = new System.Windows.Forms.Button();
             this.btnPrimero = new System.Windows.Forms.Button();
             this.lblTotalPag = new System.Windows.Forms.Label();
             this.btnSiguiente = new System.Windows.Forms.Button();
+            this.panel5 = new System.Windows.Forms.Panel();
             this.dgvResultados = new System.Windows.Forms.DataGridView();
-            this.tblPanaelTitulo = new System.Windows.Forms.TableLayoutPanel();
-            this.pnlTableTitulo = new System.Windows.Forms.Panel();
-            this.label21 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel8 = new System.Windows.Forms.Panel();
+            this.label5 = new System.Windows.Forms.Label();
+            this.tablePanelPartidos = new System.Windows.Forms.TableLayoutPanel();
             this.panel7 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.lblDistrito = new System.Windows.Forms.Label();
@@ -61,28 +73,23 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.panel6 = new System.Windows.Forms.Panel();
-            this.btnDescargar = new System.Windows.Forms.Button();
-            this.btnActualizarGrid = new System.Windows.Forms.Button();
-            this.btnGenerarExcelTodo = new System.Windows.Forms.Button();
-            this.btnGenerarExcel = new System.Windows.Forms.Button();
-            this.cmbDistrito = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
-            this.panel2.SuspendLayout();
-            this.panel5.SuspendLayout();
-            this.tableLayoutPanel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvResultados)).BeginInit();
-            this.tblPanaelTitulo.SuspendLayout();
-            this.pnlTableTitulo.SuspendLayout();
-            this.panel7.SuspendLayout();
-            this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.panel6.SuspendLayout();
+            this.tblPanaelTitulo.SuspendLayout();
+            this.pnlTableTitulo.SuspendLayout();
+            this.panel2.SuspendLayout();
+            this.panel9.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
+            this.panel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvResultados)).BeginInit();
+            this.tableLayoutPanel5.SuspendLayout();
+            this.panel8.SuspendLayout();
+            this.panel7.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -173,28 +180,158 @@
             this.label6.Text = "Informe de Captura";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Controls.Add(this.panel6, 1, 1);
+            this.tableLayoutPanel2.Controls.Add(this.cmbDistrito, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.label3, 0, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 2;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(783, 102);
+            this.tableLayoutPanel2.TabIndex = 0;
+            // 
+            // panel6
+            // 
+            this.panel6.Controls.Add(this.btnActualizarGrid);
+            this.panel6.Controls.Add(this.btnDescargar);
+            this.panel6.Controls.Add(this.btnGenerarExcel);
+            this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel6.Location = new System.Drawing.Point(394, 43);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(386, 56);
+            this.panel6.TabIndex = 18;
+            // 
+            // btnActualizarGrid
+            // 
+            this.btnActualizarGrid.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnActualizarGrid.Location = new System.Drawing.Point(86, 0);
+            this.btnActualizarGrid.Name = "btnActualizarGrid";
+            this.btnActualizarGrid.Size = new System.Drawing.Size(100, 56);
+            this.btnActualizarGrid.TabIndex = 44;
+            this.btnActualizarGrid.Text = "Actualizar Tabla";
+            this.btnActualizarGrid.UseVisualStyleBackColor = true;
+            this.btnActualizarGrid.Visible = false;
+            // 
+            // btnDescargar
+            // 
+            this.btnDescargar.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnDescargar.Location = new System.Drawing.Point(186, 0);
+            this.btnDescargar.Name = "btnDescargar";
+            this.btnDescargar.Size = new System.Drawing.Size(100, 56);
+            this.btnDescargar.TabIndex = 43;
+            this.btnDescargar.Text = "Descargar Datos";
+            this.btnDescargar.UseVisualStyleBackColor = true;
+            this.btnDescargar.Visible = false;
+            // 
+            // btnGenerarExcel
+            // 
+            this.btnGenerarExcel.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnGenerarExcel.Location = new System.Drawing.Point(286, 0);
+            this.btnGenerarExcel.Name = "btnGenerarExcel";
+            this.btnGenerarExcel.Size = new System.Drawing.Size(100, 56);
+            this.btnGenerarExcel.TabIndex = 42;
+            this.btnGenerarExcel.Text = "Generar Excel Recuento";
+            this.btnGenerarExcel.UseVisualStyleBackColor = true;
+            this.btnGenerarExcel.Click += new System.EventHandler(this.btnGenerarExcel_Click);
+            // 
+            // cmbDistrito
+            // 
+            this.cmbDistrito.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cmbDistrito.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbDistrito.Enabled = false;
+            this.cmbDistrito.FormattingEnabled = true;
+            this.cmbDistrito.Location = new System.Drawing.Point(20, 45);
+            this.cmbDistrito.Margin = new System.Windows.Forms.Padding(20, 5, 20, 5);
+            this.cmbDistrito.Name = "cmbDistrito";
+            this.cmbDistrito.Size = new System.Drawing.Size(351, 21);
+            this.cmbDistrito.TabIndex = 16;
+            this.cmbDistrito.SelectedValueChanged += new System.EventHandler(this.cmbDistrito_SelectedValueChanged);
+            // 
+            // label3
+            // 
+            this.label3.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
+            this.label3.AutoSize = true;
+            this.label3.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(3, 0);
+            this.label3.Name = "label3";
+            this.label3.Padding = new System.Windows.Forms.Padding(10);
+            this.label3.Size = new System.Drawing.Size(385, 40);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "Seleccionar Distrito";
+            // 
+            // tblPanaelTitulo
+            // 
+            this.tblPanaelTitulo.AutoSize = true;
+            this.tblPanaelTitulo.BackColor = System.Drawing.Color.Transparent;
+            this.tblPanaelTitulo.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Inset;
+            this.tblPanaelTitulo.ColumnCount = 1;
+            this.tblPanaelTitulo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tblPanaelTitulo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tblPanaelTitulo.Controls.Add(this.pnlTableTitulo, 0, 0);
+            this.tblPanaelTitulo.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tblPanaelTitulo.Location = new System.Drawing.Point(0, 202);
+            this.tblPanaelTitulo.Name = "tblPanaelTitulo";
+            this.tblPanaelTitulo.Padding = new System.Windows.Forms.Padding(40, 10, 40, 10);
+            this.tblPanaelTitulo.RowCount = 1;
+            this.tblPanaelTitulo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 82F));
+            this.tblPanaelTitulo.Size = new System.Drawing.Size(783, 106);
+            this.tblPanaelTitulo.TabIndex = 25;
+            // 
+            // pnlTableTitulo
+            // 
+            this.pnlTableTitulo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(158)))), ((int)(((byte)(150)))));
+            this.pnlTableTitulo.Controls.Add(this.label21);
+            this.pnlTableTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlTableTitulo.Location = new System.Drawing.Point(45, 15);
+            this.pnlTableTitulo.Name = "pnlTableTitulo";
+            this.pnlTableTitulo.Size = new System.Drawing.Size(693, 76);
+            this.pnlTableTitulo.TabIndex = 39;
+            // 
+            // label21
+            // 
+            this.label21.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.ForeColor = System.Drawing.Color.White;
+            this.label21.Location = new System.Drawing.Point(0, 0);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(693, 76);
+            this.label21.TabIndex = 0;
+            this.label21.Text = "RESULTADOS ELECTORALES POR PARTIDOS POLÍTICOS, CANDIDATURA COMÚN E INDEPENDIENTE";
+            this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // panel2
             // 
             this.panel2.AutoScroll = true;
+            this.panel2.Controls.Add(this.panel9);
             this.panel2.Controls.Add(this.panel5);
-            this.panel2.Controls.Add(this.dgvResultados);
+            this.panel2.Controls.Add(this.tableLayoutPanel5);
+            this.panel2.Controls.Add(this.tablePanelPartidos);
             this.panel2.Controls.Add(this.tblPanaelTitulo);
             this.panel2.Controls.Add(this.panel7);
             this.panel2.Controls.Add(this.tableLayoutPanel2);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 100);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(800, 688);
+            this.panel2.Size = new System.Drawing.Size(800, 1052);
             this.panel2.TabIndex = 4;
             // 
-            // panel5
+            // panel9
             // 
-            this.panel5.Controls.Add(this.tableLayoutPanel3);
-            this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel5.Location = new System.Drawing.Point(0, 700);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(783, 97);
-            this.panel5.TabIndex = 27;
+            this.panel9.Controls.Add(this.tableLayoutPanel3);
+            this.panel9.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel9.Location = new System.Drawing.Point(0, 1227);
+            this.panel9.Name = "panel9";
+            this.panel9.Size = new System.Drawing.Size(783, 97);
+            this.panel9.TabIndex = 35;
             // 
             // tableLayoutPanel3
             // 
@@ -215,7 +352,7 @@
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(783, 94);
-            this.tableLayoutPanel3.TabIndex = 41;
+            this.tableLayoutPanel3.TabIndex = 42;
             // 
             // btnAnterior
             // 
@@ -271,57 +408,84 @@
             this.btnSiguiente.UseVisualStyleBackColor = true;
             this.btnSiguiente.Click += new System.EventHandler(this.btnSiguiente_Click);
             // 
+            // panel5
+            // 
+            this.panel5.Controls.Add(this.dgvResultados);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel5.Location = new System.Drawing.Point(0, 627);
+            this.panel5.Name = "panel5";
+            this.panel5.Padding = new System.Windows.Forms.Padding(40, 10, 40, 10);
+            this.panel5.Size = new System.Drawing.Size(783, 600);
+            this.panel5.TabIndex = 34;
+            // 
             // dgvResultados
             // 
             this.dgvResultados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgvResultados.Dock = System.Windows.Forms.DockStyle.Top;
-            this.dgvResultados.Location = new System.Drawing.Point(0, 300);
-            this.dgvResultados.Margin = new System.Windows.Forms.Padding(3, 10, 3, 10);
+            this.dgvResultados.Location = new System.Drawing.Point(40, 10);
+            this.dgvResultados.Margin = new System.Windows.Forms.Padding(40, 10, 40, 10);
             this.dgvResultados.Name = "dgvResultados";
             this.dgvResultados.ReadOnly = true;
-            this.dgvResultados.Size = new System.Drawing.Size(783, 400);
-            this.dgvResultados.TabIndex = 26;
+            this.dgvResultados.Size = new System.Drawing.Size(703, 600);
+            this.dgvResultados.TabIndex = 33;
             this.dgvResultados.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dgvResultados_CellPainting);
             // 
-            // tblPanaelTitulo
+            // tableLayoutPanel5
             // 
-            this.tblPanaelTitulo.AutoSize = true;
-            this.tblPanaelTitulo.BackColor = System.Drawing.Color.Transparent;
-            this.tblPanaelTitulo.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Inset;
-            this.tblPanaelTitulo.ColumnCount = 1;
-            this.tblPanaelTitulo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblPanaelTitulo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tblPanaelTitulo.Controls.Add(this.pnlTableTitulo, 0, 0);
-            this.tblPanaelTitulo.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tblPanaelTitulo.Location = new System.Drawing.Point(0, 202);
-            this.tblPanaelTitulo.Name = "tblPanaelTitulo";
-            this.tblPanaelTitulo.Padding = new System.Windows.Forms.Padding(40, 10, 40, 10);
-            this.tblPanaelTitulo.RowCount = 1;
-            this.tblPanaelTitulo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 74F));
-            this.tblPanaelTitulo.Size = new System.Drawing.Size(783, 98);
-            this.tblPanaelTitulo.TabIndex = 25;
+            this.tableLayoutPanel5.AutoSize = true;
+            this.tableLayoutPanel5.BackColor = System.Drawing.Color.Transparent;
+            this.tableLayoutPanel5.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Inset;
+            this.tableLayoutPanel5.ColumnCount = 1;
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel5.Controls.Add(this.panel8, 0, 0);
+            this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(0, 521);
+            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
+            this.tableLayoutPanel5.Padding = new System.Windows.Forms.Padding(40, 10, 40, 10);
+            this.tableLayoutPanel5.RowCount = 1;
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 82F));
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(783, 106);
+            this.tableLayoutPanel5.TabIndex = 31;
             // 
-            // pnlTableTitulo
+            // panel8
             // 
-            this.pnlTableTitulo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(158)))), ((int)(((byte)(150)))));
-            this.pnlTableTitulo.Controls.Add(this.label21);
-            this.pnlTableTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlTableTitulo.Location = new System.Drawing.Point(45, 15);
-            this.pnlTableTitulo.Name = "pnlTableTitulo";
-            this.pnlTableTitulo.Size = new System.Drawing.Size(693, 68);
-            this.pnlTableTitulo.TabIndex = 39;
+            this.panel8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(158)))), ((int)(((byte)(150)))));
+            this.panel8.Controls.Add(this.label5);
+            this.panel8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel8.Location = new System.Drawing.Point(45, 15);
+            this.panel8.Name = "panel8";
+            this.panel8.Size = new System.Drawing.Size(693, 76);
+            this.panel8.TabIndex = 39;
             // 
-            // label21
+            // label5
             // 
-            this.label21.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.ForeColor = System.Drawing.Color.White;
-            this.label21.Location = new System.Drawing.Point(0, 0);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(693, 68);
-            this.label21.TabIndex = 0;
-            this.label21.Text = "RESULTADOS ELECTORALES POR PARTIDOS POLÍTICOS, CANDIDATURA COMÚN E INDEPENDIENTE";
-            this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.White;
+            this.label5.Location = new System.Drawing.Point(0, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(693, 76);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "DETALLES ELECCIÓN DE DIPUTADOS DE MAYORÍA RELATIVA POR CASILLA, SECCIÓN Y DISTRIT" +
+    "O LOCAL";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // tablePanelPartidos
+            // 
+            this.tablePanelPartidos.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tablePanelPartidos.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.InsetDouble;
+            this.tablePanelPartidos.ColumnCount = 1;
+            this.tablePanelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tablePanelPartidos.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tablePanelPartidos.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
+            this.tablePanelPartidos.Location = new System.Drawing.Point(0, 308);
+            this.tablePanelPartidos.Name = "tablePanelPartidos";
+            this.tablePanelPartidos.Padding = new System.Windows.Forms.Padding(40, 0, 40, 0);
+            this.tablePanelPartidos.RowCount = 1;
+            this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 273F));
+            this.tablePanelPartidos.Size = new System.Drawing.Size(783, 213);
+            this.tablePanelPartidos.TabIndex = 28;
             // 
             // panel7
             // 
@@ -534,113 +698,11 @@
             this.label4.Text = "Participación Ciudadana:";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // tableLayoutPanel2
-            // 
-            this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Controls.Add(this.panel6, 1, 1);
-            this.tableLayoutPanel2.Controls.Add(this.cmbDistrito, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.label3, 0, 0);
-            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 2;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(783, 102);
-            this.tableLayoutPanel2.TabIndex = 0;
-            // 
-            // panel6
-            // 
-            this.panel6.Controls.Add(this.btnDescargar);
-            this.panel6.Controls.Add(this.btnActualizarGrid);
-            this.panel6.Controls.Add(this.btnGenerarExcelTodo);
-            this.panel6.Controls.Add(this.btnGenerarExcel);
-            this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel6.Location = new System.Drawing.Point(394, 43);
-            this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(386, 56);
-            this.panel6.TabIndex = 18;
-            // 
-            // btnDescargar
-            // 
-            this.btnDescargar.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnDescargar.Location = new System.Drawing.Point(-14, 0);
-            this.btnDescargar.Name = "btnDescargar";
-            this.btnDescargar.Size = new System.Drawing.Size(100, 56);
-            this.btnDescargar.TabIndex = 41;
-            this.btnDescargar.Text = "Descargar Datos";
-            this.btnDescargar.UseVisualStyleBackColor = true;
-            this.btnDescargar.Visible = false;
-            this.btnDescargar.Click += new System.EventHandler(this.btnDescargar_Click);
-            // 
-            // btnActualizarGrid
-            // 
-            this.btnActualizarGrid.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnActualizarGrid.Location = new System.Drawing.Point(86, 0);
-            this.btnActualizarGrid.Name = "btnActualizarGrid";
-            this.btnActualizarGrid.Size = new System.Drawing.Size(100, 56);
-            this.btnActualizarGrid.TabIndex = 40;
-            this.btnActualizarGrid.Text = "Actualizar Tabla";
-            this.btnActualizarGrid.UseVisualStyleBackColor = true;
-            this.btnActualizarGrid.Visible = false;
-            this.btnActualizarGrid.Click += new System.EventHandler(this.btnActualizarGrid_Click);
-            // 
-            // btnGenerarExcelTodo
-            // 
-            this.btnGenerarExcelTodo.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnGenerarExcelTodo.Location = new System.Drawing.Point(186, 0);
-            this.btnGenerarExcelTodo.Name = "btnGenerarExcelTodo";
-            this.btnGenerarExcelTodo.Size = new System.Drawing.Size(100, 56);
-            this.btnGenerarExcelTodo.TabIndex = 39;
-            this.btnGenerarExcelTodo.Text = "Generar Excel Recuento Todo";
-            this.btnGenerarExcelTodo.UseVisualStyleBackColor = true;
-            this.btnGenerarExcelTodo.Click += new System.EventHandler(this.btnGenerarExcelTodo_Click);
-            // 
-            // btnGenerarExcel
-            // 
-            this.btnGenerarExcel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnGenerarExcel.Location = new System.Drawing.Point(286, 0);
-            this.btnGenerarExcel.Name = "btnGenerarExcel";
-            this.btnGenerarExcel.Size = new System.Drawing.Size(100, 56);
-            this.btnGenerarExcel.TabIndex = 38;
-            this.btnGenerarExcel.Text = "Generar Excel Recuento";
-            this.btnGenerarExcel.UseVisualStyleBackColor = true;
-            this.btnGenerarExcel.Click += new System.EventHandler(this.btnGenerarExcel_Click);
-            // 
-            // cmbDistrito
-            // 
-            this.cmbDistrito.Dock = System.Windows.Forms.DockStyle.Top;
-            this.cmbDistrito.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbDistrito.Enabled = false;
-            this.cmbDistrito.FormattingEnabled = true;
-            this.cmbDistrito.Location = new System.Drawing.Point(20, 45);
-            this.cmbDistrito.Margin = new System.Windows.Forms.Padding(20, 5, 20, 5);
-            this.cmbDistrito.Name = "cmbDistrito";
-            this.cmbDistrito.Size = new System.Drawing.Size(351, 21);
-            this.cmbDistrito.TabIndex = 16;
-            this.cmbDistrito.SelectedValueChanged += new System.EventHandler(this.cmbDistrito_SelectedValueChanged);
-            // 
-            // label3
-            // 
-            this.label3.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
-            this.label3.AutoSize = true;
-            this.label3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(3, 0);
-            this.label3.Name = "label3";
-            this.label3.Padding = new System.Windows.Forms.Padding(10);
-            this.label3.Size = new System.Drawing.Size(385, 40);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "Seleccionar Distrito";
-            // 
             // Reportes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 788);
+            this.ClientSize = new System.Drawing.Size(800, 1152);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -652,20 +714,23 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
-            this.panel5.ResumeLayout(false);
-            this.tableLayoutPanel3.ResumeLayout(false);
-            this.tableLayoutPanel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvResultados)).EndInit();
-            this.tblPanaelTitulo.ResumeLayout(false);
-            this.pnlTableTitulo.ResumeLayout(false);
-            this.panel7.ResumeLayout(false);
-            this.tableLayoutPanel4.ResumeLayout(false);
-            this.tableLayoutPanel4.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.panel6.ResumeLayout(false);
+            this.tblPanaelTitulo.ResumeLayout(false);
+            this.pnlTableTitulo.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            this.panel9.ResumeLayout(false);
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel3.PerformLayout();
+            this.panel5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvResultados)).EndInit();
+            this.tableLayoutPanel5.ResumeLayout(false);
+            this.panel8.ResumeLayout(false);
+            this.panel7.ResumeLayout(false);
+            this.tableLayoutPanel4.ResumeLayout(false);
+            this.tableLayoutPanel4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -679,15 +744,21 @@
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox cmbDistrito;
         private System.Windows.Forms.Panel panel6;
-        private System.Windows.Forms.Button btnGenerarExcelTodo;
-        private System.Windows.Forms.Button btnGenerarExcel;
         private System.Windows.Forms.Button btnActualizarGrid;
         public System.Windows.Forms.Button btnDescargar;
+        private System.Windows.Forms.Button btnGenerarExcel;
+        private System.Windows.Forms.ComboBox cmbDistrito;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TableLayoutPanel tblPanaelTitulo;
+        private System.Windows.Forms.Panel pnlTableTitulo;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.TableLayoutPanel tablePanelPartidos;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
+        private System.Windows.Forms.Panel panel8;
+        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Panel panel7;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.Label lblDistrito;
@@ -702,16 +773,15 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Panel panel9;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.Button btnAnterior;
         private System.Windows.Forms.Button btnUltimo;
         private System.Windows.Forms.Button btnPrimero;
         private System.Windows.Forms.Label lblTotalPag;
         private System.Windows.Forms.Button btnSiguiente;
+        private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.DataGridView dgvResultados;
-        private System.Windows.Forms.TableLayoutPanel tblPanaelTitulo;
-        private System.Windows.Forms.Panel pnlTableTitulo;
-        private System.Windows.Forms.Label label21;
     }
 }
+

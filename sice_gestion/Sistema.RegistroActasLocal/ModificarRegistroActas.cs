@@ -1073,7 +1073,8 @@ namespace Sistema.RegistroActasLocal
                     int selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
                     if (selectedSupuesto == 5 || selectedSupuesto == 4)
                     {
-                       // this.cmbSupuesto.SelectedIndex = 0;
+                        if(sender != null)
+                            this.cmbSupuesto.SelectedIndex = 0;
                     }
                 }
 
