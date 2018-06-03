@@ -33,5 +33,6 @@ namespace Sistema.DataModel
         public string ubicacion { get; set; }
         public string referencia { get; set; }
         public string tipo_domicilio { get; set; }
+        public string tipo_votacion { get; set; }
     }
 }

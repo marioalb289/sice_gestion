@@ -456,11 +456,6 @@ namespace Sistema.RegistroActasLocal
                     cmbCasilla.DisplayMember = "casilla";
                     cmbCasilla.ValueMember = "id";
                     List<SeccionCasillaConsecutivo> caGp = (from p in this.sc where p.seccion == Convert.ToInt32(cmbSeccion.SelectedValue) select p).ToList();
-                    List<SeccionCasillaConsecutivo> sp = (from p in caGp where p.casilla == "S1" select p).ToList();
-                    foreach (SeccionCasillaConsecutivo cs in sp)
-                    {
-                        caGp.Add(new SeccionCasillaConsecutivo() { id = cs.id, consecutivo = cs.consecutivo, seccion = cs.seccion, casilla = cs.casilla + "-RP", distrito = cs.distrito, municipio = cs.municipio, listaNominal = cs.listaNominal, tipo = "RP" });
-                    }
                     if (caGp.Count > 0)
                         this.distritoActual = caGp[0].distrito;
                     caGp.Insert(0, new SeccionCasillaConsecutivo() { id = 0, casilla = "Seleccionar Casilla" });
@@ -577,11 +572,11 @@ namespace Sistema.RegistroActasLocal
                         int TotalRepresentantes = 1;
                         foreach (CandidatosVotos cnd in lsCandidatosVotos)
                         {
-                            if (cnd.coalicion != "" && cnd.coalicion != null)
+                            if (cnd.coalicion != "" && cnd.coalicion != null && cnd.tipo_partido != "COALICION")
                             {
                                 TotalRepresentantes += regActas.RepresentantesCComun(cnd.coalicion);
                             }
-                            else
+                            else if(cnd.tipo_partido != "COALICION")
                             {
                                 if (cnd.partido_local == 1)
                                     TotalRepresentantes += 1;

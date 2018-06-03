@@ -282,8 +282,8 @@
             this.tblPanaelTitulo.Name = "tblPanaelTitulo";
             this.tblPanaelTitulo.Padding = new System.Windows.Forms.Padding(40, 10, 40, 10);
             this.tblPanaelTitulo.RowCount = 1;
-            this.tblPanaelTitulo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 82F));
-            this.tblPanaelTitulo.Size = new System.Drawing.Size(783, 106);
+            this.tblPanaelTitulo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 84F));
+            this.tblPanaelTitulo.Size = new System.Drawing.Size(783, 108);
             this.tblPanaelTitulo.TabIndex = 25;
             // 
             // pnlTableTitulo
@@ -293,7 +293,7 @@
             this.pnlTableTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableTitulo.Location = new System.Drawing.Point(45, 15);
             this.pnlTableTitulo.Name = "pnlTableTitulo";
-            this.pnlTableTitulo.Size = new System.Drawing.Size(693, 76);
+            this.pnlTableTitulo.Size = new System.Drawing.Size(693, 78);
             this.pnlTableTitulo.TabIndex = 39;
             // 
             // label21
@@ -303,7 +303,7 @@
             this.label21.ForeColor = System.Drawing.Color.White;
             this.label21.Location = new System.Drawing.Point(0, 0);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(693, 76);
+            this.label21.Size = new System.Drawing.Size(693, 78);
             this.label21.TabIndex = 0;
             this.label21.Text = "RESULTADOS ELECTORALES POR PARTIDOS POLÍTICOS, CANDIDATURA COMÚN E INDEPENDIENTE";
             this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -321,14 +321,14 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 100);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(800, 1052);
+            this.panel2.Size = new System.Drawing.Size(800, 688);
             this.panel2.TabIndex = 4;
             // 
             // panel9
             // 
             this.panel9.Controls.Add(this.tableLayoutPanel3);
             this.panel9.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel9.Location = new System.Drawing.Point(0, 1227);
+            this.panel9.Location = new System.Drawing.Point(0, 1231);
             this.panel9.Name = "panel9";
             this.panel9.Size = new System.Drawing.Size(783, 97);
             this.panel9.TabIndex = 35;
@@ -412,7 +412,7 @@
             // 
             this.panel5.Controls.Add(this.dgvResultados);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel5.Location = new System.Drawing.Point(0, 627);
+            this.panel5.Location = new System.Drawing.Point(0, 631);
             this.panel5.Name = "panel5";
             this.panel5.Padding = new System.Windows.Forms.Padding(40, 10, 40, 10);
             this.panel5.Size = new System.Drawing.Size(783, 600);
@@ -440,12 +440,12 @@
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel5.Controls.Add(this.panel8, 0, 0);
             this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel5.Location = new System.Drawing.Point(0, 521);
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(0, 523);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             this.tableLayoutPanel5.Padding = new System.Windows.Forms.Padding(40, 10, 40, 10);
             this.tableLayoutPanel5.RowCount = 1;
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 82F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(783, 106);
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 84F));
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(783, 108);
             this.tableLayoutPanel5.TabIndex = 31;
             // 
             // panel8
@@ -455,7 +455,7 @@
             this.panel8.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel8.Location = new System.Drawing.Point(45, 15);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(693, 76);
+            this.panel8.Size = new System.Drawing.Size(693, 78);
             this.panel8.TabIndex = 39;
             // 
             // label5
@@ -465,7 +465,7 @@
             this.label5.ForeColor = System.Drawing.Color.White;
             this.label5.Location = new System.Drawing.Point(0, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(693, 76);
+            this.label5.Size = new System.Drawing.Size(693, 78);
             this.label5.TabIndex = 0;
             this.label5.Text = "DETALLES ELECCIÓN DE DIPUTADOS DE MAYORÍA RELATIVA POR CASILLA, SECCIÓN Y DISTRIT" +
     "O LOCAL";
@@ -479,11 +479,11 @@
             this.tablePanelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tablePanelPartidos.Dock = System.Windows.Forms.DockStyle.Top;
             this.tablePanelPartidos.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
-            this.tablePanelPartidos.Location = new System.Drawing.Point(0, 308);
+            this.tablePanelPartidos.Location = new System.Drawing.Point(0, 310);
             this.tablePanelPartidos.Name = "tablePanelPartidos";
             this.tablePanelPartidos.Padding = new System.Windows.Forms.Padding(40, 0, 40, 0);
             this.tablePanelPartidos.RowCount = 1;
-            this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 273F));
+            this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 276F));
             this.tablePanelPartidos.Size = new System.Drawing.Size(783, 213);
             this.tablePanelPartidos.TabIndex = 28;
             // 
@@ -702,7 +702,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 1152);
+            this.ClientSize = new System.Drawing.Size(800, 788);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;

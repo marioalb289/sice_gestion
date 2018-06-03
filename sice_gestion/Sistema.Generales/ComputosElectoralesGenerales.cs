@@ -60,6 +60,7 @@ namespace Sistema.Generales
                                 new_casilla.importado = 0;
                                 new_casilla.create_at = DateTime.Now; 
                                 new_casilla.updated_at = DateTime.Now;
+                                new_casilla.tipo_votacion = casilla.tipo_votacion;
                                 contexto.sice_reserva_captura.Add(new_casilla);
                                 contexto.SaveChanges();
 
@@ -74,7 +75,7 @@ namespace Sistema.Generales
             }
             catch(Exception ex)
             {
-
+                throw ex;
             }
 
         }
@@ -147,6 +148,21 @@ namespace Sistema.Generales
             }
         }
 
+        public List<sice_partidos_politicos> ListaPartidosPoliticos()
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    return (from p in contexto.sice_partidos_politicos where p.tipo == "PARTIDO" select p).OrderBy(x => x.prelacion).ToList();
+                    //return contexto.sice_casillas.Select(x => new SeccionCasilla { id = x.id, seccion = (int)x.seccion, casilla = (string)x.tipo_casilla }).ToList();
+                }
+
+            }
+            catch (Exception E)
+            { throw E; }
+        }
+
         public List<sice_distritos_locales> ListaDistritos()
         {
             try
@@ -217,6 +233,7 @@ namespace Sistema.Generales
             {
                 using (DatabaseContext contexto = new DatabaseContext(con))
                 {
+                    //Estatus 3 5 y 8 son para recuento
                     sice_ar_reserva res = (from r in contexto.sice_ar_reserva where r.id_casilla == id_casilla && (r.id_estatus_acta == 3 || r.id_estatus_acta == 5 || r.id_estatus_acta == 8) select r).FirstOrDefault();
                     sice_reserva_captura res2 = (from r in contexto.sice_reserva_captura where r.id_casilla == id_casilla && (r.id_estatus_acta == 3 || r.id_estatus_acta == 5 || r.id_estatus_acta == 8) select r).FirstOrDefault();
                     if (res != null || res2 !=null)
@@ -321,9 +338,12 @@ namespace Sistema.Generales
                             "C.id_distrito_local as distrito_local," +
                             "M.municipio," +
                             "M2.municipio AS cabecera_local, " +
-                            "RC.tipo_reserva as estatus " +
+                            "RC.tipo_reserva as estatus, " +
+                            "EA.estatus AS estatus_acta, " +
+                            "EA.id AS id_estatus_acta "+
                         "FROM sice_votos RV " +
                         "LEFT JOIN sice_reserva_captura RC ON RC.id_casilla = RV.id_casilla " +
+                        "LEFT JOIN sice_ar_estatus_acta EA ON RC.id_estatus_acta = EA.id " +
                         "LEFT JOIN sice_candidatos CND ON CND.id = RV.id_candidato " +
                         "LEFT JOIN sice_partidos_politicos P ON P.id = CND.fk_partido " +
                         "JOIN sice_casillas C ON C.id = RV.id_casilla " + condicion +
@@ -415,10 +435,12 @@ namespace Sistema.Generales
                     else
                     {
                         consulta =
-                       "SELECT C.* FROM sice_casillas C " +
+                       "SELECT C.*, " +
+                       "CASE WHEN C.tipo_casilla = 'S1' THEN	100 WHEN C.tipo_casilla = 'S1-RP' THEN 200 WHEN C.tipo_casilla <> 'S1' THEN	1 END AS especial " +
+                       "FROM sice_casillas C " +
                        "LEFT JOIN sice_reserva_captura RC ON RC.id_casilla = C.id " +
                        "WHERE RC.id IS NULL" + " AND C.id_cabecera_local = " + LoginInfo.id_municipio + " " +
-                       "ORDER BY C.id_distrito_local ASC,C.seccion, C.id ASC";
+                       "ORDER BY C.id_distrito_local ASC,especial ASC,C.seccion,C.id ASC";
 
                     }
 
@@ -433,7 +455,8 @@ namespace Sistema.Generales
                                 consecutivo = (int)p.consecutivo_total,
                                 listaNominal = (int)p.lista_nominal,
                                 distrito = (int)p.id_distrito_local,
-                                municipio = (int)p.id_municipio
+                                municipio = (int)p.id_municipio,
+                                tipo = p.tipo_votacion
                             }).ToList();
                     //return contexto.sice_casillas.Select(x => new SeccionCasilla { id = x.id, seccion = (int)x.seccion, casilla = (string)x.tipo_casilla }).ToList();
                 }
@@ -463,7 +486,8 @@ namespace Sistema.Generales
                                 consecutivo = (int)p.consecutivo_total,
                                 listaNominal = (int)p.lista_nominal,
                                 distrito = (int)p.id_distrito_local,
-                                municipio = (int)p.id_municipio
+                                municipio = (int)p.id_municipio,
+                                tipo = p.tipo_votacion
                             }).ToList();
                     //return contexto.sice_casillas.Select(x => new SeccionCasilla { id = x.id, seccion = (int)x.seccion, casilla = (string)x.tipo_casilla }).ToList();
                 }
@@ -485,8 +509,10 @@ namespace Sistema.Generales
                         "CONCAT(C.nombre,' ',C.apellido_paterno,' ',C.apellido_materno)as candidato, " +
                         "CD.nombre_candidatura, " +
                         "P.siglas_par as partido, " +
+                        "P.img_par as imagen, " +
                         "P.local as partido_local, " +
-                        "P.img_par as imagen " +
+                        "P.info_creado as coalicion, " +
+                        "P.tipo as tipo_partido " +
                         "FROM sice_candidatos C " +
                         "JOIN sice_candidaturas CD ON CD.id = C.fk_cargo AND CD.titular = 1 " + "AND CD.id_distrito =" + distrito + " " +
                         "JOIN sice_partidos_politicos P ON P.id = C.fk_partido " +
@@ -525,6 +551,33 @@ namespace Sistema.Generales
                         "GROUP BY C.id_distrito_local,RV.id_candidato,RV.tipo " +
                         "ORDER BY prelacion ASC ";
                     return contexto.Database.SqlQuery<CandidatosResultados>(consulta).ToList();
+                }
+
+            }
+            catch (Exception E)
+            { throw E; }
+        }
+
+        public int RepresentantesCComun(string coalicion)
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    int representantes = 0;
+                    string result = string.Join(",", coalicion);
+                    string condicion = "WHERE id IN (" + result + ") ";
+                    string consulta = "SELECT * FROM sice_partidos_politicos " + condicion;
+                    List<sice_partidos_politicos> listaPartidos = contexto.Database.SqlQuery<sice_partidos_politicos>(consulta).ToList();
+                    foreach (sice_partidos_politicos p in listaPartidos)
+                    {
+                        if (p.local == 1)
+                            representantes += 1;
+                        else
+                            representantes += 2;
+                    }
+
+                    return representantes;
                 }
 
             }
@@ -577,78 +630,7 @@ namespace Sistema.Generales
             }
         }
 
-        public int guardarDatosVotos(List<sice_votos> listaVotos, int id_casilla, int totalCandidatos,bool modificar = false,int? id_supuesto = null)
-        {
-            try
-            {
-                using (DatabaseContext contexto = new DatabaseContext(con))
-                {
-                    using (var TransactionContexto = new TransactionScope())
-                    {
-                        sice_votos v1 = null;
-                        foreach (sice_votos voto in listaVotos)
-                        {
-                            if (voto.id_candidato != null)
-                            {
-                                v1 = (from d in contexto.sice_votos where d.id_candidato == voto.id_candidato && d.id_casilla == voto.id_casilla select d).FirstOrDefault();
-                            }
-                            else
-                            {
-                                if (voto.tipo == "NULO")
-                                    v1 = (from d in contexto.sice_votos where d.tipo == "NULO" && d.id_casilla == voto.id_casilla select d).FirstOrDefault();
-                                else if (voto.tipo == "NO REGISTRADO")
-                                    v1 = (from d in contexto.sice_votos where d.tipo == "NO REGISTRADO" && d.id_casilla == voto.id_casilla select d).FirstOrDefault();
-                            }
-
-                            if (v1 != null)
-                            {
-                                v1.id_candidato = voto.id_candidato;
-                                v1.id_casilla = voto.id_casilla;
-                                v1.tipo = voto.tipo;
-                                v1.votos = voto.votos;
-                                v1.estatus = 1;
-                                v1.importado = 0;
-                                contexto.SaveChanges();
-                            }
-                        }
-
-                        sice_reserva_captura rc = (from p in contexto.sice_reserva_captura where p.id_casilla == id_casilla select p).FirstOrDefault();
-                        if(rc != null)
-                        {
-                            rc.tipo_reserva = "CAPTURADA";
-                            rc.id_supuesto = id_supuesto;
-                            rc.importado = 0;
-                        }
-                        else
-                        {
-                            rc = new sice_reserva_captura();
-                            rc.id_casilla = id_casilla;
-                            rc.tipo_reserva = "CAPTURADA";
-                            rc.id_supuesto = id_supuesto;
-                            rc.importado = 0;
-                            contexto.sice_reserva_captura.Add(rc);
-                        }
-                        if (modificar)
-                        {
-                            sice_historico hs = new sice_historico();
-                            hs.id_casilla = id_casilla;
-                            hs.id_supuesto = null;
-                            hs.fecha = DateTime.Now;
-                            contexto.sice_historico.Add(hs);
-                        }
-
-                        contexto.SaveChanges();
-                        TransactionContexto.Complete();
-                        return 1;
-                    }
-                }
-
-            }
-            catch(Exception E)
-            {
-                throw E;
-            }             
-        }
+        
 
         public int guardarDatosVotos(List<sice_votos> listaVotos, int id_casilla, int supuesto, int boletasSobrantes, int numEscritos, int personas_votaron,
             int representantes, int votos_sacados, int incidencias, int estatus_acta, int estatus_paquete, bool modificar = false)
@@ -721,6 +703,7 @@ namespace Sistema.Generales
                             rc.id_estatus_acta = estatus_acta;
                             rc.id_estatus_paquete = estatus_paquete;
                             rc.inicializada = 0;
+                            rc.tipo_votacion = "MR";
                             if (incidencias == 0)
                                 rc.id_incidencias = null;
                             else
@@ -748,6 +731,137 @@ namespace Sistema.Generales
                             rc.id_estatus_acta = estatus_acta;
                             rc.id_estatus_paquete = estatus_paquete;
                             rc.inicializada = 0;
+                            rc.tipo_votacion = "MR";
+                            if (incidencias == 0)
+                                rc.id_incidencias = null;
+                            else
+                                rc.id_incidencias = incidencias;
+                            contexto.sice_reserva_captura.Add(rc);
+                        }
+                        if (modificar)
+                        {
+                            sice_historico hs = new sice_historico();
+                            hs.id_casilla = id_casilla;
+                            if (supuesto == 0)
+                                hs.id_supuesto = null;
+                            else
+                                hs.id_supuesto = supuesto;
+                            hs.fecha = DateTime.Now;
+                            contexto.sice_historico.Add(hs);
+                        }
+                        contexto.SaveChanges();
+                        TransactionContexto.Complete();
+                        return 1;
+                    }
+                }
+
+            }
+            catch (Exception E)
+            {
+                throw E;
+            }
+        }
+
+        public int guardarDatosVotosRP(List<sice_votos_rp> listaVotos, int id_casilla, int supuesto, int boletasSobrantes, int numEscritos, int personas_votaron,
+            int representantes, int votos_sacados, int incidencias, int estatus_acta, int estatus_paquete, bool modificar = false)
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    using (var TransactionContexto = new TransactionScope())
+                    {
+                        bool ceros = true;
+                        bool recuento = false;
+                        bool no_conta = false;
+                        if (estatus_acta == 1 || estatus_acta == 2 || estatus_acta == 8)
+                        {
+                            ceros = false;
+                        }
+                        if (estatus_acta == 3 || estatus_acta == 5 || estatus_acta == 4)
+                        {
+                            recuento = true;
+                        }
+                        if (estatus_acta == 9)
+                        {
+                            no_conta = true;
+                        }
+                        sice_votos_rp v1 = null;
+                        foreach (sice_votos_rp voto in listaVotos)
+                        {
+                            if (voto.id_partido != null)
+                            {
+                                v1 = (from d in contexto.sice_votos_rp where d.id_partido == voto.id_partido && d.id_casilla == voto.id_casilla select d).FirstOrDefault();
+                            }
+                            else
+                            {
+                                if (voto.tipo == "NULO")
+                                    v1 = (from d in contexto.sice_votos_rp where d.tipo == "NULO" && d.id_casilla == voto.id_casilla select d).FirstOrDefault();
+                                else if (voto.tipo == "NO REGISTRADO")
+                                    v1 = (from d in contexto.sice_votos_rp where d.tipo == "NO REGISTRADO" && d.id_casilla == voto.id_casilla select d).FirstOrDefault();
+                            }
+
+                            if (v1 != null)
+                            {
+                                v1.id_partido = voto.id_partido;
+                                v1.id_casilla = voto.id_casilla;
+                                v1.tipo = voto.tipo;
+                                v1.votos = ceros ? 0 : voto.votos;
+                                v1.importado = 0;
+                                v1.estatus = 1;
+                                contexto.SaveChanges();
+                            }
+                            else
+                            {
+                                return 0;
+                            }
+                        }
+
+                        sice_reserva_captura rc = (from p in contexto.sice_reserva_captura where p.id_casilla == id_casilla select p).FirstOrDefault();
+                        if (rc != null)
+                        {
+                            rc.tipo_reserva = recuento ? "RECUENTO" : no_conta ? "NO CONTABILIZABLE" : "CAPTURADA";
+                            rc.num_escritos = ceros ? 0 : numEscritos;
+                            if (supuesto == 0)
+                                rc.id_supuesto = null;
+                            else
+                                rc.id_supuesto = supuesto;
+                            rc.boletas_sobrantes = ceros ? 0 : boletasSobrantes;
+                            rc.personas_votaron = ceros ? 0 : personas_votaron;
+                            rc.num_representantes_votaron = ceros ? 0 : representantes;
+                            rc.votos_sacados = ceros ? 0 : votos_sacados;
+                            rc.id_estatus_acta = estatus_acta;
+                            rc.id_estatus_paquete = estatus_paquete;
+                            rc.tipo_votacion = "RP";
+                            rc.inicializada = 0;
+                            if (incidencias == 0)
+                                rc.id_incidencias = null;
+                            else
+                                rc.id_incidencias = incidencias;
+                            rc.importado = 0;
+                            rc.updated_at = DateTime.Now;
+                        }
+                        else
+                        {
+                            rc = new sice_reserva_captura();
+                            rc.id_casilla = id_casilla;
+                            rc.tipo_reserva = recuento ? "RECUENTO" : no_conta ? "NO CONTABILIZABLE" : "CAPTURADA";
+                            rc.create_at = DateTime.Now;
+                            rc.updated_at = DateTime.Now;
+                            rc.num_escritos = ceros ? 0 : numEscritos;
+                            rc.importado = 0;
+                            if (supuesto == 0)
+                                rc.id_supuesto = null;
+                            else
+                                rc.id_supuesto = supuesto;
+                            rc.boletas_sobrantes = ceros ? 0 : boletasSobrantes;
+                            rc.personas_votaron = ceros ? 0 : personas_votaron;
+                            rc.num_representantes_votaron = ceros ? 0 : representantes;
+                            rc.votos_sacados = ceros ? 0 : votos_sacados;
+                            rc.id_estatus_acta = estatus_acta;
+                            rc.id_estatus_paquete = estatus_paquete;
+                            rc.inicializada = 0;
+                            rc.tipo_votacion = "RP";
                             if (incidencias == 0)
                                 rc.id_incidencias = null;
                             else

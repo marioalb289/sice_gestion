@@ -88,7 +88,7 @@ namespace Sistema.Generales
                                 listaNominal = (int)p.lista_nominal,
                                 distrito = (int)p.id_distrito_local,
                                 municipio = (int)p.id_municipio,
-                                tipo = "MR"
+                                tipo = p.tipo_votacion
                             }).ToList();
                     //return contexto.sice_casillas.Select(x => new SeccionCasilla { id = x.id, seccion = (int)x.seccion, casilla = (string)x.tipo_casilla }).ToList();
                 }
@@ -229,7 +229,7 @@ namespace Sistema.Generales
             {                
                 using (DatabaseContext contexto = new DatabaseContext(con))
                 {
-                    sice_ar_reserva reserva = (from r in contexto.sice_ar_reserva where (r.tipo_reserva == "ATENDIDO" || r.tipo_reserva == "NO LEGIBLE") && r.id_casilla == id_casilla && r.tipo_votacion == tipo_votacion select r).FirstOrDefault();
+                    sice_ar_reserva reserva = (from r in contexto.sice_ar_reserva where (r.tipo_reserva == "ATENDIDO" || r.tipo_reserva == "NO LEGIBLE") && r.id_casilla == id_casilla select r).FirstOrDefault();
                     if (reserva != null)
                     {
                         return 1;
@@ -517,7 +517,8 @@ namespace Sistema.Generales
                         "P.siglas_par as partido, " +
                         "P.local as partido_local, " +
                         "P.info_creado as coalicion, " +
-                        "P.img_par as imagen " +
+                        "P.img_par as imagen, " +
+                        "P.tipo as tipo_partido " +
                         "FROM " + tabla + " V " +
                         "LEFT JOIN sice_candidatos C ON C.id = V.id_candidato " +
                         "LEFT JOIN sice_candidaturas CD ON CD.id = C.fk_cargo AND CD.titular = 1 " + //"AND CD.id_distrito =" + distrito +

@@ -118,27 +118,39 @@ namespace Sistema.ComputosElectorales
             {
                 CompElec = new ComputosElectoralesGenerales();
                 List<Candidatos> listaCandidatos = CompElec.ListaCandidatos(distrito);
-                var groupTotalNacional = listaCandidatos.GroupBy(x => x.partido_local).Select(grp => new {
-                    local = grp.Key,
-                    total = grp.Count(),
-                }).ToArray();
-                int TotalRepresentantes = 0;
-                foreach (var numInfo in groupTotalNacional)
+                int TotalRepresentantes = 1;
+                foreach (Candidatos cnd in listaCandidatos)
                 {
-                    if (numInfo.local == 1)
-                        TotalRepresentantes += numInfo.total;
-                    else if (numInfo.local == 0)
-                        TotalRepresentantes += numInfo.total * 2;
+                    if (cnd.tipo_partido != "COALICION")
+                    {
+                        if (cnd.coalicion != "")
+                        {
+                            TotalRepresentantes += CompElec.RepresentantesCComun(cnd.coalicion);
+                        }
+                        else
+                        {
+                            if (cnd.partido_local == 1)
+                                TotalRepresentantes += 1;
+                            else
+                                TotalRepresentantes += 2;
+                        }
+                    }
+
                 }
 
                 List<VotosSeccion> vSeccionTotales = CompElec.ResultadosSeccion(0, 0, (int)distrito);
-                List<VotosSeccion> totalAgrupado = vSeccionTotales.GroupBy(x => x.id_casilla).Select(data => new VotosSeccion { id_candidato = data.First().id_candidato, casilla = data.First().casilla, lista_nominal = data.First().lista_nominal + TotalRepresentantes, votos = data.First().votos }).ToList();
+                List<VotosSeccion> totalAgrupado = vSeccionTotales.GroupBy(x => x.id_casilla).
+                    Select(data => new VotosSeccion { id_candidato = data.First().id_candidato,
+                        casilla = data.First().casilla,
+                        lista_nominal = data.First().tipo == "S1" || data.First().tipo == "S1-RP" ? data.First().lista_nominal : data.First().lista_nominal + TotalRepresentantes,
+                        votos = data.First().votos }).ToList();
 
                 int LnominalDistrito = totalAgrupado.Sum(x => x.lista_nominal);
                 this.TotalVotosDistrito = vSeccionTotales.Sum(x => (int)x.votos);
+                int actasCapturadas = vSeccionTotales.Where(x => x.id_estatus_acta == 1 || x.id_estatus_acta == 2 || x.id_estatus_acta == 8).GroupBy(y => y.casilla).Count();
 
                 this.lblListaNominal.Text = String.Format(CultureInfo.InvariantCulture, "{0:#,#}", LnominalDistrito);
-                this.lblTotalVotos.Text = String.Format(CultureInfo.InvariantCulture, "{0:#,#}", TotalVotosDistrito);
+                this.lblTotalVotos.Text = TotalVotosDistrito > 0 ? String.Format(CultureInfo.InvariantCulture, "{0:#,#}", TotalVotosDistrito) : "0";
 
                 decimal PorcentajeParDistrito = 0;
                 if (TotalVotosDistrito > 0)
@@ -147,7 +159,7 @@ namespace Sistema.ComputosElectorales
                 }
                 this.lblParticipacion.Text = PorcentajeParDistrito + "%";
                 this.lblDistrito.Text = distrito.ToString();
-                this.lblActasCapturadas.Text = String.Format(CultureInfo.InvariantCulture, "{0:#,#}", vSeccionTotales.Where(x => x.estatus == "CAPTURADA").GroupBy(y => y.casilla).Count());
+                this.lblActasCapturadas.Text = actasCapturadas > 0 ? String.Format(CultureInfo.InvariantCulture, "{0:#,#}", actasCapturadas) : "0";
                 //var x = vSeccion.Select(x=> new VotosSeccion { id_candidato = x.id_candidato, votos = x.s })
 
                 List<VotosSeccion> listaSumaCandidatos = vSeccionTotales.Where(x => x.estatus == "CAPTURADA" && x.id_candidato != null).GroupBy(y => y.id_candidato).Select(data => new VotosSeccion { id_candidato = data.First().id_candidato, votos = data.Sum(d => d.votos) }).OrderBy(x => x.votos).ToList();
@@ -298,17 +310,24 @@ namespace Sistema.ComputosElectorales
                 this.listaCandidatos = CompElec.ListaCandidatos((int)distrito);
                 //int tempC = listaCandidatos.Count;
 
-                var groupTotalNacional = listaCandidatos.GroupBy(x => x.partido_local).Select(grp => new {
-                    local = grp.Key,
-                    total = grp.Count(),
-                }).ToArray();
-                int TotalRepresentantes = 0;
-                foreach (var numInfo in groupTotalNacional)
+                int TotalRepresentantes = 1;
+                foreach (Candidatos cnd in listaCandidatos)
                 {
-                    if (numInfo.local == 1)
-                        TotalRepresentantes += numInfo.total;
-                    else if (numInfo.local == 0)
-                        TotalRepresentantes += numInfo.total * 2;
+                    if (cnd.tipo_partido != "COALICION")
+                    {
+                        if (cnd.coalicion != "")
+                        {
+                            TotalRepresentantes += CompElec.RepresentantesCComun(cnd.coalicion);
+                        }
+                        else
+                        {
+                            if (cnd.partido_local == 1)
+                                TotalRepresentantes += 1;
+                            else
+                                TotalRepresentantes += 2;
+                        }
+                    }
+
                 }
 
                 foreach (VotosSeccion v in vSeccion)
@@ -325,7 +344,7 @@ namespace Sistema.ComputosElectorales
                             row.Cells[0].Value = v.id_casilla;
                             row.Cells[1].Value = v.seccion;
                             row.Cells[2].Value = v.casilla;
-                            row.Cells[3].Value = (v.estatus != null) ? v.estatus : "NO CAPTURADA";
+                            row.Cells[3].Value = (v.estatus_acta != null) ? v.estatus_acta : "NO CAPTURADA";
 
                             row.Cells[contCand].Value = v.votos;
                             vLst.Add((int)v.votos);
@@ -371,8 +390,8 @@ namespace Sistema.ComputosElectorales
                     row.Cells[0].Value = v.id_casilla;
                     row.Cells[1].Value = v.seccion;
                     row.Cells[2].Value = v.casilla;
-                    row.Cells[3].Value = (v.estatus != null) ? v.estatus : "NO CAPTURADA";
-                    Lnominal = v.lista_nominal + TotalRepresentantes;
+                    row.Cells[3].Value = (v.estatus_acta != null) ? v.estatus_acta : "NO CAPTURADA";
+                    Lnominal = v.casilla == "S1" ? Configuracion.BoletasEspecial : v.lista_nominal + TotalRepresentantes;
 
                     row.Cells[contCand].Value = v.votos;
                     if (v.tipo == "VOTO")

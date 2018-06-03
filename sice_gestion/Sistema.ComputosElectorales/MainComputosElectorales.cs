@@ -31,6 +31,7 @@ namespace Sistema.ComputosElectorales
                     case 4:
                         btnRecuentoVotos.Enabled = false;
                         btnCasillasReserva.Enabled = false;
+                        btnCasillasRecuento.Enabled = false;
                         btnModificar.Visible = false;
                         btnConfRecuento.Enabled = false;
                         btnRespaldo.Enabled = false;
@@ -39,6 +40,7 @@ namespace Sistema.ComputosElectorales
                     case 5:
                         btnRecuentoVotos.Enabled = true;
                         btnCasillasReserva.Enabled = true;
+                        btnCasillasRecuento.Enabled = true;
                         btnModificar.Visible = false;
                         btnConfRecuento.Enabled = true;
                         btnRespaldo.Enabled = true;
@@ -46,7 +48,8 @@ namespace Sistema.ComputosElectorales
                         break;
                     case 6:
                         btnRecuentoVotos.Enabled = false;
-                        btnCasillasReserva.Enabled = true;
+                        btnCasillasReserva.Enabled = false;
+                        btnCasillasRecuento.Enabled = true;
                         btnModificar.Visible = false;
                         btnConfRecuento.Enabled = false;
                         btnRespaldo.Enabled = false;
@@ -55,6 +58,7 @@ namespace Sistema.ComputosElectorales
                     case 7:
                         btnRecuentoVotos.Enabled = true;
                         btnCasillasReserva.Enabled = true;
+                        btnCasillasRecuento.Enabled = true;
                         btnModificar.Visible = true;
                         btnConfRecuento.Enabled = true;
                         btnRespaldo.Enabled = true;
@@ -210,7 +214,7 @@ namespace Sistema.ComputosElectorales
         {
             try
             {
-                frmReserva form = new frmReserva();
+                frmReserva form = new frmReserva(true);
                 form.MdiParent = this.MdiParent;
                 form.Dock = DockStyle.Fill;
                 form.FormClosed += Form_FormClosed;
@@ -221,6 +225,15 @@ namespace Sistema.ComputosElectorales
                 msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
                 msgBox.ShowDialog(this);
             }
+        }
+
+        private void btnCasillasRecuento_Click(object sender, EventArgs e)
+        {
+            frmReserva form = new frmReserva(false);
+            form.MdiParent = this.MdiParent;
+            form.Dock = DockStyle.Fill;
+            form.FormClosed += Form_FormClosed;
+            form.Show();
         }
     }
 }

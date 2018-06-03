@@ -17,22 +17,21 @@ namespace Sistema.DataModel
         public int id { get; set; }
         public Nullable<int> id_casilla { get; set; }
         public string tipo_reserva { get; set; }
-        public Nullable<int> importado { get; set; }
+        public string tipo_votacion { get; set; }
         public Nullable<int> id_supuesto { get; set; }
-        public Nullable<int> num_escritos { get; set; }
-        public Nullable<int> boletas_sobrantes { get; set; }
-        public Nullable<System.DateTime> create_at { get; set; }
-        public Nullable<System.DateTime> updated_at { get; set; }
         public Nullable<int> personas_votaron { get; set; }
         public Nullable<int> num_representantes_votaron { get; set; }
+        public Nullable<int> num_escritos { get; set; }
         public Nullable<int> votos_sacados { get; set; }
+        public Nullable<int> boletas_sobrantes { get; set; }
         public Nullable<int> casilla_instalada { get; set; }
         public Nullable<int> id_estatus_acta { get; set; }
         public Nullable<int> id_estatus_paquete { get; set; }
+        public Nullable<int> id_condiciones_paquete { get; set; }
         public Nullable<int> id_incidencias { get; set; }
         public Nullable<int> inicializada { get; set; }
-        public Nullable<int> id_documento { get; set; }
-        public string tipo_votacion { get; set; }
-        public Nullable<int> id_condiciones_paquete { get; set; }
+        public Nullable<int> importado { get; set; }
+        public Nullable<System.DateTime> create_at { get; set; }
+        public Nullable<System.DateTime> updated_at { get; set; }
     }
 }

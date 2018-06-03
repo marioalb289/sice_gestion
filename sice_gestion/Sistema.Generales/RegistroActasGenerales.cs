@@ -1206,6 +1206,8 @@ namespace Sistema.Generales
         public string imagen { get; set; }
         public Nullable<int> partido_local { get; set; }
         public string coalicion { get; set; }
+        public string tipo_partido { get; set; }
+        
 
     }
     public class PartidosVotosRP

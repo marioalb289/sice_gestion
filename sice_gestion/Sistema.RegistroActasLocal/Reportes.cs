@@ -130,25 +130,41 @@ namespace Sistema.RegistroActasLocal
             {
                 rgActas = new RegistroLocalGenerales();
                 this.listaCandidatos = rgActas.ListaCandidatos(distrito);
-                var groupTotalNacional = this.listaCandidatos.GroupBy(x => x.partido_local).Select(grp => new {
-                    local = grp.Key,
-                    total = grp.Count(),
-                }).ToArray();
-                int TotalRepresentantes = 0;
-                foreach (var numInfo in groupTotalNacional)
+                List<Candidatos> listaCandidatos = rgActas.ListaCandidatos(distrito);
+                int TotalRepresentantes = 1;
+                foreach (Candidatos cnd in listaCandidatos)
                 {
-                    if (numInfo.local == 1)
-                        TotalRepresentantes += numInfo.total;
-                    else
-                        TotalRepresentantes += numInfo.total * 2;
+                    if (cnd.tipo_partido != "COALICION")
+                    {
+                        if (cnd.coalicion != "")
+                        {
+                            TotalRepresentantes += rgActas.RepresentantesCComun(cnd.coalicion);
+                        }
+                        else
+                        {
+                            if (cnd.partido_local == 1)
+                                TotalRepresentantes += 1;
+                            else
+                                TotalRepresentantes += 2;
+                        }
+                    }
+
                 }
                 List<VotosSeccion> vSeccionTotales = rgActas.ResultadosSeccionCaptura(0, 0, (int)distrito);
-                List<VotosSeccion> totalAgrupado =vSeccionTotales.GroupBy(x => x.id_casilla).Select(data => new VotosSeccion { id_candidato = data.First().id_candidato, casilla = data.First().casilla,lista_nominal = data.First().lista_nominal + TotalRepresentantes, votos = data.First().votos }).ToList();
+                List<VotosSeccion> totalAgrupado = vSeccionTotales.GroupBy(x => x.id_casilla).
+                    Select(data => new VotosSeccion
+                    {
+                        id_candidato = data.First().id_candidato,
+                        casilla = data.First().casilla,
+                        lista_nominal = data.First().tipo == "S1" || data.First().tipo == "S1-RP" ? data.First().lista_nominal : data.First().lista_nominal + TotalRepresentantes,
+                        votos = data.First().votos
+                    }).ToList();
                 int LnominalDistrito = totalAgrupado.Sum(x => x.lista_nominal);
                 this.TotalVotosDistrito = vSeccionTotales.Sum(x => (int)x.votos);
+                int actasCapturadas = vSeccionTotales.Where(x => x.id_estatus_acta == 1 || x.id_estatus_acta == 2 || x.id_estatus_acta == 8).GroupBy(y => y.casilla).Count();
 
                 this.lblListaNominal.Text = String.Format(CultureInfo.InvariantCulture, "{0:#,#}", LnominalDistrito);
-                this.lblTotalVotos.Text = String.Format(CultureInfo.InvariantCulture, "{0:#,#}", TotalVotosDistrito);
+                this.lblTotalVotos.Text = TotalVotosDistrito > 0 ? String.Format(CultureInfo.InvariantCulture, "{0:#,#}", TotalVotosDistrito) : "0";
 
 
 
@@ -159,7 +175,7 @@ namespace Sistema.RegistroActasLocal
                 }
                 this.lblParticipacion.Text = PorcentajeParDistrito + "%";
                 this.lblDistrito.Text = distrito.ToString();
-                this.lblActasCapturadas.Text = String.Format(CultureInfo.InvariantCulture, "{0:#,#}", vSeccionTotales.Where(x => x.estatus == "ATENDIDO").GroupBy(y => y.casilla).Count());
+                this.lblActasCapturadas.Text = actasCapturadas > 0 ? String.Format(CultureInfo.InvariantCulture, "{0:#,#}", actasCapturadas) : "0";
                 //var x = vSeccion.Select(x=> new VotosSeccion { id_candidato = x.id_candidato, votos = x.s })
 
                 List<VotosSeccion> listaSumaCandidatos = vSeccionTotales.Where(x => x.estatus == "ATENDIDO" && x.id_candidato != null).GroupBy(y => y.id_candidato).Select(data => new VotosSeccion { id_candidato = data.First().id_candidato, votos = data.Sum(d => d.votos) }).OrderBy(x=> x.votos).ToList();
@@ -310,19 +326,26 @@ namespace Sistema.RegistroActasLocal
                 List<Candidatos> listaCandidatos = rgActas.ListaCandidatos((int)distrito);
                 //int tempC = listaCandidatos.Count;
 
-                var groupTotalNacional = listaCandidatos.GroupBy(x => x.partido_local).Select(grp => new {
-                    local = grp.Key,
-                    total = grp.Count(),
-                }).ToArray();
-                int TotalRepresentantes = 0;
-                foreach (var numInfo in groupTotalNacional)
+                int TotalRepresentantes = 1;
+                foreach (Candidatos cnd in listaCandidatos)
                 {
-                    if (numInfo.local == 1)
-                        TotalRepresentantes += numInfo.total;
-                    else
-                        TotalRepresentantes += numInfo.total * 2;
+                    if (cnd.tipo_partido != "COALICION")
+                    {
+                        if (cnd.coalicion != "")
+                        {
+                            TotalRepresentantes += rgActas.RepresentantesCComun(cnd.coalicion);
+                        }
+                        else
+                        {
+                            if (cnd.partido_local == 1)
+                                TotalRepresentantes += 1;
+                            else
+                                TotalRepresentantes += 2;
+                        }
+                    }
+
                 }
-                
+
 
                 foreach (VotosSeccion v in vSeccion)
                 {

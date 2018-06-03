@@ -18,7 +18,6 @@
         <EntityTypeShape EntityType="sice_pruebasModel.sice_ar_votos_valida2" Width="1.5" PointX="8.375" PointY="8.75" />
         <EntityTypeShape EntityType="sice_pruebasModel.sice_ar_votos_valida3" Width="1.5" PointX="10.375" PointY="8.75" />
         <EntityTypeShape EntityType="sice_pruebasModel.sice_ar_documentos_local" Width="1.5" PointX="11.375" PointY="11.75" />
-        <EntityTypeShape EntityType="sice_pruebasModel.sice_reserva_captura" Width="1.5" PointX="12.75" PointY="8.75" />
         <EntityTypeShape EntityType="sice_pruebasModel.sice_votos_test" Width="1.5" PointX="7.375" PointY="5.75" />
         <EntityTypeShape EntityType="sice_pruebasModel.sice_ar_supuestos" Width="1.5" PointX="12.375" PointY="5.75" />
         <EntityTypeShape EntityType="sice_pruebasModel.sice_ar_historico" Width="1.5" PointX="17" PointY="10.5" />
@@ -36,6 +35,7 @@
         <EntityTypeShape EntityType="sice_pruebasModel.sice_ar_estado_paquete" Width="1.5" PointX="9.375" PointY="5.75" />
         <EntityTypeShape EntityType="sice_pruebasModel.sice_ar_votos_cotejo_rp" Width="1.5" PointX="3.375" PointY="14.75" />
         <EntityTypeShape EntityType="sice_pruebasModel.sice_votos_rp" Width="1.5" PointX="5.375" PointY="14.75" />
+        <EntityTypeShape EntityType="sice_pruebasModel.sice_reserva_captura" Width="1.5" PointX="10.375" PointY="16.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -38,6 +38,7 @@
             this.btnReportes = new System.Windows.Forms.Button();
             this.btnModificar = new System.Windows.Forms.Button();
             this.btnRespaldo = new System.Windows.Forms.Button();
+            this.btnCasillasRecuento = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -54,11 +55,12 @@
             this.tableLayoutPanel1.Controls.Add(this.btnConfRecuento, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.btnSalir, 3, 2);
             this.tableLayoutPanel1.Controls.Add(this.label2, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.btnCasillasReserva, 2, 1);
-            this.tableLayoutPanel1.Controls.Add(this.btnRecuentoVotos, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.btnReportes, 3, 1);
             this.tableLayoutPanel1.Controls.Add(this.btnModificar, 4, 1);
             this.tableLayoutPanel1.Controls.Add(this.btnRespaldo, 2, 2);
+            this.tableLayoutPanel1.Controls.Add(this.btnRecuentoVotos, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.btnReportes, 3, 1);
+            this.tableLayoutPanel1.Controls.Add(this.btnCasillasReserva, 2, 1);
+            this.tableLayoutPanel1.Controls.Add(this.btnCasillasRecuento, 1, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -158,7 +160,7 @@
             this.btnRecuentoVotos.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRecuentoVotos.Image = global::Sistema.ComputosElectorales.Properties.Resources.editar;
             this.btnRecuentoVotos.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnRecuentoVotos.Location = new System.Drawing.Point(172, 184);
+            this.btnRecuentoVotos.Location = new System.Drawing.Point(12, 184);
             this.btnRecuentoVotos.Name = "btnRecuentoVotos";
             this.btnRecuentoVotos.Size = new System.Drawing.Size(136, 163);
             this.btnRecuentoVotos.TabIndex = 13;
@@ -218,6 +220,23 @@
             this.btnRespaldo.UseVisualStyleBackColor = false;
             this.btnRespaldo.Click += new System.EventHandler(this.btnRespaldo_Click);
             // 
+            // btnCasillasRecuento
+            // 
+            this.btnCasillasRecuento.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnCasillasRecuento.BackColor = System.Drawing.Color.Transparent;
+            this.btnCasillasRecuento.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnCasillasRecuento.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCasillasRecuento.Image = global::Sistema.ComputosElectorales.Properties.Resources.reservar;
+            this.btnCasillasRecuento.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnCasillasRecuento.Location = new System.Drawing.Point(172, 184);
+            this.btnCasillasRecuento.Name = "btnCasillasRecuento";
+            this.btnCasillasRecuento.Size = new System.Drawing.Size(136, 163);
+            this.btnCasillasRecuento.TabIndex = 27;
+            this.btnCasillasRecuento.Text = "Casillas a Recuento";
+            this.btnCasillasRecuento.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnCasillasRecuento.UseVisualStyleBackColor = false;
+            this.btnCasillasRecuento.Click += new System.EventHandler(this.btnCasillasRecuento_Click);
+            // 
             // MainComputosElectorales
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -245,5 +264,6 @@
         private System.Windows.Forms.Button btnRespaldo;
         private System.Windows.Forms.Button btnConfRecuento;
         private System.Windows.Forms.Button btnImportarRespaldo;
+        private System.Windows.Forms.Button btnCasillasRecuento;
     }
 }
