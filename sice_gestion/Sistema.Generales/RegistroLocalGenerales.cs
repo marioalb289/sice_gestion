@@ -1770,6 +1770,7 @@ namespace Sistema.Generales
             }
             catch (Exception E)
             {
+                MessageBox.Show(E.Message);
                 return 0;
             }
         }
@@ -1837,7 +1838,7 @@ namespace Sistema.Generales
             try
             {
                 Excel.Range rango;
-                string rutaImagen = System.AppDomain.CurrentDomain.BaseDirectory + "Resources\\";
+                string rutaImagen = System.AppDomain.CurrentDomain.BaseDirectory + "imagenes\\";
 
                 sice_casillas casilla = null;
                 sice_distritos_locales dlocal = null;
@@ -2201,7 +2202,7 @@ namespace Sistema.Generales
                 float Left = 0;
                 float Top = 0;
                 const float ImageSize = 42; //Tamaño Imagen Partidos
-                string rutaImagen = System.AppDomain.CurrentDomain.BaseDirectory + "Resources\\";
+                string rutaImagen = System.AppDomain.CurrentDomain.BaseDirectory + "imagenes\\";
 
                 sice_casillas casilla = null;
                 sice_distritos_locales dlocal = null;
