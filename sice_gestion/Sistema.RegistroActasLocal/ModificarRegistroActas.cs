@@ -479,7 +479,7 @@ namespace Sistema.RegistroActasLocal
                 if (this.supuestos == null)
                 {
                     this.supuestos = regActas.ListaSupuestos();
-                    this.supuestos.Insert(0, new sice_ar_supuestos() { id = 0, supuesto = "Seleccionar Motivo" });
+                    this.supuestos.Insert(0, new sice_ar_supuestos() { id = 0, supuesto = "SIN MOTIVO DE RECUENTO" });
                 }
 
                 cmbSupuesto.DataSource = this.supuestos;
@@ -499,7 +499,7 @@ namespace Sistema.RegistroActasLocal
                 cmbEstadoPaquete.ValueMember = "id";
                 List<sice_ar_estado_paquete> list = regActas.ListaCondicionesPaquete();
                 if (list.Count > 0)
-                    list.Insert(0, new sice_ar_estado_paquete() { id = 0, estado = "Seleccionar Estado del Paquete" });
+                    list.Insert(0, new sice_ar_estado_paquete() { id = 0, estado = "SELECCIONE CONDICIONES DEL PAQUETE" });
                 cmbEstadoPaquete.DataSource = list;
 
 
@@ -1146,6 +1146,9 @@ namespace Sistema.RegistroActasLocal
             try
             {
                 int? selected = Convert.ToInt32(cmbCasilla.SelectedValue);
+                this.cmbEstatusPaquete.SelectedValue = 2;
+                this.cmbSupuesto.SelectedValue = 0;
+                this.cmbEstadoPaquete.SelectedValue = 0;
                 if (selected != null && selected != 0)
                 {
                     this.verificarCasilla();
@@ -1277,11 +1280,44 @@ namespace Sistema.RegistroActasLocal
                     cmbEstadoPaquete.Enabled = false;
                     cmbSupuesto.SelectedValue = 0;
                     cmbSupuesto.Enabled = false;
+
+                    tblPanelBoletas.Enabled = false;
+                    tablePanelPartidos.Enabled = false;
+                    txtEscritos.Enabled = false;
                 }
                 else
                 {
                     cmbEstadoPaquete.Enabled = true;
                     cmbSupuesto.Enabled = true;
+
+                    tblPanelBoletas.Enabled = true;
+                    tablePanelPartidos.Enabled = true;
+                    txtEscritos.Enabled = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+        }
+
+        private void cmbSupuesto_SelectedValueChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                int sel = Convert.ToInt32(cmbSupuesto.SelectedValue);
+                if (sel > 0)
+                {
+                    tblPanelBoletas.Enabled = false;
+                    tablePanelPartidos.Enabled = false;
+                    txtEscritos.Enabled = false;
+                }
+                else
+                {
+                    tblPanelBoletas.Enabled = true;
+                    tablePanelPartidos.Enabled = true;
+                    txtEscritos.Enabled = true;
                 }
             }
             catch (Exception ex)

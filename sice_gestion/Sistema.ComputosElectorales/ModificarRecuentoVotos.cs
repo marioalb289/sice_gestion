@@ -514,7 +514,7 @@ namespace Sistema.ComputosElectorales
                 int totalVotos = 0;
                 this.recuento = this.buscarRecuento();
                 List<CandidatosVotos> lsCandidatosVotos = CompElec.ListaResultadosCasilla(Convert.ToInt32(cmbCasilla.SelectedValue), "sice_votos");
-                sice_reserva_captura detallesActa = CompElec.DetallesActa(Convert.ToInt32(cmbCasilla.SelectedValue));
+                sice_reserva_captura detallesActa = CompElec.DetallesActa(Convert.ToInt32(cmbCasilla.SelectedValue),"MR");
                 this.totalCandidatos = lsCandidatosVotos.Count();
                 if (lsCandidatosVotos != null && detallesActa != null)
                 {

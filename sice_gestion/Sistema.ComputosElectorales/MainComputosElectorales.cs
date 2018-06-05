@@ -229,7 +229,7 @@ namespace Sistema.ComputosElectorales
 
         private void btnCasillasRecuento_Click(object sender, EventArgs e)
         {
-            frmReserva form = new frmReserva(false);
+            frmRecuento form = new frmRecuento(false);
             form.MdiParent = this.MdiParent;
             form.Dock = DockStyle.Fill;
             form.FormClosed += Form_FormClosed;
