@@ -45,6 +45,8 @@
             this.cmbEstatusActa = new System.Windows.Forms.ComboBox();
             this.cmbIncidencias = new System.Windows.Forms.ComboBox();
             this.tblPanelBoletas = new System.Windows.Forms.TableLayoutPanel();
+            this.txtVotosReserva = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
             this.txtTotalCapturado = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
@@ -80,8 +82,6 @@
             this.button1 = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label12 = new System.Windows.Forms.Label();
-            this.txtVotosReserva = new System.Windows.Forms.TextBox();
             this.panel2.SuspendLayout();
             this.panelCaptura.SuspendLayout();
             this.tblPanaelTitulo.SuspendLayout();
@@ -131,11 +131,11 @@
             this.tablePanelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tablePanelPartidos.Dock = System.Windows.Forms.DockStyle.Top;
             this.tablePanelPartidos.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
-            this.tablePanelPartidos.Location = new System.Drawing.Point(0, 450);
+            this.tablePanelPartidos.Location = new System.Drawing.Point(0, 452);
             this.tablePanelPartidos.Name = "tablePanelPartidos";
             this.tablePanelPartidos.Padding = new System.Windows.Forms.Padding(40, 0, 40, 0);
             this.tablePanelPartidos.RowCount = 1;
-            this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 273F));
+            this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 276F));
             this.tablePanelPartidos.Size = new System.Drawing.Size(1007, 213);
             this.tablePanelPartidos.TabIndex = 20;
             this.tablePanelPartidos.Visible = false;
@@ -154,8 +154,8 @@
             this.tblPanaelTitulo.Name = "tblPanaelTitulo";
             this.tblPanaelTitulo.Padding = new System.Windows.Forms.Padding(40, 10, 40, 10);
             this.tblPanaelTitulo.RowCount = 1;
-            this.tblPanaelTitulo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 86F));
-            this.tblPanaelTitulo.Size = new System.Drawing.Size(1007, 110);
+            this.tblPanaelTitulo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 88F));
+            this.tblPanaelTitulo.Size = new System.Drawing.Size(1007, 112);
             this.tblPanaelTitulo.TabIndex = 19;
             // 
             // pnlTableTitulo
@@ -165,7 +165,7 @@
             this.pnlTableTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableTitulo.Location = new System.Drawing.Point(45, 15);
             this.pnlTableTitulo.Name = "pnlTableTitulo";
-            this.pnlTableTitulo.Size = new System.Drawing.Size(917, 80);
+            this.pnlTableTitulo.Size = new System.Drawing.Size(917, 82);
             this.pnlTableTitulo.TabIndex = 39;
             // 
             // label21
@@ -360,6 +360,34 @@
             this.tblPanelBoletas.Size = new System.Drawing.Size(1007, 172);
             this.tblPanelBoletas.TabIndex = 20;
             this.tblPanelBoletas.Visible = false;
+            // 
+            // txtVotosReserva
+            // 
+            this.txtVotosReserva.Dock = System.Windows.Forms.DockStyle.Top;
+            this.txtVotosReserva.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtVotosReserva.ForeColor = System.Drawing.Color.DarkRed;
+            this.txtVotosReserva.Location = new System.Drawing.Point(846, 38);
+            this.txtVotosReserva.Margin = new System.Windows.Forms.Padding(20, 25, 20, 5);
+            this.txtVotosReserva.MaxLength = 3;
+            this.txtVotosReserva.Name = "txtVotosReserva";
+            this.txtVotosReserva.Size = new System.Drawing.Size(38, 29);
+            this.txtVotosReserva.TabIndex = 25;
+            this.txtVotosReserva.Text = "0";
+            this.txtVotosReserva.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label12
+            // 
+            this.label12.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
+            this.label12.AutoSize = true;
+            this.label12.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Location = new System.Drawing.Point(709, 13);
+            this.label12.Name = "label12";
+            this.label12.Padding = new System.Windows.Forms.Padding(10);
+            this.label12.Size = new System.Drawing.Size(111, 72);
+            this.label12.TabIndex = 24;
+            this.label12.Text = "Votos en Reserva";
+            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // txtTotalCapturado
             // 
@@ -852,34 +880,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1024, 100);
             this.panel1.TabIndex = 2;
-            // 
-            // label12
-            // 
-            this.label12.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
-            this.label12.AutoSize = true;
-            this.label12.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(709, 13);
-            this.label12.Name = "label12";
-            this.label12.Padding = new System.Windows.Forms.Padding(10);
-            this.label12.Size = new System.Drawing.Size(111, 72);
-            this.label12.TabIndex = 24;
-            this.label12.Text = "Votos en Reserva";
-            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // txtVotosReserva
-            // 
-            this.txtVotosReserva.Dock = System.Windows.Forms.DockStyle.Top;
-            this.txtVotosReserva.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtVotosReserva.ForeColor = System.Drawing.Color.DarkRed;
-            this.txtVotosReserva.Location = new System.Drawing.Point(846, 38);
-            this.txtVotosReserva.Margin = new System.Windows.Forms.Padding(20, 25, 20, 5);
-            this.txtVotosReserva.MaxLength = 3;
-            this.txtVotosReserva.Name = "txtVotosReserva";
-            this.txtVotosReserva.Size = new System.Drawing.Size(38, 29);
-            this.txtVotosReserva.TabIndex = 25;
-            this.txtVotosReserva.Text = "0";
-            this.txtVotosReserva.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // frmReserva
             // 

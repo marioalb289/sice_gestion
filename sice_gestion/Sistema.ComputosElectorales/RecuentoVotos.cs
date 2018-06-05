@@ -39,6 +39,7 @@ namespace Sistema.ComputosElectorales
         private int flagSelectSupuesto = 0;
         private int totalVotos = 0;
         private bool recuento = false;
+        private bool reservaConsejo = false;
         const int SB_HORZ = 0;
         private int boletasRecibidas = 0;
         private List<sice_ar_supuestos> supuestos;
@@ -218,22 +219,34 @@ namespace Sistema.ComputosElectorales
                         return;
                 }
 
-                int selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
-                if ((estatus_acta == 3 || estatus_acta == 5 || estatus_acta == 4))
+                int selectedSupuesto = 0;
+                if (estatus_acta != 4)
                 {
-                    if(this.recuento)
-                        throw new Exception("Esta Casilla ya fue enviada a Recuento.\nNO SE PUEDE ENVIAR A RECUENTO DE NUEVO");
-                    if(selectedSupuesto == 0)
-                        throw new Exception("Debes seleccionar un Motivo de Recuento");
-                }
+                    selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
+                    if ((estatus_acta == 3 || estatus_acta == 5))
+                    {
+                        if (this.recuento)
+                            throw new Exception("Esta Casilla ya fue enviada a Recuento.\nNO SE PUEDE ENVIAR A RECUENTO DE NUEVO");
+                        if (selectedSupuesto == 0)
+                            throw new Exception("Debes seleccionar un Motivo de Recuento");
+                    }
 
-                estatus_acta = Convert.ToInt32(cmbEstatusActa.SelectedValue);
-                if (this.flagSelectSupuesto > 0)
-                {
-                    estatus_acta = 5;
-                    selectedSupuesto = this.flagSelectSupuesto;
-                    //this.ReservarCasilla("RESERVA", selectedSupuesto);
-                    //return;
+                    estatus_acta = Convert.ToInt32(cmbEstatusActa.SelectedValue);
+
+                    if (this.flagSelectSupuesto == 4)
+                    {
+                        this.panelCaptura.Enabled = true;
+                        msgBox = new MsgBox(this, "El total de Captura excede el Número de Boletas recibidas", "Atención", MessageBoxButtons.OK, "Error");
+                        msgBox.ShowDialog(this);
+                        return;
+                    }
+                    else if (this.flagSelectSupuesto == 5)
+                    {
+                        this.panelCaptura.Enabled = true;
+                        msgBox = new MsgBox(this, "Número de VOTOS NULOS mayor a la diferencia entre el 1ER y 2DO lugar", "Atención", MessageBoxButtons.OK, "Advertencia");
+                        msgBox.ShowDialog(this);
+                        return;
+                    }
                 }
 
                 foreach (TextBox datos in this.textBoxes)
@@ -503,21 +516,7 @@ namespace Sistema.ComputosElectorales
         }
 
 
-        private bool buscarRecuento()
-        {
-            try
-            {
-                CompElec = new ComputosElectoralesGenerales();
-                if (CompElec.verificarRecuento(this.idCasillaActual) == 1)
-                    return true;
-                else
-                    return false;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        
 
         private void ReservarCasilla(string motivo,int? supuesto = null)
         {
@@ -555,7 +554,6 @@ namespace Sistema.ComputosElectorales
                     CompElec = new ComputosElectoralesGenerales();
                 if (this.distritoActual == 0)
                     throw new Exception("No se pudo cargar lista de Candidatos");
-                this.recuento = this.buscarRecuento();
                 List<Candidatos> lsCandidatos = CompElec.ListaCandidatos(this.distritoActual);
                 this.totalCandidatos = lsCandidatos.Count();
                 if (lsCandidatos != null)
@@ -694,7 +692,6 @@ namespace Sistema.ComputosElectorales
             {
                 
                 CompElec = new ComputosElectoralesGenerales();
-                this.recuento = this.buscarRecuento();
 
                 List<sice_partidos_politicos> lsPartidos = CompElec.ListaPartidosPoliticos();
                 if (lsPartidos != null)
@@ -977,8 +974,8 @@ namespace Sistema.ComputosElectorales
                 if (flagError > 0)
                 {
                     this.flagSelectSupuesto = 4;
-                    this.cmbSupuesto.SelectedIndex = 4;
-                    this.cmbEstatusActa.SelectedValue = 5;
+                    //this.cmbSupuesto.SelectedIndex = 4;
+                    //this.cmbEstatusActa.SelectedValue = 5;
                     //this.cmbSupuesto.Enabled = false;
                     //this.DesactivarTextBoxes();
                     msgBox = new MsgBox(this, "El total de Captura excede el Número de Boletas recibidas", "Atención", MessageBoxButtons.OK, "Error");
@@ -992,8 +989,8 @@ namespace Sistema.ComputosElectorales
                 double diferencia = primero - segundo;
                 if (votosNulos > diferencia)
                 {
-                    this.cmbSupuesto.SelectedIndex = 5;
-                    this.cmbEstatusActa.SelectedValue = 5;
+                    //this.cmbSupuesto.SelectedIndex = 5;
+                    //this.cmbEstatusActa.SelectedValue = 5;
                     this.flagSelectSupuesto = 5;
                     //this.cmbSupuesto.Enabled = false;
                     //this.DesactivarTextBoxes();

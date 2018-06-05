@@ -2004,6 +2004,8 @@ namespace Sistema.Generales
                 Excel.Application excel = new Excel.Application();
                 Excel._Workbook libro = null;
 
+                completo = true;
+
                 //creamos un libro nuevo y la hoja con la que vamos a trabajar
                 libro = (Excel._Workbook)excel.Workbooks.Add(Excel.XlWBATemplate.xlWBATWorksheet);
 

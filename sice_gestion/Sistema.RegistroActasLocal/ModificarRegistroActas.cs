@@ -1307,7 +1307,7 @@ namespace Sistema.RegistroActasLocal
             try
             {
                 int sel = Convert.ToInt32(cmbSupuesto.SelectedValue);
-                if (sel > 0)
+                if (sel > 0 && this.flagSelectSupuesto == 0)
                 {
                     tblPanelBoletas.Enabled = false;
                     tablePanelPartidos.Enabled = false;

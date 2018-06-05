@@ -1267,6 +1267,7 @@ namespace Sistema.RegistroActasLocal
                     cmbEstadoPaquete.Enabled = true;
                     cmbSupuesto.Enabled = true;
 
+                    
                     tblPanelBoletas.Enabled = true;
                     tablePanelPartidos.Enabled = true;
                     txtEscritos.Enabled = true;
@@ -1284,8 +1285,9 @@ namespace Sistema.RegistroActasLocal
             try
             {
                 int sel = Convert.ToInt32(cmbSupuesto.SelectedValue);
-                if (sel > 0)
+                if (sel > 0 && this.flagSelectSupuesto == 0)
                 {
+
                     tblPanelBoletas.Enabled = false;
                     tablePanelPartidos.Enabled = false;
                     txtEscritos.Enabled = false;

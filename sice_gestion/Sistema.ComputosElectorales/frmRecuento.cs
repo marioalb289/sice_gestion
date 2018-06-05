@@ -623,6 +623,7 @@ namespace Sistema.ComputosElectorales
                 sice_reserva_captura detallesActa = CompElec.DetallesActa(Convert.ToInt32(cmbCasilla.SelectedValue),"MR");
                 if (lsCandidatos != null && detallesActa != null)
                 {
+                    this.cmbEstatusActa.SelectedValueChanged -= cmbEstatusActa_SelectedValueChanged;
                     int TotalRepresentantes = 1;
                     foreach (Candidatos cnd in lsCandidatos)
                     {
@@ -670,8 +671,8 @@ namespace Sistema.ComputosElectorales
 
                     this.cmbEstatusActa.SelectedValue = detallesActa.id_estatus_acta != null ? detallesActa.id_estatus_acta : 1;
                     this.cmbIncidencias.SelectedValue = detallesActa.id_incidencias != null ? detallesActa.id_incidencias : 0;
-                    if (detallesActa.tipo_reserva == "RECUENTO")
-                        this.cmbSupuesto.Enabled = true;
+                    this.cmbIncidencias.Enabled = true;
+                    this.cmbSupuesto.Enabled = true;
 
                     //Agregar Columnas
                     this.tablePanelPartidos.AutoScroll = true;
@@ -755,6 +756,8 @@ namespace Sistema.ComputosElectorales
                     this.txtPersonasVotaron.Focus();
                     this.panelCaptura.Visible = true;
                     this.panelCaptura.Enabled = true;
+
+                    this.cmbEstatusActa.SelectedValueChanged += cmbEstatusActa_SelectedValueChanged;
                     //textBoxes[0].Focus();
                     //ShowScrollBar(this.tableLayoutPanel2.Handle, SB_HORZ, false);
                 }
@@ -779,6 +782,7 @@ namespace Sistema.ComputosElectorales
                 List<sice_partidos_politicos> lsPartidos = CompElec.ListaPartidosPoliticos();
                 if (lsPartidos != null)
                 {
+                    this.cmbEstatusActa.SelectedValueChanged -= cmbEstatusActa_SelectedValueChanged;
                     int totalPartidos = lsPartidos.Count() + 2;
                     //this.cmbSupuesto.Enabled = true;
 
@@ -797,9 +801,10 @@ namespace Sistema.ComputosElectorales
 
                     this.cmbEstatusActa.SelectedValue = detallesActa.id_estatus_acta != null ? detallesActa.id_estatus_acta : 1;
                     this.cmbIncidencias.SelectedValue = detallesActa.id_incidencias != null ? detallesActa.id_incidencias : 0;
+                    this.cmbSupuesto.SelectedValue = detallesActa.id_supuesto != null ? detallesActa.id_supuesto : 0;
                     this.lblEstatus.Text = detallesActa.tipo_reserva;
-                    if (detallesActa.tipo_reserva == "RESERVA")
-                        this.cmbSupuesto.Enabled = false;
+                    this.cmbSupuesto.Enabled = true;
+                    this.cmbIncidencias.Enabled = true;
 
                     //Agregar Columnas
                     this.tablePanelPartidos.AutoScroll = true;
@@ -885,7 +890,8 @@ namespace Sistema.ComputosElectorales
                     this.panelCaptura.Visible = true;
                     this.panelCaptura.Enabled = true;
                     //textBoxes[0].Focus();
-                    //ShowScrollBar(this.tableLayoutPanel2.Handle, SB_HORZ, false);
+                    //ShowScrollBar(this.tableLayoutPanel2.Handle, SB_HORZ, false);.
+                    this.cmbEstatusActa.SelectedValueChanged += cmbEstatusActa_SelectedValueChanged;
                 }
 
             }
