@@ -116,6 +116,11 @@ namespace Sistema.RegistroActasLocal
                     estatus_acta = 7;
                     selectedSupuesto = 0;
                 }
+                else if (estatus_paquete == 2)
+                {
+                    estatus_acta = 6;
+                    selectedSupuesto = 0;
+                }
                 else
                 {
                     selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
@@ -249,6 +254,11 @@ namespace Sistema.RegistroActasLocal
                 if (estatus_paquete == 1)
                 {
                     estatus_acta = 7;
+                    selectedSupuesto = 0;
+                }
+                else if (estatus_paquete == 2)
+                {
+                    estatus_acta = 6;
                     selectedSupuesto = 0;
                 }
                 else
@@ -491,7 +501,7 @@ namespace Sistema.RegistroActasLocal
                 cmbEstatusPaquete.DisplayMember = "estatus";
                 cmbEstatusPaquete.ValueMember = "id";
                 cmbEstatusPaquete.DataSource = regActas.ListaEstatusPaquete();
-                cmbEstatusPaquete.SelectedValue = 2;
+                cmbEstatusPaquete.SelectedValue = 4;
                 //cmbCasilla.SelectedIndex = 1;
 
                 cmbEstadoPaquete.DataSource = null;
@@ -620,7 +630,7 @@ namespace Sistema.RegistroActasLocal
 
 
                         cmbEstadoPaquete.SelectedValue = detallesActa.id_condiciones_paquete != null ? (int)detallesActa.id_condiciones_paquete : 0;
-                        cmbEstatusPaquete.SelectedValue = detallesActa.id_estatus_paquete != null ? (int)detallesActa.id_estatus_paquete : 2;
+                        cmbEstatusPaquete.SelectedValue = detallesActa.id_estatus_paquete != null ? (int)detallesActa.id_estatus_paquete : 4;
                         //cmbIncidencias.SelectedValue = detallesActa.id_incidencias != null ? (int)detallesActa.id_incidencias : 0;
 
 
@@ -765,7 +775,7 @@ namespace Sistema.RegistroActasLocal
 
 
                     cmbEstadoPaquete.SelectedValue = detallesActa.id_condiciones_paquete != null ? (int)detallesActa.id_condiciones_paquete : 0;
-                    cmbEstatusPaquete.SelectedValue = detallesActa.id_estatus_paquete != null ? (int)detallesActa.id_estatus_paquete : 2;
+                    cmbEstatusPaquete.SelectedValue = detallesActa.id_estatus_paquete != null ? (int)detallesActa.id_estatus_paquete : 4;
                     //cmbIncidencias.SelectedValue = detallesActa.id_incidencias != null ? (int)detallesActa.id_incidencias : 0;
 
 
@@ -928,7 +938,7 @@ namespace Sistema.RegistroActasLocal
             this.txtRepresentantes.Text = "0";
             this.txtVotosSacados.Text = "0";
 
-            this.cmbEstatusPaquete.SelectedValue = 2;
+            this.cmbEstatusPaquete.SelectedValue = 4;
             this.cmbEstadoPaquete.SelectedValue = 0;
             this.cmbSupuesto.SelectedValue = 0;
 
@@ -1146,7 +1156,7 @@ namespace Sistema.RegistroActasLocal
             try
             {
                 int? selected = Convert.ToInt32(cmbCasilla.SelectedValue);
-                this.cmbEstatusPaquete.SelectedValue = 2;
+                this.cmbEstatusPaquete.SelectedValue = 4;
                 this.cmbSupuesto.SelectedValue = 0;
                 this.cmbEstadoPaquete.SelectedValue = 0;
                 if (selected != null && selected != 0)
@@ -1275,7 +1285,7 @@ namespace Sistema.RegistroActasLocal
             try
             {
                 int sel = Convert.ToInt32(cmbEstatusPaquete.SelectedValue);
-                if (sel == 1)
+                if (sel == 1 || sel == 2)
                 {
                     cmbEstadoPaquete.Enabled = false;
                     cmbSupuesto.SelectedValue = 0;

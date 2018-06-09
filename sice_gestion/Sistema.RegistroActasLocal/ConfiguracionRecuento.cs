@@ -46,11 +46,11 @@ namespace Sistema.RegistroActasLocal
             try
             {
 
-                DateTime fecha1 = new DateTime(2018,7, 8, 8, 0, 0);
-                DateTime fecha2 = new DateTime(2018, 7, 11, 0, 0, 0);
-                double horasRestantes = Math.Floor( (fecha2 - fecha1).TotalHours );
-                this.horas_disponibles = Convert.ToInt32(horasRestantes);
-                lblHorasDisponibles.Text = horasRestantes.ToString();
+                //DateTime fecha1 = new DateTime(2018,7, 8, 8, 0, 0);
+                //DateTime fecha2 = new DateTime(2018, 7, 11, 0, 0, 0);
+                //double horasRestantes = Math.Floor( (fecha2 - fecha1).TotalHours );
+                this.horas_disponibles = 0;
+                lblHorasDisponibles.Text = "0";
 
                 RegistroLocalGenerales reg = new RegistroLocalGenerales();
                 this.totalCasillasRecuento = reg.ListaCasillasRecuentos(0, true).Count();
@@ -61,9 +61,9 @@ namespace Sistema.RegistroActasLocal
                     txtHoras.Text = conf.horas_disponibles.ToString();
                     txtPropietarios.Text = conf.no_consejeros.ToString();
                     txtSuplentes.Text = conf.no_suplentes.ToString();
-                    ValidarCampos();
+                   
                 }
-
+                ValidarCampos();
 
             }
             catch(Exception ex)
@@ -144,38 +144,57 @@ namespace Sistema.RegistroActasLocal
         {
             try
             {
-                TextBox textBox = null;
-                if (sender != null)
-                    textBox = (TextBox)sender;
-                if ( (textBox != null && textBox.Text == "") || (textBox != null && textBox.Text == "."))
+
+                //TextBox textBox = null;
+                //if (sender != null)
+                //    textBox = (TextBox)sender;
+                //if ( (textBox != null && textBox.Text == "") || (textBox != null && textBox.Text == "."))
+                //{
+                //    textBox.Text = "0";
+                //    textBox.SelectAll();
+                //    //return;
+                //}
+
+                if(this.totalCasillasRecuento <= 20)
                 {
-                    textBox.Text = "0";
-                    textBox.SelectAll();
+                    txtPropietarios.Text = "5";
+                    txtSuplentes.Text = "1";
+                    lblNcr.Text = "0";
+                    lblGt.Text = "0";
+                    lblSegmento.Text = "0";
+                    lblPr.Text = "NO APLICA";
+                    lblPrDecimal.Text = "0";
                     return;
                 }
 
+                int propietarios = (txtPropietarios.Text == "") ?  0 : Convert.ToInt32( txtPropietarios.Text);                
+                if (propietarios != 5)
+                {
+                    txtPropietarios.Text = "5";
+                    propietarios = 5;
+                    msgBox = new MsgBox(this, "El número de Consejeros Propietarios debe ser 5", "Atención", MessageBoxButtons.OK, "Error");
+                    msgBox.ShowDialog(this);
+                }
                 
 
-                int propietarios = Convert.ToInt32( txtPropietarios.Text);
-
-                if (textBox != null && textBox.Name == "txtPropietarios")
+                int suplentes = (txtSuplentes.Text == "" ) ? 0 : Convert.ToInt32(txtSuplentes.Text);
+                if (suplentes < 1 || suplentes > 4)
                 {
-                    if (propietarios != 5)
-                        throw new Exception("El número de Consejeros Propietarios debe ser 5");
+                    txtSuplentes.Text = "1";
+                    suplentes = 1;
+                    msgBox = new MsgBox(this, "El número de Consejeros Suplentes debe ser minímo 1 y Máximo 4", "Atención", MessageBoxButtons.OK, "Error");
+                    msgBox.ShowDialog(this);
                 }
+                
 
-                int suplentes = Convert.ToInt32(txtSuplentes.Text);
-                if(textBox != null && textBox.Name == "txtSuplentes")
-                {
-                    if (suplentes < 1 || suplentes > 4)
-                        throw new Exception("El número de Consejeros Suplentes debe ser minímo 1 y Máximo 4");
-                }
-
+                this.lblGruposFormula.Text = "GT = ( "+propietarios+" + "+suplentes+") - 3 = ";
 
                 int grupos_tabajo = (propietarios - 3) + suplentes;
+                this.lblGruposFormula.Text = "GT = ( " + propietarios + " + " + suplentes + ") - 3 = " +grupos_tabajo;
                 if (grupos_tabajo > 5)
                     grupos_tabajo = 5;
-                int segmentos = this.horas_disponibles - Convert.ToInt32(txtHoras.Text);
+                int segmentos = (txtHoras.Text == "") ? 0 : Convert.ToInt32(txtHoras.Text);
+
                 if (segmentos > 0)
                 {
                     lblHorasDisponibles.Text = segmentos.ToString();
@@ -218,8 +237,8 @@ namespace Sistema.RegistroActasLocal
                 {
                     lblSegmento.Text = segmentos.ToString();
                 }
-                    
 
+                //this.totalCasillasRecuento = 315;
                 double parcialPuntoRecuento = (((double)this.totalCasillasRecuento / (double)grupos_tabajo) / (double)segmentos);
                 int puntos_recuento = this.Round(parcialPuntoRecuento);
                 if (puntos_recuento <= 0)
@@ -237,6 +256,13 @@ namespace Sistema.RegistroActasLocal
             }
             catch(Exception ex)
             {
+                txtPropietarios.Text = "5";
+                txtSuplentes.Text = "1";
+                lblNcr.Text = "0";
+                lblGt.Text = "0";
+                lblSegmento.Text = "0";
+                lblPr.Text = "0";
+                lblPrDecimal.Text = "0";
                 msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
                 msgBox.ShowDialog(this);
             }

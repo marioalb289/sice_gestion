@@ -15,10 +15,6 @@ namespace sice_gestion
         [STAThread]
         static void Main()
         {
-            //DateTime x = DateTime.ParseExact("17/05/2018 17:05", "dd/MM/yy h:mm", CultureInfo.InvariantCulture);
-            //
-            //string dateString = "";
-            //DateTime date1 = DateTime.Parse(dateString,System.Globalization.CultureInfo.InvariantCulture);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Login());

@@ -31,6 +31,7 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label2 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.tblPanelBoletas = new System.Windows.Forms.TableLayoutPanel();
             this.txtHoras = new System.Windows.Forms.TextBox();
@@ -40,9 +41,20 @@
             this.txtPropietarios = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.lblTotalCasillas = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
             this.btnGuardar = new System.Windows.Forms.Button();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.lblHorasDisponibles = new System.Windows.Forms.Label();
+            this.label26 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lblPr = new System.Windows.Forms.Label();
+            this.label34 = new System.Windows.Forms.Label();
+            this.label33 = new System.Windows.Forms.Label();
+            this.label32 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
             this.lblPrDecimal = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
@@ -64,6 +76,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label29 = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
             this.lblGruposFormula = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
@@ -72,30 +86,16 @@
             this.label18 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.label26 = new System.Windows.Forms.Label();
-            this.lblHorasDisponibles = new System.Windows.Forms.Label();
-            this.label28 = new System.Windows.Forms.Label();
-            this.label29 = new System.Windows.Forms.Label();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.lblTotalCasillas = new System.Windows.Forms.Label();
-            this.label31 = new System.Windows.Forms.Label();
-            this.label30 = new System.Windows.Forms.Label();
-            this.label32 = new System.Windows.Forms.Label();
-            this.label33 = new System.Windows.Forms.Label();
-            this.label34 = new System.Windows.Forms.Label();
-            this.lblPr = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tblPanelBoletas.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
+            this.panel5.SuspendLayout();
+            this.panel4.SuspendLayout();
             this.panel2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            this.panel4.SuspendLayout();
-            this.panel5.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -114,8 +114,8 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 64F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 64F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 51F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 51F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(863, 51);
             this.tableLayoutPanel1.TabIndex = 8;
             // 
@@ -141,6 +141,18 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(169, 45);
             this.panel1.TabIndex = 17;
+            // 
+            // button2
+            // 
+            this.button2.BackgroundImage = global::Sistema.RegistroActasLocal.Properties.Resources.salir;
+            this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.button2.Location = new System.Drawing.Point(127, 3);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(39, 44);
+            this.button2.TabIndex = 26;
+            this.button2.TabStop = false;
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button1
             // 
@@ -175,7 +187,7 @@
             this.tblPanelBoletas.Name = "tblPanelBoletas";
             this.tblPanelBoletas.Padding = new System.Windows.Forms.Padding(70, 10, 70, 10);
             this.tblPanelBoletas.RowCount = 1;
-            this.tblPanelBoletas.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tblPanelBoletas.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 76F));
             this.tblPanelBoletas.Size = new System.Drawing.Size(863, 99);
             this.tblPanelBoletas.TabIndex = 21;
             // 
@@ -201,9 +213,9 @@
             this.label13.Location = new System.Drawing.Point(554, 13);
             this.label13.Name = "label13";
             this.label13.Padding = new System.Windows.Forms.Padding(10);
-            this.label13.Size = new System.Drawing.Size(134, 73);
+            this.label13.Size = new System.Drawing.Size(134, 76);
             this.label13.TabIndex = 17;
-            this.label13.Text = "Receso en Horas";
+            this.label13.Text = "Horas Disponibles";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // txtSuplentes
@@ -216,7 +228,7 @@
             this.txtSuplentes.Name = "txtSuplentes";
             this.txtSuplentes.Size = new System.Drawing.Size(53, 29);
             this.txtSuplentes.TabIndex = 2;
-            this.txtSuplentes.Text = "0";
+            this.txtSuplentes.Text = "1";
             this.txtSuplentes.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label12
@@ -228,7 +240,7 @@
             this.label12.Location = new System.Drawing.Point(315, 13);
             this.label12.Name = "label12";
             this.label12.Padding = new System.Windows.Forms.Padding(10);
-            this.label12.Size = new System.Drawing.Size(134, 73);
+            this.label12.Size = new System.Drawing.Size(134, 76);
             this.label12.TabIndex = 15;
             this.label12.Text = "Consejeros Suplentes";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -243,7 +255,7 @@
             this.txtPropietarios.Name = "txtPropietarios";
             this.txtPropietarios.Size = new System.Drawing.Size(53, 29);
             this.txtPropietarios.TabIndex = 1;
-            this.txtPropietarios.Text = "0";
+            this.txtPropietarios.Text = "5";
             this.txtPropietarios.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label11
@@ -255,7 +267,7 @@
             this.label11.Location = new System.Drawing.Point(76, 13);
             this.label11.Name = "label11";
             this.label11.Padding = new System.Windows.Forms.Padding(10);
-            this.label11.Size = new System.Drawing.Size(134, 73);
+            this.label11.Size = new System.Drawing.Size(134, 76);
             this.label11.TabIndex = 13;
             this.label11.Text = "Consejeros Propietarios";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -275,14 +287,48 @@
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.Padding = new System.Windows.Forms.Padding(70, 10, 70, 10);
             this.tableLayoutPanel2.RowCount = 1;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 33F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 62F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(863, 85);
             this.tableLayoutPanel2.TabIndex = 22;
+            // 
+            // panel5
+            // 
+            this.panel5.Controls.Add(this.lblTotalCasillas);
+            this.panel5.Controls.Add(this.label31);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel5.Location = new System.Drawing.Point(315, 16);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(231, 56);
+            this.panel5.TabIndex = 19;
+            // 
+            // lblTotalCasillas
+            // 
+            this.lblTotalCasillas.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblTotalCasillas.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotalCasillas.ForeColor = System.Drawing.Color.DarkRed;
+            this.lblTotalCasillas.Location = new System.Drawing.Point(0, 26);
+            this.lblTotalCasillas.Name = "lblTotalCasillas";
+            this.lblTotalCasillas.Size = new System.Drawing.Size(231, 37);
+            this.lblTotalCasillas.TabIndex = 10;
+            this.lblTotalCasillas.Text = "60";
+            this.lblTotalCasillas.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label31
+            // 
+            this.label31.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label31.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label31.ForeColor = System.Drawing.Color.Black;
+            this.label31.Location = new System.Drawing.Point(0, 0);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(231, 26);
+            this.label31.TabIndex = 9;
+            this.label31.Text = "No. Casillas a Recuento:";
+            this.label31.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // btnGuardar
             // 
             this.btnGuardar.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnGuardar.Location = new System.Drawing.Point(628, 17);
+            this.btnGuardar.Location = new System.Drawing.Point(628, 19);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(85, 50);
             this.btnGuardar.TabIndex = 4;
@@ -291,6 +337,40 @@
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = true;
             this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.lblHorasDisponibles);
+            this.panel4.Controls.Add(this.label26);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel4.Location = new System.Drawing.Point(76, 16);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(230, 56);
+            this.panel4.TabIndex = 18;
+            // 
+            // lblHorasDisponibles
+            // 
+            this.lblHorasDisponibles.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblHorasDisponibles.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblHorasDisponibles.ForeColor = System.Drawing.Color.DarkRed;
+            this.lblHorasDisponibles.Location = new System.Drawing.Point(0, 26);
+            this.lblHorasDisponibles.Name = "lblHorasDisponibles";
+            this.lblHorasDisponibles.Size = new System.Drawing.Size(230, 37);
+            this.lblHorasDisponibles.TabIndex = 10;
+            this.lblHorasDisponibles.Text = "60";
+            this.lblHorasDisponibles.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label26
+            // 
+            this.label26.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label26.ForeColor = System.Drawing.Color.Black;
+            this.label26.Location = new System.Drawing.Point(0, 0);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(230, 26);
+            this.label26.TabIndex = 9;
+            this.label26.Text = "Horas Disponibles:";
+            this.label26.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // panel2
             // 
@@ -335,6 +415,57 @@
             this.groupBox1.TabIndex = 25;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Fórmula";
+            // 
+            // lblPr
+            // 
+            this.lblPr.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lblPr.AutoSize = true;
+            this.lblPr.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPr.ForeColor = System.Drawing.Color.DarkRed;
+            this.lblPr.Location = new System.Drawing.Point(748, 74);
+            this.lblPr.Name = "lblPr";
+            this.lblPr.Size = new System.Drawing.Size(20, 24);
+            this.lblPr.TabIndex = 23;
+            this.lblPr.Text = "0";
+            // 
+            // label34
+            // 
+            this.label34.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label34.AutoSize = true;
+            this.label34.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label34.Location = new System.Drawing.Point(706, 72);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(38, 39);
+            this.label34.TabIndex = 22;
+            this.label34.Text = "=";
+            // 
+            // label33
+            // 
+            this.label33.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label33.Location = new System.Drawing.Point(33, 212);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(614, 26);
+            this.label33.TabIndex = 21;
+            this.label33.Text = "Hacia abajo cuando no alcance el 0.30.";
+            // 
+            // label32
+            // 
+            this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label32.Location = new System.Drawing.Point(33, 186);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(614, 26);
+            this.label32.TabIndex = 20;
+            this.label32.Text = "Hacia arriba a partir de una fracción igual o superior a 0.30.";
+            // 
+            // label30
+            // 
+            this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label30.Location = new System.Drawing.Point(33, 162);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(614, 26);
+            this.label30.TabIndex = 19;
+            this.label30.Text = "Si el resultado de la fórmula arroja números decimales, se redondea la cifra al e" +
+    "ntero";
             // 
             // label27
             // 
@@ -577,6 +708,25 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "En donde:";
             // 
+            // label29
+            // 
+            this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label29.Location = new System.Drawing.Point(388, 25);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(306, 26);
+            this.label29.TabIndex = 12;
+            this.label29.Text = "Puntos de Recuento";
+            // 
+            // label28
+            // 
+            this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label28.Location = new System.Drawing.Point(322, 25);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(60, 26);
+            this.label28.TabIndex = 11;
+            this.label28.Text = "PR =";
+            this.label28.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // lblGruposFormula
             // 
             this.lblGruposFormula.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -656,156 +806,6 @@
             this.label14.Text = "NCR =";
             this.label14.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // panel4
-            // 
-            this.panel4.Controls.Add(this.lblHorasDisponibles);
-            this.panel4.Controls.Add(this.label26);
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel4.Location = new System.Drawing.Point(76, 16);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(230, 53);
-            this.panel4.TabIndex = 18;
-            // 
-            // label26
-            // 
-            this.label26.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label26.ForeColor = System.Drawing.Color.Black;
-            this.label26.Location = new System.Drawing.Point(0, 0);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(230, 26);
-            this.label26.TabIndex = 9;
-            this.label26.Text = "Horas Disponibles:";
-            this.label26.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // lblHorasDisponibles
-            // 
-            this.lblHorasDisponibles.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblHorasDisponibles.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblHorasDisponibles.ForeColor = System.Drawing.Color.DarkRed;
-            this.lblHorasDisponibles.Location = new System.Drawing.Point(0, 26);
-            this.lblHorasDisponibles.Name = "lblHorasDisponibles";
-            this.lblHorasDisponibles.Size = new System.Drawing.Size(230, 37);
-            this.lblHorasDisponibles.TabIndex = 10;
-            this.lblHorasDisponibles.Text = "60";
-            this.lblHorasDisponibles.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label28
-            // 
-            this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label28.Location = new System.Drawing.Point(322, 25);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(60, 26);
-            this.label28.TabIndex = 11;
-            this.label28.Text = "PR =";
-            this.label28.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // label29
-            // 
-            this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label29.Location = new System.Drawing.Point(388, 25);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(306, 26);
-            this.label29.TabIndex = 12;
-            this.label29.Text = "Puntos de Recuento";
-            // 
-            // panel5
-            // 
-            this.panel5.Controls.Add(this.lblTotalCasillas);
-            this.panel5.Controls.Add(this.label31);
-            this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel5.Location = new System.Drawing.Point(315, 16);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(231, 53);
-            this.panel5.TabIndex = 19;
-            // 
-            // lblTotalCasillas
-            // 
-            this.lblTotalCasillas.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblTotalCasillas.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTotalCasillas.ForeColor = System.Drawing.Color.DarkRed;
-            this.lblTotalCasillas.Location = new System.Drawing.Point(0, 26);
-            this.lblTotalCasillas.Name = "lblTotalCasillas";
-            this.lblTotalCasillas.Size = new System.Drawing.Size(231, 37);
-            this.lblTotalCasillas.TabIndex = 10;
-            this.lblTotalCasillas.Text = "60";
-            this.lblTotalCasillas.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label31
-            // 
-            this.label31.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label31.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label31.ForeColor = System.Drawing.Color.Black;
-            this.label31.Location = new System.Drawing.Point(0, 0);
-            this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(231, 26);
-            this.label31.TabIndex = 9;
-            this.label31.Text = "Casillas a Recuento:";
-            this.label31.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // label30
-            // 
-            this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label30.Location = new System.Drawing.Point(33, 162);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(614, 26);
-            this.label30.TabIndex = 19;
-            this.label30.Text = "Si el resultado de la fórmula arroja números decimales, se redondea la cifra al e" +
-    "ntero";
-            // 
-            // label32
-            // 
-            this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label32.Location = new System.Drawing.Point(33, 186);
-            this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(614, 26);
-            this.label32.TabIndex = 20;
-            this.label32.Text = "Hacia arriba a partir de una fracción igual o superior a 0.30.";
-            // 
-            // label33
-            // 
-            this.label33.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label33.Location = new System.Drawing.Point(33, 212);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(614, 26);
-            this.label33.TabIndex = 21;
-            this.label33.Text = "Hacia abajo cuando no alcance el 0.30.";
-            // 
-            // label34
-            // 
-            this.label34.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label34.AutoSize = true;
-            this.label34.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label34.Location = new System.Drawing.Point(706, 72);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(38, 39);
-            this.label34.TabIndex = 22;
-            this.label34.Text = "=";
-            // 
-            // lblPr
-            // 
-            this.lblPr.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lblPr.AutoSize = true;
-            this.lblPr.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPr.ForeColor = System.Drawing.Color.DarkRed;
-            this.lblPr.Location = new System.Drawing.Point(748, 74);
-            this.lblPr.Name = "lblPr";
-            this.lblPr.Size = new System.Drawing.Size(26, 29);
-            this.lblPr.TabIndex = 23;
-            this.lblPr.Text = "0";
-            // 
-            // button2
-            // 
-            this.button2.BackgroundImage = global::Sistema.RegistroActasLocal.Properties.Resources.salir;
-            this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.button2.Location = new System.Drawing.Point(127, 3);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(39, 44);
-            this.button2.TabIndex = 26;
-            this.button2.TabStop = false;
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
             // ConfiguracionRecuento
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -824,14 +824,14 @@
             this.tblPanelBoletas.ResumeLayout(false);
             this.tblPanelBoletas.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
+            this.panel5.ResumeLayout(false);
+            this.panel4.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            this.panel4.ResumeLayout(false);
-            this.panel5.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

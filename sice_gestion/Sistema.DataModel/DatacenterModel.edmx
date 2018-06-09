@@ -124,6 +124,8 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="supuesto" Type="text" />
+          <Property Name="RA" Type="int" Nullable="false" />
+          <Property Name="SICE" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="sice_ar_votos">
           <Key>
@@ -268,12 +270,28 @@
           <Property Name="no_suplentes" Type="int" />
           <Property Name="horas_disponibles" Type="float" />
         </EntityType>
+        <EntityType Name="sice_configuracion_rp">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_partido" Type="int" />
+          <Property Name="porcentaje" Type="int" />
+          <Property Name="valor" Type="double" />
+        </EntityType>
         <EntityType Name="sice_distritos_locales">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="distrito" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="sice_estado_acta">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="estatus" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="sice_historico">
           <Key>
@@ -436,7 +454,9 @@
           <EntitySet Name="sice_candidaturas" EntityType="Self.sice_candidaturas" Schema="sice_pruebas" store:Type="Tables" />
           <EntitySet Name="sice_casillas" EntityType="Self.sice_casillas" Schema="sice_pruebas" store:Type="Tables" />
           <EntitySet Name="sice_configuracion_recuento" EntityType="Self.sice_configuracion_recuento" Schema="sice_pruebas" store:Type="Tables" />
+          <EntitySet Name="sice_configuracion_rp" EntityType="Self.sice_configuracion_rp" Schema="sice_pruebas" store:Type="Tables" />
           <EntitySet Name="sice_distritos_locales" EntityType="Self.sice_distritos_locales" Schema="sice_pruebas" store:Type="Tables" />
+          <EntitySet Name="sice_estado_acta" EntityType="Self.sice_estado_acta" Schema="sice_pruebas" store:Type="Tables" />
           <EntitySet Name="sice_historico" EntityType="Self.sice_historico" Schema="sice_pruebas" store:Type="Tables" />
           <EntitySet Name="sice_municipios" EntityType="Self.sice_municipios" Schema="sice_pruebas" store:Type="Tables" />
           <EntitySet Name="sice_partidos_politicos" EntityType="Self.sice_partidos_politicos" Schema="sice_pruebas" store:Type="Tables" />
@@ -496,6 +516,8 @@
           <EntitySet Name="sice_ar_votos_cotejo_rp" EntityType="sice_pruebasModel.sice_ar_votos_cotejo_rp" />
           <EntitySet Name="sice_votos_rp" EntityType="sice_pruebasModel.sice_votos_rp" />
           <EntitySet Name="sice_reserva_captura" EntityType="sice_pruebasModel.sice_reserva_captura" />
+          <EntitySet Name="sice_estado_acta" EntityType="sice_pruebasModel.sice_estado_acta" />
+          <EntitySet Name="sice_configuracion_rp" EntityType="sice_pruebasModel.sice_configuracion_rp" />
         </EntityContainer>
         <EntityType Name="sice_ar_asignacion">
           <Key>
@@ -703,6 +725,8 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="supuesto" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="RA" Type="Int32" Nullable="false" />
+          <Property Name="SICE" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="sice_ar_historico">
           <Key>
@@ -911,6 +935,22 @@
           <Property Name="create_at" Type="DateTime" />
           <Property Name="updated_at" Type="DateTime" />
         </EntityType>
+        <EntityType Name="sice_estado_acta">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="estatus" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="sice_configuracion_rp">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_partido" Type="Int32" />
+          <Property Name="porcentaje" Type="Int32" />
+          <Property Name="valor" Type="Double" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1118,6 +1158,8 @@
           <EntitySetMapping Name="sice_ar_supuestos">
             <EntityTypeMapping TypeName="sice_pruebasModel.sice_ar_supuestos">
               <MappingFragment StoreEntitySet="sice_ar_supuestos">
+                <ScalarProperty Name="SICE" ColumnName="SICE" />
+                <ScalarProperty Name="RA" ColumnName="RA" />
                 <ScalarProperty Name="supuesto" ColumnName="supuesto" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
@@ -1328,6 +1370,24 @@
                 <ScalarProperty Name="tipo_votacion" ColumnName="tipo_votacion" />
                 <ScalarProperty Name="tipo_reserva" ColumnName="tipo_reserva" />
                 <ScalarProperty Name="id_casilla" ColumnName="id_casilla" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sice_estado_acta">
+            <EntityTypeMapping TypeName="sice_pruebasModel.sice_estado_acta">
+              <MappingFragment StoreEntitySet="sice_estado_acta">
+                <ScalarProperty Name="estatus" ColumnName="estatus" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sice_configuracion_rp">
+            <EntityTypeMapping TypeName="sice_pruebasModel.sice_configuracion_rp">
+              <MappingFragment StoreEntitySet="sice_configuracion_rp">
+                <ScalarProperty Name="valor" ColumnName="valor" />
+                <ScalarProperty Name="porcentaje" ColumnName="porcentaje" />
+                <ScalarProperty Name="id_partido" ColumnName="id_partido" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

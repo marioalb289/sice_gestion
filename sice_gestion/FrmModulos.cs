@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Sistema.Generales;
-using Sistema.RegistroActas;
+using Sistema.RegistroActasLocal;
 
 namespace sice_gestion
 {
@@ -20,6 +20,8 @@ namespace sice_gestion
         {
             InitializeComponent();
             this.Permisos();
+            RegistroLocalGenerales test = new RegistroLocalGenerales();
+            test.pruebaGT();
         }
 
         public void Permisos()

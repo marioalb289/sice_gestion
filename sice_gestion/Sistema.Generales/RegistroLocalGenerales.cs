@@ -58,7 +58,7 @@ namespace Sistema.Generales
             {
                 using (DatabaseContext contexto = new DatabaseContext(con))
                 {
-                    return (from p in contexto.sice_ar_supuestos select p).ToList();
+                    return (from p in contexto.sice_ar_supuestos where p.RA == 1 select p).ToList();
                 }
                     
             }
@@ -577,13 +577,15 @@ namespace Sistema.Generales
                     string consulta =
                         "SELECT " +
                             "C.id as id_casilla, " +
-                            " C.seccion, " +
+                            "C.id_distrito_local, " +
+                            "C.seccion, " +
                             "C.tipo_casilla as casilla, " +
                             "S.supuesto " +
                         "FROM sice_ar_reserva R " +
                         join +
                         "JOIN sice_ar_supuestos S ON S.id = R.id_supuesto " +
-                        "WHERE R.id_supuesto IS NOT NULL ";
+                        "WHERE R.id_supuesto IS NOT NULL "+
+                        "ORDER BY C.id_distrito_local ASC,C.seccion,C.id ASC";
                     return contexto.Database.SqlQuery<CasillasRecuento>(consulta).ToList();
                 }
 
@@ -1668,6 +1670,50 @@ namespace Sistema.Generales
             }
         }
 
+        public void pruebaGT()
+        {
+            try
+            {
+                List<CasillasRecuento> casillasRecuento = this.ListaCasillasRecuentos(0, true);
+                int grupos_tabajo = 4;
+                int puntos_recuento = 4;
+
+
+                decimal cGt = Math.Round(Convert.ToDecimal( casillasRecuento.Count) / Convert.ToDecimal(grupos_tabajo), 0);
+                int limitador_parcial = Convert.ToInt32(cGt);
+                int limitador_total = limitador_parcial * (grupos_tabajo - 1);
+                int contador_principal = 1;
+                int contador_casilla = 1;
+                int contador_grupo = 1;
+                foreach(CasillasRecuento casilla in casillasRecuento)
+                {
+                    int grupo_asignado = contador_grupo;
+                    casillasRecuento[contador_principal - 1].grupo_trabajo = grupo_asignado;
+                    contador_casilla++;
+                    contador_principal++;
+                    if(contador_casilla > limitador_parcial)
+                    {
+                        if(contador_principal <= limitador_total)
+                        {
+                            contador_casilla = 1;
+                            contador_grupo++;
+                        }
+                        else
+                        {
+                            contador_casilla = 1;
+                            contador_grupo = grupos_tabajo;
+                        }
+                    }
+                }
+
+                int xy = 0;
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
         public int generarExcelRecuento(SaveFileDialog fichero, int distrito, bool completo = false)
         {
             try
@@ -1683,11 +1729,12 @@ namespace Sistema.Generales
                 if (completo)
                 {
                     List<sice_distritos_locales> distritos = this.ListaDistritos();
-                    int totalRecuento = this.ListaCasillasRecuentos(distrito, true).Count();
+                    List<CasillasRecuento> casillasRecuento = this.ListaCasillasRecuentos(distrito, true);
+                    int totalRecuento = casillasRecuento.Count();
                     sice_configuracion_recuento conf = this.Configuracion_Recuento("RA");
                     int grupos_tabajo = 0;
                     int puntos_recuento = 0;
-                    if (conf != null)
+                    if (conf != null && totalRecuento > 20)
                     {
                         int propietarios = (int)conf.no_consejeros;
                         int suplentes = (int)conf.no_suplentes;
@@ -1695,20 +1742,43 @@ namespace Sistema.Generales
                         if (grupos_tabajo > 5)
                             grupos_tabajo = 5;
 
-                        DateTime fecha1 = new DateTime(2018, 7, 8, 8, 0, 0);
-                        DateTime fecha2 = new DateTime(2018, 7, 11, 0, 0, 0);
-                        double horasRestantes = Math.Floor((fecha2 - fecha1).TotalHours);
+                        //DateTime fecha1 = new DateTime(2018, 7, 8, 8, 0, 0);
+                        //DateTime fecha2 = new DateTime(2018, 7, 11, 0, 0, 0);
+                        //double horasRestantes = Math.Floor((fecha2 - fecha1).TotalHours);
 
-                        int segmentos = (Convert.ToInt32(horasRestantes) - Convert.ToInt32(conf.horas_disponibles)) * 2;
+                        //int segmentos = (Convert.ToInt32(horasRestantes) - Convert.ToInt32(conf.horas_disponibles)) * 2;
+                        int segmentos = Convert.ToInt32(conf.horas_disponibles) * 2;
 
                         double parcialPuntoRecuento = (((double)totalRecuento / (double)grupos_tabajo) / (double)segmentos);
                         puntos_recuento = this.Round(parcialPuntoRecuento);
+
+                        decimal cGt = Math.Round(Convert.ToDecimal(casillasRecuento.Count) / Convert.ToDecimal(grupos_tabajo), 0);
+                        int limitador_parcial = Convert.ToInt32(cGt);
+                        int limitador_total = limitador_parcial * (grupos_tabajo - 1);
+                        int contador_principal = 1;
+                        int contador_casilla = 1;
+                        int contador_grupo = 1;
+                        foreach (CasillasRecuento casilla in casillasRecuento)
+                        {
+                            int grupo_asignado = contador_grupo;
+                            casillasRecuento[contador_principal - 1].grupo_trabajo = grupo_asignado;
+                            contador_casilla++;
+                            contador_principal++;
+                            if (contador_casilla > limitador_parcial)
+                            {
+                                if (contador_principal <= limitador_total)
+                                {
+                                    contador_casilla = 1;
+                                    contador_grupo++;
+                                }
+                                else
+                                {
+                                    contador_casilla = 1;
+                                    contador_grupo = grupos_tabajo;
+                                }
+                            }
+                        }
                     }
-                        
-                    
-
-
-
 
                     foreach (sice_distritos_locales ds in distritos.OrderByDescending(x => x.id))
                     {
@@ -1733,13 +1803,14 @@ namespace Sistema.Generales
                             }
                         }
 
-                        this.generaHojaRecuento(ds.id, libro,diferencia, totalRecuento,grupos_tabajo,puntos_recuento);
+                        this.generaHojaRecuento(ds.id, libro, casillasRecuento, diferencia, totalRecuento,grupos_tabajo,puntos_recuento);
 
                     }
                 }
                 else
                 {
-                    this.generaHojaRecuento(distrito, libro);
+                    List<CasillasRecuento> casillasRecuento = this.ListaCasillasRecuentos(distrito, true);
+                    this.generaHojaRecuento(distrito, libro, casillasRecuento);
                 }
 
                 ((Excel.Worksheet)excel.ActiveWorkbook.Sheets["Hoja1"]).Delete();   //Borramos la hoja que crea en el libro por defecto
@@ -1775,7 +1846,7 @@ namespace Sistema.Generales
             }
         }
 
-        public void generaHojaRecuento(int distrito, Excel._Workbook libro,decimal diferencia = 0,int totalRecuento = 0,int grupos_trabajo = 0,int puntos_recuento = 0)
+        public void generaHojaRecuento(int distrito, Excel._Workbook libro,List<CasillasRecuento> listaCasillas,decimal diferencia = 0,int totalRecuento = 0,int grupos_trabajo = 0,int puntos_recuento = 0)
         {
             try
             {
@@ -1787,7 +1858,7 @@ namespace Sistema.Generales
                 hoja = (Excel._Worksheet)libro.Worksheets.Add();
                 hoja.Name = "DISTRITO " + distrito;  //Aqui debe ir el nombre del distrito
 
-                List<CasillasRecuento> listaRecuento = this.ListaCasillasRecuentos(distrito);
+                List<CasillasRecuento> listaRecuento = (from d in listaCasillas where d.id_distrito_local == distrito select d).ToList();
                 
                 //Montamos las cabeceras 
                 char letraFinal = CrearEncabezadosRecuento(filaInicialTabla, ref hoja, distrito,listaRecuento.Count,totalRecuento,diferencia,grupos_trabajo,puntos_recuento, 1);
@@ -1814,6 +1885,7 @@ namespace Sistema.Generales
                         hoja.Cells[fila, 2] = casillla.seccion;
                         hoja.Cells[fila, 3] = casillla.casilla;
                         hoja.Cells[fila, 4] = casillla.supuesto;
+                        hoja.Cells[fila, 5] =   casillla.grupo_trabajo != null ? "GT-"+casillla.grupo_trabajo : "NO APLICA";
 
                         //Agregar fila
                         string x = "A" + (fila).ToString();
@@ -1852,16 +1924,16 @@ namespace Sistema.Generales
                 }
                 //Configuracon Hoja
                 hoja.PageSetup.Orientation = Excel.XlPageOrientation.xlLandscape;
-                hoja.PageSetup.Zoom = 80;
+                hoja.PageSetup.Zoom = 69;
                 hoja.PageSetup.PrintTitleRows = "$10:$11";
 
                 //** Montamos el título en la línea 1 **
                 hoja.Cells[1, 3] = "SISTEMA DE REGISTRO DE ACTAS DEL PROCESO ELECTORAL LÓCAL 2017-2018";
-                hoja.Range[hoja.Cells[1, 3], hoja.Cells[1, 4]].Merge();
+                hoja.Range[hoja.Cells[1, 3], hoja.Cells[1, 5]].Merge();
                 hoja.Cells[2, 3] = "ELECCIÓN DE DIPUTADOS DE MAYORÍA RELATIVA POR CASILLA, SECCIÓN Y DISTRITO LOCAL";
-                hoja.Range[hoja.Cells[2, 3], hoja.Cells[2, 4]].Merge();
+                hoja.Range[hoja.Cells[2, 3], hoja.Cells[2, 5]].Merge();
                 hoja.Cells[3, 3] = "LISTA DE CASILLAS A RECUENTO";
-                hoja.Range[hoja.Cells[3, 3], hoja.Cells[3, 4]].Merge();
+                hoja.Range[hoja.Cells[3, 3], hoja.Cells[3, 5]].Merge();
                 char columnaLetra = 'A';
                 hoja.Shapes.AddPicture(rutaImagen + "iepc.png", Microsoft.Office.Core.MsoTriState.msoFalse, Microsoft.Office.Core.MsoTriState.msoCTrue, 0, 0, 125, 52);
                 //hoja.Shapes.
@@ -1937,7 +2009,7 @@ namespace Sistema.Generales
                 hoja.Cells[fila - 3, columnaInicial].HorizontalAlignment = Excel.XlHAlign.xlHAlignRight;
                 hoja.Cells[fila - 3, columnaInicial].VerticalAlignment = Excel.XlVAlign.xlVAlignTop;
 
-                hoja.Cells[fila - 3, columnaInicial + 2] = totalRecuento == 0 || totalRecuento < 20 || grupos_trabajo == 0 ? "NO APLICA" : grupos_trabajo.ToString(); //CALCULAR NUMERO DE GRUPOS DE TRABAJO
+                hoja.Cells[fila - 3, columnaInicial + 2] = totalRecuento == 0 || totalRecuento <= 20 || grupos_trabajo == 0 ? "NO APLICA" : grupos_trabajo.ToString(); //CALCULAR NUMERO DE GRUPOS DE TRABAJO
                 hoja.Range[hoja.Cells[fila - 3, columnaInicial + 2], hoja.Cells[fila - 3, columnaInicial + 3]].Merge();
                 hoja.Cells[fila - 3, columnaInicial + 2].WrapText = true;
                 hoja.Cells[fila - 3, columnaInicial + 2].HorizontalAlignment = Excel.XlHAlign.xlHAlignLeft;
@@ -1950,7 +2022,7 @@ namespace Sistema.Generales
                 hoja.Cells[fila - 2, columnaInicial].HorizontalAlignment = Excel.XlHAlign.xlHAlignRight;
                 hoja.Cells[fila - 2, columnaInicial].VerticalAlignment = Excel.XlVAlign.xlVAlignTop;
 
-                hoja.Cells[fila - 2, columnaInicial + 2] = totalRecuento == 0 || totalRecuento < 20 || puntos_recuento == 0 ? "NO APLICA" : puntos_recuento.ToString(); //PUNTOS DE RECUENTO
+                hoja.Cells[fila - 2, columnaInicial + 2] = totalRecuento == 0 || totalRecuento <= 20 || puntos_recuento == 0 ? "NO APLICA" : puntos_recuento.ToString(); //PUNTOS DE RECUENTO
                 hoja.Range[hoja.Cells[fila - 2, columnaInicial + 2], hoja.Cells[fila - 2, columnaInicial + 3]].Merge();
                 hoja.Cells[fila - 2, columnaInicial + 2].WrapText = true;
                 hoja.Cells[fila - 2, columnaInicial + 2].HorizontalAlignment = Excel.XlHAlign.xlHAlignLeft;
@@ -1967,10 +2039,11 @@ namespace Sistema.Generales
                 hoja.Cells[fila, columnaInicial] = "No."; columnaInicial++; columnaLetra++; widths.Add(8.57);
                 hoja.Cells[fila, columnaInicial] = "Sección"; columnaInicial++; columnaLetra++; widths.Add(14.43);
                 hoja.Cells[fila, columnaInicial] = "Casilla"; columnaInicial++; columnaLetra++; widths.Add(25.29);
-                hoja.Cells[fila, columnaInicial] = "Motivo Recuento"; columnaInicial++;widths.Add(100);              
+                hoja.Cells[fila, columnaInicial] = "Motivo Recuento"; columnaInicial++; columnaLetra++; widths.Add(100);
+                hoja.Cells[fila, columnaInicial] = "Grupo de Trabajo."; columnaInicial++;  widths.Add(25.29);
 
                 //Colores de Fondo
-                rango = hoja.Range["A" + fila, "D" + fila];
+                rango = hoja.Range["A" + fila, "E" + fila];
                 rango.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(149)))), ((int)(((byte)(90))))));
                 rango.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.White);
                               
@@ -2348,8 +2421,10 @@ namespace Sistema.Generales
     public class CasillasRecuento
     {
         public int id_casilla { get; set; }
+        public int id_distrito_local { get; set; }
         public int seccion { get; set; }
         public string casilla { get; set; }
         public string supuesto { get; set; }
+        public Nullable<int> grupo_trabajo { get; set; }
     }
 }

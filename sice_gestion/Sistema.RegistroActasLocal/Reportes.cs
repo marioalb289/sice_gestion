@@ -152,13 +152,15 @@ namespace Sistema.RegistroActasLocal
                 }
                 List<VotosSeccion> vSeccionTotales = rgActas.ResultadosSeccionCaptura(0, 0, (int)distrito);
                 List<VotosSeccion> totalAgrupado = vSeccionTotales.GroupBy(x => x.id_casilla).
-                    Select(data => new VotosSeccion
-                    {
-                        id_candidato = data.First().id_candidato,
-                        casilla = data.First().casilla,
-                        lista_nominal = data.First().tipo == "S1" || data.First().tipo == "S1-RP" ? data.First().lista_nominal : data.First().lista_nominal + TotalRepresentantes,
-                        votos = data.First().votos
-                    }).ToList();
+                   Select(data => new VotosSeccion
+                   {
+                       id_candidato = data.First().id_candidato,
+                       id_estatus_acta = data.First().id_estatus_acta,
+                       seccion = data.First().seccion,
+                       casilla = data.First().casilla,
+                       lista_nominal = data.First().tipo == "S1" || data.First().tipo == "S1-RP" ? data.First().lista_nominal : data.First().lista_nominal + TotalRepresentantes,
+                       votos = data.First().votos
+                   }).ToList();
                 int LnominalDistrito = totalAgrupado.Sum(x => x.lista_nominal);
                 this.TotalVotosDistrito = vSeccionTotales.Sum(x => (int)x.votos);
                 int actasCapturadas = vSeccionTotales.Where(x => x.id_estatus_acta == 1 || x.id_estatus_acta == 2 || x.id_estatus_acta == 8).GroupBy(y => y.casilla).Count();

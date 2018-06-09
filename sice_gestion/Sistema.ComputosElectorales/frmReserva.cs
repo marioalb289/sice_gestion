@@ -67,11 +67,7 @@ namespace Sistema.ComputosElectorales
             txtSobrantes.MouseUp += new System.Windows.Forms.MouseEventHandler(tbxValue_MouseUp);
             txtSobrantes.Leave += new System.EventHandler(tbxValue_Leave);
 
-            txtEscritos.KeyPress += FrmRegistroActas_KeyPress;
-            txtEscritos.KeyUp += Evento_KeyUp;
-            txtEscritos.GotFocus += new System.EventHandler(tbxValue_GotFocus);
-            txtEscritos.MouseUp += new System.Windows.Forms.MouseEventHandler(tbxValue_MouseUp);
-            txtEscritos.Leave += new System.EventHandler(tbxValue_Leave);
+            
 
             txtPersonasVotaron.KeyPress += FrmRegistroActas_KeyPress;
             txtPersonasVotaron.KeyUp += Evento_KeyUp;
@@ -214,11 +210,11 @@ namespace Sistema.ComputosElectorales
                 if (lista_votos.Count > 0)
                 {
 
-                    int incidencias = Convert.ToInt32(cmbIncidencias.SelectedValue);
+                    int incidencias = 0;
                     int estatus_paquete = 0;
 
                     int res2 = CompElec.guardarDatosVotos(lista_votos, id_casilla, selectedSupuesto, Convert.ToInt32(txtSobrantes.Text),
-                        Convert.ToInt32(txtEscritos.Text), Convert.ToInt32(txtPersonasVotaron.Text), Convert.ToInt32(txtRepresentantes.Text), Convert.ToInt32(txtVotosSacados.Text),
+                        0, Convert.ToInt32(txtPersonasVotaron.Text), Convert.ToInt32(txtRepresentantes.Text), Convert.ToInt32(txtVotosSacados.Text),
                         incidencias, estatus_acta, estatus_paquete);
                     if (res2 == 1)
                     {
@@ -358,11 +354,11 @@ namespace Sistema.ComputosElectorales
                 }
                 if (lista_votos.Count > 0)
                 {
-                    int incidencias = Convert.ToInt32(cmbIncidencias.SelectedValue);
+                    int incidencias = 0;
                     int estatus_paquete = 0;
 
                     int res2 = CompElec.guardarDatosVotosRP(lista_votos, id_casilla, selectedSupuesto, Convert.ToInt32(txtSobrantes.Text),
-                        Convert.ToInt32(txtEscritos.Text), Convert.ToInt32(txtPersonasVotaron.Text), Convert.ToInt32(txtRepresentantes.Text), Convert.ToInt32(txtVotosSacados.Text),
+                        0, Convert.ToInt32(txtPersonasVotaron.Text), Convert.ToInt32(txtRepresentantes.Text), Convert.ToInt32(txtVotosSacados.Text),
                         incidencias, estatus_acta, estatus_paquete);
                     if (res2 == 1)
                     {
@@ -422,7 +418,7 @@ namespace Sistema.ComputosElectorales
 
                 if (mensaje != "")
                 {
-                    if (this.recuento)
+                    if (this.recuento || this.reservaConsejo)
                     {
                         msgBox = new MsgBox(this, mensaje, "Atención", MessageBoxButtons.OK, "Advertencia");
                         msgBox.ShowDialog(this);
@@ -583,13 +579,7 @@ namespace Sistema.ComputosElectorales
 
                 this.flagCombo = 1;
 
-                cmbIncidencias.DataSource = null;
-                cmbIncidencias.DisplayMember = "estatus";
-                cmbIncidencias.ValueMember = "id";
-                List<sice_ar_incidencias> list = CompElec.ListaIncidencias();
-                if (list.Count > 0)
-                    list.Insert(0, new sice_ar_incidencias() { id = 0, estatus = "SIN INCIDENCIAS" });
-                cmbIncidencias.DataSource = list;
+                
                 //cmbCasilla.SelectedIndex = 1;
 
                 cmbEstatusActa.SelectedValueChanged += cmbEstatusActa_SelectedValueChanged;
@@ -675,8 +665,6 @@ namespace Sistema.ComputosElectorales
                     this.txtSobrantes.Text = detallesActa.boletas_sobrantes.ToString();
                     this.lblConsecutivo.Text = tempSec.consecutivo.ToString();
                     this.cmbEstatusActa.SelectedValue = detallesActa.id_estatus_acta;
-                    this.cmbIncidencias.SelectedValue = detallesActa.id_incidencias != null ? detallesActa.id_incidencias : 0;
-                    this.txtEscritos.Text = detallesActa.num_escritos.ToString();
                     this.lblEstatus.Text = detallesActa.tipo_reserva;
                     if (detallesActa.tipo_reserva == "RECUENTO")
                         this.cmbSupuesto.Enabled = true;
@@ -819,7 +807,6 @@ namespace Sistema.ComputosElectorales
 
 
                     this.cmbEstatusActa.SelectedValue = detallesActa.id_estatus_acta;
-                    this.cmbIncidencias.SelectedValue = detallesActa.id_incidencias != null ? detallesActa.id_incidencias : 0;
                     //cmbIncidencias.SelectedValue = detallesActa.id_incidencias != null ? (int)detallesActa.id_incidencias : 0;
 
 
@@ -908,7 +895,6 @@ namespace Sistema.ComputosElectorales
                     //textBoxes[0].Focus();
                     //ShowScrollBar(this.tableLayoutPanel2.Handle, SB_HORZ, false);     
                     this.txtSobrantes.Text = (detallesActa.boletas_sobrantes != null) ? detallesActa.boletas_sobrantes.ToString() : "0";
-                    this.txtEscritos.Text = (detallesActa.num_escritos != null) ? detallesActa.num_escritos.ToString() : "0";
                     this.tablePanelPartidos.ResumeLayout();
                     this.tablePanelPartidos.Visible = true;
                     panelCaptura.Visible = true;
@@ -939,7 +925,6 @@ namespace Sistema.ComputosElectorales
                 this.tblPanelBoletas.Visible = false;
                 this.txtBoletasR.Text = "0";
                 this.txtSobrantes.Text = "0";
-                this.txtEscritos.Text = "0";
                 this.txtTotalCapturado.Text = "0";
                 this.boletasRecibidas = 0;
 
@@ -978,14 +963,12 @@ namespace Sistema.ComputosElectorales
             this.txtBoletasR.Text = "0";
             this.txtSobrantes.Text = "0";
             this.boletasRecibidas = 0;
-            this.txtEscritos.Text = "0";
             this.txtPersonasVotaron.Text = "0";
             this.txtRepresentantes.Text = "0";
             this.txtVotosSacados.Text = "0";
 
             this.cmbSupuesto.SelectedValue = 1;
             this.cmbEstatusActa.SelectedValue = 1;
-            this.cmbIncidencias.SelectedValue = 0;
             this.cargarComboSeccion();
         }
 
@@ -1276,15 +1259,15 @@ namespace Sistema.ComputosElectorales
                 if (sel == 3 || sel == 5 )
                 {
                     cmbSupuesto.Enabled = true;
-                    cmbIncidencias.Enabled = true;
                 }
                 //No se debe capturar
-                else if (sel == 6 || sel == 7 || sel == 9 || sel == 11 || sel == 4)
+                else if (sel == 6 || sel == 7 || sel == 9 || sel == 11 )
                 {
                     cmbSupuesto.Enabled = false;
                     cmbSupuesto.SelectedValue = 0;
-                    cmbIncidencias.Enabled = true;
-                    cmbIncidencias.SelectedValue = 0;
+
+                    tblPanelBoletas.Enabled = false;
+                    tablePanelPartidos.Enabled = false;
 
                     //if (sel == 6 || sel == 7)
                     //{
@@ -1295,12 +1278,12 @@ namespace Sistema.ComputosElectorales
                     //    cmbEstatusPaquete.SelectedValueChanged += cmbEstatusPaquete_SelectedValueChanged;
                     //}
                 }
-                else if (sel == 1 || sel == 2 || sel == 8)
+                else if (sel == 1 || sel == 2 || sel == 8 || sel == 4)
                 {
+                    tblPanelBoletas.Enabled = true;
+                    tablePanelPartidos.Enabled = true;
                     cmbSupuesto.Enabled = false;
                     cmbSupuesto.SelectedValue = 0;
-                    cmbIncidencias.Enabled = false;
-                    cmbIncidencias.SelectedValue = 0;
                 }
             }
             catch (Exception ex)

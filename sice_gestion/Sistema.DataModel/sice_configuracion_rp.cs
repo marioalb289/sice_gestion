@@ -12,11 +12,11 @@ namespace Sistema.DataModel
     using System;
     using System.Collections.Generic;
     
-    public partial class sice_ar_supuestos
+    public partial class sice_configuracion_rp
     {
         public int id { get; set; }
-        public string supuesto { get; set; }
-        public int RA { get; set; }
-        public int SICE { get; set; }
+        public Nullable<int> id_partido { get; set; }
+        public Nullable<int> porcentaje { get; set; }
+        public Nullable<double> valor { get; set; }
     }
 }

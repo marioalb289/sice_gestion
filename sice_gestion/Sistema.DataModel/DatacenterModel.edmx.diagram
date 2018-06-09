@@ -36,6 +36,8 @@
         <EntityTypeShape EntityType="sice_pruebasModel.sice_ar_votos_cotejo_rp" Width="1.5" PointX="3.375" PointY="14.75" />
         <EntityTypeShape EntityType="sice_pruebasModel.sice_votos_rp" Width="1.5" PointX="5.375" PointY="14.75" />
         <EntityTypeShape EntityType="sice_pruebasModel.sice_reserva_captura" Width="1.5" PointX="10.375" PointY="16.75" />
+        <EntityTypeShape EntityType="sice_pruebasModel.sice_estado_acta" Width="1.5" PointX="12.375" PointY="8.75" />
+        <EntityTypeShape EntityType="sice_pruebasModel.sice_configuracion_rp" Width="1.5" PointX="0.75" PointY="17.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

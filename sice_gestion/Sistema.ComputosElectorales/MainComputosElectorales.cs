@@ -112,7 +112,7 @@ namespace Sistema.ComputosElectorales
             try
             {
                 //Reportes form = new Reportes();
-                Form1 form = new Form1();
+                Reportes form = new Reportes();
                 form.MdiParent = this.MdiParent;
                 form.Dock = DockStyle.Fill;
                 form.FormClosed += Form_FormClosed;

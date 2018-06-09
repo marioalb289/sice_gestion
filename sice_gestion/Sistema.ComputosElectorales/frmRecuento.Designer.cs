@@ -38,12 +38,8 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label17 = new System.Windows.Forms.Label();
             this.cmbSupuesto = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.txtEscritos = new System.Windows.Forms.TextBox();
-            this.label16 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.cmbEstatusActa = new System.Windows.Forms.ComboBox();
-            this.cmbIncidencias = new System.Windows.Forms.ComboBox();
             this.tblPanelBoletas = new System.Windows.Forms.TableLayoutPanel();
             this.txtVotosReserva = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
@@ -131,11 +127,11 @@
             this.tablePanelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tablePanelPartidos.Dock = System.Windows.Forms.DockStyle.Top;
             this.tablePanelPartidos.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
-            this.tablePanelPartidos.Location = new System.Drawing.Point(0, 452);
+            this.tablePanelPartidos.Location = new System.Drawing.Point(0, 374);
             this.tablePanelPartidos.Name = "tablePanelPartidos";
             this.tablePanelPartidos.Padding = new System.Windows.Forms.Padding(40, 0, 40, 0);
             this.tablePanelPartidos.RowCount = 1;
-            this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 276F));
+            this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 282F));
             this.tablePanelPartidos.Size = new System.Drawing.Size(1007, 213);
             this.tablePanelPartidos.TabIndex = 20;
             this.tablePanelPartidos.Visible = false;
@@ -150,12 +146,12 @@
             this.tblPanaelTitulo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tblPanaelTitulo.Controls.Add(this.pnlTableTitulo, 0, 0);
             this.tblPanaelTitulo.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tblPanaelTitulo.Location = new System.Drawing.Point(0, 340);
+            this.tblPanaelTitulo.Location = new System.Drawing.Point(0, 258);
             this.tblPanaelTitulo.Name = "tblPanaelTitulo";
             this.tblPanaelTitulo.Padding = new System.Windows.Forms.Padding(40, 10, 40, 10);
             this.tblPanaelTitulo.RowCount = 1;
-            this.tblPanaelTitulo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 88F));
-            this.tblPanaelTitulo.Size = new System.Drawing.Size(1007, 112);
+            this.tblPanaelTitulo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 92F));
+            this.tblPanaelTitulo.Size = new System.Drawing.Size(1007, 116);
             this.tblPanaelTitulo.TabIndex = 19;
             // 
             // pnlTableTitulo
@@ -165,7 +161,7 @@
             this.pnlTableTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableTitulo.Location = new System.Drawing.Point(45, 15);
             this.pnlTableTitulo.Name = "pnlTableTitulo";
-            this.pnlTableTitulo.Size = new System.Drawing.Size(917, 82);
+            this.pnlTableTitulo.Size = new System.Drawing.Size(917, 86);
             this.pnlTableTitulo.TabIndex = 39;
             // 
             // label21
@@ -187,7 +183,7 @@
             this.panel7.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel7.Location = new System.Drawing.Point(0, 0);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(1007, 340);
+            this.panel7.Size = new System.Drawing.Size(1007, 258);
             this.panel7.TabIndex = 18;
             // 
             // tableLayoutPanel2
@@ -201,20 +197,16 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel2.Controls.Add(this.label17, 2, 0);
             this.tableLayoutPanel2.Controls.Add(this.cmbSupuesto, 3, 0);
-            this.tableLayoutPanel2.Controls.Add(this.label4, 4, 1);
-            this.tableLayoutPanel2.Controls.Add(this.txtEscritos, 5, 1);
-            this.tableLayoutPanel2.Controls.Add(this.label16, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.label14, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.cmbEstatusActa, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.cmbIncidencias, 1, 1);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 172);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.Padding = new System.Windows.Forms.Padding(100, 10, 100, 10);
-            this.tableLayoutPanel2.RowCount = 2;
+            this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 72F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 72F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(1007, 148);
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(1007, 84);
             this.tableLayoutPanel2.TabIndex = 21;
             // 
             // label17
@@ -242,49 +234,8 @@
             this.cmbSupuesto.Margin = new System.Windows.Forms.Padding(20, 25, 20, 5);
             this.cmbSupuesto.Name = "cmbSupuesto";
             this.cmbSupuesto.Size = new System.Drawing.Size(301, 21);
-            this.cmbSupuesto.TabIndex = 30;
+            this.cmbSupuesto.TabIndex = 16;
             this.cmbSupuesto.TabStop = false;
-            // 
-            // label4
-            // 
-            this.label4.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
-            this.label4.AutoSize = true;
-            this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(677, 82);
-            this.label4.Name = "label4";
-            this.label4.Padding = new System.Windows.Forms.Padding(10);
-            this.label4.Size = new System.Drawing.Size(119, 72);
-            this.label4.TabIndex = 20;
-            this.label4.Text = "Num Escritos:";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // txtEscritos
-            // 
-            this.txtEscritos.Dock = System.Windows.Forms.DockStyle.Top;
-            this.txtEscritos.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtEscritos.Location = new System.Drawing.Point(819, 107);
-            this.txtEscritos.Margin = new System.Windows.Forms.Padding(20, 25, 20, 5);
-            this.txtEscritos.MaxLength = 3;
-            this.txtEscritos.Name = "txtEscritos";
-            this.txtEscritos.Size = new System.Drawing.Size(68, 29);
-            this.txtEscritos.TabIndex = 17;
-            this.txtEscritos.Text = "0";
-            this.txtEscritos.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label16
-            // 
-            this.label16.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
-            this.label16.AutoSize = true;
-            this.label16.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.Location = new System.Drawing.Point(103, 82);
-            this.label16.Name = "label16";
-            this.label16.Padding = new System.Windows.Forms.Padding(10);
-            this.label16.Size = new System.Drawing.Size(119, 72);
-            this.label16.TabIndex = 18;
-            this.label16.Text = "Incidencias:";
-            this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label14
             // 
@@ -310,19 +261,6 @@
             this.cmbEstatusActa.Name = "cmbEstatusActa";
             this.cmbEstatusActa.Size = new System.Drawing.Size(176, 21);
             this.cmbEstatusActa.TabIndex = 15;
-            // 
-            // cmbIncidencias
-            // 
-            this.tableLayoutPanel2.SetColumnSpan(this.cmbIncidencias, 3);
-            this.cmbIncidencias.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmbIncidencias.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbIncidencias.Enabled = false;
-            this.cmbIncidencias.FormattingEnabled = true;
-            this.cmbIncidencias.Location = new System.Drawing.Point(245, 107);
-            this.cmbIncidencias.Margin = new System.Windows.Forms.Padding(20, 25, 20, 5);
-            this.cmbIncidencias.Name = "cmbIncidencias";
-            this.cmbIncidencias.Size = new System.Drawing.Size(409, 21);
-            this.cmbIncidencias.TabIndex = 18;
             // 
             // tblPanelBoletas
             // 
@@ -381,6 +319,7 @@
             this.txtVotosReserva.Name = "txtVotosReserva";
             this.txtVotosReserva.Size = new System.Drawing.Size(38, 29);
             this.txtVotosReserva.TabIndex = 25;
+            this.txtVotosReserva.TabStop = false;
             this.txtVotosReserva.Text = "0";
             this.txtVotosReserva.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -810,7 +749,7 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(1018, 44);
             this.label6.TabIndex = 0;
-            this.label6.Text = "Casillas Reservadas o de  Recuento";
+            this.label6.Text = "Casillas en Recuento";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panel3
@@ -956,12 +895,8 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.ComboBox cmbSupuesto;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox txtEscritos;
-        private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.ComboBox cmbEstatusActa;
-        private System.Windows.Forms.ComboBox cmbIncidencias;
         private System.Windows.Forms.TableLayoutPanel tblPanelBoletas;
         private System.Windows.Forms.TextBox txtTotalCapturado;
         private System.Windows.Forms.Label label5;

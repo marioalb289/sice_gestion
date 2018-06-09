@@ -1242,9 +1242,12 @@ namespace Sistema.Generales
         public Nullable<int> id_candidato { get; set; }
         public string candidato { get; set; }
         public string nombre_candidatura { get; set; }
+        public string coalicion { get; set; }
         public string partido { get; set; }
         public Nullable<int> partido_local { get; set; }
+        public Nullable<int> id_partido { get; set; }
         public string imagen { get; set; }
+        public double porcentaje { get; set; }
         public int votos { get; set; }
         public string tipo { get; set; }
         public int prelacion { get; set; }

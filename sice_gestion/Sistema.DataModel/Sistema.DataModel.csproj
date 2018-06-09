@@ -126,7 +126,13 @@
     <Compile Include="sice_configuracion_recuento.cs">
       <DependentUpon>DatacenterModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="sice_configuracion_rp.cs">
+      <DependentUpon>DatacenterModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="sice_distritos_locales.cs">
+      <DependentUpon>DatacenterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sice_estado_acta.cs">
       <DependentUpon>DatacenterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="sice_historico.cs">

@@ -108,9 +108,14 @@ namespace Sistema.RegistroActasLocal
                 int selectedSupuesto = 0;
                 int estatus_paquete = Convert.ToInt32(cmbEstatusPaquete.SelectedValue);
                 int condiciones_paquete = Convert.ToInt32(cmbEstadoPaquete.SelectedValue);
-                if (estatus_paquete == 1)
+                if (estatus_paquete == 1 )
                 {
                     estatus_acta = 7;
+                    selectedSupuesto = 0;
+                }
+                else if(estatus_paquete == 2)
+                {
+                    estatus_acta = 6;
                     selectedSupuesto = 0;
                 }
                 else
@@ -245,6 +250,11 @@ namespace Sistema.RegistroActasLocal
                 if (estatus_paquete == 1)
                 {
                     estatus_acta = 7;
+                    selectedSupuesto = 0;
+                }
+                else if (estatus_paquete == 2)
+                {
+                    estatus_acta = 6;
                     selectedSupuesto = 0;
                 }
                 else
@@ -486,7 +496,7 @@ namespace Sistema.RegistroActasLocal
                 cmbEstatusPaquete.DisplayMember = "estatus";
                 cmbEstatusPaquete.ValueMember = "id";
                 cmbEstatusPaquete.DataSource = regActas.ListaEstatusPaquete();
-                cmbEstatusPaquete.SelectedValue = 2;
+                cmbEstatusPaquete.SelectedValue = 4;
                 //cmbCasilla.SelectedIndex = 1;
 
                 cmbEstadoPaquete.DataSource = null;
@@ -878,7 +888,7 @@ namespace Sistema.RegistroActasLocal
             this.txtRepresentantes.Text = "0";
             this.txtVotosSacados.Text = "0";
 
-            this.cmbEstatusPaquete.SelectedValue = 2;
+            this.cmbEstatusPaquete.SelectedValue = 4;
             this.cmbEstadoPaquete.SelectedValue = 0;
             this.cmbSupuesto.SelectedValue = 0;
 
@@ -1103,7 +1113,7 @@ namespace Sistema.RegistroActasLocal
             try
             {
                 int? selected = Convert.ToInt32(cmbCasilla.SelectedValue);
-                this.cmbEstatusPaquete.SelectedValue = 2;
+                this.cmbEstatusPaquete.SelectedValue = 4;
                 this.cmbSupuesto.SelectedValue = 0;
                 this.cmbEstadoPaquete.SelectedValue = 0;
                 if (selected != null && selected != 0)
@@ -1252,7 +1262,7 @@ namespace Sistema.RegistroActasLocal
             try
             {
                 int sel = Convert.ToInt32(cmbEstatusPaquete.SelectedValue);
-                if(sel == 1)
+                if(sel == 1 || sel == 2)
                 {
                     cmbEstadoPaquete.Enabled = false;
                     cmbSupuesto.SelectedValue = 0;

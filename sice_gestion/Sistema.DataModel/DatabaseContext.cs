@@ -42,6 +42,8 @@ namespace Sistema.DataModel
         public DbSet<sice_ar_estado_paquete> sice_ar_estado_paquete { get; set; }
         public DbSet<sice_ar_votos_cotejo_rp> sice_ar_votos_cotejo_rp { get; set; }
         public DbSet<sice_votos_rp> sice_votos_rp { get; set; }
+        public DbSet<sice_estado_acta> sice_estado_acta { get; set; }
+        public DbSet<sice_configuracion_rp> sice_configuracion_rp { get; set; }
 
 
 

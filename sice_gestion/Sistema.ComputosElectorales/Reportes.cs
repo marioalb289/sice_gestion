@@ -23,6 +23,17 @@ namespace Sistema.ComputosElectorales
         private int totalPages = 0;
         private List<Candidatos> listaCandidatos;
         private System.ComponentModel.ComponentResourceManager resources;
+
+        private PictureBox[] pictureBoxes;
+        private TextBox[] textBoxes;
+        private Panel[] panels;
+        private Label[] labelsName;
+        private Panel[] panelRes;
+        private Label[] labelsRes;
+        private Label[] labelsPor;
+
+        private int TotalVotosDistrito = 0;
+
         public Reportes()
         {
             InitializeComponent();
@@ -77,14 +88,14 @@ namespace Sistema.ComputosElectorales
             }
         }
 
-        private void InicializarPaginador(int? distrito,int pageNumber = 1, int pageSize = 20)
+        private void InicializarPaginador(int? distrito, int pageNumber = 1, int pageSize = 20)
         {
             try
             {
                 CompElec = new ComputosElectoralesGenerales();
-                int totalCandidatos = CompElec.ListaCandidatos((int)distrito).Count+2;
-                totalPages = CompElec.ResultadosSeccion(0,0,(int)distrito).Count / totalCandidatos;
-                if(totalPages > 0)
+                int totalCandidatos = CompElec.ListaCandidatos((int)distrito).Count + 2;
+                totalPages = CompElec.ResultadosSeccion(0, 0, (int)distrito).Count / totalCandidatos;
+                if (totalPages > 0)
                 {
                     double res = (double)totalPages / (double)pageSize;
                     double flor = Math.Ceiling(res);
@@ -93,9 +104,9 @@ namespace Sistema.ComputosElectorales
                 int y = 0;
                 int pz = pageSize * totalCandidatos;
                 int pn = pz * (pageNumber - 1);
-                cargarResultados(distrito,pn, pz);
+                cargarResultados(distrito, pn, pz);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -107,27 +118,45 @@ namespace Sistema.ComputosElectorales
             {
                 CompElec = new ComputosElectoralesGenerales();
                 List<Candidatos> listaCandidatos = CompElec.ListaCandidatos(distrito);
-                var groupTotalNacional = listaCandidatos.GroupBy(x => x.partido_local).Select(grp => new {
-                    local = grp.Key,
-                    total = grp.Count(),
-                }).ToArray();
-                int TotalRepresentantes = 0;
-                foreach (var numInfo in groupTotalNacional)
+                int TotalRepresentantes = 1;
+                foreach (Candidatos cnd in listaCandidatos)
                 {
-                    if (numInfo.local == 1)
-                        TotalRepresentantes += numInfo.total;
-                    else if (numInfo.local == 0)
-                        TotalRepresentantes += numInfo.total * 2;
+                    if (cnd.tipo_partido != "COALICION")
+                    {
+                        if (cnd.coalicion != "")
+                        {
+                            TotalRepresentantes += CompElec.RepresentantesCComun(cnd.coalicion);
+                        }
+                        else
+                        {
+                            if (cnd.partido_local == 1)
+                                TotalRepresentantes += 1;
+                            else
+                                TotalRepresentantes += 2;
+                        }
+                    }
+
                 }
-                
+
                 List<VotosSeccion> vSeccionTotales = CompElec.ResultadosSeccion(0, 0, (int)distrito);
-                List<VotosSeccion> totalAgrupado = vSeccionTotales.GroupBy(x => x.id_casilla).Select(data => new VotosSeccion { id_candidato = data.First().id_candidato, casilla = data.First().casilla, lista_nominal = data.First().lista_nominal + TotalRepresentantes, votos = data.First().votos }).ToList();
-                
+                List<VotosSeccion> totalAgrupado = vSeccionTotales.GroupBy(x => x.id_casilla).
+                    Select(data => new VotosSeccion
+                    {
+                        id_candidato = data.First().id_candidato,
+                        id_estatus_acta = data.First().id_estatus_acta,
+                        seccion = data.First().seccion,
+                        casilla = data.First().casilla,
+                        lista_nominal = data.First().tipo == "S1" || data.First().tipo == "S1-RP" ? data.First().lista_nominal : data.First().lista_nominal + TotalRepresentantes,
+                        votos = data.First().votos
+                    }).ToList();
+
+                int totalSecciones = vSeccionTotales.GroupBy(x => x.seccion).Select(data => new VotosSeccion { seccion = data.First().seccion }).Count();
                 int LnominalDistrito = totalAgrupado.Sum(x => x.lista_nominal);
-                int TotalVotosDistrito = vSeccionTotales.Sum(x => (int)x.votos);
+                this.TotalVotosDistrito = vSeccionTotales.Where(x=> x.id_estatus_acta == 1).Sum(x => (int)x.votos);
+                int actasCapturadas = vSeccionTotales.Where(x => x.id_estatus_acta == 1 || x.id_estatus_acta == 2 || x.id_estatus_acta == 8).GroupBy(y => y.casilla).Count();
 
                 this.lblListaNominal.Text = String.Format(CultureInfo.InvariantCulture, "{0:#,#}", LnominalDistrito);
-                this.lblTotalVotos.Text = String.Format(CultureInfo.InvariantCulture, "{0:#,#}", TotalVotosDistrito);
+                this.lblTotalVotos.Text = TotalVotosDistrito > 0 ? String.Format(CultureInfo.InvariantCulture, "{0:#,#}", TotalVotosDistrito) : "0";
 
                 decimal PorcentajeParDistrito = 0;
                 if (TotalVotosDistrito > 0)
@@ -136,17 +165,39 @@ namespace Sistema.ComputosElectorales
                 }
                 this.lblParticipacion.Text = PorcentajeParDistrito + "%";
                 this.lblDistrito.Text = distrito.ToString();
-                this.lblActasCapturadas.Text = String.Format(CultureInfo.InvariantCulture, "{0:#,#}", vSeccionTotales.Where(x => x.estatus == "CAPTURADA").GroupBy(y => y.casilla).Count());
+                this.lblActasCapturadas.Text = actasCapturadas > 0 ? String.Format(CultureInfo.InvariantCulture, "{0:#,#}", actasCapturadas) : "0";
                 //var x = vSeccion.Select(x=> new VotosSeccion { id_candidato = x.id_candidato, votos = x.s })
 
-                List<VotosSeccion> listaSumaCandidatos = vSeccionTotales.Where(x => x.estatus == "CAPTURADA" && x.id_candidato != null).GroupBy(y => y.id_candidato).Select(data => new VotosSeccion { id_candidato = data.First().id_candidato, votos = data.Sum(d => d.votos) }).OrderBy(x => x.votos).ToList();
-                if (listaSumaCandidatos.Count > 0)
+                //List<VotosSeccion> listaSumaCandidatos = vSeccionTotales.Where(x => x.estatus == "CAPTURADA" && x.id_candidato != null).GroupBy(y => y.id_candidato).Select(data => new VotosSeccion { id_candidato = data.First().id_candidato, votos = data.Sum(d => d.votos) }).OrderBy(x => x.votos).ToList();
+                List<CandidatosResultados> lsCandidatos = CompElec.ListaResultadosCandidatos(distrito);
+                List<string> lsCoalicion = lsCandidatos.Where(x => x.coalicion != "" && x.coalicion != null).Select(data => data.coalicion).ToList();
+                string[] stringSeparators = new string[] { "," };
+                string[] result;
+                List<int> coaliciones = new List<int>();
+                foreach (string p in lsCoalicion)
                 {
-                    int PrimeroTotal = (int)listaSumaCandidatos[listaSumaCandidatos.Count - 1].votos;
-                    int SeegundoTotal = (int)listaSumaCandidatos[listaSumaCandidatos.Count - 2].votos;
+                    result = p.Split(stringSeparators, StringSplitOptions.None);
+                    foreach(string r in result)
+                    {
+                        coaliciones.Add(Convert.ToInt32(r));
+                    }
+                }
+                int yy = 0;
+                yy = coaliciones.Find(x => x == 2);
+                lsCandidatos = lsCandidatos.Select(data => new CandidatosResultados {
+                    id_candidato = data.id_candidato,
+                    partido = data.partido,
+                    candidato = data.candidato,
+                    votos = data.votos,
+                    tipo = data.tipo
+                }).Where(x=> x.tipo == "VOTO").OrderByDescending(x=> x.votos).ToList();
+                if (lsCandidatos.Count > 0)
+                {
+                    int PrimeroTotal = (int)lsCandidatos[0].votos;
+                    int SeegundoTotal = (int)lsCandidatos[1].votos;
                     int diferenciaTotal = PrimeroTotal - SeegundoTotal;
                     decimal diferenciaPorcentajeTotal = 0;
-                    if (TotalVotosDistrito > 0)
+                    if (TotalVotosDistrito > 0 && diferenciaTotal > 0 )
                     {
                         diferenciaPorcentajeTotal = Math.Round((Convert.ToDecimal(diferenciaTotal) * 100) / TotalVotosDistrito, 2);
                     }
@@ -157,7 +208,7 @@ namespace Sistema.ComputosElectorales
                     this.lblDiferencia.Text = 0 + "%";
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -168,11 +219,12 @@ namespace Sistema.ComputosElectorales
             try
             {
                 CompElec = new ComputosElectoralesGenerales();
-                List<VotosSeccion> vSeccion = CompElec.ResultadosSeccion(pageNumber, pageSize,(int)distrito);                
+                List<VotosSeccion> vSeccion = CompElec.ResultadosSeccion(pageNumber, pageSize, (int)distrito);
                 List<Candidatos> candidatos = CompElec.ListaCandidatos((int)distrito);
                 dgvResultados.Columns.Clear();
                 dgvResultados.DataSource = null;
                 dgvResultados.ColumnHeadersHeight = 85;  // or maybe a little more..
+
 
                 //Agregar encabezados
 
@@ -275,7 +327,7 @@ namespace Sistema.ComputosElectorales
                 int fila = 0;
                 int idCasillaActual = 0;
                 int cont = 1;
-                int contCand = 5 ;
+                int contCand = 5;
                 DataGridViewRow row = (DataGridViewRow)dgvResultados.Rows[fila].Clone();
                 //row.Cells[0].Value = 1;
                 //dgvResultados.Rows.Add(row);
@@ -286,19 +338,26 @@ namespace Sistema.ComputosElectorales
                 this.listaCandidatos = CompElec.ListaCandidatos((int)distrito);
                 //int tempC = listaCandidatos.Count;
 
-                var groupTotalNacional = listaCandidatos.GroupBy(x => x.partido_local).Select(grp => new {
-                    local = grp.Key,
-                    total = grp.Count(),
-                }).ToArray();
-                int TotalRepresentantes = 0;
-                foreach (var numInfo in groupTotalNacional)
+                int TotalRepresentantes = 1;
+                foreach (Candidatos cnd in listaCandidatos)
                 {
-                    if (numInfo.local == 1)
-                        TotalRepresentantes += numInfo.total;
-                    else if (numInfo.local == 0)
-                        TotalRepresentantes += numInfo.total * 2;
-                }
+                    if (cnd.tipo_partido != "COALICION")
+                    {
+                        if (cnd.coalicion != "")
+                        {
+                            TotalRepresentantes += CompElec.RepresentantesCComun(cnd.coalicion);
+                        }
+                        else
+                        {
+                            if (cnd.partido_local == 1)
+                                TotalRepresentantes += 1;
+                            else
+                                TotalRepresentantes += 2;
+                        }
+                    }
 
+                }
+                int votos = 0;
                 foreach (VotosSeccion v in vSeccion)
                 {
                     //idCasillaActual = (int)v.id_casilla;
@@ -313,10 +372,11 @@ namespace Sistema.ComputosElectorales
                             row.Cells[0].Value = v.id_casilla;
                             row.Cells[1].Value = v.seccion;
                             row.Cells[2].Value = v.casilla;
-                            row.Cells[3].Value = (v.estatus != null) ? v.estatus : "NO CAPTURADA";
+                            row.Cells[3].Value = (v.estatus_acta != null) ? v.estatus_acta : "NO CAPTURADA";
 
-                            row.Cells[contCand].Value = v.votos;
-                            vLst.Add((int)v.votos);
+                            votos = v.estatus != "CAPTURADA" ? 0 : (int)v.votos;
+                            row.Cells[contCand].Value = votos;
+                            vLst.Add(votos);
                             contCand++;
                         }
 
@@ -332,7 +392,7 @@ namespace Sistema.ComputosElectorales
                             diferencia = Math.Round((Convert.ToDecimal(diferenciaTotal) * 100) / totalVotacionEmitida, 2);
                         }
                         row.Cells[4].Value = diferencia + "%";
-                         
+
                         //Votacion Emitida
                         row.Cells[contCand].Value = totalVotacionEmitida;
 
@@ -359,14 +419,15 @@ namespace Sistema.ComputosElectorales
                     row.Cells[0].Value = v.id_casilla;
                     row.Cells[1].Value = v.seccion;
                     row.Cells[2].Value = v.casilla;
-                    row.Cells[3].Value = (v.estatus != null ) ? v.estatus: "NO CAPTURADA";
-                    Lnominal = v.lista_nominal + TotalRepresentantes; 
+                    row.Cells[3].Value = (v.estatus_acta != null) ? v.estatus_acta : "NO CAPTURADA";
+                    Lnominal = v.casilla == "S1" ? Configuracion.BoletasEspecial : v.lista_nominal + TotalRepresentantes;
 
-                    row.Cells[contCand].Value = v.votos;
+                    votos = v.estatus != "CAPTURADA" ? 0 : (int)v.votos;
+                    row.Cells[contCand].Value =votos;
                     if (v.tipo == "VOTO")
-                        vLst.Add((int)v.votos);
+                        vLst.Add(votos);
                     else
-                        Noregynulo += (int)v.votos;
+                        Noregynulo += (int)votos;
 
                     idCasillaActual = (int)v.id_casilla;
                     cont++;
@@ -386,6 +447,7 @@ namespace Sistema.ComputosElectorales
                 }
                 dgvResultados.ScrollBars = ScrollBars.Both;
 
+                this.cargarCandidatos((int)distrito);
 
 
             }
@@ -393,8 +455,155 @@ namespace Sistema.ComputosElectorales
             {
                 throw ex;
             }
-        }        
+        }
 
+        private void cargarCandidatos(int distrito)
+        {
+            try
+            {
+                this.tablePanelPartidos.Visible = false;
+                this.tablePanelPartidos.Controls.Clear();
+                this.tablePanelPartidos.RowStyles.Clear();
+                this.tablePanelPartidos.ColumnStyles.Clear();
+                this.tablePanelPartidos.RowCount = 0;
+                this.tablePanelPartidos.ColumnCount = 0;
+                this.tablePanelPartidos.SuspendLayout();
+
+                CompElec = new ComputosElectoralesGenerales();
+                List<CandidatosResultados> lsCandidatos = CompElec.ListaResultadosCandidatos(distrito,true);
+                if(lsCandidatos.Count == 0)
+                    lsCandidatos = CompElec.ListaResultadosCandidatos(distrito);
+                int totalCandidatos = lsCandidatos.Count();
+                if (lsCandidatos != null)
+                {
+                    
+                    totalCandidatos = lsCandidatos.Count();
+
+
+                    this.pictureBoxes = new PictureBox[lsCandidatos.Count];
+                    this.textBoxes = new TextBox[lsCandidatos.Count];
+                    this.panels = new Panel[lsCandidatos.Count];
+                    this.labelsName = new Label[lsCandidatos.Count];
+
+                    this.panelRes = new Panel[lsCandidatos.Count];
+                    this.labelsPor = new Label[lsCandidatos.Count];
+                    this.labelsRes = new Label[lsCandidatos.Count];
+
+                    this.tablePanelPartidos.RowCount = 1;
+
+                    //Agregar Columnas
+                    this.tablePanelPartidos.AutoScroll = true;
+                    this.tablePanelPartidos.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+                    this.tablePanelPartidos.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.InsetDouble;
+                    this.tablePanelPartidos.ColumnCount = totalCandidatos;
+                    decimal anchoColumnas = Math.Round(100 / (Convert.ToDecimal(totalCandidatos)), 6);
+                    for (int i = 0; i < totalCandidatos; i++)
+                    {
+                        this.tablePanelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, (float)anchoColumnas));
+                        //this.tablePanelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.692307F));
+                    }
+
+                    System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Properties.Resources));
+                    //Agregar Imagen, Etiqueta, TextBox por fila
+                    for (int i = 0; i < lsCandidatos.Count; i++)
+                    {
+
+                        pictureBoxes[i] = new PictureBox();
+                        textBoxes[i] = new TextBox();
+                        labelsName[i] = new Label();
+                        panels[i] = new Panel();
+
+                        panelRes[i] = new Panel();
+                        labelsPor[i] = new Label();
+                        labelsRes[i] = new Label();
+
+                        //Imagen
+                        pictureBoxes[i].Anchor = System.Windows.Forms.AnchorStyles.None;
+                        pictureBoxes[i].Image = lsCandidatos[i].tipo == "NO REGISTRADO" ? (System.Drawing.Image)(Properties.Resources.no_regis) : lsCandidatos[i].tipo == "NULO" ? (System.Drawing.Image)(Properties.Resources.nulos1) : ((System.Drawing.Image)(resources.GetObject(lsCandidatos[i].imagen)));
+                        pictureBoxes[i].Location = new System.Drawing.Point(125, 8);
+                        pictureBoxes[i].Margin = new System.Windows.Forms.Padding(10, 5, 10, 5);
+                        pictureBoxes[i].Name = "pictureBox" + i;
+                        pictureBoxes[i].Size = new System.Drawing.Size(49, 70);
+                        pictureBoxes[i].SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+                        pictureBoxes[i].TabIndex = 20 + i;
+                        pictureBoxes[i].TabStop = false;
+
+                        //Etiqueta
+                        labelsName[i].Dock = System.Windows.Forms.DockStyle.Fill;
+                        labelsName[i].Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                        labelsName[i].Location = new System.Drawing.Point(910, 86);
+                        labelsName[i].Name = "labelNameCandidato" + i;
+                        labelsName[i].Size = new System.Drawing.Size(68, 65);
+                        labelsName[i].TabIndex = 51;
+                        labelsName[i].Text = lsCandidatos[i].tipo == "NO REGISTRADO" ? "Candidato No Registrado" : lsCandidatos[i].tipo == "NULO" ? "Votos Nulos" : lsCandidatos[i].candidato;
+                        labelsName[i].TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+
+                        // 
+                        // labelRes
+                        // 
+                        labelsRes[i].Dock = System.Windows.Forms.DockStyle.Top;
+                        labelsRes[i].Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                        labelsRes[i].Location = new System.Drawing.Point(0, 0);
+                        labelsRes[i].Name = "label1";
+                        labelsRes[i].Size = new System.Drawing.Size(150, 26);
+                        labelsRes[i].TabIndex = 0;
+                        labelsRes[i].Text = lsCandidatos[i].votos > 0 ? String.Format(CultureInfo.InvariantCulture, "{0:#,#}", lsCandidatos[i].votos) : "0";
+                        labelsRes[i].TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+                        // 
+                        // labelPor
+                        // 
+                        decimal porcentaje = 0;
+                        if (this.TotalVotosDistrito > 0 && lsCandidatos[i].votos > 0)
+                        {
+                            porcentaje = Math.Round((Convert.ToDecimal(lsCandidatos[i].votos) * 100) / Convert.ToDecimal(TotalVotosDistrito), 2);
+                        }
+
+
+                        labelsPor[i].Dock = System.Windows.Forms.DockStyle.Top;
+                        labelsPor[i].Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                        labelsPor[i].Location = new System.Drawing.Point(0, 26);
+                        labelsPor[i].Name = "label2";
+                        labelsPor[i].Size = new System.Drawing.Size(150, 30);
+                        labelsPor[i].TabIndex = 1;
+                        labelsPor[i].Text = porcentaje.ToString() + "%";
+                        labelsPor[i].TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+
+                        panelRes[i].Controls.Add(labelsPor[i]);
+                        panelRes[i].Controls.Add(labelsRes[i]);
+                        panelRes[i].Dock = System.Windows.Forms.DockStyle.Fill;
+                        panelRes[i].Location = new System.Drawing.Point(3, 64);
+                        panelRes[i].Name = "panelRes" + i;
+                        panelRes[i].Size = new System.Drawing.Size(150, 56);
+                        panelRes[i].TabIndex = 0;
+
+                        //Agregar Imagen
+                        this.tablePanelPartidos.Controls.Add(pictureBoxes[i], i, 0);
+                        //Agregar Etiqueta
+                        this.tablePanelPartidos.Controls.Add(labelsName[i], i, 1);
+                        //Agregar Textbox
+                        this.tablePanelPartidos.Controls.Add(panelRes[i], i, 2);
+
+
+                    }
+
+                    //Agregar Filas
+                    this.tablePanelPartidos.RowCount = 3;
+                    this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+                    this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle());
+                    this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+                    //this.tablePanelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.692307F));
+                    //this.tblPanaelPartidos.RowStyles.Add(new RowStyle(SizeType.Absolute, 70F));
+                    this.tablePanelPartidos.ResumeLayout(false);
+                    this.tablePanelPartidos.Visible = true;
+                    //textBoxes[0].Focus();
+                    //ShowScrollBar(this.tableLayoutPanel2.Handle, SB_HORZ, false);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         private void bloquearControles()
         {
             this.btnAnterior.Enabled = false;
@@ -438,6 +647,7 @@ namespace Sistema.ComputosElectorales
 
         private void button1_Click(object sender, EventArgs e)
         {
+            this.panel2.Visible = false;
             this.Close();
         }
 
@@ -445,6 +655,7 @@ namespace Sistema.ComputosElectorales
         {
             try
             {
+                this.TotalVotosDistrito = 0;
                 this.pageNumber = 1;
                 int? selected = Convert.ToInt32(cmbDistrito.SelectedValue);
                 if (selected > 0 && selected != null)
@@ -452,7 +663,7 @@ namespace Sistema.ComputosElectorales
                     this.cargarResultadosTotales((int)selected);
                     this.BuscarDistritos((int)selected);
                     this.InicializarPaginador(selected);
-                    if(this.totalPages > 0)
+                    if (this.totalPages > 0)
                     {
                         btnPrimero.Enabled = !this.IsFirstPage();
                         btnUltimo.Enabled = !this.IsLastPage();
@@ -465,9 +676,9 @@ namespace Sistema.ComputosElectorales
                     {
                         bloquearControles();
                     }
-                    
+
                 }
-                    
+
             }
             catch (Exception ex)
             {
@@ -577,9 +788,9 @@ namespace Sistema.ComputosElectorales
                     btnGenerarExcel.Enabled = false;
                     ((MDIMainComputosElectorales)this.MdiParent).GenerarExcel((int)selected, false);
                 }
-                
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
                 msgBox.ShowDialog(this);
@@ -730,12 +941,12 @@ namespace Sistema.ComputosElectorales
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
                 msgBox.ShowDialog(this);
             }
-            
+
 
         }
 
@@ -744,8 +955,8 @@ namespace Sistema.ComputosElectorales
             try
             {
                 btnExcelRecuento.Enabled = false;
-                ((MDIMainComputosElectorales)this.MdiParent).GenerarExcel(0, true,"RECUENTO");
-                
+                ((MDIMainComputosElectorales)this.MdiParent).GenerarExcel(0, true, "RECUENTO");
+
 
             }
             catch (Exception ex)

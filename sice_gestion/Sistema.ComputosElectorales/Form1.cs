@@ -628,6 +628,7 @@ namespace Sistema.ComputosElectorales
 
         private void button1_Click(object sender, EventArgs e)
         {
+            this.panel2.Visible = false;
             this.Close();
         }
 
