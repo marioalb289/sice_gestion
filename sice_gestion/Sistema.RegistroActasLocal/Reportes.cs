@@ -62,18 +62,18 @@ namespace Sistema.RegistroActasLocal
             
         }
 
-        private void ValidarRecuento()
-        {
-            try
-            {
-                RegistroLocalGenerales reg = new RegistroLocalGenerales();
-                reg.validarPuntosRecuento();
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //private void ValidarRecuento()
+        //{
+        //    try
+        //    {
+        //        RegistroLocalGenerales reg = new RegistroLocalGenerales();
+        //        reg.validarPuntosRecuento();
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
 
         private void cargarComboDistrito()
         {

@@ -31,11 +31,11 @@ namespace Sistema.Generales
             }
         }
 
-        public sice_configuracion_recuento Configuracion_Recuento(string sistema)
+        public sice_configuracion_recuento Configuracion_Recuento(string sistema, int id_distrito)
         {
             using (DatabaseContext contexto = new DatabaseContext(con))
             {
-                return (from p in contexto.sice_configuracion_recuento where p.sistema == sistema select p).FirstOrDefault();
+                return (from p in contexto.sice_configuracion_recuento where p.sistema == sistema && p.id_distrito == id_distrito select p).FirstOrDefault();
             }
         }
         public List<sice_partidos_politicos> ListaPartidosPoliticos()
@@ -970,7 +970,7 @@ namespace Sistema.Generales
             }
         }
 
-        public int GuardarConfiguracionRecuento(double horas,int propietarios,int suplentes)
+        public int GuardarConfiguracionRecuento(double horas, int id_distrito, int grupos_trabajo, int puntos_recuento)
         {
             try
             {
@@ -980,12 +980,14 @@ namespace Sistema.Generales
                     {
                         int res = 0;
 
-                        sice_configuracion_recuento conf = (from c in contexto.sice_configuracion_recuento where c.sistema == "RA" select c).FirstOrDefault();
-                        if(conf != null)
+                        sice_configuracion_recuento conf = (from c in contexto.sice_configuracion_recuento where c.sistema == "SICE" select c).FirstOrDefault();
+                        if (conf != null)
                         {
-                            conf.no_consejeros = propietarios;
-                            conf.no_suplentes = suplentes;
-                            conf.horas_disponibles = Convert.ToSingle(horas);
+                            conf.grupos_trabajo = grupos_trabajo;
+                            conf.horas_disponibles = horas;
+                            conf.id_distrito = id_distrito;
+                            conf.puntos_recuento = puntos_recuento;
+                            conf.sistema = "RA";
                             contexto.SaveChanges();
                             res = 1;
                         }
@@ -993,14 +995,15 @@ namespace Sistema.Generales
                         {
                             sice_configuracion_recuento newConf = new sice_configuracion_recuento();
                             newConf.sistema = "RA";
-                            newConf.no_consejeros = propietarios;
-                            newConf.no_suplentes = suplentes;
-                            newConf.horas_disponibles = Convert.ToSingle(horas);
+                            newConf.grupos_trabajo = grupos_trabajo;
+                            newConf.horas_disponibles = horas;
+                            newConf.id_distrito = id_distrito;
+                            newConf.puntos_recuento = puntos_recuento;
                             contexto.sice_configuracion_recuento.Add(newConf);
                             contexto.SaveChanges();
                             res = 1;
                         }
-                        
+
                         TransactionContexto.Complete();
                         return res;
                     }
@@ -1142,37 +1145,37 @@ namespace Sistema.Generales
             }
         }
 
-        public void validarPuntosRecuento()
-        {
-            try
-            {
-                List<sice_distritos_locales> distritos = this.ListaDistritos();
-                int totalRecuento = this.ListaCasillasRecuentos(0, true).Count();
-                sice_configuracion_recuento conf = this.Configuracion_Recuento("RA");
-                if (conf == null)
-                    throw new Exception("No se establecio la Configuración para Puntos de Recuento");
-                int propietarios = (int)conf.no_consejeros;
-                int suplentes = (int)conf.no_suplentes;
-                int grupos_tabajo = (propietarios - 3) + suplentes;
-                if (grupos_tabajo > 5)
-                    grupos_tabajo = 5;
-                int segmentos = Convert.ToInt32(conf.horas_disponibles * 2);
+        //public void validarPuntosRecuento()
+        //{
+        //    try
+        //    {
+        //        List<sice_distritos_locales> distritos = this.ListaDistritos();
+        //        int totalRecuento = this.ListaCasillasRecuentos(0, true).Count();
+        //        sice_configuracion_recuento conf = this.Configuracion_Recuento("RA");
+        //        if (conf == null)
+        //            throw new Exception("No se establecio la Configuración para Puntos de Recuento");
+        //        int propietarios = (int)conf.no_consejeros;
+        //        int suplentes = (int)conf.no_suplentes;
+        //        int grupos_tabajo = (propietarios - 3) + suplentes;
+        //        if (grupos_tabajo > 5)
+        //            grupos_tabajo = 5;
+        //        int segmentos = Convert.ToInt32(conf.horas_disponibles * 2);
 
-                double parcialPuntoRecuento = (((double)totalRecuento / (double)grupos_tabajo) / (double)segmentos);
-                int puntos_recuento = this.Round(parcialPuntoRecuento);
+        //        double parcialPuntoRecuento = (((double)totalRecuento / (double)grupos_tabajo) / (double)segmentos);
+        //        int puntos_recuento = this.Round(parcialPuntoRecuento);
 
 
-                if (puntos_recuento > 8)
-                {
-                    throw new Exception("La Configuración Actual arroja mas de 8 puntos de Recuento. No se puede tener mas de 8 puntos de Recuento.\nModifique la configuración para Recuento");
-                }
+        //        if (puntos_recuento > 8)
+        //        {
+        //            throw new Exception("La Configuración Actual arroja mas de 8 puntos de Recuento. No se puede tener mas de 8 puntos de Recuento.\nModifique la configuración para Recuento");
+        //        }
 
-            }
-            catch(Exception E)
-            {
-                throw E;
-            }
-        }
+        //    }
+        //    catch(Exception E)
+        //    {
+        //        throw E;
+        //    }
+        //}
 
         public int Round(double numero)
         {
@@ -1731,54 +1734,54 @@ namespace Sistema.Generales
                     List<sice_distritos_locales> distritos = this.ListaDistritos();
                     List<CasillasRecuento> casillasRecuento = this.ListaCasillasRecuentos(distrito, true);
                     int totalRecuento = casillasRecuento.Count();
-                    sice_configuracion_recuento conf = this.Configuracion_Recuento("RA");
+                    sice_configuracion_recuento conf = this.Configuracion_Recuento("RA",0);
                     int grupos_tabajo = 0;
                     int puntos_recuento = 0;
-                    if (conf != null && totalRecuento > 20)
-                    {
-                        int propietarios = (int)conf.no_consejeros;
-                        int suplentes = (int)conf.no_suplentes;
-                        grupos_tabajo = (propietarios - 3) + suplentes;
-                        if (grupos_tabajo > 5)
-                            grupos_tabajo = 5;
+                    //if (conf != null && totalRecuento > 20)
+                    //{
+                    //    int propietarios = (int)conf.no_consejeros;
+                    //    int suplentes = (int)conf.no_suplentes;
+                    //    grupos_tabajo = (propietarios - 3) + suplentes;
+                    //    if (grupos_tabajo > 5)
+                    //        grupos_tabajo = 5;
 
-                        //DateTime fecha1 = new DateTime(2018, 7, 8, 8, 0, 0);
-                        //DateTime fecha2 = new DateTime(2018, 7, 11, 0, 0, 0);
-                        //double horasRestantes = Math.Floor((fecha2 - fecha1).TotalHours);
+                    //    //DateTime fecha1 = new DateTime(2018, 7, 8, 8, 0, 0);
+                    //    //DateTime fecha2 = new DateTime(2018, 7, 11, 0, 0, 0);
+                    //    //double horasRestantes = Math.Floor((fecha2 - fecha1).TotalHours);
 
-                        //int segmentos = (Convert.ToInt32(horasRestantes) - Convert.ToInt32(conf.horas_disponibles)) * 2;
-                        int segmentos = Convert.ToInt32(conf.horas_disponibles) * 2;
+                    //    //int segmentos = (Convert.ToInt32(horasRestantes) - Convert.ToInt32(conf.horas_disponibles)) * 2;
+                    //    int segmentos = Convert.ToInt32(conf.horas_disponibles) * 2;
 
-                        double parcialPuntoRecuento = (((double)totalRecuento / (double)grupos_tabajo) / (double)segmentos);
-                        puntos_recuento = this.Round(parcialPuntoRecuento);
+                    //    double parcialPuntoRecuento = (((double)totalRecuento / (double)grupos_tabajo) / (double)segmentos);
+                    //    puntos_recuento = this.Round(parcialPuntoRecuento);
 
-                        decimal cGt = Math.Round(Convert.ToDecimal(casillasRecuento.Count) / Convert.ToDecimal(grupos_tabajo), 0);
-                        int limitador_parcial = Convert.ToInt32(cGt);
-                        int limitador_total = limitador_parcial * (grupos_tabajo - 1);
-                        int contador_principal = 1;
-                        int contador_casilla = 1;
-                        int contador_grupo = 1;
-                        foreach (CasillasRecuento casilla in casillasRecuento)
-                        {
-                            int grupo_asignado = contador_grupo;
-                            casillasRecuento[contador_principal - 1].grupo_trabajo = grupo_asignado;
-                            contador_casilla++;
-                            contador_principal++;
-                            if (contador_casilla > limitador_parcial)
-                            {
-                                if (contador_principal <= limitador_total)
-                                {
-                                    contador_casilla = 1;
-                                    contador_grupo++;
-                                }
-                                else
-                                {
-                                    contador_casilla = 1;
-                                    contador_grupo = grupos_tabajo;
-                                }
-                            }
-                        }
-                    }
+                    //    decimal cGt = Math.Round(Convert.ToDecimal(casillasRecuento.Count) / Convert.ToDecimal(grupos_tabajo), 0);
+                    //    int limitador_parcial = Convert.ToInt32(cGt);
+                    //    int limitador_total = limitador_parcial * (grupos_tabajo - 1);
+                    //    int contador_principal = 1;
+                    //    int contador_casilla = 1;
+                    //    int contador_grupo = 1;
+                    //    foreach (CasillasRecuento casilla in casillasRecuento)
+                    //    {
+                    //        int grupo_asignado = contador_grupo;
+                    //        casillasRecuento[contador_principal - 1].grupo_trabajo = grupo_asignado;
+                    //        contador_casilla++;
+                    //        contador_principal++;
+                    //        if (contador_casilla > limitador_parcial)
+                    //        {
+                    //            if (contador_principal <= limitador_total)
+                    //            {
+                    //                contador_casilla = 1;
+                    //                contador_grupo++;
+                    //            }
+                    //            else
+                    //            {
+                    //                contador_casilla = 1;
+                    //                contador_grupo = grupos_tabajo;
+                    //            }
+                    //        }
+                    //    }
+                    //}
 
                     foreach (sice_distritos_locales ds in distritos.OrderByDescending(x => x.id))
                     {

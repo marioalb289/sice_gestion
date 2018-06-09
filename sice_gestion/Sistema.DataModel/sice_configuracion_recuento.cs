@@ -16,8 +16,9 @@ namespace Sistema.DataModel
     {
         public int id { get; set; }
         public string sistema { get; set; }
-        public Nullable<int> no_consejeros { get; set; }
-        public Nullable<int> no_suplentes { get; set; }
-        public Nullable<float> horas_disponibles { get; set; }
+        public Nullable<int> id_distrito { get; set; }
+        public Nullable<int> grupos_trabajo { get; set; }
+        public Nullable<int> puntos_recuento { get; set; }
+        public Nullable<double> horas_disponibles { get; set; }
     }
 }

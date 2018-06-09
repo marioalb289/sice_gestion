@@ -1043,7 +1043,7 @@ namespace Sistema.Generales
             }
         }
 
-        public int GuardarConfiguracionRecuento(double horas, int propietarios, int suplentes)
+        public int GuardarConfiguracionRecuento(double horas, int id_distrito, int grupos_trabajo, int puntos_recuento)
         {
             try
             {
@@ -1056,9 +1056,11 @@ namespace Sistema.Generales
                         sice_configuracion_recuento conf = (from c in contexto.sice_configuracion_recuento where c.sistema == "SICE" select c).FirstOrDefault();
                         if (conf != null)
                         {
-                            conf.no_consejeros = propietarios;
-                            conf.no_suplentes = suplentes;
-                            conf.horas_disponibles = Convert.ToSingle(horas);
+                            conf.grupos_trabajo = grupos_trabajo;
+                            conf.horas_disponibles = horas;
+                            conf.id_distrito = id_distrito;
+                            conf.puntos_recuento = puntos_recuento;
+                            conf.sistema = "SICE";
                             contexto.SaveChanges();
                             res = 1;
                         }
@@ -1066,9 +1068,10 @@ namespace Sistema.Generales
                         {
                             sice_configuracion_recuento newConf = new sice_configuracion_recuento();
                             newConf.sistema = "SICE";
-                            newConf.no_consejeros = propietarios;
-                            newConf.no_suplentes = suplentes;
-                            newConf.horas_disponibles = Convert.ToSingle(horas);
+                            newConf.grupos_trabajo = grupos_trabajo;
+                            newConf.horas_disponibles = horas;
+                            newConf.id_distrito = id_distrito;
+                            newConf.puntos_recuento = puntos_recuento;
                             contexto.sice_configuracion_recuento.Add(newConf);
                             contexto.SaveChanges();
                             res = 1;
@@ -1710,24 +1713,24 @@ namespace Sistema.Generales
                     sice_configuracion_recuento conf = this.Configuracion_Recuento("SICE");
                     int grupos_tabajo = 0;
                     int puntos_recuento = 0;
-                    if (conf != null && totalRecuento > 20)
-                    {
-                        int propietarios = (int)conf.no_consejeros;
-                        int suplentes = (int)conf.no_suplentes;
-                        grupos_tabajo = (propietarios - 3) + suplentes;
-                        if (grupos_tabajo > 5)
-                            grupos_tabajo = 5;
+                    //if (conf != null && totalRecuento > 20)
+                    //{
+                    //    int propietarios = (int)conf.no_consejeros;
+                    //    int suplentes = (int)conf.no_suplentes;
+                    //    grupos_tabajo = (propietarios - 3) + suplentes;
+                    //    if (grupos_tabajo > 5)
+                    //        grupos_tabajo = 5;
 
-                        //DateTime fecha1 = new DateTime(2018, 7, 8, 8, 0, 0);
-                        //DateTime fecha2 = new DateTime(2018, 7, 11, 0, 0, 0);
-                        //double horasRestantes = Math.Floor((fecha2 - fecha1).TotalHours);
+                    //    //DateTime fecha1 = new DateTime(2018, 7, 8, 8, 0, 0);
+                    //    //DateTime fecha2 = new DateTime(2018, 7, 11, 0, 0, 0);
+                    //    //double horasRestantes = Math.Floor((fecha2 - fecha1).TotalHours);
 
-                        //int segmentos = (Convert.ToInt32(horasRestantes) - Convert.ToInt32(conf.horas_disponibles)) * 2;
-                        int segmentos = Convert.ToInt32(conf.horas_disponibles) * 2;
+                    //    //int segmentos = (Convert.ToInt32(horasRestantes) - Convert.ToInt32(conf.horas_disponibles)) * 2;
+                    //    int segmentos = Convert.ToInt32(conf.horas_disponibles) * 2;
 
-                        double parcialPuntoRecuento = (((double)totalRecuento / (double)grupos_tabajo) / (double)segmentos);
-                        puntos_recuento = this.Round(parcialPuntoRecuento);
-                    }
+                    //    double parcialPuntoRecuento = (((double)totalRecuento / (double)grupos_tabajo) / (double)segmentos);
+                    //    puntos_recuento = this.Round(parcialPuntoRecuento);
+                    //}
 
 
 

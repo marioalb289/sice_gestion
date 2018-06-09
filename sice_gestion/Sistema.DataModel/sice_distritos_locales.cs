@@ -16,5 +16,6 @@ namespace Sistema.DataModel
     {
         public int id { get; set; }
         public string distrito { get; set; }
+        public string romano { get; set; }
     }
 }

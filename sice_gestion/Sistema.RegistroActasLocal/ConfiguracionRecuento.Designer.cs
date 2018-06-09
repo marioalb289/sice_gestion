@@ -34,11 +34,11 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.tblPanelBoletas = new System.Windows.Forms.TableLayoutPanel();
+            this.cmbDistritos = new System.Windows.Forms.ComboBox();
             this.txtHoras = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
-            this.txtSuplentes = new System.Windows.Forms.TextBox();
+            this.txtGrupos = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
-            this.txtPropietarios = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.panel5 = new System.Windows.Forms.Panel();
@@ -50,6 +50,7 @@
             this.label26 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label25 = new System.Windows.Forms.Label();
             this.lblPr = new System.Windows.Forms.Label();
             this.label34 = new System.Windows.Forms.Label();
             this.label33 = new System.Windows.Forms.Label();
@@ -78,8 +79,6 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label29 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
-            this.lblGruposFormula = new System.Windows.Forms.Label();
-            this.label25 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
@@ -176,32 +175,45 @@
             this.tblPanelBoletas.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.33133F));
             this.tblPanelBoletas.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.002F));
             this.tblPanelBoletas.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.33133F));
+            this.tblPanelBoletas.Controls.Add(this.cmbDistritos, 1, 0);
             this.tblPanelBoletas.Controls.Add(this.txtHoras, 5, 0);
             this.tblPanelBoletas.Controls.Add(this.label13, 4, 0);
-            this.tblPanelBoletas.Controls.Add(this.txtSuplentes, 3, 0);
+            this.tblPanelBoletas.Controls.Add(this.txtGrupos, 3, 0);
             this.tblPanelBoletas.Controls.Add(this.label12, 2, 0);
-            this.tblPanelBoletas.Controls.Add(this.txtPropietarios, 1, 0);
             this.tblPanelBoletas.Controls.Add(this.label11, 0, 0);
             this.tblPanelBoletas.Dock = System.Windows.Forms.DockStyle.Top;
             this.tblPanelBoletas.Location = new System.Drawing.Point(0, 51);
             this.tblPanelBoletas.Name = "tblPanelBoletas";
             this.tblPanelBoletas.Padding = new System.Windows.Forms.Padding(70, 10, 70, 10);
             this.tblPanelBoletas.RowCount = 1;
-            this.tblPanelBoletas.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 76F));
-            this.tblPanelBoletas.Size = new System.Drawing.Size(863, 99);
+            this.tblPanelBoletas.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.tblPanelBoletas.Size = new System.Drawing.Size(863, 86);
             this.tblPanelBoletas.TabIndex = 21;
+            // 
+            // cmbDistritos
+            // 
+            this.cmbDistritos.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbDistritos.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbDistritos.FormattingEnabled = true;
+            this.cmbDistritos.Location = new System.Drawing.Point(236, 28);
+            this.cmbDistritos.Margin = new System.Windows.Forms.Padding(20, 15, 20, 5);
+            this.cmbDistritos.Name = "cmbDistritos";
+            this.cmbDistritos.Size = new System.Drawing.Size(51, 28);
+            this.cmbDistritos.TabIndex = 18;
+            this.cmbDistritos.TabStop = false;
+            this.cmbDistritos.SelectedValueChanged += new System.EventHandler(this.cmbDistritos_SelectedValueChanged);
             // 
             // txtHoras
             // 
             this.txtHoras.Dock = System.Windows.Forms.DockStyle.Top;
             this.txtHoras.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtHoras.Location = new System.Drawing.Point(714, 38);
-            this.txtHoras.Margin = new System.Windows.Forms.Padding(20, 25, 20, 5);
+            this.txtHoras.Location = new System.Drawing.Point(714, 28);
+            this.txtHoras.Margin = new System.Windows.Forms.Padding(20, 15, 20, 5);
             this.txtHoras.MaxLength = 2;
             this.txtHoras.Name = "txtHoras";
             this.txtHoras.Size = new System.Drawing.Size(56, 29);
             this.txtHoras.TabIndex = 3;
-            this.txtHoras.Text = "0";
+            this.txtHoras.Text = "1";
             this.txtHoras.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label13
@@ -213,23 +225,23 @@
             this.label13.Location = new System.Drawing.Point(554, 13);
             this.label13.Name = "label13";
             this.label13.Padding = new System.Windows.Forms.Padding(10);
-            this.label13.Size = new System.Drawing.Size(134, 76);
+            this.label13.Size = new System.Drawing.Size(134, 60);
             this.label13.TabIndex = 17;
             this.label13.Text = "Horas Disponibles";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // txtSuplentes
+            // txtGrupos
             // 
-            this.txtSuplentes.Dock = System.Windows.Forms.DockStyle.Top;
-            this.txtSuplentes.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSuplentes.Location = new System.Drawing.Point(475, 38);
-            this.txtSuplentes.Margin = new System.Windows.Forms.Padding(20, 25, 20, 5);
-            this.txtSuplentes.MaxLength = 1;
-            this.txtSuplentes.Name = "txtSuplentes";
-            this.txtSuplentes.Size = new System.Drawing.Size(53, 29);
-            this.txtSuplentes.TabIndex = 2;
-            this.txtSuplentes.Text = "1";
-            this.txtSuplentes.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtGrupos.Dock = System.Windows.Forms.DockStyle.Top;
+            this.txtGrupos.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtGrupos.Location = new System.Drawing.Point(475, 28);
+            this.txtGrupos.Margin = new System.Windows.Forms.Padding(20, 15, 20, 5);
+            this.txtGrupos.MaxLength = 1;
+            this.txtGrupos.Name = "txtGrupos";
+            this.txtGrupos.Size = new System.Drawing.Size(53, 29);
+            this.txtGrupos.TabIndex = 2;
+            this.txtGrupos.Text = "1";
+            this.txtGrupos.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label12
             // 
@@ -240,23 +252,10 @@
             this.label12.Location = new System.Drawing.Point(315, 13);
             this.label12.Name = "label12";
             this.label12.Padding = new System.Windows.Forms.Padding(10);
-            this.label12.Size = new System.Drawing.Size(134, 76);
+            this.label12.Size = new System.Drawing.Size(134, 60);
             this.label12.TabIndex = 15;
-            this.label12.Text = "Consejeros Suplentes";
+            this.label12.Text = "Grupos de Trabajo";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // txtPropietarios
-            // 
-            this.txtPropietarios.Dock = System.Windows.Forms.DockStyle.Top;
-            this.txtPropietarios.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPropietarios.Location = new System.Drawing.Point(236, 38);
-            this.txtPropietarios.Margin = new System.Windows.Forms.Padding(20, 25, 20, 5);
-            this.txtPropietarios.MaxLength = 1;
-            this.txtPropietarios.Name = "txtPropietarios";
-            this.txtPropietarios.Size = new System.Drawing.Size(53, 29);
-            this.txtPropietarios.TabIndex = 1;
-            this.txtPropietarios.Text = "5";
-            this.txtPropietarios.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label11
             // 
@@ -267,28 +266,28 @@
             this.label11.Location = new System.Drawing.Point(76, 13);
             this.label11.Name = "label11";
             this.label11.Padding = new System.Windows.Forms.Padding(10);
-            this.label11.Size = new System.Drawing.Size(134, 76);
+            this.label11.Size = new System.Drawing.Size(134, 60);
             this.label11.TabIndex = 13;
-            this.label11.Text = "Consejeros Propietarios";
+            this.label11.Text = "Distrito";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.InsetDouble;
             this.tableLayoutPanel2.ColumnCount = 3;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33332F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
             this.tableLayoutPanel2.Controls.Add(this.panel5, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.btnGuardar, 2, 0);
             this.tableLayoutPanel2.Controls.Add(this.panel4, 0, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 150);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 137);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.Padding = new System.Windows.Forms.Padding(70, 10, 70, 10);
             this.tableLayoutPanel2.RowCount = 1;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 62F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(863, 85);
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(863, 99);
             this.tableLayoutPanel2.TabIndex = 22;
             // 
             // panel5
@@ -298,7 +297,7 @@
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel5.Location = new System.Drawing.Point(315, 16);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(231, 56);
+            this.panel5.Size = new System.Drawing.Size(231, 67);
             this.panel5.TabIndex = 19;
             // 
             // lblTotalCasillas
@@ -328,7 +327,7 @@
             // btnGuardar
             // 
             this.btnGuardar.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnGuardar.Location = new System.Drawing.Point(628, 19);
+            this.btnGuardar.Location = new System.Drawing.Point(628, 24);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(85, 50);
             this.btnGuardar.TabIndex = 4;
@@ -345,7 +344,7 @@
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(76, 16);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(230, 56);
+            this.panel4.Size = new System.Drawing.Size(230, 67);
             this.panel4.TabIndex = 18;
             // 
             // lblHorasDisponibles
@@ -376,14 +375,15 @@
             // 
             this.panel2.Controls.Add(this.groupBox1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(0, 235);
+            this.panel2.Location = new System.Drawing.Point(0, 236);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(863, 251);
+            this.panel2.Size = new System.Drawing.Size(863, 285);
             this.panel2.TabIndex = 26;
             // 
             // groupBox1
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.label25);
             this.groupBox1.Controls.Add(this.lblPr);
             this.groupBox1.Controls.Add(this.label34);
             this.groupBox1.Controls.Add(this.label33);
@@ -411,10 +411,19 @@
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(46, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(792, 240);
+            this.groupBox1.Size = new System.Drawing.Size(792, 270);
             this.groupBox1.TabIndex = 25;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Fórmula";
+            // 
+            // label25
+            // 
+            this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label25.Location = new System.Drawing.Point(33, 162);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(614, 26);
+            this.label25.TabIndex = 24;
+            this.label25.Text = "El número de casillas a Recuento debe ser mayor a 20";
             // 
             // lblPr
             // 
@@ -422,7 +431,7 @@
             this.lblPr.AutoSize = true;
             this.lblPr.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPr.ForeColor = System.Drawing.Color.DarkRed;
-            this.lblPr.Location = new System.Drawing.Point(748, 74);
+            this.lblPr.Location = new System.Drawing.Point(748, 70);
             this.lblPr.Name = "lblPr";
             this.lblPr.Size = new System.Drawing.Size(20, 24);
             this.lblPr.TabIndex = 23;
@@ -433,7 +442,7 @@
             this.label34.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label34.AutoSize = true;
             this.label34.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label34.Location = new System.Drawing.Point(706, 72);
+            this.label34.Location = new System.Drawing.Point(706, 68);
             this.label34.Name = "label34";
             this.label34.Size = new System.Drawing.Size(38, 39);
             this.label34.TabIndex = 22;
@@ -442,7 +451,7 @@
             // label33
             // 
             this.label33.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label33.Location = new System.Drawing.Point(33, 212);
+            this.label33.Location = new System.Drawing.Point(33, 238);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(614, 26);
             this.label33.TabIndex = 21;
@@ -451,7 +460,7 @@
             // label32
             // 
             this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label32.Location = new System.Drawing.Point(33, 186);
+            this.label32.Location = new System.Drawing.Point(33, 212);
             this.label32.Name = "label32";
             this.label32.Size = new System.Drawing.Size(614, 26);
             this.label32.TabIndex = 20;
@@ -460,7 +469,7 @@
             // label30
             // 
             this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label30.Location = new System.Drawing.Point(33, 162);
+            this.label30.Location = new System.Drawing.Point(33, 188);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(614, 26);
             this.label30.TabIndex = 19;
@@ -472,7 +481,7 @@
             this.label27.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label27.AutoSize = true;
             this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label27.Location = new System.Drawing.Point(346, 61);
+            this.label27.Location = new System.Drawing.Point(346, 57);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(82, 55);
             this.label27.TabIndex = 18;
@@ -484,7 +493,7 @@
             this.lblPrDecimal.AutoSize = true;
             this.lblPrDecimal.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPrDecimal.ForeColor = System.Drawing.Color.DarkRed;
-            this.lblPrDecimal.Location = new System.Drawing.Point(652, 74);
+            this.lblPrDecimal.Location = new System.Drawing.Point(652, 70);
             this.lblPrDecimal.Name = "lblPrDecimal";
             this.lblPrDecimal.Size = new System.Drawing.Size(26, 29);
             this.lblPrDecimal.TabIndex = 17;
@@ -495,7 +504,7 @@
             this.label15.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(608, 72);
+            this.label15.Location = new System.Drawing.Point(608, 68);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(38, 39);
             this.label15.TabIndex = 16;
@@ -505,7 +514,7 @@
             // 
             this.lblSegmento.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblSegmento.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSegmento.Location = new System.Drawing.Point(505, 134);
+            this.lblSegmento.Location = new System.Drawing.Point(505, 130);
             this.lblSegmento.Name = "lblSegmento";
             this.lblSegmento.Size = new System.Drawing.Size(60, 26);
             this.lblSegmento.TabIndex = 15;
@@ -517,7 +526,7 @@
             this.label17.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.Location = new System.Drawing.Point(488, 111);
+            this.label17.Location = new System.Drawing.Point(488, 107);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(91, 13);
             this.label17.TabIndex = 14;
@@ -527,7 +536,7 @@
             // 
             this.lblGt.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblGt.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGt.Location = new System.Drawing.Point(505, 83);
+            this.lblGt.Location = new System.Drawing.Point(505, 79);
             this.lblGt.Name = "lblGt";
             this.lblGt.Size = new System.Drawing.Size(60, 26);
             this.lblGt.TabIndex = 13;
@@ -539,7 +548,7 @@
             this.label19.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label19.AutoSize = true;
             this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label19.Location = new System.Drawing.Point(488, 67);
+            this.label19.Location = new System.Drawing.Point(488, 63);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(91, 13);
             this.label19.TabIndex = 12;
@@ -549,7 +558,7 @@
             // 
             this.lblNcr.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblNcr.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNcr.Location = new System.Drawing.Point(505, 43);
+            this.lblNcr.Location = new System.Drawing.Point(505, 39);
             this.lblNcr.Name = "lblNcr";
             this.lblNcr.Size = new System.Drawing.Size(60, 26);
             this.lblNcr.TabIndex = 11;
@@ -561,7 +570,7 @@
             this.label21.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 60F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.Location = new System.Drawing.Point(564, 20);
+            this.label21.Location = new System.Drawing.Point(564, 16);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(61, 91);
             this.label21.TabIndex = 10;
@@ -572,7 +581,7 @@
             this.label22.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label22.AutoSize = true;
             this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 60F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label22.Location = new System.Drawing.Point(443, 20);
+            this.label22.Location = new System.Drawing.Point(443, 16);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(61, 91);
             this.label22.TabIndex = 9;
@@ -584,7 +593,7 @@
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.Color.DarkRed;
-            this.label10.Location = new System.Drawing.Point(267, 74);
+            this.label10.Location = new System.Drawing.Point(267, 70);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(46, 29);
             this.label10.TabIndex = 8;
@@ -595,7 +604,7 @@
             this.label9.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(223, 72);
+            this.label9.Location = new System.Drawing.Point(223, 68);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(38, 39);
             this.label9.TabIndex = 7;
@@ -606,7 +615,7 @@
             this.label8.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(138, 134);
+            this.label8.Location = new System.Drawing.Point(138, 130);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(27, 26);
             this.label8.TabIndex = 6;
@@ -617,7 +626,7 @@
             this.label7.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(103, 111);
+            this.label7.Location = new System.Drawing.Point(103, 107);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(91, 13);
             this.label7.TabIndex = 5;
@@ -628,7 +637,7 @@
             this.label6.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(130, 85);
+            this.label6.Location = new System.Drawing.Point(130, 81);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(41, 26);
             this.label6.TabIndex = 4;
@@ -639,7 +648,7 @@
             this.label5.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(103, 67);
+            this.label5.Location = new System.Drawing.Point(103, 63);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(91, 13);
             this.label5.TabIndex = 3;
@@ -650,7 +659,7 @@
             this.label4.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(120, 43);
+            this.label4.Location = new System.Drawing.Point(120, 39);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(60, 26);
             this.label4.TabIndex = 2;
@@ -661,7 +670,7 @@
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 60F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(179, 20);
+            this.label3.Location = new System.Drawing.Point(179, 16);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(61, 91);
             this.label3.TabIndex = 1;
@@ -672,7 +681,7 @@
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 60F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(58, 20);
+            this.label1.Location = new System.Drawing.Point(58, 16);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(61, 91);
             this.label1.TabIndex = 0;
@@ -682,9 +691,9 @@
             // 
             this.panel3.Controls.Add(this.groupBox3);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel3.Location = new System.Drawing.Point(0, 486);
+            this.panel3.Location = new System.Drawing.Point(0, 521);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(863, 234);
+            this.panel3.Size = new System.Drawing.Size(863, 125);
             this.panel3.TabIndex = 27;
             // 
             // groupBox3
@@ -692,8 +701,6 @@
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.label29);
             this.groupBox3.Controls.Add(this.label28);
-            this.groupBox3.Controls.Add(this.lblGruposFormula);
-            this.groupBox3.Controls.Add(this.label25);
             this.groupBox3.Controls.Add(this.label24);
             this.groupBox3.Controls.Add(this.label23);
             this.groupBox3.Controls.Add(this.label20);
@@ -701,9 +708,9 @@
             this.groupBox3.Controls.Add(this.label16);
             this.groupBox3.Controls.Add(this.label14);
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox3.Location = new System.Drawing.Point(46, -1);
+            this.groupBox3.Location = new System.Drawing.Point(46, 3);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(792, 189);
+            this.groupBox3.Size = new System.Drawing.Size(792, 117);
             this.groupBox3.TabIndex = 26;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "En donde:";
@@ -719,35 +726,13 @@
             // 
             // label28
             // 
-            this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label28.Location = new System.Drawing.Point(322, 25);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(60, 26);
             this.label28.TabIndex = 11;
             this.label28.Text = "PR =";
             this.label28.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // lblGruposFormula
-            // 
-            this.lblGruposFormula.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblGruposFormula.AutoSize = true;
-            this.lblGruposFormula.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGruposFormula.Location = new System.Drawing.Point(18, 129);
-            this.lblGruposFormula.Name = "lblGruposFormula";
-            this.lblGruposFormula.Size = new System.Drawing.Size(166, 26);
-            this.lblGruposFormula.TabIndex = 10;
-            this.lblGruposFormula.Text = "GT = ( 5 + 1) - 3";
-            // 
-            // label25
-            // 
-            this.label25.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.label25.AutoSize = true;
-            this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label25.Location = new System.Drawing.Point(18, 103);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(515, 26);
-            this.label25.TabIndex = 9;
-            this.label25.Text = "GT = ( PROPIETARIOS + SUPLENTES ) - CORUM";
             // 
             // label24
             // 
@@ -778,7 +763,7 @@
             // 
             // label18
             // 
-            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label18.Location = new System.Drawing.Point(19, 51);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(60, 26);
@@ -788,7 +773,7 @@
             // 
             // label16
             // 
-            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label16.Location = new System.Drawing.Point(19, 77);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(60, 26);
@@ -798,10 +783,10 @@
             // 
             // label14
             // 
-            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(19, 25);
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Location = new System.Drawing.Point(6, 25);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(60, 26);
+            this.label14.Size = new System.Drawing.Size(73, 26);
             this.label14.TabIndex = 3;
             this.label14.Text = "NCR =";
             this.label14.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -810,7 +795,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(863, 728);
+            this.AutoScroll = true;
+            this.ClientSize = new System.Drawing.Size(863, 657);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.tableLayoutPanel2);
@@ -831,7 +817,6 @@
             this.groupBox1.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -843,9 +828,8 @@
         private System.Windows.Forms.TableLayoutPanel tblPanelBoletas;
         private System.Windows.Forms.TextBox txtHoras;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.TextBox txtSuplentes;
+        private System.Windows.Forms.TextBox txtGrupos;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TextBox txtPropietarios;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Button btnGuardar;
@@ -879,8 +863,6 @@
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.Label lblGruposFormula;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Label lblHorasDisponibles;
@@ -896,5 +878,7 @@
         private System.Windows.Forms.Label lblPr;
         private System.Windows.Forms.Label label34;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.ComboBox cmbDistritos;
+        private System.Windows.Forms.Label label25;
     }
 }

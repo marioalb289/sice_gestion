@@ -16,10 +16,11 @@ namespace Sistema.RegistroActasLocal
     {
         private MsgBox msgBox;
         private int totalCasillasRecuento = 0;
-        private int horas_disponibles = 0;
+        private int puntos_recuento = 0;
         public ConfiguracionRecuento()
         {
             InitializeComponent();
+            this.cargarComboDistrito();
             this.CargarDatos();
 
             txtHoras.KeyPress += FrmConfiguracionRecuento_KeyPressDecimal;
@@ -28,17 +29,36 @@ namespace Sistema.RegistroActasLocal
             txtHoras.MouseUp += new System.Windows.Forms.MouseEventHandler(tbxValue_MouseUp);
             txtHoras.Leave += new System.EventHandler(tbxValue_Leave);
 
-            txtPropietarios.KeyPress += FrmConfiguracionRecuento_KeyPress;
-            txtPropietarios.KeyUp += Evento_KeyUp;
-            txtPropietarios.GotFocus += new System.EventHandler(tbxValue_GotFocus);
-            txtPropietarios.MouseUp += new System.Windows.Forms.MouseEventHandler(tbxValue_MouseUp);
-            txtPropietarios.Leave += new System.EventHandler(tbxValue_Leave);
+            txtGrupos.KeyPress += FrmConfiguracionRecuento_KeyPress;
+            txtGrupos.KeyUp += Evento_KeyUp;
+            txtGrupos.GotFocus += new System.EventHandler(tbxValue_GotFocus);
+            txtGrupos.MouseUp += new System.Windows.Forms.MouseEventHandler(tbxValue_MouseUp);
+            txtGrupos.Leave += new System.EventHandler(tbxValue_Leave);
+        }
 
-            txtSuplentes.KeyPress += FrmConfiguracionRecuento_KeyPress;
-            txtSuplentes.KeyUp += Evento_KeyUp;
-            txtSuplentes.GotFocus += new System.EventHandler(tbxValue_GotFocus);
-            txtSuplentes.MouseUp += new System.Windows.Forms.MouseEventHandler(tbxValue_MouseUp);
-            txtSuplentes.Leave += new System.EventHandler(tbxValue_Leave);
+        private void cargarComboDistrito()
+        {
+            try
+            {
+                RegistroLocalGenerales reg = new RegistroLocalGenerales();
+                List<sice_distritos_locales> ds = reg.ListaDistritos();
+                //ds.Insert(1, new sice_distritos_locales() { id = 0, distrito = "TODOS" });
+                cmbDistritos.SelectedValueChanged -= cmbDistritos_SelectedValueChanged;
+                cmbDistritos.DataSource = null;
+                cmbDistritos.DisplayMember = "romano";
+                cmbDistritos.ValueMember = "id";
+                cmbDistritos.DataSource = ds;
+                cmbDistritos.SelectedIndex = 0;
+                cmbDistritos.Enabled = true;
+                cmbDistritos.SelectedValueChanged += cmbDistritos_SelectedValueChanged;
+
+
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
         }
 
         private void CargarDatos()
@@ -49,21 +69,26 @@ namespace Sistema.RegistroActasLocal
                 //DateTime fecha1 = new DateTime(2018,7, 8, 8, 0, 0);
                 //DateTime fecha2 = new DateTime(2018, 7, 11, 0, 0, 0);
                 //double horasRestantes = Math.Floor( (fecha2 - fecha1).TotalHours );
-                this.horas_disponibles = 0;
                 lblHorasDisponibles.Text = "0";
-
+                int id_distrito = Convert.ToInt32(cmbDistritos.SelectedValue);
                 RegistroLocalGenerales reg = new RegistroLocalGenerales();
-                this.totalCasillasRecuento = reg.ListaCasillasRecuentos(0, true).Count();
+                this.totalCasillasRecuento = reg.ListaCasillasRecuentos(id_distrito, false).Count();
                 this.lblTotalCasillas.Text = this.totalCasillasRecuento.ToString();
-                sice_configuracion_recuento conf = reg.Configuracion_Recuento("RA");
+                sice_configuracion_recuento conf = reg.Configuracion_Recuento("RA",id_distrito);
                 if(conf != null)
                 {
+                    cmbDistritos.SelectedValueChanged -= cmbDistritos_SelectedValueChanged;
                     txtHoras.Text = conf.horas_disponibles.ToString();
-                    txtPropietarios.Text = conf.no_consejeros.ToString();
-                    txtSuplentes.Text = conf.no_suplentes.ToString();
+                    txtGrupos.Text = conf.grupos_trabajo.ToString();
+                    txtHoras.Text = conf.horas_disponibles.ToString();
+                    cmbDistritos.SelectedValue = conf.id_distrito;
+                    cmbDistritos.SelectedValueChanged += cmbDistritos_SelectedValueChanged;
                    
+                    //txtPropietarios.Text = conf.no_consejeros.ToString();
+
                 }
                 ValidarCampos();
+
 
             }
             catch(Exception ex)
@@ -79,8 +104,11 @@ namespace Sistema.RegistroActasLocal
             {
                 double num;
                 double horas = 0;
-                int propietarios = 0;
-                int suplentes = 0;
+                int grupos_trabajo = 0;
+                if(Convert.ToInt32(cmbDistritos.SelectedValue) == 0)
+                {
+                    throw new Exception("Selecciona un Distrito");
+                }
                 if (double.TryParse(txtHoras.Text, out num))
                 {
                     horas = num;
@@ -89,28 +117,37 @@ namespace Sistema.RegistroActasLocal
                 {
                     throw new Exception("Solo se Permiten números");
                 }
-                if (double.TryParse(txtPropietarios.Text, out num))
+                //if (double.TryParse(txtPropietarios.Text, out num))
+                //{
+                //    propietarios = Convert.ToInt32( num);
+                //    if (propietarios != 5)
+                //        throw new Exception("El número de Consejeros Propietarios debe ser 5");
+                //}
+                //else
+                //{
+                //    throw new Exception("Solo se Permiten números");
+                //}
+                if(horas <= 0)
                 {
-                    propietarios = Convert.ToInt32( num);
-                    if (propietarios != 5)
-                        throw new Exception("El número de Consejeros Propietarios debe ser 5");
+                    throw new Exception("El numero de horas debe ser mayor a 0");
+                }
+                if (double.TryParse(txtGrupos.Text, out num))
+                {
+                    grupos_trabajo = Convert.ToInt32(num);
+                    if (grupos_trabajo <= 0 || grupos_trabajo > 5)
+                        throw new Exception("El número de Grupos de Trabajo debe ser minímo 1 y Máximo 5");
                 }
                 else
                 {
                     throw new Exception("Solo se Permiten números");
                 }
-                if (double.TryParse(txtSuplentes.Text, out num))
+                if (this.puntos_recuento < 1)
                 {
-                    suplentes = Convert.ToInt32(num);
-                    if (suplentes < 1 || suplentes > 4)
-                        throw new Exception("El número de Consejeros Suplentes debe ser minímo 1 y Máximo 4");
+                    throw new Exception("El número de Puntos de Recuento debe ser minímo 1 y Máximo 8. \nVerifique la configuración");
                 }
-                else
-                {
-                    throw new Exception("Solo se Permiten números");
-                }
+               
                 RegistroLocalGenerales reg = new RegistroLocalGenerales();
-                if(reg.GuardarConfiguracionRecuento(horas,propietarios,suplentes) == 1)
+                if(reg.GuardarConfiguracionRecuento(horas,Convert.ToInt32(cmbDistritos.SelectedValue),grupos_trabajo,this.puntos_recuento) == 1)
                 {
                     msgBox = new MsgBox(this, "Datos Guardados correctamente", "Atención", MessageBoxButtons.OK, "Ok");
                     msgBox.ShowDialog(this);
@@ -139,26 +176,37 @@ namespace Sistema.RegistroActasLocal
                 return (int)Math.Floor(numero);
         }
 
+        private void LimpiarDatos()
+        {
+            txtGrupos.Text = "1";
+            txtHoras.Text = "0";
+            lblNcr.Text = "0";
+            lblGt.Text = "0";
+            lblSegmento.Text = "0";
+            lblPr.Text = "0";
+            lblPrDecimal.Text = "0";
+        }
+
 
         private void ValidarCampos(object sender = null)
         {
             try
             {
 
-                //TextBox textBox = null;
-                //if (sender != null)
-                //    textBox = (TextBox)sender;
-                //if ( (textBox != null && textBox.Text == "") || (textBox != null && textBox.Text == "."))
-                //{
-                //    textBox.Text = "0";
-                //    textBox.SelectAll();
-                //    //return;
-                //}
-
-                if(this.totalCasillasRecuento <= 20)
+                TextBox textBox = null;
+                if (sender != null)
+                    textBox = (TextBox)sender;
+                if (textBox != null && textBox.Text == "")
                 {
-                    txtPropietarios.Text = "5";
-                    txtSuplentes.Text = "1";
+                    textBox.Text = "1";
+                    textBox.SelectAll();
+                }
+
+                this.puntos_recuento = 0;
+
+                if (this.totalCasillasRecuento <= 20)
+                {
+                    txtGrupos.Text = "1";
                     lblNcr.Text = "0";
                     lblGt.Text = "0";
                     lblSegmento.Text = "0";
@@ -167,32 +215,14 @@ namespace Sistema.RegistroActasLocal
                     return;
                 }
 
-                int propietarios = (txtPropietarios.Text == "") ?  0 : Convert.ToInt32( txtPropietarios.Text);                
-                if (propietarios != 5)
+                int grupos_trabajo = (txtGrupos.Text == "") ? 0 : Convert.ToInt32(txtGrupos.Text);
+                if (grupos_trabajo <= 0 || grupos_trabajo > 5)
                 {
-                    txtPropietarios.Text = "5";
-                    propietarios = 5;
-                    msgBox = new MsgBox(this, "El número de Consejeros Propietarios debe ser 5", "Atención", MessageBoxButtons.OK, "Error");
+                    txtGrupos.Text = "1";
+                    grupos_trabajo = 1;
+                    msgBox = new MsgBox(this, "El número de Grupos de Trabajo debe ser Mínimo 1 Máximo 5", "Atención", MessageBoxButtons.OK, "Error");
                     msgBox.ShowDialog(this);
                 }
-                
-
-                int suplentes = (txtSuplentes.Text == "" ) ? 0 : Convert.ToInt32(txtSuplentes.Text);
-                if (suplentes < 1 || suplentes > 4)
-                {
-                    txtSuplentes.Text = "1";
-                    suplentes = 1;
-                    msgBox = new MsgBox(this, "El número de Consejeros Suplentes debe ser minímo 1 y Máximo 4", "Atención", MessageBoxButtons.OK, "Error");
-                    msgBox.ShowDialog(this);
-                }
-                
-
-                this.lblGruposFormula.Text = "GT = ( "+propietarios+" + "+suplentes+") - 3 = ";
-
-                int grupos_tabajo = (propietarios - 3) + suplentes;
-                this.lblGruposFormula.Text = "GT = ( " + propietarios + " + " + suplentes + ") - 3 = " +grupos_tabajo;
-                if (grupos_tabajo > 5)
-                    grupos_tabajo = 5;
                 int segmentos = (txtHoras.Text == "") ? 0 : Convert.ToInt32(txtHoras.Text);
 
                 if (segmentos > 0)
@@ -206,8 +236,8 @@ namespace Sistema.RegistroActasLocal
                     lblPr.Text = "0";
                     return;
                 }
-                segmentos = segmentos * 2;                 
-                
+                segmentos = segmentos * 2;
+
                 if (totalCasillasRecuento <= 0)
                 {
                     lblNcr.Text = "0";
@@ -217,17 +247,17 @@ namespace Sistema.RegistroActasLocal
                 {
                     lblNcr.Text = totalCasillasRecuento.ToString();
                 }
-                    
-                if (grupos_tabajo <= 0)
+
+                if (grupos_trabajo <= 0)
                 {
                     lblGt.Text = "0";
                     return;
                 }
                 else
                 {
-                    lblGt.Text = grupos_tabajo.ToString();
+                    lblGt.Text = grupos_trabajo.ToString();
                 }
-                    
+
                 if (segmentos <= 0)
                 {
                     lblSegmento.Text = "0";
@@ -239,8 +269,8 @@ namespace Sistema.RegistroActasLocal
                 }
 
                 //this.totalCasillasRecuento = 315;
-                double parcialPuntoRecuento = (((double)this.totalCasillasRecuento / (double)grupos_tabajo) / (double)segmentos);
-                int puntos_recuento = this.Round(parcialPuntoRecuento);
+                double parcialPuntoRecuento = (((double)this.totalCasillasRecuento / (double)grupos_trabajo) / (double)segmentos);
+                this.puntos_recuento = this.Round(parcialPuntoRecuento);
                 if (puntos_recuento <= 0)
                 {
                     lblPrDecimal.Text = "0";
@@ -249,15 +279,15 @@ namespace Sistema.RegistroActasLocal
                 else
                 {
                     lblPrDecimal.Text = (Math.Truncate(parcialPuntoRecuento * 100) / 100).ToString();
-                    lblPr.Text = puntos_recuento.ToString()+ "PR";
+                    lblPr.Text = puntos_recuento.ToString() + "PR";
                 }
-                    
+
 
             }
             catch(Exception ex)
             {
-                txtPropietarios.Text = "5";
-                txtSuplentes.Text = "1";
+                txtGrupos.Text = "1";
+                txtHoras.Text = "0";
                 lblNcr.Text = "0";
                 lblGt.Text = "0";
                 lblSegmento.Text = "0";
@@ -381,6 +411,20 @@ namespace Sistema.RegistroActasLocal
         private void button2_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void cmbDistritos_SelectedValueChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                LimpiarDatos();
+                this.CargarDatos();
+            }
+            catch(Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
         }
     }
 }

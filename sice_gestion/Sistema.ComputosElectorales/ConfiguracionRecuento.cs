@@ -58,10 +58,10 @@ namespace Sistema.ComputosElectorales
                 sice_configuracion_recuento conf = comp.Configuracion_Recuento("SICE");
                 if (conf != null)
                 {
-                    txtHoras.Text = conf.horas_disponibles.ToString();
-                    txtPropietarios.Text = conf.no_consejeros.ToString();
-                    txtSuplentes.Text = conf.no_suplentes.ToString();
-                    ValidarCampos();
+                    //txtHoras.Text = conf.horas_disponibles.ToString();
+                    //txtPropietarios.Text = conf.no_consejeros.ToString();
+                    //txtSuplentes.Text = conf.no_suplentes.ToString();
+                    //ValidarCampos();
                 }
 
 
@@ -110,15 +110,15 @@ namespace Sistema.ComputosElectorales
                     throw new Exception("Solo se Permiten números");
                 }
                 ComputosElectoralesGenerales comp = new ComputosElectoralesGenerales();
-                if (comp.GuardarConfiguracionRecuento(horas, propietarios, suplentes) == 1)
-                {
-                    msgBox = new MsgBox(this, "Datos Guardados correctamente", "Atención", MessageBoxButtons.OK, "Ok");
-                    msgBox.ShowDialog(this);
-                }
-                else
-                {
-                    throw new Exception("Error al guardar Datos");
-                }
+                //if (comp.GuardarConfiguracionRecuento(horas, propietarios, suplentes) == 1)
+                //{
+                //    msgBox = new MsgBox(this, "Datos Guardados correctamente", "Atención", MessageBoxButtons.OK, "Ok");
+                //    msgBox.ShowDialog(this);
+                //}
+                //else
+                //{
+                //    throw new Exception("Error al guardar Datos");
+                //}
 
             }
             catch (Exception ex)
