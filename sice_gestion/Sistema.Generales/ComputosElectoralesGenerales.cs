@@ -45,28 +45,33 @@ namespace Sistema.Generales
                         {
                             foreach (sice_ar_reserva casilla in listaCasillas)
                             {
-                                sice_reserva_captura new_casilla = new sice_reserva_captura();
-                                new_casilla.id_casilla = casilla.id_casilla;
-                                new_casilla.tipo_reserva = "RECUENTO";
-                                new_casilla.id_supuesto = casilla.id_supuesto;
-                                new_casilla.id_estatus_acta = casilla.id_estatus_acta;
-                                new_casilla.id_estatus_paquete = casilla.id_estatus_paquete;
-                                new_casilla.id_incidencias = casilla.id_incidencias;
-                                new_casilla.boletas_sobrantes = 0;
-                                new_casilla.personas_votaron = 0;
-                                new_casilla.num_representantes_votaron = 0;
-                                new_casilla.inicializada = 1;
-                                new_casilla.votos_sacados = 0;
-                                new_casilla.num_escritos = 0;
-                                new_casilla.importado = 0;
-                                new_casilla.create_at = DateTime.Now;
-                                new_casilla.updated_at = DateTime.Now;
-                                new_casilla.tipo_votacion = casilla.tipo_votacion;
-                                contexto.sice_reserva_captura.Add(new_casilla);
-                                contexto.SaveChanges();
+                                sice_reserva_captura new_casilla = (from p in contexto.sice_reserva_captura where p.id_casilla == casilla.id select p).FirstOrDefault();
+                                if(new_casilla == null)
+                                {
+                                    new_casilla = new sice_reserva_captura();
+                                    new_casilla.id_casilla = casilla.id_casilla;
+                                    new_casilla.tipo_reserva = "RECUENTO";
+                                    new_casilla.id_supuesto = casilla.id_supuesto;
+                                    new_casilla.id_estatus_acta = casilla.id_estatus_acta;
+                                    new_casilla.id_estatus_paquete = casilla.id_estatus_paquete;
+                                    new_casilla.id_incidencias = casilla.id_incidencias;
+                                    new_casilla.boletas_sobrantes = 0;
+                                    new_casilla.personas_votaron = 0;
+                                    new_casilla.num_representantes_votaron = 0;
+                                    new_casilla.inicializada = 1;
+                                    new_casilla.votos_sacados = 0;
+                                    new_casilla.num_escritos = 0;
+                                    new_casilla.importado = 0;
+                                    new_casilla.grupo_trabajo = casilla.grupo_trabajo;
+                                    new_casilla.create_at = DateTime.Now;
+                                    new_casilla.updated_at = DateTime.Now;
+                                    new_casilla.tipo_votacion = casilla.tipo_votacion;
+                                    contexto.sice_reserva_captura.Add(new_casilla);
+                                    contexto.SaveChanges();
 
-                                casilla.inicializada = 1;
-                                contexto.SaveChanges();
+                                    casilla.inicializada = 1;
+                                    contexto.SaveChanges();
+                                }
 
                             }
                             TransactionContexto.Complete();
@@ -191,7 +196,7 @@ namespace Sistema.Generales
                 using (DatabaseContext contexto = new DatabaseContext(con))
                 {
                     string condicion = " ";
-                    if (LoginInfo.privilegios == 5)
+                    if (LoginInfo.privilegios == 5 || LoginInfo.privilegios == 6)
                     {
                         condicion = "WHERE C.id_cabecera_local = " + LoginInfo.id_municipio + " ";
                     }
@@ -582,6 +587,9 @@ namespace Sistema.Generales
                 using (DatabaseContext contexto = new DatabaseContext(con))
                 {
                     string condicion = "";
+                    string condicion2 = " AND (RC.grupo_trabajo IS NULL OR RC.grupo_trabajo = 0) ";
+                    if (LoginInfo.grupo_trabajo > 0)
+                        condicion2 = "AND RC.grupo_trabajo = " + LoginInfo.grupo_trabajo + " ";
                     if (ReservaConsejo)
                     {
                         condicion = "RC.tipo_reserva = 'RESERVA' ";
@@ -594,7 +602,9 @@ namespace Sistema.Generales
                     string consulta =
                         "SELECT C.* FROM sice_casillas C " +
                         "JOIN sice_reserva_captura RC ON RC.id_casilla = C.id " +
-                        "WHERE "+condicion+" AND C.id_cabecera_local = " + LoginInfo.id_municipio + " ORDER BY C.id_distrito_local ASC,C.id";
+                        "WHERE " + condicion + " AND C.id_cabecera_local = " + LoginInfo.id_municipio + " " +
+                        condicion2 +
+                        "ORDER BY C.id_distrito_local ASC,C.id";
                     List<sice_casillas> lsCasilla = contexto.Database.SqlQuery<sice_casillas>(consulta).ToList();
                     return (from p in lsCasilla
                             select new SeccionCasillaConsecutivo
@@ -2054,7 +2064,7 @@ namespace Sistema.Generales
                 Excel.Application excel = new Excel.Application();
                 Excel._Workbook libro = null;
 
-                completo = true;
+                //completo = true;
 
                 //creamos un libro nuevo y la hoja con la que vamos a trabajar
                 libro = (Excel._Workbook)excel.Workbooks.Add(Excel.XlWBATemplate.xlWBATWorksheet);

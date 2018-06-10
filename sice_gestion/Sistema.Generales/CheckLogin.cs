@@ -36,6 +36,7 @@ namespace Sistema.Generales
                         LoginInfo.privilegios = usr.privilegios;
                         LoginInfo.id_cabecera_local = usr.id_municipio;
                         LoginInfo.nombre_formal = usr.nombre_formal;
+                        LoginInfo.grupo_trabajo = (int)usr.grupo_trabajo;
                         return 1;
                     }
 
