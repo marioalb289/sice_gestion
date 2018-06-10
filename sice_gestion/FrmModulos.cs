@@ -20,8 +20,6 @@ namespace sice_gestion
         {
             InitializeComponent();
             this.Permisos();
-            RegistroLocalGenerales test = new RegistroLocalGenerales();
-            test.pruebaGT();
         }
 
         public void Permisos()

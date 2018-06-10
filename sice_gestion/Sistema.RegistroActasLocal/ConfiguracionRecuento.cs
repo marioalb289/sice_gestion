@@ -17,6 +17,7 @@ namespace Sistema.RegistroActasLocal
         private MsgBox msgBox;
         private int totalCasillasRecuento = 0;
         private int puntos_recuento = 0;
+        private string tipo_recuento;
         public ConfiguracionRecuento()
         {
             InitializeComponent();
@@ -72,10 +73,57 @@ namespace Sistema.RegistroActasLocal
                 lblHorasDisponibles.Text = "0";
                 int id_distrito = Convert.ToInt32(cmbDistritos.SelectedValue);
                 RegistroLocalGenerales reg = new RegistroLocalGenerales();
-                this.totalCasillasRecuento = reg.ListaCasillasRecuentos(id_distrito, false).Count();
-                this.lblTotalCasillas.Text = this.totalCasillasRecuento.ToString();
-                sice_configuracion_recuento conf = reg.Configuracion_Recuento("RA",id_distrito);
-                if(conf != null)
+                
+
+                List<VotosSeccion> vSeccionTotales = reg.ResultadosSeccionCaptura(0, 0, id_distrito);
+                int TotalVotosDistrito = vSeccionTotales.Sum(x => (int)x.votos);
+                List<VotosSeccion> listaSumaCandidatos = vSeccionTotales.Where(x => x.estatus == "ATENDIDO" && x.id_candidato != null).GroupBy(y => y.id_candidato).Select(data => new VotosSeccion { id_candidato = data.First().id_candidato, votos = data.Sum(d => d.votos) }).OrderBy(x => x.votos).ToList();
+                double diferenciaPorcentajeTotal = 0;
+                //listaSumaCandidatos.OrderBy(x => x.votos);
+                if (listaSumaCandidatos.Count > 0)
+                {
+                    int PrimeroTotal = (int)listaSumaCandidatos[listaSumaCandidatos.Count - 1].votos;
+                    int SeegundoTotal = (int)listaSumaCandidatos[listaSumaCandidatos.Count - 2].votos;
+                    int diferenciaTotal = PrimeroTotal - SeegundoTotal;
+
+                    if (TotalVotosDistrito > 0)
+                    {
+                        diferenciaPorcentajeTotal = Math.Round( ((double)diferenciaTotal * 100) / TotalVotosDistrito, 2);
+                    }
+                    if(diferenciaPorcentajeTotal < 0.5)
+                    {
+                        lblDiferencia.Text = diferenciaPorcentajeTotal + "%";
+                        lblTipoRecuento.Text = "TOTAL";
+                        this.tipo_recuento = "TOTAL";
+                    }
+                    else{
+                        lblDiferencia.Text = diferenciaPorcentajeTotal + "%";
+                        lblTipoRecuento.Text = "PARCIAL";
+                        this.tipo_recuento = "PARCIAL";
+                    }
+                }
+                else
+                {
+                    lblDiferencia.Text = diferenciaPorcentajeTotal + "%";
+                    this.tipo_recuento = "PARCIAL";
+                    lblTipoRecuento.Text = "PARCIAL";
+                }
+
+                this.tipo_recuento = "TOTAL";
+                if(this.tipo_recuento == "TOTAL")
+                {
+                    this.totalCasillasRecuento = reg.ListaCasillasRecuentos(id_distrito, true).Count();
+                    this.lblTotalCasillas.Text = this.totalCasillasRecuento.ToString();
+                }
+                else
+                {
+                    this.totalCasillasRecuento = reg.ListaCasillasRecuentos(id_distrito, false).Count();
+                    this.lblTotalCasillas.Text = this.totalCasillasRecuento.ToString();
+                }
+
+                
+                sice_configuracion_recuento conf = reg.Configuracion_Recuento("RA", id_distrito);
+                if (conf != null)
                 {
                     cmbDistritos.SelectedValueChanged -= cmbDistritos_SelectedValueChanged;
                     txtHoras.Text = conf.horas_disponibles.ToString();
@@ -83,10 +131,11 @@ namespace Sistema.RegistroActasLocal
                     txtHoras.Text = conf.horas_disponibles.ToString();
                     cmbDistritos.SelectedValue = conf.id_distrito;
                     cmbDistritos.SelectedValueChanged += cmbDistritos_SelectedValueChanged;
-                   
+
                     //txtPropietarios.Text = conf.no_consejeros.ToString();
 
                 }
+
                 ValidarCampos();
 
 
@@ -141,13 +190,13 @@ namespace Sistema.RegistroActasLocal
                 {
                     throw new Exception("Solo se Permiten números");
                 }
-                if (this.puntos_recuento < 1)
+                if (this.puntos_recuento <= 1 || this.puntos_recuento > 8)
                 {
                     throw new Exception("El número de Puntos de Recuento debe ser minímo 1 y Máximo 8. \nVerifique la configuración");
                 }
                
                 RegistroLocalGenerales reg = new RegistroLocalGenerales();
-                if(reg.GuardarConfiguracionRecuento(horas,Convert.ToInt32(cmbDistritos.SelectedValue),grupos_trabajo,this.puntos_recuento) == 1)
+                if(reg.GuardarConfiguracionRecuento(horas,Convert.ToInt32(cmbDistritos.SelectedValue),grupos_trabajo,this.puntos_recuento,this.tipo_recuento) == 1)
                 {
                     msgBox = new MsgBox(this, "Datos Guardados correctamente", "Atención", MessageBoxButtons.OK, "Ok");
                     msgBox.ShowDialog(this);

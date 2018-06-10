@@ -31,5 +31,6 @@ namespace Sistema.DataModel
         public Nullable<System.DateTime> created_at { get; set; }
         public Nullable<int> updated_by { get; set; }
         public Nullable<System.DateTime> updated_at { get; set; }
+        public Nullable<int> grupo_trabajo { get; set; }
     }
 }

@@ -20,5 +20,6 @@ namespace Sistema.DataModel
         public Nullable<int> grupos_trabajo { get; set; }
         public Nullable<int> puntos_recuento { get; set; }
         public Nullable<double> horas_disponibles { get; set; }
+        public string tipo_recuento { get; set; }
     }
 }
