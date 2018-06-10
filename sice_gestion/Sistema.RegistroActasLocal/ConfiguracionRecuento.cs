@@ -109,7 +109,7 @@ namespace Sistema.RegistroActasLocal
                     lblTipoRecuento.Text = "PARCIAL";
                 }
 
-                this.tipo_recuento = "TOTAL";
+                //this.tipo_recuento = "TOTAL";
                 if(this.tipo_recuento == "TOTAL")
                 {
                     this.totalCasillasRecuento = reg.ListaCasillasRecuentos(id_distrito, true).Count();
