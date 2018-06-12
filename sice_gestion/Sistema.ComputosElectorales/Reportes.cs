@@ -66,10 +66,22 @@ namespace Sistema.ComputosElectorales
         {
             try
             {
-                if (LoginInfo.privilegios == 6 || LoginInfo.privilegios == 1)
-                    btnGenerarExcelTodo.Visible = true;
-                else
+                if(LoginInfo.privilegios == 6)
+                {
+                    btnGenerarExcel.Visible = true;
                     btnGenerarExcelTodo.Visible = false;
+                    btnExcelRecuento.Visible = false;
+                }
+                else
+                {
+                    btnGenerarExcel.Visible = true;
+                    btnGenerarExcelTodo.Visible = true;
+                    btnExcelRecuento.Visible = true;
+                }
+                //if (LoginInfo.privilegios == 6 || LoginInfo.privilegios == 1)
+                //    btnGenerarExcelTodo.Visible = true;
+                //else
+                //    btnGenerarExcelTodo.Visible = false;
                 CompElec = new ComputosElectoralesGenerales();
                 List<sice_distritos_locales> ds = CompElec.ListaDistritos();
                 ds.Insert(0, new sice_distritos_locales() { id = 0, distrito = "Seleccionar Distrito" });
@@ -168,22 +180,23 @@ namespace Sistema.ComputosElectorales
                 this.lblActasCapturadas.Text = actasCapturadas > 0 ? String.Format(CultureInfo.InvariantCulture, "{0:#,#}", actasCapturadas) : "0";
                 //var x = vSeccion.Select(x=> new VotosSeccion { id_candidato = x.id_candidato, votos = x.s })
 
+
                 //List<VotosSeccion> listaSumaCandidatos = vSeccionTotales.Where(x => x.estatus == "CAPTURADA" && x.id_candidato != null).GroupBy(y => y.id_candidato).Select(data => new VotosSeccion { id_candidato = data.First().id_candidato, votos = data.Sum(d => d.votos) }).OrderBy(x => x.votos).ToList();
-                List<CandidatosResultados> lsCandidatos = CompElec.ListaResultadosCandidatos(distrito);
-                List<string> lsCoalicion = lsCandidatos.Where(x => x.coalicion != "" && x.coalicion != null).Select(data => data.coalicion).ToList();
-                string[] stringSeparators = new string[] { "," };
-                string[] result;
-                List<int> coaliciones = new List<int>();
-                foreach (string p in lsCoalicion)
-                {
-                    result = p.Split(stringSeparators, StringSplitOptions.None);
-                    foreach(string r in result)
-                    {
-                        coaliciones.Add(Convert.ToInt32(r));
-                    }
-                }
-                int yy = 0;
-                yy = coaliciones.Find(x => x == 2);
+                List<CandidatosResultados> lsCandidatos = CompElec.ListaResultadosCandidatos(distrito, true);
+                //List<string> lsCoalicion = lsCandidatos.Where(x => x.coalicion != "" && x.coalicion != null).Select(data => data.coalicion).ToList();
+                //string[] stringSeparators = new string[] { "," };
+                //string[] result;
+                //List<int> coaliciones = new List<int>();
+                //foreach (string p in lsCoalicion)
+                //{
+                //    result = p.Split(stringSeparators, StringSplitOptions.None);
+                //    foreach(string r in result)
+                //    {
+                //        coaliciones.Add(Convert.ToInt32(r));
+                //    }
+                //}
+                //int yy = 0;
+                //yy = coaliciones.Find(x => x == 2);
                 lsCandidatos = lsCandidatos.Select(data => new CandidatosResultados {
                     id_candidato = data.id_candidato,
                     partido = data.partido,

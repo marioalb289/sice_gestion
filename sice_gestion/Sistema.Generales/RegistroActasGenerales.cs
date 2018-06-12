@@ -1281,7 +1281,8 @@ namespace Sistema.Generales
         public string cabecera_local { get; set; }
         public string estatus { get; set; }
         public string estatus_acta { get; set; }
-        public Nullable<int> id_estatus_acta { get; set; }       
+        public Nullable<int> id_estatus_acta { get; set; }
+        public Nullable<int> grupo_trabajo { get; set; }
 
     }
 

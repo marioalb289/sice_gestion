@@ -89,18 +89,21 @@ namespace Sistema.RegistroActasLocal
                     if (TotalVotosDistrito > 0)
                     {
                         diferenciaPorcentajeTotal = Math.Round( ((double)diferenciaTotal * 100) / TotalVotosDistrito, 2);
+
+                        if (diferenciaPorcentajeTotal < 0.5)
+                        {
+                            lblDiferencia.Text = diferenciaPorcentajeTotal + "%";
+                            lblTipoRecuento.Text = "TOTAL";
+                            this.tipo_recuento = "TOTAL";
+                        }
+                        else
+                        {
+                            lblDiferencia.Text = diferenciaPorcentajeTotal + "%";
+                            lblTipoRecuento.Text = "PARCIAL";
+                            this.tipo_recuento = "PARCIAL";
+                        }
                     }
-                    if(diferenciaPorcentajeTotal < 0.5)
-                    {
-                        lblDiferencia.Text = diferenciaPorcentajeTotal + "%";
-                        lblTipoRecuento.Text = "TOTAL";
-                        this.tipo_recuento = "TOTAL";
-                    }
-                    else{
-                        lblDiferencia.Text = diferenciaPorcentajeTotal + "%";
-                        lblTipoRecuento.Text = "PARCIAL";
-                        this.tipo_recuento = "PARCIAL";
-                    }
+                    
                 }
                 else
                 {
@@ -190,7 +193,7 @@ namespace Sistema.RegistroActasLocal
                 {
                     throw new Exception("Solo se Permiten números");
                 }
-                if (this.puntos_recuento <= 1 || this.puntos_recuento > 8)
+                if (this.puntos_recuento < 1 || this.puntos_recuento > 8)
                 {
                     throw new Exception("El número de Puntos de Recuento debe ser minímo 1 y Máximo 8. \nVerifique la configuración");
                 }

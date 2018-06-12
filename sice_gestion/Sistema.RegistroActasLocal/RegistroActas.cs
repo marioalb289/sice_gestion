@@ -61,12 +61,6 @@ namespace Sistema.RegistroActasLocal
             txtSobrantes.MouseUp += new System.Windows.Forms.MouseEventHandler(tbxValue_MouseUp);
             txtSobrantes.Leave += new System.EventHandler(tbxValue_Leave);
 
-            txtEscritos.KeyPress += FrmRegistroActas_KeyPress;
-            txtEscritos.KeyUp += Evento_KeyUp;
-            txtEscritos.GotFocus += new System.EventHandler(tbxValue_GotFocus);
-            txtEscritos.MouseUp += new System.Windows.Forms.MouseEventHandler(tbxValue_MouseUp);
-            txtEscritos.Leave += new System.EventHandler(tbxValue_Leave);
-
             txtPersonasVotaron.KeyPress += FrmRegistroActas_KeyPress;
             txtPersonasVotaron.KeyUp += Evento_KeyUp;
             txtPersonasVotaron.GotFocus += new System.EventHandler(tbxValue_GotFocus);
@@ -138,8 +132,8 @@ namespace Sistema.RegistroActasLocal
                         if (!this.VerificarApartados())
                             return;
                     }
-                    if (condiciones_paquete == 0)
-                        throw new Exception("Debes Seleccionar las Condiciones del paquete");
+                    //if (condiciones_paquete == 0)
+                    //    throw new Exception("Debes Seleccionar las Condiciones del paquete");
 
                     selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
                     if (this.flagSelectSupuesto > 0)
@@ -203,7 +197,7 @@ namespace Sistema.RegistroActasLocal
 
 
                     int res = regActas.guardarDatosVotosRP(lista_votos, Convert.ToInt32(cmbCasilla.SelectedValue), selectedSupuesto, Convert.ToInt32(txtSobrantes.Text),
-                        Convert.ToInt32(txtEscritos.Text), Convert.ToInt32(txtPersonasVotaron.Text), Convert.ToInt32(txtRepresentantes.Text), Convert.ToInt32(txtVotosSacados.Text),
+                        0, Convert.ToInt32(txtPersonasVotaron.Text), Convert.ToInt32(txtRepresentantes.Text), Convert.ToInt32(txtVotosSacados.Text),
                         0, estatus_acta, estatus_paquete, condiciones_paquete);
                     if (res == 1)
                     {
@@ -342,7 +336,7 @@ namespace Sistema.RegistroActasLocal
                     
 
                     int res = regActas.guardarDatosVotos(lista_votos, Convert.ToInt32(cmbCasilla.SelectedValue), selectedSupuesto, Convert.ToInt32(txtSobrantes.Text),
-                        Convert.ToInt32(txtEscritos.Text), Convert.ToInt32(txtPersonasVotaron.Text), Convert.ToInt32(txtRepresentantes.Text), Convert.ToInt32(txtVotosSacados.Text),
+                        0, Convert.ToInt32(txtPersonasVotaron.Text), Convert.ToInt32(txtRepresentantes.Text), Convert.ToInt32(txtVotosSacados.Text),
                         0, estatus_acta, estatus_paquete,condiciones_paquete);
                     if (res == 1)
                     {
@@ -845,7 +839,6 @@ namespace Sistema.RegistroActasLocal
                 this.tblPanelBoletas.Visible = false;
                 this.txtBoletasR.Text = "0";
                 this.txtSobrantes.Text = "0";
-                this.txtEscritos.Text = "0";
                 this.boletasRecibidas = 0;
                 this.txtTotalCapturado.Text = "0";
                 this.lblListaNominal.Text = "No.";
@@ -882,7 +875,6 @@ namespace Sistema.RegistroActasLocal
             this.txtBoletasR.Text = "0";
             this.txtSobrantes.Text = "0";
             this.boletasRecibidas = 0;
-            this.txtEscritos.Text = "0";
 
             this.txtPersonasVotaron.Text = "0";
             this.txtRepresentantes.Text = "0";
@@ -1270,7 +1262,6 @@ namespace Sistema.RegistroActasLocal
 
                     tblPanelBoletas.Enabled = false;
                     tablePanelPartidos.Enabled = false;
-                    txtEscritos.Enabled = false;
                 }
                 else
                 {
@@ -1280,7 +1271,6 @@ namespace Sistema.RegistroActasLocal
                     
                     tblPanelBoletas.Enabled = true;
                     tablePanelPartidos.Enabled = true;
-                    txtEscritos.Enabled = true;
                 }
             }
             catch (Exception ex)
@@ -1300,13 +1290,11 @@ namespace Sistema.RegistroActasLocal
 
                     tblPanelBoletas.Enabled = false;
                     tablePanelPartidos.Enabled = false;
-                    txtEscritos.Enabled = false;
                 }
                 else
                 {
                     tblPanelBoletas.Enabled = true;
                     tablePanelPartidos.Enabled = true;
-                    txtEscritos.Enabled = true;
                 }
             }
             catch (Exception ex)

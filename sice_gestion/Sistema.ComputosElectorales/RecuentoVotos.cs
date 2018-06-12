@@ -221,17 +221,21 @@ namespace Sistema.ComputosElectorales
 
                     if (this.flagSelectSupuesto == 4)
                     {
-                        this.panelCaptura.Enabled = true;
-                        msgBox = new MsgBox(this, "El total de Captura excede el Número de Boletas recibidas", "Atención", MessageBoxButtons.OK, "Error");
-                        msgBox.ShowDialog(this);
-                        return;
+                        selectedSupuesto = flagSelectSupuesto;
+                        //this.panelCaptura.Enabled = true;
+                        //msgBox = new MsgBox(this, "El total de Captura excede el Número de Boletas recibidas", "Atención", MessageBoxButtons.OK, "Error");
+                        //msgBox.ShowDialog(this);
+                        //return;
+                        estatus_acta = 5;
                     }
                     else if (this.flagSelectSupuesto == 5)
                     {
-                        this.panelCaptura.Enabled = true;
-                        msgBox = new MsgBox(this, "Número de VOTOS NULOS mayor a la diferencia entre el 1ER y 2DO lugar", "Atención", MessageBoxButtons.OK, "Advertencia");
-                        msgBox.ShowDialog(this);
-                        return;
+                        //this.panelCaptura.Enabled = true;
+                        //msgBox = new MsgBox(this, "Número de VOTOS NULOS mayor a la diferencia entre el 1ER y 2DO lugar", "Atención", MessageBoxButtons.OK, "Advertencia");
+                        //msgBox.ShowDialog(this);
+                        //return;
+                        selectedSupuesto = flagSelectSupuesto;
+                        estatus_acta = 5;
                     }
                 }
 

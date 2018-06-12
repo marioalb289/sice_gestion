@@ -127,11 +127,11 @@
             this.tablePanelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tablePanelPartidos.Dock = System.Windows.Forms.DockStyle.Top;
             this.tablePanelPartidos.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
-            this.tablePanelPartidos.Location = new System.Drawing.Point(0, 376);
+            this.tablePanelPartidos.Location = new System.Drawing.Point(0, 378);
             this.tablePanelPartidos.Name = "tablePanelPartidos";
             this.tablePanelPartidos.Padding = new System.Windows.Forms.Padding(40, 0, 40, 0);
             this.tablePanelPartidos.RowCount = 1;
-            this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 279F));
+            this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 282F));
             this.tablePanelPartidos.Size = new System.Drawing.Size(1007, 213);
             this.tablePanelPartidos.TabIndex = 20;
             this.tablePanelPartidos.Visible = false;
@@ -150,8 +150,8 @@
             this.tblPanaelTitulo.Name = "tblPanaelTitulo";
             this.tblPanaelTitulo.Padding = new System.Windows.Forms.Padding(40, 10, 40, 10);
             this.tblPanaelTitulo.RowCount = 1;
-            this.tblPanaelTitulo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 90F));
-            this.tblPanaelTitulo.Size = new System.Drawing.Size(1007, 114);
+            this.tblPanaelTitulo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 92F));
+            this.tblPanaelTitulo.Size = new System.Drawing.Size(1007, 116);
             this.tblPanaelTitulo.TabIndex = 19;
             // 
             // pnlTableTitulo
@@ -161,7 +161,7 @@
             this.pnlTableTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableTitulo.Location = new System.Drawing.Point(45, 15);
             this.pnlTableTitulo.Name = "pnlTableTitulo";
-            this.pnlTableTitulo.Size = new System.Drawing.Size(917, 84);
+            this.pnlTableTitulo.Size = new System.Drawing.Size(917, 86);
             this.pnlTableTitulo.TabIndex = 39;
             // 
             // label21
@@ -205,7 +205,7 @@
             this.tableLayoutPanel2.Padding = new System.Windows.Forms.Padding(100, 10, 100, 10);
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 72F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 72F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(1007, 87);
             this.tableLayoutPanel2.TabIndex = 21;
             // 
@@ -228,6 +228,7 @@
             this.tableLayoutPanel2.SetColumnSpan(this.cmbSupuesto, 3);
             this.cmbSupuesto.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cmbSupuesto.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbSupuesto.DropDownWidth = 400;
             this.cmbSupuesto.Enabled = false;
             this.cmbSupuesto.FormattingEnabled = true;
             this.cmbSupuesto.Location = new System.Drawing.Point(586, 35);
@@ -255,6 +256,7 @@
             // 
             this.cmbEstatusActa.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cmbEstatusActa.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbEstatusActa.DropDownWidth = 300;
             this.cmbEstatusActa.FormattingEnabled = true;
             this.cmbEstatusActa.Location = new System.Drawing.Point(245, 35);
             this.cmbEstatusActa.Margin = new System.Windows.Forms.Padding(20, 25, 20, 5);

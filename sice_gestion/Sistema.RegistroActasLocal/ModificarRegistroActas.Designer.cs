@@ -122,11 +122,11 @@
             this.tablePanelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tablePanelPartidos.Dock = System.Windows.Forms.DockStyle.Top;
             this.tablePanelPartidos.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
-            this.tablePanelPartidos.Location = new System.Drawing.Point(0, 462);
+            this.tablePanelPartidos.Location = new System.Drawing.Point(0, 464);
             this.tablePanelPartidos.Name = "tablePanelPartidos";
             this.tablePanelPartidos.Padding = new System.Windows.Forms.Padding(40, 0, 40, 0);
             this.tablePanelPartidos.RowCount = 1;
-            this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 291F));
+            this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 294F));
             this.tablePanelPartidos.Size = new System.Drawing.Size(1007, 213);
             this.tablePanelPartidos.TabIndex = 20;
             this.tablePanelPartidos.Visible = false;
@@ -145,8 +145,8 @@
             this.tblPanaelTitulo.Name = "tblPanaelTitulo";
             this.tblPanaelTitulo.Padding = new System.Windows.Forms.Padding(40, 10, 40, 10);
             this.tblPanaelTitulo.RowCount = 1;
-            this.tblPanaelTitulo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 98F));
-            this.tblPanaelTitulo.Size = new System.Drawing.Size(1007, 122);
+            this.tblPanaelTitulo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tblPanaelTitulo.Size = new System.Drawing.Size(1007, 124);
             this.tblPanaelTitulo.TabIndex = 19;
             // 
             // pnlTableTitulo
@@ -156,7 +156,7 @@
             this.pnlTableTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableTitulo.Location = new System.Drawing.Point(45, 15);
             this.pnlTableTitulo.Name = "pnlTableTitulo";
-            this.pnlTableTitulo.Size = new System.Drawing.Size(917, 92);
+            this.pnlTableTitulo.Size = new System.Drawing.Size(917, 94);
             this.pnlTableTitulo.TabIndex = 39;
             // 
             // label21
@@ -214,6 +214,7 @@
             this.tableLayoutPanel2.SetColumnSpan(this.cmbEstadoPaquete, 2);
             this.cmbEstadoPaquete.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cmbEstadoPaquete.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbEstadoPaquete.DropDownWidth = 300;
             this.cmbEstadoPaquete.FormattingEnabled = true;
             this.cmbEstadoPaquete.Location = new System.Drawing.Point(694, 35);
             this.cmbEstadoPaquete.Margin = new System.Windows.Forms.Padding(20, 25, 20, 5);
@@ -232,7 +233,7 @@
             this.label9.Padding = new System.Windows.Forms.Padding(10);
             this.label9.Size = new System.Drawing.Size(102, 72);
             this.label9.TabIndex = 32;
-            this.label9.Text = "Condciones del Paquete";
+            this.label9.Text = "Condiciones del Paquete";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label17
@@ -254,6 +255,7 @@
             this.tableLayoutPanel2.SetColumnSpan(this.cmbSupuesto, 2);
             this.cmbSupuesto.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cmbSupuesto.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbSupuesto.DropDownWidth = 500;
             this.cmbSupuesto.FormattingEnabled = true;
             this.cmbSupuesto.Location = new System.Drawing.Point(245, 107);
             this.cmbSupuesto.Margin = new System.Windows.Forms.Padding(20, 25, 20, 5);
@@ -309,6 +311,7 @@
             this.tableLayoutPanel2.SetColumnSpan(this.cmbEstatusPaquete, 2);
             this.cmbEstatusPaquete.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cmbEstatusPaquete.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbEstatusPaquete.DropDownWidth = 310;
             this.cmbEstatusPaquete.FormattingEnabled = true;
             this.cmbEstatusPaquete.Location = new System.Drawing.Point(245, 35);
             this.cmbEstatusPaquete.Margin = new System.Windows.Forms.Padding(20, 25, 20, 5);
