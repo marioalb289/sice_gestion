@@ -1217,6 +1217,7 @@ namespace Sistema.Generales
         public string tipo { get; set; }
         public Nullable<int> votos { get; set; }
         public Nullable<int> id_partido { get; set; }
+        public Nullable<int> prelacion { get; set; }
         public string partido { get; set; }
         public string imagen { get; set; }
         public Nullable<int> partido_local { get; set; }
@@ -1269,7 +1270,8 @@ namespace Sistema.Generales
         public Nullable<int> id_casilla { get; set; }
         public string casilla { get; set; }
         public int lista_nominal { get; set; }
-        public Nullable<int> id_candidato { get; set; }        
+        public Nullable<int> id_candidato { get; set; }
+        public Nullable<int> id_partido { get; set; }
         public Nullable<int> votos { get; set; }
         public string tipo { get; set; }
         public string candidato { get; set; }

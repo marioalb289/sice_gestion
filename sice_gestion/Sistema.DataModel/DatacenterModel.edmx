@@ -272,6 +272,8 @@
           <Property Name="puntos_recuento" Type="int" />
           <Property Name="horas_disponibles" Type="double" />
           <Property Name="tipo_recuento" Type="enum" />
+          <Property Name="inicializado" Type="int" Nullable="false" />
+          <Property Name="importado" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="sice_configuracion_rp">
           <Key>
@@ -337,6 +339,7 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="id_casilla" Type="int" />
+          <Property Name="grupo_trabajo" Type="int" />
           <Property Name="tipo_reserva" Type="enum" />
           <Property Name="tipo_votacion" Type="enum" Nullable="false" />
           <Property Name="id_supuesto" Type="int" />
@@ -350,7 +353,6 @@
           <Property Name="id_estatus_paquete" Type="int" />
           <Property Name="id_condiciones_paquete" Type="int" />
           <Property Name="id_incidencias" Type="int" />
-          <Property Name="grupo_trabajo" Type="int" />
           <Property Name="inicializada" Type="int" />
           <Property Name="importado" Type="int" />
           <Property Name="create_at" Type="datetime" Precision="0" />
@@ -397,18 +399,6 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="id_partido" Type="int" />
-          <Property Name="id_casilla" Type="int" />
-          <Property Name="votos" Type="int" />
-          <Property Name="tipo" Type="enum" />
-          <Property Name="estatus" Type="int" />
-          <Property Name="importado" Type="int" />
-        </EntityType>
-        <EntityType Name="sice_votos_test">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="id_candidato" Type="int" />
           <Property Name="id_casilla" Type="int" />
           <Property Name="votos" Type="int" />
           <Property Name="tipo" Type="enum" />
@@ -470,7 +460,6 @@
           <EntitySet Name="sice_usuarios" EntityType="Self.sice_usuarios" Schema="sice_pruebas" store:Type="Tables" />
           <EntitySet Name="sice_votos" EntityType="Self.sice_votos" Schema="sice_pruebas" store:Type="Tables" />
           <EntitySet Name="sice_votos_rp" EntityType="Self.sice_votos_rp" Schema="sice_pruebas" store:Type="Tables" />
-          <EntitySet Name="sice_votos_test" EntityType="Self.sice_votos_test" Schema="sice_pruebas" store:Type="Tables" />
           <AssociationSet Name="sice_candidatos_ibfk_1" Association="Self.sice_candidatos_ibfk_1">
             <End Role="sice_candidaturas" EntitySet="sice_candidaturas" />
             <End Role="sice_candidatos" EntitySet="sice_candidatos" />
@@ -501,7 +490,6 @@
           <EntitySet Name="sice_ar_votos_valida2" EntityType="sice_pruebasModel.sice_ar_votos_valida2" />
           <EntitySet Name="sice_ar_votos_valida3" EntityType="sice_pruebasModel.sice_ar_votos_valida3" />
           <EntitySet Name="sice_ar_documentos_local" EntityType="sice_pruebasModel.sice_ar_documentos_local" />
-          <EntitySet Name="sice_votos_test" EntityType="sice_pruebasModel.sice_votos_test" />
           <EntitySet Name="sice_ar_supuestos" EntityType="sice_pruebasModel.sice_ar_supuestos" />
           <EntitySet Name="sice_ar_historico" EntityType="sice_pruebasModel.sice_ar_historico" />
           <EntitySet Name="sice_historico" EntityType="sice_pruebasModel.sice_historico" />
@@ -715,18 +703,6 @@
           <Property Name="estatus_filtro3" Type="Int32" />
           <Property Name="estatus_revisor" Type="Int32" />
           <Property Name="estatus_cotejador" Type="Int32" />
-        </EntityType>
-        <EntityType Name="sice_votos_test">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_candidato" Type="Int32" />
-          <Property Name="id_casilla" Type="Int32" />
-          <Property Name="votos" Type="Int32" />
-          <Property Name="tipo" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" />
-          <Property Name="estatus" Type="Int32" />
-          <Property Name="importado" Type="Int32" />
         </EntityType>
         <EntityType Name="sice_ar_supuestos">
           <Key>
@@ -962,6 +938,8 @@
           <Property Name="puntos_recuento" Type="Int32" />
           <Property Name="horas_disponibles" Type="Double" />
           <Property Name="tipo_recuento" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" />
+          <Property Name="inicializado" Type="Int32" Nullable="false" />
+          <Property Name="importado" Type="Int32" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1153,19 +1131,6 @@
                 <ScalarProperty Name="estatus" ColumnName="estatus" />
                 <ScalarProperty Name="ruta" ColumnName="ruta" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sice_votos_test">
-            <EntityTypeMapping TypeName="sice_pruebasModel.sice_votos_test">
-              <MappingFragment StoreEntitySet="sice_votos_test">
-                <ScalarProperty Name="importado" ColumnName="importado" />
-                <ScalarProperty Name="estatus" ColumnName="estatus" />
-                <ScalarProperty Name="tipo" ColumnName="tipo" />
-                <ScalarProperty Name="votos" ColumnName="votos" />
-                <ScalarProperty Name="id_casilla" ColumnName="id_casilla" />
-                <ScalarProperty Name="id_candidato" ColumnName="id_candidato" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1400,6 +1365,8 @@
           <EntitySetMapping Name="sice_configuracion_recuento">
             <EntityTypeMapping TypeName="sice_pruebasModel.sice_configuracion_recuento">
               <MappingFragment StoreEntitySet="sice_configuracion_recuento">
+                <ScalarProperty Name="importado" ColumnName="importado" />
+                <ScalarProperty Name="inicializado" ColumnName="inicializado" />
                 <ScalarProperty Name="tipo_recuento" ColumnName="tipo_recuento" />
                 <ScalarProperty Name="horas_disponibles" ColumnName="horas_disponibles" />
                 <ScalarProperty Name="puntos_recuento" ColumnName="puntos_recuento" />

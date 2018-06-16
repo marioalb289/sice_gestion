@@ -130,27 +130,28 @@ namespace Sistema.ComputosElectorales
             {
                 CompElec = new ComputosElectoralesGenerales();
                 List<Candidatos> listaCandidatos = CompElec.ListaCandidatos(distrito);
-                int TotalRepresentantes = 1;
-                foreach (Candidatos cnd in listaCandidatos)
-                {
-                    if (cnd.tipo_partido != "COALICION")
-                    {
-                        if (cnd.coalicion != "")
-                        {
-                            TotalRepresentantes += CompElec.RepresentantesCComun(cnd.coalicion);
-                        }
-                        else
-                        {
-                            if (cnd.partido_local == 1)
-                                TotalRepresentantes += 1;
-                            else
-                                TotalRepresentantes += 2;
-                        }
-                    }
+                int TotalRepresentantes = 0;
+                //foreach (Candidatos cnd in listaCandidatos)
+                //{
+                //    if (cnd.tipo_partido != "COALICION")
+                //    {
+                //        if (cnd.coalicion != "")
+                //        {
+                //            TotalRepresentantes += CompElec.RepresentantesCComun(cnd.coalicion);
+                //        }
+                //        else
+                //        {
+                //            if (cnd.partido_local == 1)
+                //                TotalRepresentantes += 1;
+                //            else
+                //                TotalRepresentantes += 2;
+                //        }
+                //    }
 
-                }
+                //}
 
                 List<VotosSeccion> vSeccionTotales = CompElec.ResultadosSeccion(0, 0, (int)distrito);
+                List<VotosSeccion> vSeccionTotales2 = CompElec.ResultadosSeccionRP(0, 0, (int)distrito);
                 List<VotosSeccion> totalAgrupado = vSeccionTotales.GroupBy(x => x.id_casilla).
                     Select(data => new VotosSeccion
                     {
@@ -351,25 +352,25 @@ namespace Sistema.ComputosElectorales
                 this.listaCandidatos = CompElec.ListaCandidatos((int)distrito);
                 //int tempC = listaCandidatos.Count;
 
-                int TotalRepresentantes = 1;
-                foreach (Candidatos cnd in listaCandidatos)
-                {
-                    if (cnd.tipo_partido != "COALICION")
-                    {
-                        if (cnd.coalicion != "")
-                        {
-                            TotalRepresentantes += CompElec.RepresentantesCComun(cnd.coalicion);
-                        }
-                        else
-                        {
-                            if (cnd.partido_local == 1)
-                                TotalRepresentantes += 1;
-                            else
-                                TotalRepresentantes += 2;
-                        }
-                    }
+                int TotalRepresentantes = 0;
+                //foreach (Candidatos cnd in listaCandidatos)
+                //{
+                //    if (cnd.tipo_partido != "COALICION")
+                //    {
+                //        if (cnd.coalicion != "")
+                //        {
+                //            TotalRepresentantes += CompElec.RepresentantesCComun(cnd.coalicion);
+                //        }
+                //        else
+                //        {
+                //            if (cnd.partido_local == 1)
+                //                TotalRepresentantes += 1;
+                //            else
+                //                TotalRepresentantes += 2;
+                //        }
+                //    }
 
-                }
+                //}
                 int votos = 0;
                 foreach (VotosSeccion v in vSeccion)
                 {

@@ -15,10 +15,10 @@ namespace Sistema.Generales
             {
                 using (DatabaseContext contexto = new DatabaseContext("MYSQLSERVER"))
                 {
-                    //int result = contexto.Database.ExecuteSqlCommand("TRUNCATE sice_votos");
-                    //if (result != 0)
-                    //    throw new Exception("No se pudo Inicializar bd");
-                    int result = contexto.Database.ExecuteSqlCommand("TRUNCATE sice_votos_rp");
+                    int result = contexto.Database.ExecuteSqlCommand("TRUNCATE sice_votos");
+                    if (result != 0)
+                        throw new Exception("No se pudo Inicializar bd");
+                    result = contexto.Database.ExecuteSqlCommand("TRUNCATE sice_votos_rp");
                     if (result != 0)
                         throw new Exception("No se pudo Inicializar bd");
                     List<sice_distritos_locales> listaDistritos = this.ListaDistritos();
@@ -33,26 +33,26 @@ namespace Sistema.Generales
                             List<sice_casillas> listaCasillasDistrito = this.ListaCasillasDistrito(d.id);
                             if (listaCasillasDistrito.Count == 0)
                                 throw new Exception("No se pudo Inicializar bd");
-                            //foreach (sice_casillas casilla in listaCasillasDistrito)
-                            //{
-                            //    Console.WriteLine("Insertando casilla: " + casilla.id);
-                            //    sice_votos v1 = new sice_votos();
-                            //    for (int x = 0; x < listaCandidatosDistrito.Count + 2; x++)
-                            //    {
-                            //        if (x >= listaCandidatosDistrito.Count)
-                            //            v1.id_candidato = null;
-                            //        else
-                            //            v1.id_candidato = listaCandidatosDistrito[x].id_candidato;
-                            //        v1.id_casilla = casilla.id;
-                            //        v1.tipo = (x > listaCandidatosDistrito.Count - 1) ? x == listaCandidatosDistrito.Count ? "NO REGISTRADO" : "NULO" : "VOTO";
-                            //        v1.votos = 0;
-                            //        v1.estatus = 0;
-                            //        v1.importado = 0;
-                            //        contexto.sice_votos.Add(v1);
-                            //        contexto.SaveChanges();
-                            //    }
+                            foreach (sice_casillas casilla in listaCasillasDistrito)
+                            {
+                                Console.WriteLine("Insertando casilla: " + casilla.id);
+                                sice_votos v1 = new sice_votos();
+                                for (int x = 0; x < listaCandidatosDistrito.Count + 2; x++)
+                                {
+                                    if (x >= listaCandidatosDistrito.Count)
+                                        v1.id_candidato = null;
+                                    else
+                                        v1.id_candidato = listaCandidatosDistrito[x].id_candidato;
+                                    v1.id_casilla = casilla.id;
+                                    v1.tipo = (x > listaCandidatosDistrito.Count - 1) ? x == listaCandidatosDistrito.Count ? "NO REGISTRADO" : "NULO" : "VOTO";
+                                    v1.votos = 0;
+                                    v1.estatus = 0;
+                                    v1.importado = 0;
+                                    contexto.sice_votos.Add(v1);
+                                    contexto.SaveChanges();
+                                }
 
-                            //}
+                            }
 
                             List<sice_casillas> listaCasillasDistritoEspeciales = this.ListaCasillasDistrito(d.id,true);
                             foreach (sice_casillas casilla in listaCasillasDistritoEspeciales)
@@ -106,9 +106,9 @@ namespace Sistema.Generales
                 using (DatabaseContext contexto = new DatabaseContext("MYSQLSERVER"))
                 {
                     if(!especial)
-                        return (from p in contexto.sice_casillas where p.id_distrito_local == distrito select p).ToList();
+                        return (from p in contexto.sice_casillas where p.id_distrito_local == distrito && p.tipo_votacion == "MR" select p).ToList();
                     else
-                        return (from p in contexto.sice_casillas where p.id_distrito_local == distrito && p.tipo_casilla == "S1" select p).ToList();
+                        return (from p in contexto.sice_casillas where p.id_distrito_local == distrito && p.tipo_votacion == "RP" select p).ToList();
 
 
 

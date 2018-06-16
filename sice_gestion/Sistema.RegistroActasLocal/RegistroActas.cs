@@ -271,8 +271,8 @@ namespace Sistema.RegistroActasLocal
                         if (!this.VerificarApartados())
                             return;
                     }
-                    if (condiciones_paquete == 0)
-                        throw new Exception("Debes Seleccionar las Condiciones del paquete");
+                    //if (condiciones_paquete == 0)
+                    //    throw new Exception("Debes Seleccionar las Condiciones del paquete");
 
                     selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
                     if (this.flagSelectSupuesto > 0)
@@ -584,8 +584,7 @@ namespace Sistema.RegistroActasLocal
                             }
                             
                         }
-                        if (SelectedCasilla.casilla == "S1")
-                            TotalRepresentantes = 0;
+                       
 
                         this.totalCandidatos = lsCandidatos.Count() + 2;
 
@@ -599,6 +598,8 @@ namespace Sistema.RegistroActasLocal
 
                         SeccionCasillaConsecutivo tempSec = (from p in this.sc where p.id == Convert.ToInt32(cmbCasilla.SelectedValue) select p).FirstOrDefault();
                         this.lblListaNominal.Text = tempSec.listaNominal.ToString();
+                        if (SelectedCasilla.casilla == "S1")
+                            this.lblListaNominal.Text = "0";
                         this.lblDistrito.Text = tempSec.distrito.ToString();
                         this.Lnominal = tempSec.listaNominal;
                         this.boletasRecibidas = tempSec.listaNominal + TotalRepresentantes; //Lista nominal + 2 veces el numero de representantes de casillas
@@ -714,6 +715,21 @@ namespace Sistema.RegistroActasLocal
 
                     int totalPartidos = lsPartidos.Count() + 2;
 
+                    int TotalRepresentantes = 1;
+                    foreach (sice_partidos_politicos cnd in lsPartidos)
+                    {
+                        if (cnd.info_creado != "" && cnd.info_creado != null && cnd.tipo != "COALICION")
+                        {
+                            TotalRepresentantes += regActas.RepresentantesCComun(cnd.info_creado);
+                        }
+                        else if (cnd.tipo != "COALICION")
+                        {
+                            if (cnd.local == 1)
+                                TotalRepresentantes += 1;
+                            else if (cnd.local == 0)
+                                TotalRepresentantes += 2;
+                        }
+                    }
 
                     this.pictureBoxes = new PictureBox[lsPartidos.Count + 2];
                     this.textBoxes = new TextBox[lsPartidos.Count + 2];
@@ -723,11 +739,11 @@ namespace Sistema.RegistroActasLocal
                     this.btnGuardar.Enabled = true;
 
                     SeccionCasillaConsecutivo tempSec = (from p in this.sc where p.id == Convert.ToInt32(cmbCasilla.SelectedValue) select p).FirstOrDefault();
-                    this.lblListaNominal.Text = Configuracion.BoletasEspecial.ToString();
+                    this.lblListaNominal.Text = "0";
                     this.lblDistrito.Text = tempSec.distrito.ToString();
-                    this.txtBoletasR.Text = Configuracion.BoletasEspecial.ToString();
                     this.Lnominal = Configuracion.BoletasEspecial;
-                    this.boletasRecibidas = Configuracion.BoletasEspecial; //Lista nominal + 2 veces el numero de representantes de casillas
+                    this.boletasRecibidas = this.Lnominal + TotalRepresentantes; //Lista nominal + 2 veces el numero de representantes de casillas
+                    this.txtBoletasR.Text = this.boletasRecibidas.ToString();
 
 
                     //Agregar Columnas
@@ -970,6 +986,10 @@ namespace Sistema.RegistroActasLocal
                     if (double.TryParse(datos.Text, out num))
                     {
                         totalVotos = totalVotos + num;
+                        if(num == Convert.ToDouble(this.boletasRecibidas))
+                        {
+                            flagError = 2;
+                        }
                         listaVotos.Add(num);
                         if (tempIdCandidato == -2)
                             votosNulos = num;
@@ -998,13 +1018,23 @@ namespace Sistema.RegistroActasLocal
 
                 }
                 this.totalVotos = Convert.ToInt32(totalVotos + boletasSobrantes);
-                if (flagError > 0)
+                if (flagError == 1)
                 {
                     this.flagSelectSupuesto = 4;
                     this.cmbSupuesto.SelectedIndex = 4;
                     //this.cmbSupuesto.Enabled = false;
                     //this.DesactivarTextBoxes();
                     msgBox = new MsgBox(this, "El total de Captura excede el Número de Boletas recibidas", "Atención", MessageBoxButtons.OK, "Error");
+                    msgBox.ShowDialog(this);
+                    return;
+                }
+                else if(flagError == 2)
+                {
+                    this.flagSelectSupuesto = 6;
+                    this.cmbSupuesto.SelectedIndex = 6;
+                    //this.cmbSupuesto.Enabled = false;
+                    //this.DesactivarTextBoxes();
+                    msgBox = new MsgBox(this, "TODOS LOS VOTOS A FAVOR DE UN PARTIDO", "Atención", MessageBoxButtons.OK, "Error");
                     msgBox.ShowDialog(this);
                     return;
                 }
@@ -1026,7 +1056,7 @@ namespace Sistema.RegistroActasLocal
                 {
                     //this.cmbSupuesto.Enabled = true;
                     int selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
-                    if (selectedSupuesto == 5 || selectedSupuesto == 4)
+                    if (selectedSupuesto == 5 || selectedSupuesto == 4 || selectedSupuesto == 6)
                     {
                         this.cmbSupuesto.SelectedIndex = 0;
                     }

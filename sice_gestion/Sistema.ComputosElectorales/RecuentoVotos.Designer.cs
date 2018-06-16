@@ -63,8 +63,6 @@
             this.lblConsecutivo = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.btnReserva = new System.Windows.Forms.Button();
-            this.btnNoConta = new System.Windows.Forms.Button();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnSiguiente = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
@@ -125,11 +123,11 @@
             this.tablePanelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tablePanelPartidos.Dock = System.Windows.Forms.DockStyle.Top;
             this.tablePanelPartidos.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
-            this.tablePanelPartidos.Location = new System.Drawing.Point(0, 383);
+            this.tablePanelPartidos.Location = new System.Drawing.Point(0, 389);
             this.tablePanelPartidos.Name = "tablePanelPartidos";
             this.tablePanelPartidos.Padding = new System.Windows.Forms.Padding(40, 0, 40, 0);
             this.tablePanelPartidos.RowCount = 1;
-            this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 297F));
+            this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 306F));
             this.tablePanelPartidos.Size = new System.Drawing.Size(1007, 213);
             this.tablePanelPartidos.TabIndex = 20;
             this.tablePanelPartidos.Visible = false;
@@ -148,8 +146,8 @@
             this.tblPanaelTitulo.Name = "tblPanaelTitulo";
             this.tblPanaelTitulo.Padding = new System.Windows.Forms.Padding(40, 10, 40, 10);
             this.tblPanaelTitulo.RowCount = 1;
-            this.tblPanaelTitulo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 102F));
-            this.tblPanaelTitulo.Size = new System.Drawing.Size(1007, 126);
+            this.tblPanaelTitulo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 108F));
+            this.tblPanaelTitulo.Size = new System.Drawing.Size(1007, 132);
             this.tblPanaelTitulo.TabIndex = 19;
             // 
             // pnlTableTitulo
@@ -159,7 +157,7 @@
             this.pnlTableTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableTitulo.Location = new System.Drawing.Point(45, 15);
             this.pnlTableTitulo.Name = "pnlTableTitulo";
-            this.pnlTableTitulo.Size = new System.Drawing.Size(917, 96);
+            this.pnlTableTitulo.Size = new System.Drawing.Size(917, 102);
             this.pnlTableTitulo.TabIndex = 39;
             // 
             // label21
@@ -611,8 +609,6 @@
             // 
             // panel5
             // 
-            this.panel5.Controls.Add(this.btnReserva);
-            this.panel5.Controls.Add(this.btnNoConta);
             this.panel5.Controls.Add(this.btnGuardar);
             this.panel5.Controls.Add(this.btnSiguiente);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -620,32 +616,6 @@
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(492, 45);
             this.panel5.TabIndex = 14;
-            // 
-            // btnReserva
-            // 
-            this.btnReserva.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnReserva.Location = new System.Drawing.Point(152, 0);
-            this.btnReserva.Name = "btnReserva";
-            this.btnReserva.Size = new System.Drawing.Size(85, 45);
-            this.btnReserva.TabIndex = 31;
-            this.btnReserva.TabStop = false;
-            this.btnReserva.Tag = "tomarActa";
-            this.btnReserva.Text = "Reservar Casilla";
-            this.btnReserva.UseVisualStyleBackColor = true;
-            this.btnReserva.Click += new System.EventHandler(this.btnReserva_Click);
-            // 
-            // btnNoConta
-            // 
-            this.btnNoConta.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnNoConta.Location = new System.Drawing.Point(237, 0);
-            this.btnNoConta.Name = "btnNoConta";
-            this.btnNoConta.Size = new System.Drawing.Size(85, 45);
-            this.btnNoConta.TabIndex = 30;
-            this.btnNoConta.TabStop = false;
-            this.btnNoConta.Tag = "tomarActa";
-            this.btnNoConta.Text = "Casilla No Contabilizable";
-            this.btnNoConta.UseVisualStyleBackColor = true;
-            this.btnNoConta.Click += new System.EventHandler(this.btnNoConta_Click);
             // 
             // btnGuardar
             // 
@@ -835,8 +805,6 @@
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button btnReserva;
-        private System.Windows.Forms.Button btnNoConta;
         private System.Windows.Forms.Button btnGuardar;
         private System.Windows.Forms.Button btnSiguiente;
         private System.Windows.Forms.Label label7;

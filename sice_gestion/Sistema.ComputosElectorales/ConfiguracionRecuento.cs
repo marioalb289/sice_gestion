@@ -138,12 +138,12 @@ namespace Sistema.ComputosElectorales
                     if (this.tipo_recuento == "TOTAL")
                     {
                         //this.totalCasillasRecuento = 21;
-                        this.totalCasillasRecuento = CompElec.ListaCasillasRecuentos(id_distrito, true,true).Count();
+                        this.totalCasillasRecuento = CompElec.ListaCasillasRecuentos(id_distrito, true,false).Count();
                         this.lblTotalCasillas.Text = this.totalCasillasRecuento.ToString();
                     }
                     else
                     {
-                        this.totalCasillasRecuento = CompElec.ListaCasillasRecuentos(id_distrito, false).Count();
+                        this.totalCasillasRecuento = CompElec.ListaCasillasRecuentos(id_distrito, false,false).Count();
                         this.lblTotalCasillas.Text = this.totalCasillasRecuento.ToString();
                     }
 
@@ -154,12 +154,12 @@ namespace Sistema.ComputosElectorales
                     if (this.tipo_recuento == "TOTAL")
                     {
                         //this.totalCasillasRecuento = 21;
-                        this.totalCasillasRecuento = CompElec.ListaCasillasRecuentos(id_distrito, true).Count();
+                        this.totalCasillasRecuento = CompElec.ListaCasillasRecuentos(id_distrito, true,false).Count();
                         this.lblTotalCasillas.Text = this.totalCasillasRecuento.ToString();
                     }
                     else
                     {
-                        this.totalCasillasRecuento = CompElec.ListaCasillasRecuentos(id_distrito, false).Count();
+                        this.totalCasillasRecuento = CompElec.ListaCasillasRecuentos(id_distrito, false,false).Count();
                         this.lblTotalCasillas.Text = this.totalCasillasRecuento.ToString();
                     }
                 }

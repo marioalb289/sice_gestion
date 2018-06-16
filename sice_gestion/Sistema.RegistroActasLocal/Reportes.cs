@@ -131,25 +131,25 @@ namespace Sistema.RegistroActasLocal
                 rgActas = new RegistroLocalGenerales();
                 this.listaCandidatos = rgActas.ListaCandidatos(distrito);
                 List<Candidatos> listaCandidatos = rgActas.ListaCandidatos(distrito);
-                int TotalRepresentantes = 1;
-                foreach (Candidatos cnd in listaCandidatos)
-                {
-                    if (cnd.tipo_partido != "COALICION")
-                    {
-                        if (cnd.coalicion != "")
-                        {
-                            TotalRepresentantes += rgActas.RepresentantesCComun(cnd.coalicion);
-                        }
-                        else
-                        {
-                            if (cnd.partido_local == 1)
-                                TotalRepresentantes += 1;
-                            else
-                                TotalRepresentantes += 2;
-                        }
-                    }
+                int TotalRepresentantes = 0;
+                //foreach (Candidatos cnd in listaCandidatos)
+                //{
+                //    if (cnd.tipo_partido != "COALICION")
+                //    {
+                //        if (cnd.coalicion != "")
+                //        {
+                //            TotalRepresentantes += rgActas.RepresentantesCComun(cnd.coalicion);
+                //        }
+                //        else
+                //        {
+                //            if (cnd.partido_local == 1)
+                //                TotalRepresentantes += 1;
+                //            else
+                //                TotalRepresentantes += 2;
+                //        }
+                //    }
 
-                }
+                //}
                 List<VotosSeccion> vSeccionTotales = rgActas.ResultadosSeccionCaptura(0, 0, (int)distrito);
                 List<VotosSeccion> totalAgrupado = vSeccionTotales.GroupBy(x => x.id_casilla).
                    Select(data => new VotosSeccion
@@ -328,25 +328,25 @@ namespace Sistema.RegistroActasLocal
                 List<Candidatos> listaCandidatos = rgActas.ListaCandidatos((int)distrito);
                 //int tempC = listaCandidatos.Count;
 
-                int TotalRepresentantes = 1;
-                foreach (Candidatos cnd in listaCandidatos)
-                {
-                    if (cnd.tipo_partido != "COALICION")
-                    {
-                        if (cnd.coalicion != "")
-                        {
-                            TotalRepresentantes += rgActas.RepresentantesCComun(cnd.coalicion);
-                        }
-                        else
-                        {
-                            if (cnd.partido_local == 1)
-                                TotalRepresentantes += 1;
-                            else
-                                TotalRepresentantes += 2;
-                        }
-                    }
+                int TotalRepresentantes = 0;
+                //foreach (Candidatos cnd in listaCandidatos)
+                //{
+                //    if (cnd.tipo_partido != "COALICION")
+                //    {
+                //        if (cnd.coalicion != "")
+                //        {
+                //            TotalRepresentantes += rgActas.RepresentantesCComun(cnd.coalicion);
+                //        }
+                //        else
+                //        {
+                //            if (cnd.partido_local == 1)
+                //                TotalRepresentantes += 1;
+                //            else
+                //                TotalRepresentantes += 2;
+                //        }
+                //    }
 
-                }
+                //}
 
 
                 foreach (VotosSeccion v in vSeccion)

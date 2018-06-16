@@ -33,10 +33,18 @@ namespace Sistema.Generales
 
         public sice_configuracion_recuento Configuracion_Recuento(string sistema, int id_distrito)
         {
-            using (DatabaseContext contexto = new DatabaseContext(con))
+            try
             {
-                return (from p in contexto.sice_configuracion_recuento where p.sistema == sistema && p.id_distrito == id_distrito select p).FirstOrDefault();
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    return (from p in contexto.sice_configuracion_recuento where p.sistema == sistema && p.id_distrito == id_distrito select p).FirstOrDefault();
+                }
             }
+            catch(Exception E)
+            {
+                throw E;
+            }
+            
         }
         public List<sice_partidos_politicos> ListaPartidosPoliticos()
         {
@@ -587,7 +595,7 @@ namespace Sistema.Generales
                     }
                     else
                     {
-                         join = "JOIN sice_casillas C ON C.id = R.id_casilla AND C.id_distrito_local = " + distrito + " ";
+                         join = "JOIN sice_casillas C ON C.id = R.id_casilla AND C.id_distrito_local = " + distrito + " AND C.tipo_votacion = 'MR' ";
                          consulta =
                             "SELECT " +
                                 "C.id as id_casilla, " +
