@@ -1061,7 +1061,7 @@ namespace Sistema.Generales
 
 
         public int guardarDatosVotos(List<sice_votos> listaVotos, int id_casilla, int supuesto, int boletasSobrantes, int numEscritos, int personas_votaron,
-            int representantes, int votos_sacados, int incidencias, int estatus_acta, int estatus_paquete, bool modificar = false)
+            int representantes, int votos_sacados, int incidencias, int estatus_acta, int estatus_paquete, int votos_reserva = 0, bool modificar = false)
         {
             try
             {
@@ -1148,6 +1148,7 @@ namespace Sistema.Generales
                             rc.id_estatus_acta = estatus_acta;
                             rc.id_estatus_paquete = ep;
                             rc.id_condiciones_paquete = cp;
+                            rc.votos_reservados = votos_reserva;
                             rc.tipo_votacion = "MR";
                             if (incidencias == 0)
                                 rc.id_incidencias = null;
@@ -1177,6 +1178,7 @@ namespace Sistema.Generales
                             rc.id_estatus_paquete = ep;
                             rc.id_condiciones_paquete = cp;
                             rc.inicializada = recuento ? 2 : 0;
+                            rc.votos_reservados = votos_reserva;
                             rc.tipo_votacion = "MR";
                             if (incidencias == 0)
                                 rc.id_incidencias = null;
@@ -1209,7 +1211,7 @@ namespace Sistema.Generales
         }
 
         public int guardarDatosVotosRP(List<sice_votos_rp> listaVotos, int id_casilla, int supuesto, int boletasSobrantes, int numEscritos, int personas_votaron,
-            int representantes, int votos_sacados, int incidencias, int estatus_acta, int estatus_paquete, bool modificar = false)
+            int representantes, int votos_sacados, int incidencias, int estatus_acta, int estatus_paquete,int votos_reserva = 0, bool modificar = false)
         {
             try
             {
@@ -1283,6 +1285,7 @@ namespace Sistema.Generales
                             rc.votos_sacados = ceros ? 0 : votos_sacados;
                             rc.id_estatus_acta = estatus_acta;
                             rc.id_estatus_paquete = estatus_paquete;
+                            rc.votos_reservados = votos_reserva;
                             rc.tipo_votacion = "RP";
                             rc.inicializada = 0;
                             if (incidencias == 0)
@@ -1311,6 +1314,7 @@ namespace Sistema.Generales
                             rc.votos_sacados = ceros ? 0 : votos_sacados;
                             rc.id_estatus_acta = estatus_acta;
                             rc.id_estatus_paquete = estatus_paquete;
+                            rc.votos_reservados = votos_reserva;
                             rc.inicializada = 0;
                             rc.tipo_votacion = "RP";
                             if (incidencias == 0)

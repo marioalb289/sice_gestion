@@ -65,13 +65,14 @@ namespace Sistema.ComputosElectorales
             txtSobrantes.MouseUp += new System.Windows.Forms.MouseEventHandler(tbxValue_MouseUp);
             txtSobrantes.Leave += new System.EventHandler(tbxValue_Leave);
 
-            
-
-            
+            txtVotosReserva.KeyPress += FrmRegistroActas_KeyPress;
+            txtVotosReserva.KeyUp += Evento_KeyUp;
+            txtVotosReserva.GotFocus += new System.EventHandler(tbxValue_GotFocus);
+            txtVotosReserva.MouseUp += new System.Windows.Forms.MouseEventHandler(tbxValue_MouseUp);
+            txtVotosReserva.Leave += new System.EventHandler(tbxValue_Leave);
 
             txtTotalCapturado.KeyPress += TxtPreventCaptura_KeyPress;
             txtBoletasR.KeyPress += TxtPreventCaptura_KeyPress;
-            txtVotosReserva.KeyPress += TxtPreventCaptura_KeyPress;
         }
 
         private void guardarRegistroVotos()
@@ -81,6 +82,7 @@ namespace Sistema.ComputosElectorales
                 int boletasSobrantes = Convert.ToInt32(txtSobrantes.Text);
                 int personas_votaron = Convert.ToInt32(txtTotalCapturado.Text);
                 int votos_sacados = Convert.ToInt32(txtTotalCapturado.Text);
+                int votos_reserva = Convert.ToInt32(txtVotosReserva.Text);
 
                 CompElec = new ComputosElectoralesGenerales();
                 this.panelCaptura.Enabled = false;
@@ -191,7 +193,7 @@ namespace Sistema.ComputosElectorales
 
                     int res2 = CompElec.guardarDatosVotos(lista_votos, id_casilla, selectedSupuesto, Convert.ToInt32(txtSobrantes.Text),
                        0, personas_votaron, 0, votos_sacados,
-                        incidencias, estatus_acta, estatus_paquete);
+                        incidencias, estatus_acta, estatus_paquete, votos_reserva);
                     if (res2 == 1)
                     {
                         //this.tableLayoutPanel2.Enabled = true;
@@ -223,6 +225,7 @@ namespace Sistema.ComputosElectorales
                 int boletasSobrantes = Convert.ToInt32(txtSobrantes.Text);
                 int personas_votaron = Convert.ToInt32(txtTotalCapturado.Text);
                 int votos_sacados = Convert.ToInt32(txtTotalCapturado.Text);
+                int votos_reserva = Convert.ToInt32(txtVotosReserva.Text);
 
                 CompElec = new ComputosElectoralesGenerales();
                 this.panelCaptura.Enabled = false;
@@ -329,7 +332,7 @@ namespace Sistema.ComputosElectorales
 
                     int res2 = CompElec.guardarDatosVotosRP(lista_votos, id_casilla, selectedSupuesto, Convert.ToInt32(txtSobrantes.Text),
                         0, personas_votaron,0, votos_sacados,
-                        incidencias, estatus_acta, estatus_paquete);
+                        incidencias, estatus_acta, estatus_paquete, votos_reserva);
                     if (res2 == 1)
                     {
                         //this.tableLayoutPanel2.Enabled = true;
@@ -926,6 +929,10 @@ namespace Sistema.ComputosElectorales
                 int flagError = 0;
                 double boletasSobrantes = 0;
                 double.TryParse(this.txtSobrantes.Text, out boletasSobrantes);
+
+                double votosReserva = 0;
+                double.TryParse(this.txtVotosReserva.Text, out votosReserva);
+
                 this.txtSobrantes.Text = boletasSobrantes.ToString();
                 foreach (TextBox datos in this.textBoxes)
                 {
@@ -933,7 +940,7 @@ namespace Sistema.ComputosElectorales
                     int tempIdCandidato = Convert.ToInt32(datos.Tag);//Identificador para votos nulos
                     if (double.TryParse(datos.Text, out num))
                     {
-                        totalVotos = totalVotos + num;
+                        totalVotos = totalVotos + num ;
                         if (num == Convert.ToDouble(this.boletasRecibidas))
                         {
                             flagError = 2;
@@ -955,12 +962,12 @@ namespace Sistema.ComputosElectorales
                     if (tempIdCandidato == 0)
                         votosNulos = num;
 
-                    if (totalVotos + boletasSobrantes > Convert.ToDouble(this.boletasRecibidas))
+                    if (totalVotos + boletasSobrantes + votosReserva > Convert.ToDouble(this.boletasRecibidas))
                     {
                         flagError = 1;
                         //datos.Text = "0";
                     }
-                    double totales = totalVotos + boletasSobrantes;
+                    double totales = totalVotos + boletasSobrantes + votosReserva;
                     txtTotalCapturado.Text = totalVotos.ToString();// + "  +  "+boletasSobrantes+ "  =  " + totales ;
 
 

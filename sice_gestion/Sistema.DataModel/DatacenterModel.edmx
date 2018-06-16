@@ -345,6 +345,7 @@
           <Property Name="id_supuesto" Type="int" />
           <Property Name="personas_votaron" Type="int" />
           <Property Name="num_representantes_votaron" Type="int" />
+          <Property Name="votos_reservados" Type="int" Nullable="false" />
           <Property Name="num_escritos" Type="int" />
           <Property Name="votos_sacados" Type="int" />
           <Property Name="boletas_sobrantes" Type="int" />
@@ -910,6 +911,7 @@
           <Property Name="create_at" Type="DateTime" />
           <Property Name="updated_at" Type="DateTime" />
           <Property Name="grupo_trabajo" Type="Int32" />
+          <Property Name="votos_reservados" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="sice_estado_acta">
           <Key>
@@ -1321,6 +1323,7 @@
           <EntitySetMapping Name="sice_reserva_captura">
             <EntityTypeMapping TypeName="sice_pruebasModel.sice_reserva_captura">
               <MappingFragment StoreEntitySet="sice_reserva_captura">
+                <ScalarProperty Name="votos_reservados" ColumnName="votos_reservados" />
                 <ScalarProperty Name="grupo_trabajo" ColumnName="grupo_trabajo" />
                 <ScalarProperty Name="updated_at" ColumnName="updated_at" />
                 <ScalarProperty Name="create_at" ColumnName="create_at" />

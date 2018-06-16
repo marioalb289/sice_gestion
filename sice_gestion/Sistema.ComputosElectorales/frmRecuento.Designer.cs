@@ -120,11 +120,11 @@
             this.tablePanelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tablePanelPartidos.Dock = System.Windows.Forms.DockStyle.Top;
             this.tablePanelPartidos.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
-            this.tablePanelPartidos.Location = new System.Drawing.Point(0, 386);
+            this.tablePanelPartidos.Location = new System.Drawing.Point(0, 388);
             this.tablePanelPartidos.Name = "tablePanelPartidos";
             this.tablePanelPartidos.Padding = new System.Windows.Forms.Padding(40, 0, 40, 0);
             this.tablePanelPartidos.RowCount = 1;
-            this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 300F));
+            this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 303F));
             this.tablePanelPartidos.Size = new System.Drawing.Size(1007, 213);
             this.tablePanelPartidos.TabIndex = 20;
             this.tablePanelPartidos.Visible = false;
@@ -143,8 +143,8 @@
             this.tblPanaelTitulo.Name = "tblPanaelTitulo";
             this.tblPanaelTitulo.Padding = new System.Windows.Forms.Padding(40, 10, 40, 10);
             this.tblPanaelTitulo.RowCount = 1;
-            this.tblPanaelTitulo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 104F));
-            this.tblPanaelTitulo.Size = new System.Drawing.Size(1007, 128);
+            this.tblPanaelTitulo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 106F));
+            this.tblPanaelTitulo.Size = new System.Drawing.Size(1007, 130);
             this.tblPanaelTitulo.TabIndex = 19;
             // 
             // pnlTableTitulo
@@ -154,7 +154,7 @@
             this.pnlTableTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableTitulo.Location = new System.Drawing.Point(45, 15);
             this.pnlTableTitulo.Name = "pnlTableTitulo";
-            this.pnlTableTitulo.Size = new System.Drawing.Size(917, 98);
+            this.pnlTableTitulo.Size = new System.Drawing.Size(917, 100);
             this.pnlTableTitulo.TabIndex = 39;
             // 
             // label21
@@ -267,11 +267,11 @@
             this.tblPanelBoletas.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tblPanelBoletas.Controls.Add(this.txtVotosReserva, 3, 0);
             this.tblPanelBoletas.Controls.Add(this.label12, 2, 0);
-            this.tblPanelBoletas.Controls.Add(this.txtTotalCapturado, 3, 1);
-            this.tblPanelBoletas.Controls.Add(this.label5, 2, 1);
+            this.tblPanelBoletas.Controls.Add(this.txtTotalCapturado, 1, 1);
+            this.tblPanelBoletas.Controls.Add(this.label5, 0, 1);
             this.tblPanelBoletas.Controls.Add(this.label11, 0, 0);
-            this.tblPanelBoletas.Controls.Add(this.label13, 0, 1);
-            this.tblPanelBoletas.Controls.Add(this.txtBoletasR, 1, 1);
+            this.tblPanelBoletas.Controls.Add(this.label13, 2, 1);
+            this.tblPanelBoletas.Controls.Add(this.txtBoletasR, 3, 1);
             this.tblPanelBoletas.Controls.Add(this.txtSobrantes, 1, 0);
             this.tblPanelBoletas.Dock = System.Windows.Forms.DockStyle.Top;
             this.tblPanelBoletas.Location = new System.Drawing.Point(0, 0);
@@ -294,8 +294,7 @@
             this.txtVotosReserva.MaxLength = 3;
             this.txtVotosReserva.Name = "txtVotosReserva";
             this.txtVotosReserva.Size = new System.Drawing.Size(158, 29);
-            this.txtVotosReserva.TabIndex = 25;
-            this.txtVotosReserva.TabStop = false;
+            this.txtVotosReserva.TabIndex = 11;
             this.txtVotosReserva.Text = "0";
             this.txtVotosReserva.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -318,7 +317,7 @@
             this.txtTotalCapturado.Dock = System.Windows.Forms.DockStyle.Top;
             this.txtTotalCapturado.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTotalCapturado.ForeColor = System.Drawing.Color.DarkRed;
-            this.txtTotalCapturado.Location = new System.Drawing.Point(726, 113);
+            this.txtTotalCapturado.Location = new System.Drawing.Point(324, 113);
             this.txtTotalCapturado.Margin = new System.Windows.Forms.Padding(20, 25, 20, 5);
             this.txtTotalCapturado.MaxLength = 3;
             this.txtTotalCapturado.Name = "txtTotalCapturado";
@@ -334,7 +333,7 @@
             this.label5.AutoSize = true;
             this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(508, 88);
+            this.label5.Location = new System.Drawing.Point(106, 88);
             this.label5.Name = "label5";
             this.label5.Padding = new System.Windows.Forms.Padding(10);
             this.label5.Size = new System.Drawing.Size(192, 72);
@@ -362,7 +361,7 @@
             this.label13.AutoSize = true;
             this.label13.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(106, 88);
+            this.label13.Location = new System.Drawing.Point(508, 88);
             this.label13.Name = "label13";
             this.label13.Padding = new System.Windows.Forms.Padding(10);
             this.label13.Size = new System.Drawing.Size(192, 72);
@@ -375,7 +374,7 @@
             this.txtBoletasR.Dock = System.Windows.Forms.DockStyle.Top;
             this.txtBoletasR.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtBoletasR.ForeColor = System.Drawing.Color.DarkRed;
-            this.txtBoletasR.Location = new System.Drawing.Point(324, 113);
+            this.txtBoletasR.Location = new System.Drawing.Point(726, 113);
             this.txtBoletasR.Margin = new System.Windows.Forms.Padding(20, 25, 20, 5);
             this.txtBoletasR.MaxLength = 3;
             this.txtBoletasR.Name = "txtBoletasR";
@@ -395,7 +394,7 @@
             this.txtSobrantes.MaxLength = 3;
             this.txtSobrantes.Name = "txtSobrantes";
             this.txtSobrantes.Size = new System.Drawing.Size(158, 29);
-            this.txtSobrantes.TabIndex = 14;
+            this.txtSobrantes.TabIndex = 10;
             this.txtSobrantes.Text = "0";
             this.txtSobrantes.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
