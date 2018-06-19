@@ -363,7 +363,7 @@ namespace Sistema.RegistroActasLocal
                             row.Cells[0].Value = v.id_casilla;
                             row.Cells[1].Value = v.seccion;
                             row.Cells[2].Value = v.casilla;
-                            row.Cells[3].Value = v.estatus_acta != null ? v.estatus_acta : "NO CAPTURADA";
+                            row.Cells[3].Value = getEstatus(v.id_estatus_acta);
 
                             row.Cells[contCand].Value = v.votos;
                             vLst.Add((int)v.votos);
@@ -416,7 +416,7 @@ namespace Sistema.RegistroActasLocal
                     row.Cells[0].Value = v.id_casilla;
                     row.Cells[1].Value = v.seccion;
                     row.Cells[2].Value = v.casilla;
-                    row.Cells[3].Value = v.estatus_acta != null ? v.estatus_acta : "NO CAPTURADA";
+                    row.Cells[3].Value = getEstatus(v.id_estatus_acta);
                     Lnominal = v.casilla == "S1" ? Configuracion.BoletasEspecial :  v.lista_nominal + TotalRepresentantes;
 
                     row.Cells[contCand].Value = v.votos;
@@ -444,6 +444,40 @@ namespace Sistema.RegistroActasLocal
                 dgvResultados.ScrollBars = ScrollBars.Both;
                 this.cargarCandidatosTotales((int)distrito);
 
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private string getEstatus(int? id_estatus)
+        {
+            try
+            {
+                string res = "";
+                switch (id_estatus)
+                {
+                    case 1:
+                        res = "CAPTURADA";
+                        break;
+                    case 5:
+                        res = "RECUENTO";
+                        break;
+                    case 6:
+                        res = "PAQUETE NO ENTREGADO";
+                        break;
+                    case 7:
+                        res = "CASILLA NO INSTALADA";
+                        break;
+                    case 9:
+                        res = "NO CONTABILIZABLE";
+                        break;
+                    default:
+                        res = "NO CAPTURADA";
+                        break;
+                }
+                return res;
             }
             catch (Exception ex)
             {

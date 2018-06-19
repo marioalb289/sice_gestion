@@ -136,8 +136,7 @@ namespace Sistema.RegistroActasLocal
                         if (!this.VerificarApartados())
                             return;
                     }
-                    if (condiciones_paquete == 0)
-                        throw new Exception("Debes Seleccionar las Condiciones del paquete");
+                    
 
                     selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
                     if (this.flagSelectSupuesto > 0)
@@ -282,8 +281,7 @@ namespace Sistema.RegistroActasLocal
                         if (!this.VerificarApartados())
                             return;
                     }
-                    if (condiciones_paquete == 0)
-                        throw new Exception("Debes Seleccionar las Condiciones del paquete");
+                    
 
                     selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
                     if (this.flagSelectSupuesto > 0)
@@ -600,8 +598,8 @@ namespace Sistema.RegistroActasLocal
                                     TotalRepresentantes += 2;
                             }
                         }
-                        if (SelectedCasilla.casilla == "S1")
-                            TotalRepresentantes = 0;
+                        //if (SelectedCasilla.casilla == "S1")
+                        //    TotalRepresentantes = 0;
                         //var groupTotalNacional = lsCandidatosVotos.GroupBy(x => x.partido_local).Select(grp => new {
                         //    local = grp.Key,
                         //    total = grp.Count(),

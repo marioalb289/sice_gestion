@@ -1074,14 +1074,18 @@ namespace Sistema.Generales
                         bool no_conta = false;
                         bool reserva = false;
 
-                        int? ep = 0;
-                        int? cp = 0;
+                        int? ep = 0;//estatus paquete
+                        int? cp = 0;//condiicones del paquete
+                        int ce = 0; //Con etiqueta
+                        int cc = 0; //con cinta
 
                         sice_ar_reserva detalleRA = DetallesActaRA(id_casilla, "MR");
                         if (detalleRA != null)
                         {
                             ep = detalleRA.id_estatus_paquete;
                             cp = detalleRA.id_condiciones_paquete;
+                            ce = detalleRA.con_etiqueta;
+                            cc = detalleRA.con_cinta;
                         }
 
 
@@ -1148,6 +1152,8 @@ namespace Sistema.Generales
                             rc.id_estatus_acta = estatus_acta;
                             rc.id_estatus_paquete = ep;
                             rc.id_condiciones_paquete = cp;
+                            rc.con_cinta = cc;
+                            rc.con_etiqueta = ce;
                             rc.votos_reservados = votos_reserva;
                             rc.tipo_votacion = "MR";
                             if (incidencias == 0)
@@ -1177,6 +1183,8 @@ namespace Sistema.Generales
                             rc.id_estatus_acta = estatus_acta;
                             rc.id_estatus_paquete = ep;
                             rc.id_condiciones_paquete = cp;
+                            rc.con_cinta = cc;
+                            rc.con_etiqueta = ce;
                             rc.inicializada = recuento ? 2 : 0;
                             rc.votos_reservados = votos_reserva;
                             rc.tipo_votacion = "MR";
@@ -1223,6 +1231,21 @@ namespace Sistema.Generales
                         bool recuento = false;
                         bool no_conta = false;
                         bool reserva = false;
+
+                        int? ep = 0;//estatus paquete
+                        int? cp = 0;//condiicones del paquete
+                        int ce = 0; //Con etiqueta
+                        int cc = 0; //con cinta
+
+                        sice_ar_reserva detalleRA = DetallesActaRA(id_casilla, "RP");
+                        if (detalleRA != null)
+                        {
+                            ep = detalleRA.id_estatus_paquete;
+                            cp = detalleRA.id_condiciones_paquete;
+                            ce = detalleRA.con_etiqueta;
+                            cc = detalleRA.con_cinta;
+                        }
+
                         if (estatus_acta == 1 || estatus_acta == 2 || estatus_acta == 8)
                         {
                             ceros = false;
@@ -1284,7 +1307,10 @@ namespace Sistema.Generales
                             rc.num_representantes_votaron = ceros ? 0 : representantes;
                             rc.votos_sacados = ceros ? 0 : votos_sacados;
                             rc.id_estatus_acta = estatus_acta;
-                            rc.id_estatus_paquete = estatus_paquete;
+                            rc.id_estatus_paquete = ep;
+                            rc.id_condiciones_paquete = cp;
+                            rc.con_cinta = cc;
+                            rc.con_etiqueta = ce;
                             rc.votos_reservados = votos_reserva;
                             rc.tipo_votacion = "RP";
                             rc.inicializada = 0;
@@ -1313,7 +1339,10 @@ namespace Sistema.Generales
                             rc.num_representantes_votaron = ceros ? 0 : representantes;
                             rc.votos_sacados = ceros ? 0 : votos_sacados;
                             rc.id_estatus_acta = estatus_acta;
-                            rc.id_estatus_paquete = estatus_paquete;
+                            rc.id_estatus_paquete = ep;
+                            rc.id_condiciones_paquete = cp;
+                            rc.con_cinta = cc;
+                            rc.con_etiqueta = ce;
                             rc.votos_reservados = votos_reserva;
                             rc.inicializada = 0;
                             rc.tipo_votacion = "RP";
@@ -2805,7 +2834,7 @@ namespace Sistema.Generales
                                     }
                                     else
                                     {
-                                        tempVotoS = Math.Round(lsTemp[c].votos, 0);
+                                        tempVotoS = (double)Math.Floor((decimal)lsTemp[c].votos); //Math.Round(lsTemp[c].votos, 0);
                                         porcentajeTemp = TotalVotosDistrito > 0 ? Math.Round((tempVotoS * 100) / TotalVotosDistrito, 2) : 0;
                                         lsTemp[c].votos = tempVotoS;
                                         lsTemp[c].porcentaje = porcentajeTemp;

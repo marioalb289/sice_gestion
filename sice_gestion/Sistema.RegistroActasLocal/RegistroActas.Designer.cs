@@ -42,6 +42,9 @@
             this.cmbSupuesto = new System.Windows.Forms.ComboBox();
             this.label15 = new System.Windows.Forms.Label();
             this.cmbEstatusPaquete = new System.Windows.Forms.ComboBox();
+            this.panel6 = new System.Windows.Forms.Panel();
+            this.chkCinta = new System.Windows.Forms.CheckBox();
+            this.chkEtiqueta = new System.Windows.Forms.CheckBox();
             this.tblPanelBoletas = new System.Windows.Forms.TableLayoutPanel();
             this.txtTotalCapturado = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
@@ -73,15 +76,13 @@
             this.button1 = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.panel6 = new System.Windows.Forms.Panel();
-            this.chkEtiqueta = new System.Windows.Forms.CheckBox();
-            this.chkCinta = new System.Windows.Forms.CheckBox();
             this.panel2.SuspendLayout();
             this.panelCaptura.SuspendLayout();
             this.tblPanaelTitulo.SuspendLayout();
             this.pnlTableTitulo.SuspendLayout();
             this.panel7.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
+            this.panel6.SuspendLayout();
             this.tblPanelBoletas.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -89,7 +90,6 @@
             this.panel4.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.panel6.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel2
@@ -124,11 +124,11 @@
             this.tablePanelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tablePanelPartidos.Dock = System.Windows.Forms.DockStyle.Top;
             this.tablePanelPartidos.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
-            this.tablePanelPartidos.Location = new System.Drawing.Point(0, 480);
+            this.tablePanelPartidos.Location = new System.Drawing.Point(0, 482);
             this.tablePanelPartidos.Name = "tablePanelPartidos";
             this.tablePanelPartidos.Padding = new System.Windows.Forms.Padding(40, 0, 40, 0);
             this.tablePanelPartidos.RowCount = 1;
-            this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 318F));
+            this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 321F));
             this.tablePanelPartidos.Size = new System.Drawing.Size(1007, 213);
             this.tablePanelPartidos.TabIndex = 20;
             this.tablePanelPartidos.Visible = false;
@@ -147,8 +147,8 @@
             this.tblPanaelTitulo.Name = "tblPanaelTitulo";
             this.tblPanaelTitulo.Padding = new System.Windows.Forms.Padding(40, 10, 40, 10);
             this.tblPanaelTitulo.RowCount = 1;
-            this.tblPanaelTitulo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 116F));
-            this.tblPanaelTitulo.Size = new System.Drawing.Size(1007, 140);
+            this.tblPanaelTitulo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 118F));
+            this.tblPanaelTitulo.Size = new System.Drawing.Size(1007, 142);
             this.tblPanaelTitulo.TabIndex = 19;
             // 
             // pnlTableTitulo
@@ -158,7 +158,7 @@
             this.pnlTableTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableTitulo.Location = new System.Drawing.Point(45, 15);
             this.pnlTableTitulo.Name = "pnlTableTitulo";
-            this.pnlTableTitulo.Size = new System.Drawing.Size(917, 110);
+            this.pnlTableTitulo.Size = new System.Drawing.Size(917, 112);
             this.pnlTableTitulo.TabIndex = 39;
             // 
             // lblTituloCaptura
@@ -294,6 +294,43 @@
             this.cmbEstatusPaquete.Size = new System.Drawing.Size(301, 21);
             this.cmbEstatusPaquete.TabIndex = 15;
             this.cmbEstatusPaquete.SelectedValueChanged += new System.EventHandler(this.cmbEstatusPaquete_SelectedValueChanged);
+            // 
+            // panel6
+            // 
+            this.tableLayoutPanel2.SetColumnSpan(this.panel6, 2);
+            this.panel6.Controls.Add(this.chkCinta);
+            this.panel6.Controls.Add(this.chkEtiqueta);
+            this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel6.Location = new System.Drawing.Point(677, 85);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(227, 66);
+            this.panel6.TabIndex = 33;
+            // 
+            // chkCinta
+            // 
+            this.chkCinta.AutoSize = true;
+            this.chkCinta.Dock = System.Windows.Forms.DockStyle.Top;
+            this.chkCinta.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkCinta.Location = new System.Drawing.Point(0, 31);
+            this.chkCinta.Name = "chkCinta";
+            this.chkCinta.Padding = new System.Windows.Forms.Padding(20, 10, 0, 0);
+            this.chkCinta.Size = new System.Drawing.Size(227, 31);
+            this.chkCinta.TabIndex = 1;
+            this.chkCinta.Text = "Con Cinta de Seguridad";
+            this.chkCinta.UseVisualStyleBackColor = true;
+            // 
+            // chkEtiqueta
+            // 
+            this.chkEtiqueta.AutoSize = true;
+            this.chkEtiqueta.Dock = System.Windows.Forms.DockStyle.Top;
+            this.chkEtiqueta.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkEtiqueta.Location = new System.Drawing.Point(0, 0);
+            this.chkEtiqueta.Name = "chkEtiqueta";
+            this.chkEtiqueta.Padding = new System.Windows.Forms.Padding(20, 10, 0, 0);
+            this.chkEtiqueta.Size = new System.Drawing.Size(227, 31);
+            this.chkEtiqueta.TabIndex = 0;
+            this.chkEtiqueta.Text = "Con Etiqueta de Seguridad";
+            this.chkEtiqueta.UseVisualStyleBackColor = true;
             // 
             // tblPanelBoletas
             // 
@@ -744,43 +781,6 @@
             this.panel1.Size = new System.Drawing.Size(1024, 100);
             this.panel1.TabIndex = 2;
             // 
-            // panel6
-            // 
-            this.tableLayoutPanel2.SetColumnSpan(this.panel6, 2);
-            this.panel6.Controls.Add(this.chkCinta);
-            this.panel6.Controls.Add(this.chkEtiqueta);
-            this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel6.Location = new System.Drawing.Point(677, 85);
-            this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(227, 66);
-            this.panel6.TabIndex = 33;
-            // 
-            // chkEtiqueta
-            // 
-            this.chkEtiqueta.AutoSize = true;
-            this.chkEtiqueta.Dock = System.Windows.Forms.DockStyle.Top;
-            this.chkEtiqueta.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkEtiqueta.Location = new System.Drawing.Point(0, 0);
-            this.chkEtiqueta.Name = "chkEtiqueta";
-            this.chkEtiqueta.Padding = new System.Windows.Forms.Padding(20, 10, 0, 0);
-            this.chkEtiqueta.Size = new System.Drawing.Size(227, 31);
-            this.chkEtiqueta.TabIndex = 0;
-            this.chkEtiqueta.Text = "Con Etiqueta de Seguridad";
-            this.chkEtiqueta.UseVisualStyleBackColor = true;
-            // 
-            // chkCinta
-            // 
-            this.chkCinta.AutoSize = true;
-            this.chkCinta.Dock = System.Windows.Forms.DockStyle.Top;
-            this.chkCinta.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkCinta.Location = new System.Drawing.Point(0, 31);
-            this.chkCinta.Name = "chkCinta";
-            this.chkCinta.Padding = new System.Windows.Forms.Padding(20, 10, 0, 0);
-            this.chkCinta.Size = new System.Drawing.Size(227, 31);
-            this.chkCinta.TabIndex = 1;
-            this.chkCinta.Text = "Con Cinta de Seguridad";
-            this.chkCinta.UseVisualStyleBackColor = true;
-            // 
             // RegistroActas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -801,6 +801,8 @@
             this.panel7.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
+            this.panel6.ResumeLayout(false);
+            this.panel6.PerformLayout();
             this.tblPanelBoletas.ResumeLayout(false);
             this.tblPanelBoletas.PerformLayout();
             this.tableLayoutPanel3.ResumeLayout(false);
@@ -810,8 +812,6 @@
             this.panel4.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
-            this.panel6.ResumeLayout(false);
-            this.panel6.PerformLayout();
             this.ResumeLayout(false);
 
         }
