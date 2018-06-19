@@ -63,12 +63,6 @@ namespace Sistema.RegistroActasLocal
             txtSobrantes.MouseUp += new System.Windows.Forms.MouseEventHandler(tbxValue_MouseUp);
             txtSobrantes.Leave += new System.EventHandler(tbxValue_Leave);
 
-            txtEscritos.KeyPress += FrmModificarRegistroActas_KeyPress;
-            txtEscritos.KeyUp += Evento_KeyUp;
-            txtEscritos.GotFocus += new System.EventHandler(tbxValue_GotFocus);
-            txtEscritos.MouseUp += new System.Windows.Forms.MouseEventHandler(tbxValue_MouseUp);
-            txtEscritos.Leave += new System.EventHandler(tbxValue_Leave);
-
             txtPersonasVotaron.KeyPress += FrmModificarRegistroActas_KeyPress;
             txtPersonasVotaron.KeyUp += Evento_KeyUp;
             txtPersonasVotaron.GotFocus += new System.EventHandler(tbxValue_GotFocus);
@@ -100,7 +94,8 @@ namespace Sistema.RegistroActasLocal
                 int boletasSobrantes = Convert.ToInt32(txtSobrantes.Text);
                 int personas_votaron = Convert.ToInt32(txtPersonasVotaron.Text);
                 int votos_sacados = Convert.ToInt32(txtVotosSacados.Text);
-                //this.tableLayoutPanel2.Enabled = false;
+                int con_cinta = chkCinta.Checked ? 1 : 0;
+                int con_etiqueta = chkEtiqueta.Checked ? 1 : 0;
 
                 List<sice_ar_votos_cotejo> lista_votos = new List<sice_ar_votos_cotejo>();
                 int id_casilla = Convert.ToInt32(cmbCasilla.SelectedValue);
@@ -121,7 +116,7 @@ namespace Sistema.RegistroActasLocal
                     estatus_acta = 6;
                     selectedSupuesto = 0;
                 }
-                else
+                else if(estatus_paquete == 3)
                 {
                     selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
                     if (selectedSupuesto == 0)
@@ -158,6 +153,11 @@ namespace Sistema.RegistroActasLocal
                     {
                         estatus_acta = 1;
                     }
+                }
+                else
+                {
+                    estatus_acta = 9;
+                    selectedSupuesto = 0;
                 }
 
 
@@ -206,8 +206,8 @@ namespace Sistema.RegistroActasLocal
 
 
                     int res = regActas.guardarDatosVotos(lista_votos, Convert.ToInt32(cmbCasilla.SelectedValue), selectedSupuesto, Convert.ToInt32(txtSobrantes.Text),
-                        Convert.ToInt32(txtEscritos.Text), Convert.ToInt32(txtPersonasVotaron.Text), Convert.ToInt32(txtRepresentantes.Text), Convert.ToInt32(txtVotosSacados.Text),
-                        0, estatus_acta, estatus_paquete, condiciones_paquete,true);
+                        0, Convert.ToInt32(txtPersonasVotaron.Text), Convert.ToInt32(txtRepresentantes.Text), Convert.ToInt32(txtVotosSacados.Text),
+                        0, estatus_acta, estatus_paquete, condiciones_paquete,con_etiqueta,con_cinta,true);
                     if (res == 1)
                     {
                         //this.tableLayoutPanel2.Enabled = true;
@@ -240,7 +240,8 @@ namespace Sistema.RegistroActasLocal
                 int personas_votaron = Convert.ToInt32(txtPersonasVotaron.Text);
                 int votos_sacados = Convert.ToInt32(txtVotosSacados.Text);
                 int boletasRecibidas = Configuracion.BoletasEspecial;
-                //this.tableLayoutPanel2.Enabled = false;
+                int con_cinta = chkCinta.Checked ? 1 : 0;
+                int con_etiqueta = chkEtiqueta.Checked ? 1 : 0;
 
                 List<sice_ar_votos_cotejo_rp> lista_votos = new List<sice_ar_votos_cotejo_rp>();
                 int id_casilla = Convert.ToInt32(cmbCasilla.SelectedValue);
@@ -261,7 +262,7 @@ namespace Sistema.RegistroActasLocal
                     estatus_acta = 6;
                     selectedSupuesto = 0;
                 }
-                else
+                else if(estatus_paquete == 3)
                 {
                     selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
                     if (selectedSupuesto == 0)
@@ -298,6 +299,11 @@ namespace Sistema.RegistroActasLocal
                     {
                         estatus_acta = 1;
                     }
+                }
+                else
+                {
+                    estatus_acta = 9;
+                    selectedSupuesto = 0;
                 }
 
 
@@ -346,8 +352,8 @@ namespace Sistema.RegistroActasLocal
 
 
                     int res = regActas.guardarDatosVotosRP(lista_votos, Convert.ToInt32(cmbCasilla.SelectedValue), selectedSupuesto, Convert.ToInt32(txtSobrantes.Text),
-                        Convert.ToInt32(txtEscritos.Text), Convert.ToInt32(txtPersonasVotaron.Text), Convert.ToInt32(txtRepresentantes.Text), Convert.ToInt32(txtVotosSacados.Text),
-                        0, estatus_acta, estatus_paquete, condiciones_paquete);
+                        0, Convert.ToInt32(txtPersonasVotaron.Text), Convert.ToInt32(txtRepresentantes.Text), Convert.ToInt32(txtVotosSacados.Text),
+                        0, estatus_acta, estatus_paquete, condiciones_paquete,con_etiqueta,con_cinta,true);
                     if (res == 1)
                     {
                         //this.tableLayoutPanel2.Enabled = true;
@@ -501,7 +507,7 @@ namespace Sistema.RegistroActasLocal
                 cmbEstatusPaquete.DisplayMember = "estatus";
                 cmbEstatusPaquete.ValueMember = "id";
                 cmbEstatusPaquete.DataSource = regActas.ListaEstatusPaquete();
-                cmbEstatusPaquete.SelectedValue = 4;
+                cmbEstatusPaquete.SelectedValue = 3;
                 //cmbCasilla.SelectedIndex = 1;
 
                 cmbEstadoPaquete.DataSource = null;
@@ -629,6 +635,8 @@ namespace Sistema.RegistroActasLocal
                         this.txtPersonasVotaron.Text = detallesActa.personas_votaron.ToString();
                         this.txtRepresentantes.Text = detallesActa.num_representantes_votaron.ToString();
                         this.txtVotosSacados.Text = detallesActa.votos_sacados.ToString();
+                        this.chkCinta.Checked = detallesActa.con_cinta == 1 ? true : false;
+                        this.chkEtiqueta.Checked = detallesActa.con_etiqueta == 1 ? true : false;
 
 
                         cmbEstadoPaquete.SelectedValue = detallesActa.id_condiciones_paquete != null ? (int)detallesActa.id_condiciones_paquete : 0;
@@ -721,7 +729,6 @@ namespace Sistema.RegistroActasLocal
                         //textBoxes[0].Focus();
                         //ShowScrollBar(this.tableLayoutPanel2.Handle, SB_HORZ, false);     
                         this.txtSobrantes.Text = (detallesActa.boletas_sobrantes != null) ? detallesActa.boletas_sobrantes.ToString() : "0";
-                        this.txtEscritos.Text = (detallesActa.num_escritos != null) ? detallesActa.num_escritos.ToString() : "0";
                         this.tablePanelPartidos.ResumeLayout();
                         this.tablePanelPartidos.Visible = true;
                         panelCaptura.Visible = true;
@@ -789,6 +796,8 @@ namespace Sistema.RegistroActasLocal
                     this.txtPersonasVotaron.Text = detallesActa.personas_votaron.ToString();
                     this.txtRepresentantes.Text = detallesActa.num_representantes_votaron.ToString();
                     this.txtVotosSacados.Text = detallesActa.votos_sacados.ToString();
+                    this.chkCinta.Checked = detallesActa.con_cinta == 1 ? true : false;
+                    this.chkEtiqueta.Checked = detallesActa.con_etiqueta == 1 ? true : false;
 
 
                     cmbEstadoPaquete.SelectedValue = detallesActa.id_condiciones_paquete != null ? (int)detallesActa.id_condiciones_paquete : 0;
@@ -881,7 +890,6 @@ namespace Sistema.RegistroActasLocal
                     //textBoxes[0].Focus();
                     //ShowScrollBar(this.tableLayoutPanel2.Handle, SB_HORZ, false);     
                     this.txtSobrantes.Text = (detallesActa.boletas_sobrantes != null) ? detallesActa.boletas_sobrantes.ToString() : "0";
-                    this.txtEscritos.Text = (detallesActa.num_escritos != null) ? detallesActa.num_escritos.ToString() : "0";
                     this.tablePanelPartidos.ResumeLayout();
                     this.tablePanelPartidos.Visible = true;
                     panelCaptura.Visible = true;
@@ -912,7 +920,8 @@ namespace Sistema.RegistroActasLocal
                 this.tblPanelBoletas.Visible = false;
                 this.txtBoletasR.Text = "0";
                 this.txtSobrantes.Text = "0";
-                this.txtEscritos.Text = "0";
+                this.chkCinta.Checked = false;
+                this.chkEtiqueta.Checked = false;
                 this.boletasRecibidas = 0;
                 this.txtTotalCapturado.Text = "0";
                 this.lblListaNominal.Text = "No.";
@@ -949,13 +958,14 @@ namespace Sistema.RegistroActasLocal
             this.txtBoletasR.Text = "0";
             this.txtSobrantes.Text = "0";
             this.boletasRecibidas = 0;
-            this.txtEscritos.Text = "0";
+            this.chkCinta.Checked = false;
+            this.chkEtiqueta.Checked = false;
 
             this.txtPersonasVotaron.Text = "0";
             this.txtRepresentantes.Text = "0";
             this.txtVotosSacados.Text = "0";
 
-            this.cmbEstatusPaquete.SelectedValue = 4;
+            this.cmbEstatusPaquete.SelectedValue = 3;
             this.cmbEstadoPaquete.SelectedValue = 0;
             this.cmbSupuesto.SelectedValue = 0;
 
@@ -1182,7 +1192,7 @@ namespace Sistema.RegistroActasLocal
             try
             {
                 int? selected = Convert.ToInt32(cmbCasilla.SelectedValue);
-                this.cmbEstatusPaquete.SelectedValue = 4;
+                this.cmbEstatusPaquete.SelectedValue = 3;
                 this.cmbSupuesto.SelectedValue = 0;
                 this.cmbEstadoPaquete.SelectedValue = 0;
                 if (selected != null && selected != 0)
@@ -1311,7 +1321,7 @@ namespace Sistema.RegistroActasLocal
             try
             {
                 int sel = Convert.ToInt32(cmbEstatusPaquete.SelectedValue);
-                if (sel == 1 || sel == 2)
+                if (sel != 3)
                 {
                     cmbEstadoPaquete.Enabled = false;
                     cmbSupuesto.SelectedValue = 0;
@@ -1319,7 +1329,6 @@ namespace Sistema.RegistroActasLocal
 
                     tblPanelBoletas.Enabled = false;
                     tablePanelPartidos.Enabled = false;
-                    txtEscritos.Enabled = false;
                 }
                 else
                 {
@@ -1328,7 +1337,6 @@ namespace Sistema.RegistroActasLocal
 
                     tblPanelBoletas.Enabled = true;
                     tablePanelPartidos.Enabled = true;
-                    txtEscritos.Enabled = true;
                 }
             }
             catch (Exception ex)
@@ -1347,13 +1355,11 @@ namespace Sistema.RegistroActasLocal
                 {
                     tblPanelBoletas.Enabled = false;
                     tablePanelPartidos.Enabled = false;
-                    txtEscritos.Enabled = false;
                 }
                 else
                 {
                     tblPanelBoletas.Enabled = true;
                     tablePanelPartidos.Enabled = true;
-                    txtEscritos.Enabled = true;
                 }
             }
             catch (Exception ex)

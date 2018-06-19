@@ -751,7 +751,7 @@ namespace Sistema.Generales
             }
         }
         public int guardarDatosVotosRP(List<sice_ar_votos_cotejo_rp> listaVotos, int id_casilla, int supuesto, int boletasSobrantes, int numEscritos, int personas_votaron,
-            int representantes, int votos_sacados, int incidencias, int estatus_acta, int estatus_paquete, int condiciones_paquete, bool modificar = false)
+            int representantes, int votos_sacados, int incidencias, int estatus_acta, int estatus_paquete, int condiciones_paquete, int con_etiqueta, int con_cinta, bool modificar = false)
         {
             try
             {
@@ -811,6 +811,8 @@ namespace Sistema.Generales
                             rc.id_estatus_acta = estatus_acta;
                             rc.id_estatus_paquete = estatus_paquete;
                             rc.id_condiciones_paquete = condiciones_paquete;
+                            rc.con_cinta = con_cinta;
+                            rc.con_etiqueta = con_etiqueta;
                             if (incidencias == 0)
                                 rc.id_incidencias = null;
                             else
@@ -840,6 +842,8 @@ namespace Sistema.Generales
                             rc.id_estatus_acta = estatus_acta;
                             rc.id_estatus_paquete = estatus_paquete;
                             rc.id_condiciones_paquete = condiciones_paquete;
+                            rc.con_cinta = con_cinta;
+                            rc.con_etiqueta = con_etiqueta;
                             rc.tipo_votacion = "RP";
                             rc.inicializada = 0;
                             if (incidencias == 0)
@@ -874,7 +878,7 @@ namespace Sistema.Generales
 
 
         public int guardarDatosVotos(List<sice_ar_votos_cotejo> listaVotos, int id_casilla, int supuesto,int boletasSobrantes,int numEscritos,int personas_votaron,
-            int representantes,int votos_sacados,int incidencias,int estatus_acta,int estatus_paquete,int condiciones_paquete,bool modificar = false)
+            int representantes,int votos_sacados,int incidencias,int estatus_acta,int estatus_paquete,int condiciones_paquete,int con_etiqueta,int con_cinta,bool modificar = false)
         {
             try
             {
@@ -934,6 +938,8 @@ namespace Sistema.Generales
                             rc.id_estatus_acta = estatus_acta;
                             rc.id_estatus_paquete = estatus_paquete;
                             rc.id_condiciones_paquete = condiciones_paquete;
+                            rc.con_cinta = con_cinta;
+                            rc.con_etiqueta = con_etiqueta;
                             if (incidencias == 0)
                                 rc.id_incidencias = null;
                             else
@@ -964,6 +970,8 @@ namespace Sistema.Generales
                             rc.id_estatus_paquete = estatus_paquete;
                             rc.tipo_votacion = "MR";
                             rc.id_condiciones_paquete = condiciones_paquete;
+                            rc.con_cinta = con_cinta;
+                            rc.con_etiqueta = con_etiqueta;
                             rc.inicializada = 0;
                             if (incidencias == 0)
                                 rc.id_incidencias = null;

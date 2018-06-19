@@ -91,6 +91,8 @@ namespace Sistema.RegistroActasLocal
                 int personas_votaron = Convert.ToInt32(txtPersonasVotaron.Text);
                 int votos_sacados = Convert.ToInt32(txtVotosSacados.Text);
                 int boletasRecibidas = Configuracion.BoletasEspecial;
+                int con_cinta = chkCinta.Checked ? 1 : 0;
+                int con_etiqueta = chkEtiqueta.Checked ? 1 : 0;
                 //this.tableLayoutPanel2.Enabled = false;
 
                 List<sice_ar_votos_cotejo_rp> lista_votos = new List<sice_ar_votos_cotejo_rp>();
@@ -112,7 +114,7 @@ namespace Sistema.RegistroActasLocal
                     estatus_acta = 6;
                     selectedSupuesto = 0;
                 }
-                else
+                else if(estatus_paquete == 3)
                 {
                     selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
                     if (selectedSupuesto == 0)
@@ -149,6 +151,11 @@ namespace Sistema.RegistroActasLocal
                     {
                         estatus_acta = 1;
                     }
+                }
+                else
+                {
+                    estatus_acta = 9;
+                    selectedSupuesto = 0;
                 }
 
 
@@ -198,7 +205,7 @@ namespace Sistema.RegistroActasLocal
 
                     int res = regActas.guardarDatosVotosRP(lista_votos, Convert.ToInt32(cmbCasilla.SelectedValue), selectedSupuesto, Convert.ToInt32(txtSobrantes.Text),
                         0, Convert.ToInt32(txtPersonasVotaron.Text), Convert.ToInt32(txtRepresentantes.Text), Convert.ToInt32(txtVotosSacados.Text),
-                        0, estatus_acta, estatus_paquete, condiciones_paquete);
+                        0, estatus_acta, estatus_paquete, condiciones_paquete,con_etiqueta,con_cinta);
                     if (res == 1)
                     {
                         //this.tableLayoutPanel2.Enabled = true;
@@ -230,6 +237,8 @@ namespace Sistema.RegistroActasLocal
                 int boletasSobrantes = Convert.ToInt32(txtSobrantes.Text);
                 int personas_votaron = Convert.ToInt32(txtPersonasVotaron.Text);
                 int votos_sacados = Convert.ToInt32(txtVotosSacados.Text);
+                int con_cinta = chkCinta.Checked ? 1 : 0;
+                int con_etiqueta = chkEtiqueta.Checked ? 1 : 0;
                 //this.tableLayoutPanel2.Enabled = false;
 
                 List<sice_ar_votos_cotejo> lista_votos = new List<sice_ar_votos_cotejo>();
@@ -251,7 +260,7 @@ namespace Sistema.RegistroActasLocal
                     estatus_acta = 6;
                     selectedSupuesto = 0;
                 }
-                else
+                else if(estatus_paquete == 3)
                 {
                     selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
                     if(selectedSupuesto == 0)
@@ -289,7 +298,12 @@ namespace Sistema.RegistroActasLocal
                         estatus_acta = 1;
                     }
                 }
-                
+                else 
+                {
+                    estatus_acta = 9;
+                    selectedSupuesto = 0;
+                }
+
 
                 foreach (TextBox datos in this.textBoxes)
                 {
@@ -337,7 +351,7 @@ namespace Sistema.RegistroActasLocal
 
                     int res = regActas.guardarDatosVotos(lista_votos, Convert.ToInt32(cmbCasilla.SelectedValue), selectedSupuesto, Convert.ToInt32(txtSobrantes.Text),
                         0, Convert.ToInt32(txtPersonasVotaron.Text), Convert.ToInt32(txtRepresentantes.Text), Convert.ToInt32(txtVotosSacados.Text),
-                        0, estatus_acta, estatus_paquete,condiciones_paquete);
+                        0, estatus_acta, estatus_paquete,condiciones_paquete,con_etiqueta,con_cinta);
                     if (res == 1)
                     {
                         //this.tableLayoutPanel2.Enabled = true;
@@ -490,7 +504,7 @@ namespace Sistema.RegistroActasLocal
                 cmbEstatusPaquete.DisplayMember = "estatus";
                 cmbEstatusPaquete.ValueMember = "id";
                 cmbEstatusPaquete.DataSource = regActas.ListaEstatusPaquete();
-                cmbEstatusPaquete.SelectedValue = 4;
+                cmbEstatusPaquete.SelectedValue = 3;
                 //cmbCasilla.SelectedIndex = 1;
 
                 cmbEstadoPaquete.DataSource = null;
@@ -895,8 +909,10 @@ namespace Sistema.RegistroActasLocal
             this.txtPersonasVotaron.Text = "0";
             this.txtRepresentantes.Text = "0";
             this.txtVotosSacados.Text = "0";
+            this.chkCinta.Checked = false;
+            this.chkEtiqueta.Checked = false;
 
-            this.cmbEstatusPaquete.SelectedValue = 4;
+            this.cmbEstatusPaquete.SelectedValue = 3;
             this.cmbEstadoPaquete.SelectedValue = 0;
             this.cmbSupuesto.SelectedValue = 0;
 
@@ -1135,7 +1151,7 @@ namespace Sistema.RegistroActasLocal
             try
             {
                 int? selected = Convert.ToInt32(cmbCasilla.SelectedValue);
-                this.cmbEstatusPaquete.SelectedValue = 4;
+                this.cmbEstatusPaquete.SelectedValue = 3;
                 this.cmbSupuesto.SelectedValue = 0;
                 this.cmbEstadoPaquete.SelectedValue = 0;
                 if (selected != null && selected != 0)
@@ -1259,7 +1275,7 @@ namespace Sistema.RegistroActasLocal
                 //    //{
                 //    //    cmbEstatusPaquete.SelectedValueChanged -= cmbEstatusPaquete_SelectedValueChanged;
 
-                //    //    cmbEstatusPaquete.SelectedValue = 1;
+                //    //    cmbEstatusPaquete.SelectedValue = 3;
 
                 //    //    cmbEstatusPaquete.SelectedValueChanged += cmbEstatusPaquete_SelectedValueChanged;
                 //    //}
@@ -1284,7 +1300,7 @@ namespace Sistema.RegistroActasLocal
             try
             {
                 int sel = Convert.ToInt32(cmbEstatusPaquete.SelectedValue);
-                if(sel == 1 || sel == 2)
+                if(sel != 3 )
                 {
                     cmbEstadoPaquete.Enabled = false;
                     cmbSupuesto.SelectedValue = 0;

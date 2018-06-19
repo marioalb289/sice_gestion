@@ -862,6 +862,7 @@ namespace Sistema.ComputosElectorales
             this.txtBoletasR.Text = "0";
             this.txtSobrantes.Text = "0";
             this.boletasRecibidas = 0;
+            this.txtVotosReserva.Text = "0";
 
             this.cmbSupuesto.SelectedValue = 1;
             this.cmbEstatusActa.SelectedValue = 1;

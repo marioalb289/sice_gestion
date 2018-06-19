@@ -112,6 +112,8 @@
           <Property Name="id_estatus_acta" Type="int" />
           <Property Name="id_estatus_paquete" Type="int" />
           <Property Name="id_condiciones_paquete" Type="int" />
+          <Property Name="con_cinta" Type="int" Nullable="false" />
+          <Property Name="con_etiqueta" Type="int" Nullable="false" />
           <Property Name="id_incidencias" Type="int" />
           <Property Name="grupo_trabajo" Type="int" />
           <Property Name="inicializada" Type="int" />
@@ -353,6 +355,8 @@
           <Property Name="id_estatus_acta" Type="int" />
           <Property Name="id_estatus_paquete" Type="int" />
           <Property Name="id_condiciones_paquete" Type="int" />
+          <Property Name="con_cinta" Type="int" Nullable="false" />
+          <Property Name="con_etiqueta" Type="int" Nullable="false" />
           <Property Name="id_incidencias" Type="int" />
           <Property Name="inicializada" Type="int" />
           <Property Name="importado" Type="int" />
@@ -548,6 +552,8 @@
           <Property Name="id_condiciones_paquete" Type="Int32" />
           <Property Name="tipo_votacion" Type="String" Nullable="false" MaxLength="65532" FixedLength="false" Unicode="false" />
           <Property Name="grupo_trabajo" Type="Int32" />
+          <Property Name="con_cinta" Type="Int32" Nullable="false" />
+          <Property Name="con_etiqueta" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="sice_ar_votos">
           <Key>
@@ -912,6 +918,8 @@
           <Property Name="updated_at" Type="DateTime" />
           <Property Name="grupo_trabajo" Type="Int32" />
           <Property Name="votos_reservados" Type="Int32" Nullable="false" />
+          <Property Name="con_cinta" Type="Int32" Nullable="false" />
+          <Property Name="con_etiqueta" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="sice_estado_acta">
           <Key>
@@ -962,6 +970,8 @@
           <EntitySetMapping Name="sice_ar_reserva">
             <EntityTypeMapping TypeName="sice_pruebasModel.sice_ar_reserva">
               <MappingFragment StoreEntitySet="sice_ar_reserva">
+                <ScalarProperty Name="con_etiqueta" ColumnName="con_etiqueta" />
+                <ScalarProperty Name="con_cinta" ColumnName="con_cinta" />
                 <ScalarProperty Name="grupo_trabajo" ColumnName="grupo_trabajo" />
                 <ScalarProperty Name="tipo_votacion" ColumnName="tipo_votacion" />
                 <ScalarProperty Name="id_condiciones_paquete" ColumnName="id_condiciones_paquete" />
@@ -1323,6 +1333,8 @@
           <EntitySetMapping Name="sice_reserva_captura">
             <EntityTypeMapping TypeName="sice_pruebasModel.sice_reserva_captura">
               <MappingFragment StoreEntitySet="sice_reserva_captura">
+                <ScalarProperty Name="con_etiqueta" ColumnName="con_etiqueta" />
+                <ScalarProperty Name="con_cinta" ColumnName="con_cinta" />
                 <ScalarProperty Name="votos_reservados" ColumnName="votos_reservados" />
                 <ScalarProperty Name="grupo_trabajo" ColumnName="grupo_trabajo" />
                 <ScalarProperty Name="updated_at" ColumnName="updated_at" />

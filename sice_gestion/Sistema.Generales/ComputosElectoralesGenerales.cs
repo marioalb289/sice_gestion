@@ -388,7 +388,7 @@ namespace Sistema.Generales
             {
                 using (DatabaseContext contexto = new DatabaseContext(con))
                 {
-                    return (from p in contexto.sice_ar_supuestos select p).ToList();
+                    return (from p in contexto.sice_ar_supuestos where p.SICE == 1 select p).ToList();
                 }
 
             }
