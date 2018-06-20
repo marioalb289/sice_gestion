@@ -621,7 +621,8 @@ namespace Sistema.RegistroActasLocal
                         this.labelsName = new Label[lsCandidatosVotos.Count];
                         this.btnGuardar.Enabled = true;
 
-
+                        if (SelectedCasilla.casilla == "S1")
+                            txtRepresentantes.Enabled = false;
                         SeccionCasillaConsecutivo tempSec = (from p in this.sc where p.id == Convert.ToInt32(cmbCasilla.SelectedValue) select p).FirstOrDefault();
                         this.lblListaNominal.Text = tempSec.listaNominal.ToString();
                         if (SelectedCasilla.casilla == "S1")
@@ -783,7 +784,7 @@ namespace Sistema.RegistroActasLocal
                     this.panels = new Panel[lsPartidosVotos.Count];
                     this.labelsName = new Label[lsPartidosVotos.Count];
                     this.btnGuardar.Enabled = true;
-
+                    txtRepresentantes.Enabled = false;
 
                     SeccionCasillaConsecutivo tempSec = (from p in this.sc where p.id == Convert.ToInt32(cmbCasilla.SelectedValue) select p).FirstOrDefault();
                     this.lblListaNominal.Text = "0";
@@ -1190,6 +1191,7 @@ namespace Sistema.RegistroActasLocal
             try
             {
                 int? selected = Convert.ToInt32(cmbCasilla.SelectedValue);
+                txtRepresentantes.Enabled = true;
                 this.cmbEstatusPaquete.SelectedValue = 3;
                 this.cmbSupuesto.SelectedValue = 0;
                 this.cmbEstadoPaquete.SelectedValue = 0;

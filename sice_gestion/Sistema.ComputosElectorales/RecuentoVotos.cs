@@ -99,6 +99,7 @@ namespace Sistema.ComputosElectorales
             try
             {
                 CompElec = new ComputosElectoralesGenerales();
+                txtRepresentantes.Enabled = true;
                 if (this.sc == null)
                 {
                     this.sc = CompElec.ListaSescciones(true);
@@ -623,6 +624,7 @@ namespace Sistema.ComputosElectorales
                     this.txtBoletasR.Text = this.boletasRecibidas.ToString();
                     if (this.sc[PosActual].casilla == "S1")
                     {
+                        txtRepresentantes.Enabled = false;
                         this.lblListaNominal.Text = "0";
                     }
 
@@ -744,6 +746,7 @@ namespace Sistema.ComputosElectorales
 
                     this.boletasRecibidas = Configuracion.BoletasEspecial; //Lista nominal + 2 veces el numero de representantes de casillas
                     this.txtBoletasR.Text = this.boletasRecibidas.ToString();
+                    txtRepresentantes.Enabled = false;
 
                     //Agregar Columnas
                     this.tablePanelPartidos.AutoScroll = true;

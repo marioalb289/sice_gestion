@@ -598,9 +598,12 @@ namespace Sistema.RegistroActasLocal
                             }
                             
                         }
-                       
+                        if (SelectedCasilla.casilla == "S1")
+                        {
+                            txtRepresentantes.Enabled = false;
+                        }
 
-                        this.totalCandidatos = lsCandidatos.Count() + 2;
+                            this.totalCandidatos = lsCandidatos.Count() + 2;
 
 
                         this.pictureBoxes = new PictureBox[lsCandidatos.Count + 2];
@@ -744,7 +747,7 @@ namespace Sistema.RegistroActasLocal
                                 TotalRepresentantes += 2;
                         }
                     }
-
+                    txtRepresentantes.Enabled = false;
                     this.pictureBoxes = new PictureBox[lsPartidos.Count + 2];
                     this.textBoxes = new TextBox[lsPartidos.Count + 2];
                     this.panels = new Panel[lsPartidos.Count + 2];
@@ -1151,6 +1154,7 @@ namespace Sistema.RegistroActasLocal
             try
             {
                 int? selected = Convert.ToInt32(cmbCasilla.SelectedValue);
+                txtRepresentantes.Enabled = true;
                 this.cmbEstatusPaquete.SelectedValue = 3;
                 this.cmbSupuesto.SelectedValue = 0;
                 this.cmbEstadoPaquete.SelectedValue = 0;
