@@ -146,7 +146,7 @@ namespace Sistema.ComputosElectorales
                 }
 
 
-
+                List<double> tmpListaVotos = new List<double>();
                 foreach (TextBox datos in this.textBoxes)
                 {
                     double num;
@@ -161,6 +161,7 @@ namespace Sistema.ComputosElectorales
                         if (tempIdCandidato > 0)
                         {
                             id_candidato = tempIdCandidato;
+                            tmpListaVotos.Add(num);
                         }
                         else if (tempIdCandidato == -2)
                         {
@@ -177,6 +178,7 @@ namespace Sistema.ComputosElectorales
                             votos = Convert.ToInt32(datos.Text),
                             tipo = tipo_voto
                         });
+                        
 
                     }
                     else
@@ -185,6 +187,30 @@ namespace Sistema.ComputosElectorales
                     }
 
                 }
+                bool tmpFlag = false;
+                tmpListaVotos.Sort();
+                for (int i = tmpListaVotos.Count - 1; i >= 0; i--)
+                {
+                    if (i == tmpListaVotos.Count - 1)
+                    {
+                        if (tmpListaVotos[i] == 0)
+                            break;
+                    }
+                    else
+                    {
+                        if (tmpListaVotos[i] == 0)
+                        {
+                            tmpFlag = true;
+                        }
+                        else
+                        {
+                            tmpFlag = false;
+                            break;
+                        }
+                    }
+                }
+                if(tmpFlag)
+                    throw new Exception("TODOS LOS VOTOS A FAVOR DE UN PARTIDO");
                 if (lista_votos.Count > 0)
                 {
 
@@ -941,11 +967,7 @@ namespace Sistema.ComputosElectorales
                     int tempIdCandidato = Convert.ToInt32(datos.Tag);//Identificador para votos nulos
                     if (double.TryParse(datos.Text, out num))
                     {
-                        totalVotos = totalVotos + num ;
-                        if (num == Convert.ToDouble(this.boletasRecibidas))
-                        {
-                            flagError = 2;
-                        }
+                        totalVotos = totalVotos + num ;                        
                         listaVotos.Add(num);
                         if (tempIdCandidato == -2)
                             votosNulos = num;
@@ -985,19 +1007,21 @@ namespace Sistema.ComputosElectorales
                     msgBox.ShowDialog(this);
                     return;
                 }
-                else if (flagError == 2)
-                {
-                    this.flagSelectSupuesto = 6;
-                    this.cmbSupuesto.SelectedValue = 6;
-                    this.cmbEstatusActa.SelectedValue = 5;
-                    //this.cmbSupuesto.Enabled = false;
-                    //this.DesactivarTextBoxes();
-                    msgBox = new MsgBox(this, "TODOS LOS VOTOS A FAVOR DE UN PARTIDO", "Atención", MessageBoxButtons.OK, "Error");
-                    msgBox.ShowDialog(this);
-                    return;
-                }
+                //else if (flagError == 2)
+                //{
+                //    this.flagSelectSupuesto = 6;
+                //    this.cmbSupuesto.SelectedValue = 6;
+                //    this.cmbEstatusActa.SelectedValue = 5;
+                //    //this.cmbSupuesto.Enabled = false;
+                //    //this.DesactivarTextBoxes();
+                //    msgBox = new MsgBox(this, "TODOS LOS VOTOS A FAVOR DE UN PARTIDO", "Atención", MessageBoxButtons.OK, "Error");
+                //    msgBox.ShowDialog(this);
+                //    return;
+                //}
 
-                listaVotos.Sort();
+                listaVotos.Sort();              
+
+
                 double primero = listaVotos[listaVotos.Count - 1];
                 double segundo = listaVotos[listaVotos.Count - 2];
                 double diferencia = primero - segundo;

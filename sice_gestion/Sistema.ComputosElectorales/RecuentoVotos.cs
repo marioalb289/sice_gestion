@@ -995,7 +995,8 @@ namespace Sistema.ComputosElectorales
                     if (double.TryParse(datos.Text, out num))
                     {
                         totalVotos = totalVotos + num;
-                        if (num == Convert.ToDouble(this.boletasRecibidas))
+                        double tmpVotosSacados = Convert.ToDouble(txtVotosSacados.Text);
+                        if (tmpVotosSacados > 0 && num == tmpVotosSacados)
                         {
                             flagError = 2;
                         }

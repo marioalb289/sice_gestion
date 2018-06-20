@@ -1005,7 +1005,8 @@ namespace Sistema.RegistroActasLocal
                     if (double.TryParse(datos.Text, out num))
                     {
                         totalVotos = totalVotos + num;
-                        if(num == Convert.ToDouble(this.boletasRecibidas))
+                        double tmpVotosSacados = Convert.ToDouble(txtVotosSacados.Text);
+                        if (tmpVotosSacados > 0 && num == tmpVotosSacados)
                         {
                             flagError = 2;
                         }
@@ -1040,7 +1041,7 @@ namespace Sistema.RegistroActasLocal
                 if (flagError == 1)
                 {
                     this.flagSelectSupuesto = 4;
-                    this.cmbSupuesto.SelectedIndex = 4;
+                    this.cmbSupuesto.SelectedValue = 4;
                     //this.cmbSupuesto.Enabled = false;
                     //this.DesactivarTextBoxes();
                     msgBox = new MsgBox(this, "El total de Captura excede el Número de Boletas recibidas", "Atención", MessageBoxButtons.OK, "Error");
@@ -1050,7 +1051,7 @@ namespace Sistema.RegistroActasLocal
                 else if(flagError == 2)
                 {
                     this.flagSelectSupuesto = 6;
-                    this.cmbSupuesto.SelectedIndex = 6;
+                    this.cmbSupuesto.SelectedValue = 6;
                     //this.cmbSupuesto.Enabled = false;
                     //this.DesactivarTextBoxes();
                     msgBox = new MsgBox(this, "TODOS LOS VOTOS A FAVOR DE UN PARTIDO", "Atención", MessageBoxButtons.OK, "Error");
@@ -1064,8 +1065,8 @@ namespace Sistema.RegistroActasLocal
                 double diferencia = primero - segundo;
                 if (votosNulos > diferencia)
                 {
-                    this.cmbSupuesto.SelectedIndex = 5;
                     this.flagSelectSupuesto = 5;
+                    this.cmbSupuesto.SelectedValue = 5;                    
                     //this.cmbSupuesto.Enabled = false;
                     //this.DesactivarTextBoxes();
                     msgBox = new MsgBox(this, "Número de VOTOS NULOS mayor a la diferencia entre el 1ER y 2DO lugar", "Atención", MessageBoxButtons.OK, "Advertencia");
@@ -1077,7 +1078,7 @@ namespace Sistema.RegistroActasLocal
                     int selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
                     if (selectedSupuesto == 5 || selectedSupuesto == 4 || selectedSupuesto == 6)
                     {
-                        this.cmbSupuesto.SelectedIndex = 0;
+                        this.cmbSupuesto.SelectedValue = 0;
                     }
                 }
 

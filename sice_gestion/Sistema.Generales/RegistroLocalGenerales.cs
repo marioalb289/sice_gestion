@@ -861,6 +861,7 @@ namespace Sistema.Generales
                             else
                                 hs.id_supuesto = supuesto;
                             hs.fecha = DateTime.Now;
+                            hs.importado = 0;
                             contexto.sice_ar_historico.Add(hs);
                         }
                         contexto.SaveChanges();
@@ -988,6 +989,7 @@ namespace Sistema.Generales
                             else
                                 hs.id_supuesto = supuesto;
                             hs.fecha = DateTime.Now;
+                            hs.importado = 0;
                             contexto.sice_ar_historico.Add(hs);
                         }
                         contexto.SaveChanges();
