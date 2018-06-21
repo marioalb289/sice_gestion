@@ -196,30 +196,30 @@ namespace Sistema.ComputosElectorales
 
                 }
 
-                bool tmpFlag = false;
-                tmpListaVotos.Sort();
-                for (int i = tmpListaVotos.Count - 1; i >= 0; i--)
-                {
-                    if (i == tmpListaVotos.Count - 1)
-                    {
-                        if (tmpListaVotos[i] == 0)
-                            break;
-                    }
-                    else
-                    {
-                        if (tmpListaVotos[i] == 0)
-                        {
-                            tmpFlag = true;
-                        }
-                        else
-                        {
-                            tmpFlag = false;
-                            break;
-                        }
-                    }
-                }
-                if (tmpFlag)
-                    throw new Exception("TODOS LOS VOTOS A FAVOR DE UN PARTIDO");
+                //bool tmpFlag = false;
+                //tmpListaVotos.Sort();
+                //for (int i = tmpListaVotos.Count - 1; i >= 0; i--)
+                //{
+                //    if (i == tmpListaVotos.Count - 1)
+                //    {
+                //        if (tmpListaVotos[i] == 0)
+                //            break;
+                //    }
+                //    else
+                //    {
+                //        if (tmpListaVotos[i] == 0)
+                //        {
+                //            tmpFlag = true;
+                //        }
+                //        else
+                //        {
+                //            tmpFlag = false;
+                //            break;
+                //        }
+                //    }
+                //}
+                //if (tmpFlag)
+                //    throw new Exception("TODOS LOS VOTOS A FAVOR DE UN PARTIDO");
 
                 if (lista_votos.Count > 0)
                 {
@@ -1003,16 +1003,16 @@ namespace Sistema.ComputosElectorales
                 double primero = listaVotos[listaVotos.Count - 1];
                 double segundo = listaVotos[listaVotos.Count - 2];
                 double diferencia = primero - segundo;
-                if (votosNulos > diferencia)
-                {
-                    this.cmbEstatusActa.SelectedValue = 4;
-                    //this.cmbSupuesto.Enabled = false;
-                    //this.DesactivarTextBoxes();
-                    msgBox = new MsgBox(this, "Número de VOTOS NULOS mayor a la diferencia entre el 1ER y 2DO lugar", "Atención", MessageBoxButtons.OK, "Advertencia");
-                    msgBox.ShowDialog(this);
-                }
-                else
-                {
+                //if (votosNulos > diferencia)
+                //{
+                //    this.cmbEstatusActa.SelectedValue = 4;
+                //    //this.cmbSupuesto.Enabled = false;
+                //    //this.DesactivarTextBoxes();
+                //    msgBox = new MsgBox(this, "Número de VOTOS NULOS mayor a la diferencia entre el 1ER y 2DO lugar", "Atención", MessageBoxButtons.OK, "Advertencia");
+                //    msgBox.ShowDialog(this);
+                //}
+                //else
+                //{
                     //this.cmbSupuesto.Enabled = true;
                     
                     if (sender != null)
@@ -1020,7 +1020,7 @@ namespace Sistema.ComputosElectorales
                         this.cmbEstatusActa.SelectedValue = 1;
                     }
                     
-                }
+                //}
 
 
             }

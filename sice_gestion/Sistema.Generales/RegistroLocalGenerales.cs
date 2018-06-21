@@ -458,6 +458,37 @@ namespace Sistema.Generales
             }
         }
 
+        public List<sice_ar_votos_cotejo_rp> ResultadosVotosCotejoRP(int pageNumber = 0, int pageSize = 0, int id_distrito_local = 0)
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    string result = string.Join(",", LoginInfo.lista_distritos);
+                    string condicion = " AND C.id_distrito_local IN (" + result + ") ";
+                    string consulta =
+                        "SELECT " +
+                            "RV.* " +
+                        "FROM sice_ar_votos_cotejo_rp RV " +
+                        "LEFT JOIN sice_partidos_politicos P ON P.id = RV.id_partido " +
+                        "JOIN sice_casillas C ON C.id = RV.id_casilla " + condicion +
+                        "JOIN sice_municipios M ON M.id = C.id_municipio " +
+                        "JOIN sice_municipios M2 ON M2.id = C.id_cabecera_local " +
+                        "LEFT JOIN sice_ar_reserva RES ON RES.id_casilla = RV.id_casilla " +
+                        "LEFT JOIN sice_ar_estatus_acta EA ON RES.id_estatus_acta = EA.id " +
+                        "ORDER BY C.seccion ASC, RV.id_casilla ASC, prelacion ASC ";
+
+                    return contexto.Database.SqlQuery<sice_ar_votos_cotejo_rp>(consulta).ToList();
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public int ResultadosSeccionCapturaTotal(int pageNumber = 0, int pageSize = 0, int id_distrito_local = 0)
         {
             try
@@ -1564,7 +1595,7 @@ namespace Sistema.Generales
                 //creamos un libro nuevo y la hoja con la que vamos a trabajar
                 libro = (Excel._Workbook)excel.Workbooks.Add(Excel.XlWBATemplate.xlWBATWorksheet);
 
-                List<string> entidades = new List<string>(new string[] { "sice_ar_documentos","sice_ar_historico","sice_ar_reserva","sice_ar_votos_cotejo"});
+                List<string> entidades = new List<string>(new string[] { "sice_ar_documentos","sice_ar_historico","sice_ar_reserva","sice_ar_votos_cotejo", "sice_ar_votos_cotejo_rp", "sice_configuracion_recuento" });
                 
                 foreach(string entidad in entidades)
                 {
@@ -1695,6 +1726,11 @@ namespace Sistema.Generales
                                 hoja.Cells[fila, 16] = d.id_estatus_paquete;
                                 hoja.Cells[fila, 17] = d.id_incidencias;
                                 hoja.Cells[fila, 18] = d.inicializada;
+                                hoja.Cells[fila, 19] = d.id_condiciones_paquete;
+                                hoja.Cells[fila, 20] = d.tipo_votacion;
+                                hoja.Cells[fila, 21] = d.grupo_trabajo;
+                                hoja.Cells[fila, 22] = d.con_cinta;
+                                hoja.Cells[fila, 23] = d.con_etiqueta;
                                 fila++;
                             }
                         break;
@@ -1707,11 +1743,41 @@ namespace Sistema.Generales
                                 hoja.Cells[fila, 3] = d.id_casilla;
                                 hoja.Cells[fila, 4] = d.votos;
                                 hoja.Cells[fila, 5] = d.tipo;
-                                hoja.Cells[fila, 6] = d.importado;
-                                hoja.Cells[fila, 7] = d.estatus;
+                                hoja.Cells[fila, 6] = d.estatus;
+                                hoja.Cells[fila, 7] = d.importado;
                                 fila++;
                             }
                         break;
+                        case "sice_ar_votos_cotejo_rp":
+                            List<sice_ar_votos_cotejo_rp> data5 = this.ResultadosVotosCotejoRP();
+                            foreach (sice_ar_votos_cotejo_rp d in data5)
+                            {
+                                hoja.Cells[fila, 1] = d.id;
+                                hoja.Cells[fila, 2] = d.id_partido;
+                                hoja.Cells[fila, 3] = d.id_casilla;
+                                hoja.Cells[fila, 4] = d.votos;
+                                hoja.Cells[fila, 5] = d.tipo;
+                                hoja.Cells[fila, 6] = d.estatus;
+                                hoja.Cells[fila, 7] = d.importado;
+                                fila++;
+                            }
+                       break;
+                        case "sice_configuracion_recuento":
+                            List<sice_configuracion_recuento> data6 = (from d in contexto.sice_configuracion_recuento select d).ToList();
+                            foreach (sice_configuracion_recuento d in data6)
+                            {
+                                hoja.Cells[fila, 1] = d.id;
+                                hoja.Cells[fila, 2] = d.sistema;
+                                hoja.Cells[fila, 3] = d.id_distrito;
+                                hoja.Cells[fila, 4] = d.grupos_trabajo;
+                                hoja.Cells[fila, 5] = d.puntos_recuento;
+                                hoja.Cells[fila, 6] = d.horas_disponibles;
+                                hoja.Cells[fila, 7] = d.tipo_recuento;
+                                hoja.Cells[fila, 8] = d.inicializado;
+                                hoja.Cells[fila, 9] = d.importado;
+                                fila++;
+                            }
+                            break;
                     }
                 }
 
@@ -1746,6 +1812,16 @@ namespace Sistema.Generales
                         break;
                     case "sice_ar_votos_cotejo":
                         nombres = typeof(sice_ar_votos_cotejo).GetProperties()
+                       .Select(property => property.Name)
+                       .ToList();
+                        break;
+                    case "sice_ar_votos_cotejo_rp":
+                        nombres = typeof(sice_ar_votos_cotejo_rp).GetProperties()
+                       .Select(property => property.Name)
+                       .ToList();
+                        break;
+                    case "sice_configuracion_recuento":
+                        nombres = typeof(sice_configuracion_recuento).GetProperties()
                        .Select(property => property.Name)
                        .ToList();
                         break;

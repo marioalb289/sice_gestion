@@ -739,6 +739,37 @@ namespace Sistema.Generales
             }
         }
 
+        public List<sice_votos_rp> ResultadosSiceVotosRP(int pageNumber = 0, int pageSize = 0, int id_distrito_local = 0)
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    string result = string.Join(",", LoginInfo.lista_distritos);
+                    string condicion = " AND C.id_distrito_local IN (" + result + ") ";
+                    string consulta =
+                        "SELECT " +
+                            "RV.* " +
+                        "FROM sice_votos_rp RV " +
+                        "LEFT JOIN sice_partidos_politicos P ON P.id = RV.id_partido " +
+                        "JOIN sice_casillas C ON C.id = RV.id_casilla " + condicion +
+                        "JOIN sice_municipios M ON M.id = C.id_municipio " +
+                        "JOIN sice_municipios M2 ON M2.id = C.id_cabecera_local " +
+                        "LEFT JOIN sice_ar_reserva RES ON RES.id_casilla = RV.id_casilla " +
+                        "LEFT JOIN sice_ar_estatus_acta EA ON RES.id_estatus_acta = EA.id " +
+                        "ORDER BY C.seccion ASC, RV.id_casilla ASC, prelacion ASC ";
+
+                    return contexto.Database.SqlQuery<sice_votos_rp>(consulta).ToList();
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public sice_ar_supuestos getSupuesto(int id_casilla)
         {
             try
@@ -1937,7 +1968,7 @@ namespace Sistema.Generales
                 //creamos un libro nuevo y la hoja con la que vamos a trabajar
                 libro = (Excel._Workbook)excel.Workbooks.Add(Excel.XlWBATemplate.xlWBATWorksheet);
 
-                List<string> entidades = new List<string>(new string[] { "sice_historico", "sice_reserva_captura", "sice_votos" });
+                List<string> entidades = new List<string>(new string[] { "sice_historico", "sice_reserva_captura", "sice_votos","sice_votos_rp","sice_configuracion_recuento" });
 
                 foreach (string entidad in entidades)
                 {
@@ -2024,22 +2055,28 @@ namespace Sistema.Generales
                                 hoja.Cells[fila, 1] = d.id;
                                 hoja.Cells[fila, 2] = d.id_casilla;
                                 hoja.Cells[fila, 3] = d.tipo_reserva;
-                                hoja.Cells[fila, 4] = d.importado;
+                                hoja.Cells[fila, 4] = d.tipo_votacion;
                                 hoja.Cells[fila, 5] = d.id_supuesto;
-                                hoja.Cells[fila, 6] = d.num_escritos;
-                                hoja.Cells[fila, 7] = d.boletas_sobrantes;
-                                hoja.Cells[fila, 8].NumberFormat = "@";
-                                hoja.Cells[fila, 8] = d.create_at != null ? ((DateTime)d.create_at).ToString("yyyy-MM-dd hh:mm:ss"): "";
-                                hoja.Cells[fila, 9].NumberFormat = "@";
-                                hoja.Cells[fila, 9] = d.updated_at != null ? ((DateTime)d.updated_at).ToString("yyyy-MM-dd hh:mm:ss"): "";
-                                hoja.Cells[fila, 10] = d.personas_votaron;
-                                hoja.Cells[fila, 11] = d.num_representantes_votaron;
-                                hoja.Cells[fila, 12] = d.votos_sacados;
-                                hoja.Cells[fila, 13] = d.casilla_instalada;
-                                hoja.Cells[fila, 14] = d.id_estatus_acta;
-                                hoja.Cells[fila, 15] = d.id_estatus_paquete;
-                                hoja.Cells[fila, 16] = d.id_incidencias;
-                                hoja.Cells[fila, 17] = d.inicializada;
+                                hoja.Cells[fila, 6] = d.personas_votaron;
+                                hoja.Cells[fila, 7] = d.num_representantes_votaron;
+                                hoja.Cells[fila, 8] = d.num_escritos;
+                                hoja.Cells[fila, 9] = d.votos_sacados;
+                                hoja.Cells[fila, 10] = d.boletas_sobrantes;
+                                hoja.Cells[fila, 11] = d.casilla_instalada;
+                                hoja.Cells[fila, 12] = d.id_estatus_acta;
+                                hoja.Cells[fila, 13] = d.id_estatus_paquete;
+                                hoja.Cells[fila, 14] = d.id_condiciones_paquete;
+                                hoja.Cells[fila, 15] = d.id_incidencias;
+                                hoja.Cells[fila, 16] = d.inicializada;
+                                hoja.Cells[fila, 17] = d.importado;
+                                hoja.Cells[fila, 18].NumberFormat = "@";
+                                hoja.Cells[fila, 18] = d.create_at != null ? ((DateTime)d.create_at).ToString("yyyy-MM-dd hh:mm:ss"): "";
+                                hoja.Cells[fila, 19].NumberFormat = "@";
+                                hoja.Cells[fila, 19] = d.updated_at != null ? ((DateTime)d.updated_at).ToString("yyyy-MM-dd hh:mm:ss"): "";
+                                hoja.Cells[fila, 20] = d.grupo_trabajo;
+                                hoja.Cells[fila, 21] = d.votos_reservados;
+                                hoja.Cells[fila, 22] = d.con_cinta;
+                                hoja.Cells[fila, 23] = d.con_etiqueta;
                                 fila++;
                             }
                             break;
@@ -2052,8 +2089,38 @@ namespace Sistema.Generales
                                 hoja.Cells[fila, 3] = d.id_casilla;
                                 hoja.Cells[fila, 4] = d.votos;
                                 hoja.Cells[fila, 5] = d.tipo;
-                                hoja.Cells[fila, 6] = d.importado;
-                                hoja.Cells[fila, 7] = d.estatus;
+                                hoja.Cells[fila, 6] = d.estatus;
+                                hoja.Cells[fila, 7] = d.importado;
+                                fila++;
+                            }
+                            break;
+                        case "sice_votos_rp":
+                            List<sice_votos_rp> data5 = this.ResultadosSiceVotosRP();
+                            foreach (sice_votos_rp d in data5)
+                            {
+                                hoja.Cells[fila, 1] = d.id;
+                                hoja.Cells[fila, 2] = d.id_partido;
+                                hoja.Cells[fila, 3] = d.id_casilla;
+                                hoja.Cells[fila, 4] = d.votos;
+                                hoja.Cells[fila, 5] = d.tipo;
+                                hoja.Cells[fila, 6] = d.estatus;
+                                hoja.Cells[fila, 7] = d.importado;
+                                fila++;
+                            }
+                            break;
+                        case "sice_configuracion_recuento":
+                            List<sice_configuracion_recuento> data6 = (from d in contexto.sice_configuracion_recuento select d).ToList();
+                            foreach (sice_configuracion_recuento d in data6)
+                            {
+                                hoja.Cells[fila, 1] = d.id;
+                                hoja.Cells[fila, 2] = d.sistema;
+                                hoja.Cells[fila, 3] = d.id_distrito;
+                                hoja.Cells[fila, 4] = d.grupos_trabajo;
+                                hoja.Cells[fila, 5] = d.puntos_recuento;
+                                hoja.Cells[fila, 6] = d.horas_disponibles;
+                                hoja.Cells[fila, 7] = d.tipo_recuento;
+                                hoja.Cells[fila, 8] = d.inicializado;
+                                hoja.Cells[fila, 9] = d.importado;
                                 fila++;
                             }
                             break;
@@ -2086,6 +2153,16 @@ namespace Sistema.Generales
                         break;
                     case "sice_votos":
                         nombres = typeof(sice_votos).GetProperties()
+                       .Select(property => property.Name)
+                       .ToList();
+                        break;
+                    case "sice_votos_rp":
+                        nombres = typeof(sice_votos_rp).GetProperties()
+                       .Select(property => property.Name)
+                       .ToList();
+                        break;
+                    case "sice_configuracion_recuento":
+                        nombres = typeof(sice_configuracion_recuento).GetProperties()
                        .Select(property => property.Name)
                        .ToList();
                         break;
