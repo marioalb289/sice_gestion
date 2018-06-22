@@ -707,7 +707,7 @@ namespace Sistema.ComputosElectorales
                     this.tablePanelPartidos.ResumeLayout(false);
                     this.tablePanelPartidos.Visible = true;
                     this.tblPanelBoletas.Visible = true;
-                    this.txtPersonasVotaron.Focus();
+                    this.txtSobrantes.Focus();
                     this.panelCaptura.Visible = true;
                     this.panelCaptura.Enabled = true;
                     //textBoxes[0].Focus();
@@ -848,7 +848,7 @@ namespace Sistema.ComputosElectorales
                     this.tablePanelPartidos.ResumeLayout(false);
                     this.tablePanelPartidos.Visible = true;
                     this.tblPanelBoletas.Visible = true;
-                    this.txtPersonasVotaron.Focus();
+                    this.txtSobrantes.Focus();
                     this.panelCaptura.Visible = true;
                     this.panelCaptura.Enabled = true;
                     //textBoxes[0].Focus();

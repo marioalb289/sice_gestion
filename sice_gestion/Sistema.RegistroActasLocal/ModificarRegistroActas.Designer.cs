@@ -1,5 +1,4 @@
-﻿
-namespace Sistema.RegistroActasLocal
+﻿namespace Sistema.RegistroActasLocal
 {
     partial class ModificarRegistroActas
     {
@@ -125,11 +124,11 @@ namespace Sistema.RegistroActasLocal
             this.tablePanelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tablePanelPartidos.Dock = System.Windows.Forms.DockStyle.Top;
             this.tablePanelPartidos.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
-            this.tablePanelPartidos.Location = new System.Drawing.Point(0, 488);
+            this.tablePanelPartidos.Location = new System.Drawing.Point(0, 490);
             this.tablePanelPartidos.Name = "tablePanelPartidos";
             this.tablePanelPartidos.Padding = new System.Windows.Forms.Padding(40, 0, 40, 0);
             this.tablePanelPartidos.RowCount = 1;
-            this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 330F));
+            this.tablePanelPartidos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 333F));
             this.tablePanelPartidos.Size = new System.Drawing.Size(1007, 213);
             this.tablePanelPartidos.TabIndex = 20;
             this.tablePanelPartidos.Visible = false;
@@ -148,8 +147,8 @@ namespace Sistema.RegistroActasLocal
             this.tblPanaelTitulo.Name = "tblPanaelTitulo";
             this.tblPanaelTitulo.Padding = new System.Windows.Forms.Padding(40, 10, 40, 10);
             this.tblPanaelTitulo.RowCount = 1;
-            this.tblPanaelTitulo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 124F));
-            this.tblPanaelTitulo.Size = new System.Drawing.Size(1007, 148);
+            this.tblPanaelTitulo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 126F));
+            this.tblPanaelTitulo.Size = new System.Drawing.Size(1007, 150);
             this.tblPanaelTitulo.TabIndex = 19;
             // 
             // pnlTableTitulo
@@ -159,7 +158,7 @@ namespace Sistema.RegistroActasLocal
             this.pnlTableTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTableTitulo.Location = new System.Drawing.Point(45, 15);
             this.pnlTableTitulo.Name = "pnlTableTitulo";
-            this.pnlTableTitulo.Size = new System.Drawing.Size(917, 118);
+            this.pnlTableTitulo.Size = new System.Drawing.Size(917, 120);
             this.pnlTableTitulo.TabIndex = 39;
             // 
             // lblTituloCaptura
@@ -264,8 +263,7 @@ namespace Sistema.RegistroActasLocal
             this.cmbSupuesto.Margin = new System.Windows.Forms.Padding(20, 25, 20, 5);
             this.cmbSupuesto.Name = "cmbSupuesto";
             this.cmbSupuesto.Size = new System.Drawing.Size(301, 21);
-            this.cmbSupuesto.TabIndex = 17;
-            this.cmbSupuesto.TabStop = false;
+            this.cmbSupuesto.TabIndex = 15;
             this.cmbSupuesto.SelectedValueChanged += new System.EventHandler(this.cmbSupuesto_SelectedValueChanged);
             // 
             // label15
@@ -293,7 +291,7 @@ namespace Sistema.RegistroActasLocal
             this.cmbEstatusPaquete.Margin = new System.Windows.Forms.Padding(20, 25, 20, 5);
             this.cmbEstatusPaquete.Name = "cmbEstatusPaquete";
             this.cmbEstatusPaquete.Size = new System.Drawing.Size(301, 21);
-            this.cmbEstatusPaquete.TabIndex = 15;
+            this.cmbEstatusPaquete.TabIndex = 14;
             this.cmbEstatusPaquete.SelectedValueChanged += new System.EventHandler(this.cmbEstatusPaquete_SelectedValueChanged);
             // 
             // panel6
@@ -317,6 +315,7 @@ namespace Sistema.RegistroActasLocal
             this.chkCinta.Padding = new System.Windows.Forms.Padding(20, 10, 0, 0);
             this.chkCinta.Size = new System.Drawing.Size(227, 31);
             this.chkCinta.TabIndex = 1;
+            this.chkCinta.TabStop = false;
             this.chkCinta.Text = "Con Cinta de Seguridad";
             this.chkCinta.UseVisualStyleBackColor = true;
             // 
@@ -330,6 +329,7 @@ namespace Sistema.RegistroActasLocal
             this.chkEtiqueta.Padding = new System.Windows.Forms.Padding(20, 10, 0, 0);
             this.chkEtiqueta.Size = new System.Drawing.Size(227, 31);
             this.chkEtiqueta.TabIndex = 0;
+            this.chkEtiqueta.TabStop = false;
             this.chkEtiqueta.Text = "Con Etiqueta de Seguridad";
             this.chkEtiqueta.UseVisualStyleBackColor = true;
             // 
@@ -343,18 +343,18 @@ namespace Sistema.RegistroActasLocal
             this.tblPanelBoletas.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.33133F));
             this.tblPanelBoletas.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.002F));
             this.tblPanelBoletas.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.33133F));
-            this.tblPanelBoletas.Controls.Add(this.txtTotalCapturado, 5, 1);
-            this.tblPanelBoletas.Controls.Add(this.label10, 4, 1);
-            this.tblPanelBoletas.Controls.Add(this.label5, 0, 1);
-            this.tblPanelBoletas.Controls.Add(this.label4, 2, 1);
-            this.tblPanelBoletas.Controls.Add(this.txtBoletasR, 3, 1);
-            this.tblPanelBoletas.Controls.Add(this.txtSobrantes, 0, 1);
-            this.tblPanelBoletas.Controls.Add(this.txtVotosSacados, 5, 0);
-            this.tblPanelBoletas.Controls.Add(this.label13, 4, 0);
-            this.tblPanelBoletas.Controls.Add(this.txtRepresentantes, 3, 0);
-            this.tblPanelBoletas.Controls.Add(this.label12, 2, 0);
-            this.tblPanelBoletas.Controls.Add(this.txtPersonasVotaron, 1, 0);
-            this.tblPanelBoletas.Controls.Add(this.label11, 0, 0);
+            this.tblPanelBoletas.Controls.Add(this.txtTotalCapturado, 3, 1);
+            this.tblPanelBoletas.Controls.Add(this.label10, 2, 1);
+            this.tblPanelBoletas.Controls.Add(this.label5, 0, 0);
+            this.tblPanelBoletas.Controls.Add(this.label4, 4, 1);
+            this.tblPanelBoletas.Controls.Add(this.txtBoletasR, 5, 1);
+            this.tblPanelBoletas.Controls.Add(this.txtSobrantes, 1, 0);
+            this.tblPanelBoletas.Controls.Add(this.txtVotosSacados, 1, 1);
+            this.tblPanelBoletas.Controls.Add(this.label13, 0, 1);
+            this.tblPanelBoletas.Controls.Add(this.txtRepresentantes, 5, 0);
+            this.tblPanelBoletas.Controls.Add(this.label12, 4, 0);
+            this.tblPanelBoletas.Controls.Add(this.txtPersonasVotaron, 3, 0);
+            this.tblPanelBoletas.Controls.Add(this.label11, 2, 0);
             this.tblPanelBoletas.Dock = System.Windows.Forms.DockStyle.Top;
             this.tblPanelBoletas.Location = new System.Drawing.Point(0, 0);
             this.tblPanelBoletas.Name = "tblPanelBoletas";
@@ -372,11 +372,11 @@ namespace Sistema.RegistroActasLocal
             this.txtTotalCapturado.Dock = System.Windows.Forms.DockStyle.Top;
             this.txtTotalCapturado.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTotalCapturado.ForeColor = System.Drawing.Color.DarkRed;
-            this.txtTotalCapturado.Location = new System.Drawing.Point(817, 113);
+            this.txtTotalCapturado.Location = new System.Drawing.Point(550, 113);
             this.txtTotalCapturado.Margin = new System.Windows.Forms.Padding(20, 25, 20, 5);
             this.txtTotalCapturado.MaxLength = 3;
             this.txtTotalCapturado.Name = "txtTotalCapturado";
-            this.txtTotalCapturado.Size = new System.Drawing.Size(67, 29);
+            this.txtTotalCapturado.Size = new System.Drawing.Size(64, 29);
             this.txtTotalCapturado.TabIndex = 0;
             this.txtTotalCapturado.TabStop = false;
             this.txtTotalCapturado.Text = "0";
@@ -388,7 +388,7 @@ namespace Sistema.RegistroActasLocal
             this.label10.AutoSize = true;
             this.label10.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(640, 88);
+            this.label10.Location = new System.Drawing.Point(373, 88);
             this.label10.Name = "label10";
             this.label10.Padding = new System.Windows.Forms.Padding(10);
             this.label10.Size = new System.Drawing.Size(151, 72);
@@ -402,7 +402,7 @@ namespace Sistema.RegistroActasLocal
             this.label5.AutoSize = true;
             this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(106, 88);
+            this.label5.Location = new System.Drawing.Point(106, 13);
             this.label5.Name = "label5";
             this.label5.Padding = new System.Windows.Forms.Padding(10);
             this.label5.Size = new System.Drawing.Size(151, 72);
@@ -416,7 +416,7 @@ namespace Sistema.RegistroActasLocal
             this.label4.AutoSize = true;
             this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(373, 88);
+            this.label4.Location = new System.Drawing.Point(640, 88);
             this.label4.Name = "label4";
             this.label4.Padding = new System.Windows.Forms.Padding(10);
             this.label4.Size = new System.Drawing.Size(151, 72);
@@ -429,11 +429,11 @@ namespace Sistema.RegistroActasLocal
             this.txtBoletasR.Dock = System.Windows.Forms.DockStyle.Top;
             this.txtBoletasR.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtBoletasR.ForeColor = System.Drawing.Color.DarkRed;
-            this.txtBoletasR.Location = new System.Drawing.Point(550, 113);
+            this.txtBoletasR.Location = new System.Drawing.Point(817, 113);
             this.txtBoletasR.Margin = new System.Windows.Forms.Padding(20, 25, 20, 5);
             this.txtBoletasR.MaxLength = 3;
             this.txtBoletasR.Name = "txtBoletasR";
-            this.txtBoletasR.Size = new System.Drawing.Size(64, 29);
+            this.txtBoletasR.Size = new System.Drawing.Size(67, 29);
             this.txtBoletasR.TabIndex = 0;
             this.txtBoletasR.TabStop = false;
             this.txtBoletasR.Text = "0";
@@ -444,12 +444,12 @@ namespace Sistema.RegistroActasLocal
             this.txtSobrantes.Dock = System.Windows.Forms.DockStyle.Top;
             this.txtSobrantes.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSobrantes.ForeColor = System.Drawing.Color.DarkRed;
-            this.txtSobrantes.Location = new System.Drawing.Point(283, 113);
+            this.txtSobrantes.Location = new System.Drawing.Point(283, 38);
             this.txtSobrantes.Margin = new System.Windows.Forms.Padding(20, 25, 20, 5);
             this.txtSobrantes.MaxLength = 3;
             this.txtSobrantes.Name = "txtSobrantes";
             this.txtSobrantes.Size = new System.Drawing.Size(64, 29);
-            this.txtSobrantes.TabIndex = 14;
+            this.txtSobrantes.TabIndex = 10;
             this.txtSobrantes.Text = "0";
             this.txtSobrantes.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -457,11 +457,11 @@ namespace Sistema.RegistroActasLocal
             // 
             this.txtVotosSacados.Dock = System.Windows.Forms.DockStyle.Top;
             this.txtVotosSacados.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtVotosSacados.Location = new System.Drawing.Point(817, 38);
+            this.txtVotosSacados.Location = new System.Drawing.Point(283, 113);
             this.txtVotosSacados.Margin = new System.Windows.Forms.Padding(20, 25, 20, 5);
             this.txtVotosSacados.MaxLength = 3;
             this.txtVotosSacados.Name = "txtVotosSacados";
-            this.txtVotosSacados.Size = new System.Drawing.Size(67, 29);
+            this.txtVotosSacados.Size = new System.Drawing.Size(64, 29);
             this.txtVotosSacados.TabIndex = 13;
             this.txtVotosSacados.Text = "0";
             this.txtVotosSacados.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -472,7 +472,7 @@ namespace Sistema.RegistroActasLocal
             this.label13.AutoSize = true;
             this.label13.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(640, 13);
+            this.label13.Location = new System.Drawing.Point(106, 88);
             this.label13.Name = "label13";
             this.label13.Padding = new System.Windows.Forms.Padding(10);
             this.label13.Size = new System.Drawing.Size(151, 72);
@@ -484,11 +484,11 @@ namespace Sistema.RegistroActasLocal
             // 
             this.txtRepresentantes.Dock = System.Windows.Forms.DockStyle.Top;
             this.txtRepresentantes.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtRepresentantes.Location = new System.Drawing.Point(550, 38);
+            this.txtRepresentantes.Location = new System.Drawing.Point(817, 38);
             this.txtRepresentantes.Margin = new System.Windows.Forms.Padding(20, 25, 20, 5);
             this.txtRepresentantes.MaxLength = 3;
             this.txtRepresentantes.Name = "txtRepresentantes";
-            this.txtRepresentantes.Size = new System.Drawing.Size(64, 29);
+            this.txtRepresentantes.Size = new System.Drawing.Size(67, 29);
             this.txtRepresentantes.TabIndex = 12;
             this.txtRepresentantes.Text = "0";
             this.txtRepresentantes.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -499,7 +499,7 @@ namespace Sistema.RegistroActasLocal
             this.label12.AutoSize = true;
             this.label12.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(373, 13);
+            this.label12.Location = new System.Drawing.Point(640, 13);
             this.label12.Name = "label12";
             this.label12.Padding = new System.Windows.Forms.Padding(10);
             this.label12.Size = new System.Drawing.Size(151, 72);
@@ -511,7 +511,7 @@ namespace Sistema.RegistroActasLocal
             // 
             this.txtPersonasVotaron.Dock = System.Windows.Forms.DockStyle.Top;
             this.txtPersonasVotaron.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPersonasVotaron.Location = new System.Drawing.Point(283, 38);
+            this.txtPersonasVotaron.Location = new System.Drawing.Point(550, 38);
             this.txtPersonasVotaron.Margin = new System.Windows.Forms.Padding(20, 25, 20, 5);
             this.txtPersonasVotaron.MaxLength = 3;
             this.txtPersonasVotaron.Name = "txtPersonasVotaron";
@@ -526,7 +526,7 @@ namespace Sistema.RegistroActasLocal
             this.label11.AutoSize = true;
             this.label11.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(106, 13);
+            this.label11.Location = new System.Drawing.Point(373, 13);
             this.label11.Name = "label11";
             this.label11.Padding = new System.Windows.Forms.Padding(10);
             this.label11.Size = new System.Drawing.Size(151, 72);

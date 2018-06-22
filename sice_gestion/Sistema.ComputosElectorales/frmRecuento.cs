@@ -56,7 +56,10 @@ namespace Sistema.ComputosElectorales
         private void frmRecuento_Load(object sender, EventArgs e)
         {
 
-
+            if (LoginInfo.privilegios == 5)
+                txtVotosReserva.Enabled = false;
+            else
+                txtVotosReserva.Enabled = true;
             this.btnGuardar.Enabled = false;
 
             txtSobrantes.KeyPress += FrmRegistroActas_KeyPress;
@@ -129,22 +132,48 @@ namespace Sistema.ComputosElectorales
                         msgBox.ShowDialog(this);
                         return;
                     }
-                    else if (this.flagSelectSupuesto == 5)
-                    {
-                        this.panelCaptura.Enabled = true;
-                        msgBox = new MsgBox(this, "Número de VOTOS NULOS mayor a la diferencia entre el 1ER y 2DO lugar", "Atención", MessageBoxButtons.OK, "Advertencia");
-                        msgBox.ShowDialog(this);
-                        return;
-                    }
+                    //else if (this.flagSelectSupuesto == 5)
+                    //{
+                    //    this.panelCaptura.Enabled = true;
+                    //    msgBox = new MsgBox(this, "Número de VOTOS NULOS mayor a la diferencia entre el 1ER y 2DO lugar", "Atención", MessageBoxButtons.OK, "Advertencia");
+                    //    msgBox.ShowDialog(this);
+                    //    return;
+                    //}
                 }
                 else
                 {
+                    if (totalVotos < boletasRecibidas)
+                    {
+                        if (boletasSobrantes == 0)
+                        {
+                            if (votos_sacados != boletasRecibidas)
+                                throw new Exception("Debes capturar el numero de boletas sobrantes");
+                        }
+
+                    }
+                    if (votos_reserva == 0)
+                        throw new Exception("Debes Capturar el Número de Votos a Reserva");
                     if (this.reservaConsejo)
                     {
                         throw new Exception("Esta Casilla ya fue Reservada para el Consejo.\n NO SE PUEDE ENVIAR A RESERVA DE NUEVO");
                     }
+                    if (this.flagSelectSupuesto == 4)
+                    {
+                        this.panelCaptura.Enabled = true;
+                        msgBox = new MsgBox(this, "El total de Captura excede el Número de Boletas recibidas", "Atención", MessageBoxButtons.OK, "Error");
+                        msgBox.ShowDialog(this);
+                        return;
+                    }
                 }
 
+                if(votos_sacados == 0 && votos_reserva == 0)
+                {
+                    if(LoginInfo.privilegios == 5)
+                        throw new Exception("El total de Captura debe ser mayor a 0");
+                    else
+                        throw new Exception("El total de Captura mas Votos Reservados debe ser mayor a 0");
+                }
+                
 
                 List<double> tmpListaVotos = new List<double>();
                 foreach (TextBox datos in this.textBoxes)
@@ -187,30 +216,6 @@ namespace Sistema.ComputosElectorales
                     }
 
                 }
-                //bool tmpFlag = false;
-                //tmpListaVotos.Sort();
-                //for (int i = tmpListaVotos.Count - 1; i >= 0; i--)
-                //{
-                //    if (i == tmpListaVotos.Count - 1)
-                //    {
-                //        if (tmpListaVotos[i] == 0)
-                //            break;
-                //    }
-                //    else
-                //    {
-                //        if (tmpListaVotos[i] == 0)
-                //        {
-                //            tmpFlag = true;
-                //        }
-                //        else
-                //        {
-                //            tmpFlag = false;
-                //            break;
-                //        }
-                //    }
-                //}
-                //if(tmpFlag)
-                //    throw new Exception("TODOS LOS VOTOS A FAVOR DE UN PARTIDO");
                 if (lista_votos.Count > 0)
                 {
 
@@ -276,10 +281,11 @@ namespace Sistema.ComputosElectorales
                     }                    
                 }
                 int selectedSupuesto = 0;
+                //Validar casillas para reserva del consejo
                 if (estatus_acta != 4)
                 {
                     selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
-                    if ((estatus_acta == 3 || estatus_acta == 5 || estatus_acta == 4))
+                    if ((estatus_acta == 3 || estatus_acta == 5))
                     {
                         if (this.recuento)
                             throw new Exception("Esta Casilla ya fue enviada a Recuento.\nNO SE PUEDE ENVIAR A RECUENTO DE NUEVO");
@@ -288,6 +294,7 @@ namespace Sistema.ComputosElectorales
                     }
 
                     estatus_acta = Convert.ToInt32(cmbEstatusActa.SelectedValue);
+
                     if (this.flagSelectSupuesto == 4)
                     {
                         this.panelCaptura.Enabled = true;
@@ -295,20 +302,43 @@ namespace Sistema.ComputosElectorales
                         msgBox.ShowDialog(this);
                         return;
                     }
-                    else if (this.flagSelectSupuesto == 5)
-                    {
-                        this.panelCaptura.Enabled = true;
-                        msgBox = new MsgBox(this, "Número de VOTOS NULOS mayor a la diferencia entre el 1ER y 2DO lugar", "Atención", MessageBoxButtons.OK, "Advertencia");
-                        msgBox.ShowDialog(this);
-                        return;
-                    }
+                    //else if (this.flagSelectSupuesto == 5)
+                    //{
+                    //    this.panelCaptura.Enabled = true;
+                    //    msgBox = new MsgBox(this, "Número de VOTOS NULOS mayor a la diferencia entre el 1ER y 2DO lugar", "Atención", MessageBoxButtons.OK, "Advertencia");
+                    //    msgBox.ShowDialog(this);
+                    //    return;
+                    //}
                 }
                 else
                 {
+                    if (totalVotos < boletasRecibidas)
+                    {
+                        if (boletasSobrantes == 0)
+                        {
+                            if (votos_sacados != boletasRecibidas)
+                                throw new Exception("Debes capturar el numero de boletas sobrantes");
+                        }
+
+                    }
+                    if (votos_reserva == 0)
+                        throw new Exception("Debes Capturar el Número de Votos a Reserva");
                     if (this.reservaConsejo)
                     {
                         throw new Exception("Esta Casilla ya fue Reservada para el Consejo.\n NO SE PUEDE ENVIAR A RESERVA DE NUEVO");
                     }
+                    if (this.flagSelectSupuesto == 4)
+                    {
+                        this.panelCaptura.Enabled = true;
+                        msgBox = new MsgBox(this, "El total de Captura excede el Número de Boletas recibidas", "Atención", MessageBoxButtons.OK, "Error");
+                        msgBox.ShowDialog(this);
+                        return;
+                    }
+                }
+
+                if (votos_sacados == 0 && votos_reserva == 0)
+                {
+                    throw new Exception("El total de Captura mas Votos Reservados debe ser mayor a 0");
                 }
 
 
@@ -995,12 +1025,12 @@ namespace Sistema.ComputosElectorales
 
 
                 }
-                this.totalVotos = Convert.ToInt32(totalVotos + boletasSobrantes);
+                this.totalVotos = Convert.ToInt32(totalVotos + boletasSobrantes + votosReserva);
                 if (flagError == 1)
                 {
                     this.flagSelectSupuesto = 4;
-                    this.cmbSupuesto.SelectedValue = 4;
-                    this.cmbEstatusActa.SelectedValue = 5;
+                    //this.cmbSupuesto.SelectedValue = 4;
+                    //this.cmbEstatusActa.SelectedValue = 5;
                     //this.cmbSupuesto.Enabled = false;
                     //this.DesactivarTextBoxes();
                     msgBox = new MsgBox(this, "El total de Captura excede el Número de Boletas recibidas", "Atención", MessageBoxButtons.OK, "Error");
@@ -1038,15 +1068,30 @@ namespace Sistema.ComputosElectorales
                 //else
                 //{
                     //this.cmbSupuesto.Enabled = true;
-                    int selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
-                    if (selectedSupuesto == 5 || selectedSupuesto == 4 || selectedSupuesto == 6)
+                int selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
+                if (selectedSupuesto == 5 || selectedSupuesto == 4 || selectedSupuesto == 6)
+                {
+                    if (sender != null)
                     {
-                        if (sender != null)
-                        {
-                            this.cmbSupuesto.SelectedIndex = 0;
-                            this.cmbEstatusActa.SelectedValue = 1;
-                        }
+                        this.cmbSupuesto.SelectedIndex = 0;
+                        this.cmbEstatusActa.SelectedValue = 1;
                     }
+                }
+                else
+                {
+                    if (votosReserva > 0)
+                    {
+                        this.cmbSupuesto.SelectedIndex = 0;
+                        this.cmbEstatusActa.SelectedValue = 4;
+                    }
+                    else
+                    {
+                        this.cmbSupuesto.SelectedIndex = 0;
+                        this.cmbEstatusActa.SelectedValue = 1;
+                    }
+
+                }
+                
                 //}
 
 

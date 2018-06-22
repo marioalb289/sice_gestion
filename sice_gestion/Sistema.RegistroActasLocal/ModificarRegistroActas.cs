@@ -732,7 +732,7 @@ namespace Sistema.RegistroActasLocal
                         this.tablePanelPartidos.Visible = true;
                         panelCaptura.Visible = true;
                         this.VerificarTotal();
-                        this.txtPersonasVotaron.Focus();
+                        this.txtSobrantes.Focus();
 
                     }
                 }
@@ -893,7 +893,7 @@ namespace Sistema.RegistroActasLocal
                     this.tablePanelPartidos.Visible = true;
                     panelCaptura.Visible = true;
                     this.VerificarTotal();
-                    this.txtPersonasVotaron.Focus();
+                    this.txtSobrantes.Focus();
 
                 }
             }

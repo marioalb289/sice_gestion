@@ -276,9 +276,6 @@
     <None Include="Resources\mal.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\recuento.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\reload.png" />
   </ItemGroup>
   <ItemGroup>
@@ -346,6 +343,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\pt_morena.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\modificar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\recuento.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\configuracion.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -94,7 +94,7 @@
             this.btnConfRecuento.BackColor = System.Drawing.Color.Transparent;
             this.btnConfRecuento.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.btnConfRecuento.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnConfRecuento.Image = global::Sistema.ComputosElectorales.Properties.Resources.reload;
+            this.btnConfRecuento.Image = global::Sistema.ComputosElectorales.Properties.Resources.configuracion;
             this.btnConfRecuento.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnConfRecuento.Location = new System.Drawing.Point(172, 403);
             this.btnConfRecuento.Name = "btnConfRecuento";
@@ -226,7 +226,7 @@
             this.btnCasillasRecuento.BackColor = System.Drawing.Color.Transparent;
             this.btnCasillasRecuento.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.btnCasillasRecuento.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCasillasRecuento.Image = global::Sistema.ComputosElectorales.Properties.Resources.reservar;
+            this.btnCasillasRecuento.Image = global::Sistema.ComputosElectorales.Properties.Resources.recuento;
             this.btnCasillasRecuento.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnCasillasRecuento.Location = new System.Drawing.Point(172, 184);
             this.btnCasillasRecuento.Name = "btnCasillasRecuento";

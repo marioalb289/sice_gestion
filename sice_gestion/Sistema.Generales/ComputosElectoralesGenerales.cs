@@ -299,8 +299,10 @@ namespace Sistema.Generales
                 {
                     if (tipo == "")
                         return (from p in contexto.sice_estado_acta where p.id != 4 select p).ToList();
-                    else if (tipo == "RECUENTO")
+                    else if (tipo == "RECUENTO" && LoginInfo.privilegios == 6)
                         return (from p in contexto.sice_estado_acta select p).ToList();
+                    else if (tipo == "RECUENTO" && LoginInfo.privilegios == 5)
+                        return (from p in contexto.sice_estado_acta where p.estatus != "RESERVADA" select p).ToList();
                     else
                         return (from p in contexto.sice_estado_acta where p.id != 3 && p.id != 5 select p).ToList();
                 }

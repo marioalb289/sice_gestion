@@ -204,6 +204,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\configuracion.png" />
     <Content Include="Resources\Error_60.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -219,6 +220,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\modificar.png" />
     <Content Include="Resources\no-regis.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -242,6 +244,7 @@
     <Content Include="Resources\pt_morena.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\recuento.png" />
     <Content Include="Resources\time.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -313,11 +316,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\mal.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Resources\recuento.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

@@ -95,7 +95,7 @@
             this.btnConfRecuento.BackColor = System.Drawing.Color.Transparent;
             this.btnConfRecuento.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.btnConfRecuento.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnConfRecuento.Image = global::Sistema.RegistroActasLocal.Properties.Resources.reload;
+            this.btnConfRecuento.Image = global::Sistema.RegistroActasLocal.Properties.Resources.configuracion;
             this.btnConfRecuento.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnConfRecuento.Location = new System.Drawing.Point(492, 192);
             this.btnConfRecuento.Name = "btnConfRecuento";
@@ -112,7 +112,7 @@
             this.btnModificar.BackColor = System.Drawing.Color.Transparent;
             this.btnModificar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.btnModificar.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnModificar.Image = global::Sistema.RegistroActasLocal.Properties.Resources.reload;
+            this.btnModificar.Image = global::Sistema.RegistroActasLocal.Properties.Resources.modificar;
             this.btnModificar.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnModificar.Location = new System.Drawing.Point(332, 192);
             this.btnModificar.Name = "btnModificar";

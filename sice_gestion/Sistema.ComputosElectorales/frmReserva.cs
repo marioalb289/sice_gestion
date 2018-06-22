@@ -41,6 +41,8 @@ namespace Sistema.ComputosElectorales
         private bool recuento = false;
         private bool reservaConsejo = false;
         private int idCasillaActual = 0;
+        private int tempTotalVotosSacados = 0;
+        private int tempVotosReserva = 0;
 
         const int SB_HORZ = 0;
         [DllImport("user32.dll")]
@@ -60,15 +62,16 @@ namespace Sistema.ComputosElectorales
 
             this.btnGuardar.Enabled = false;
 
-            txtSobrantes.KeyPress += FrmRegistroActas_KeyPress;
-            txtSobrantes.KeyUp += Evento_KeyUp;
-            txtSobrantes.GotFocus += new System.EventHandler(tbxValue_GotFocus);
-            txtSobrantes.MouseUp += new System.Windows.Forms.MouseEventHandler(tbxValue_MouseUp);
-            txtSobrantes.Leave += new System.EventHandler(tbxValue_Leave);
+            //txtSobrantes.KeyPress += FrmRegistroActas_KeyPress;
+            //txtSobrantes.KeyUp += Evento_KeyUp;
+            //txtSobrantes.GotFocus += new System.EventHandler(tbxValue_GotFocus);
+            //txtSobrantes.MouseUp += new System.Windows.Forms.MouseEventHandler(tbxValue_MouseUp);
+            //txtSobrantes.Leave += new System.EventHandler(tbxValue_Leave);
 
             txtTotalCapturado.KeyPress += TxtPreventCaptura_KeyPress;
             txtBoletasR.KeyPress += TxtPreventCaptura_KeyPress;
             txtVotosReserva.KeyPress += TxtPreventCaptura_KeyPress;
+            txtSobrantes.KeyPress += TxtPreventCaptura_KeyPress;
         }
 
         private void guardarRegistroVotos()
@@ -155,7 +158,8 @@ namespace Sistema.ComputosElectorales
                 }
 
 
-                List<double> tmpListaVotos = new List<double>();
+                //List<double> tmpListaVotos = new List<double>();
+                double totalCapturado = 0;
                 foreach (TextBox datos in this.textBoxes)
                 {
                     double num;
@@ -170,7 +174,6 @@ namespace Sistema.ComputosElectorales
                         if (tempIdCandidato > 0)
                         {
                             id_candidato = tempIdCandidato;
-                            tmpListaVotos.Add(num);
                         }
                         else if (tempIdCandidato == -2)
                         {
@@ -187,6 +190,7 @@ namespace Sistema.ComputosElectorales
                             votos = Convert.ToInt32(datos.Text),
                             tipo = tipo_voto
                         });
+                        totalCapturado += num;
 
                     }
                     else
@@ -195,31 +199,11 @@ namespace Sistema.ComputosElectorales
                     }
 
                 }
-
-                //bool tmpFlag = false;
-                //tmpListaVotos.Sort();
-                //for (int i = tmpListaVotos.Count - 1; i >= 0; i--)
-                //{
-                //    if (i == tmpListaVotos.Count - 1)
-                //    {
-                //        if (tmpListaVotos[i] == 0)
-                //            break;
-                //    }
-                //    else
-                //    {
-                //        if (tmpListaVotos[i] == 0)
-                //        {
-                //            tmpFlag = true;
-                //        }
-                //        else
-                //        {
-                //            tmpFlag = false;
-                //            break;
-                //        }
-                //    }
-                //}
-                //if (tmpFlag)
-                //    throw new Exception("TODOS LOS VOTOS A FAVOR DE UN PARTIDO");
+                int totalPorCapturar = this.tempTotalVotosSacados + this.tempVotosReserva;
+                if ((int)totalCapturado != totalPorCapturar)
+                {
+                    throw new Exception("El Total Capturado debe ser: "+totalPorCapturar + "\nIncluidos los Votos Reservados\n");
+                }
 
                 if (lista_votos.Count > 0)
                 {
@@ -522,6 +506,8 @@ namespace Sistema.ComputosElectorales
         {
             try
             {
+                this.tempTotalVotosSacados = 0;
+                this.tempVotosReserva = 0;
                 SeccionCasillaConsecutivo SelectedCasilla = (SeccionCasillaConsecutivo)cmbCasilla.SelectedItem;
                 if (SelectedCasilla.tipo == "RP")
                 {
@@ -580,6 +566,7 @@ namespace Sistema.ComputosElectorales
                     this.boletasRecibidas = tempSec.listaNominal + TotalRepresentantes; //Lista nominal + 2 veces el numero de representantes de casillas
                     this.txtBoletasR.Text = this.boletasRecibidas.ToString();
                     this.txtVotosReserva.Text = detallesActa.votos_reservados.ToString();
+                    this.tempVotosReserva = detallesActa.votos_reservados;
                     this.txtSobrantes.Text = detallesActa.boletas_sobrantes.ToString();
                     this.lblConsecutivo.Text = tempSec.consecutivo.ToString();
                     this.cmbEstatusActa.SelectedValue = detallesActa.id_estatus_acta;
@@ -626,6 +613,7 @@ namespace Sistema.ComputosElectorales
                         labelsName[i].Text = lsCandidatosVotos[i].tipo == "NULO" ? "Votos Nulos" : lsCandidatosVotos[i].tipo == "NO REGISTRADO" ? "Candidato No Registrado" : lsCandidatosVotos[i].candidato;
 
                         //TextBox
+                        this.tempTotalVotosSacados += (int)lsCandidatosVotos[i].votos;
                         textBoxes[i].Dock = System.Windows.Forms.DockStyle.Top;
                         textBoxes[i].Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                         textBoxes[i].Location = new System.Drawing.Point(46, 157);
@@ -662,10 +650,10 @@ namespace Sistema.ComputosElectorales
                     this.tablePanelPartidos.ResumeLayout(false);
                     this.tablePanelPartidos.Visible = true;
                     this.tblPanelBoletas.Visible = true;
-                    this.txtSobrantes.Focus();
+                    //this.txtSobrantes.Focus();
                     this.panelCaptura.Visible = true;
                     this.panelCaptura.Enabled = true;
-                    //textBoxes[0].Focus();
+                    textBoxes[0].Focus();
                     //ShowScrollBar(this.tableLayoutPanel2.Handle, SB_HORZ, false);
                     this.VerificarTotal();
 
@@ -688,7 +676,6 @@ namespace Sistema.ComputosElectorales
 
                 CompElec = new ComputosElectoralesGenerales();
                 this.buscarRecuentoReserva();
-
                 int totalVotos = 0;
                 List<PartidosVotosRP> lsPartidosVotos = CompElec.ListaResultadosCasillaRP(Convert.ToInt32(cmbCasilla.SelectedValue), "sice_votos_rp");
                 sice_reserva_captura detallesActa = CompElec.DetallesActa(Convert.ToInt32(cmbCasilla.SelectedValue), "RP");
@@ -726,6 +713,7 @@ namespace Sistema.ComputosElectorales
                     this.boletasRecibidas = this.Lnominal + TotalRepresentantes; //Lista nominal + 2 veces el numero de representantes de casillas
                     this.txtBoletasR.Text = this.boletasRecibidas.ToString();
                     this.txtVotosReserva.Text = detallesActa.votos_reservados.ToString();
+                    this.tempVotosReserva = detallesActa.votos_reservados;
                     this.lblEstatus.Text = detallesActa.tipo_reserva;
 
 
@@ -778,6 +766,7 @@ namespace Sistema.ComputosElectorales
                         labelsName[i].Text = lsPartidosVotos[i].tipo == "NULO" ? "Votos Nulos" : lsPartidosVotos[i].tipo == "NO REGISTRADO" ? "Candidato No Registrado" : lsPartidosVotos[i].partido;
 
                         //TextBox
+                        this.tempTotalVotosSacados += (int)lsPartidosVotos[i].votos;
                         textBoxes[i].Dock = System.Windows.Forms.DockStyle.Top;
                         textBoxes[i].Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                         textBoxes[i].Location = new System.Drawing.Point(46, 157);
@@ -814,8 +803,8 @@ namespace Sistema.ComputosElectorales
                     this.tablePanelPartidos.ResumeLayout(false);
                     this.tablePanelPartidos.Visible = true;
                     this.tblPanelBoletas.Visible = true;
-                    this.txtSobrantes.Focus();
-                    //textBoxes[0].Focus();
+                    //this.txtSobrantes.Focus();
+                    textBoxes[0].Focus();
                     //ShowScrollBar(this.tableLayoutPanel2.Handle, SB_HORZ, false);     
                     this.txtSobrantes.Text = (detallesActa.boletas_sobrantes != null) ? detallesActa.boletas_sobrantes.ToString() : "0";
                     this.tablePanelPartidos.ResumeLayout();

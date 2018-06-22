@@ -702,7 +702,7 @@ namespace Sistema.RegistroActasLocal
                         this.tablePanelPartidos.ResumeLayout(false);
                         this.tablePanelPartidos.Visible = true;
                         this.tblPanelBoletas.Visible = true;
-                        this.txtPersonasVotaron.Focus();
+                        this.txtSobrantes.Focus();
                         //textBoxes[0].Focus();
                         //ShowScrollBar(this.tableLayoutPanel2.Handle, SB_HORZ, false);
                     }
@@ -843,7 +843,7 @@ namespace Sistema.RegistroActasLocal
                     this.tablePanelPartidos.ResumeLayout(false);
                     this.tablePanelPartidos.Visible = true;
                     this.tblPanelBoletas.Visible = true;
-                    this.txtPersonasVotaron.Focus();
+                    this.txtSobrantes.Focus();
                     //textBoxes[0].Focus();
                     //ShowScrollBar(this.tableLayoutPanel2.Handle, SB_HORZ, false);
                 }
