@@ -112,13 +112,13 @@ namespace Sistema.ComputosElectorales
                         msgBox.ShowDialog(this);
                         return;
                     }
-                    else if (this.flagSelectSupuesto == 5)
-                    {
-                        this.panelCaptura.Enabled = true;
-                        msgBox = new MsgBox(this, "Número de VOTOS NULOS mayor a la diferencia entre el 1ER y 2DO lugar", "Atención", MessageBoxButtons.OK, "Advertencia");
-                        msgBox.ShowDialog(this);
-                        return;
-                    }
+                    //else if (this.flagSelectSupuesto == 5)
+                    //{
+                    //    this.panelCaptura.Enabled = true;
+                    //    msgBox = new MsgBox(this, "Número de VOTOS NULOS mayor a la diferencia entre el 1ER y 2DO lugar", "Atención", MessageBoxButtons.OK, "Advertencia");
+                    //    msgBox.ShowDialog(this);
+                    //    return;
+                    //}
 
 
                 }

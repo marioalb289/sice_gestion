@@ -22,7 +22,7 @@ namespace sice_gestion
         public Login()
         {
             InitializeComponent();
-            txtUsuario.Text = "Correo Electronico";
+            txtUsuario.Text = "Usuario";
             txtUsuario.ForeColor = Color.FromArgb(1, 162, 162, 162);
             txtContrasena.PasswordChar = '\0';
             txtContrasena.Text = "Contraseña";
@@ -65,7 +65,7 @@ namespace sice_gestion
 
         private void txtUsuario_Enter(object sender, EventArgs e)
         {
-            if(txtUsuario.Text.Equals("Correo Electronico"))
+            if(txtUsuario.Text.Equals("Usuario"))
             {
                 txtUsuario.Text = "";
                 txtUsuario.ForeColor = Color.FromArgb(1, 0, 0, 0);
@@ -77,7 +77,7 @@ namespace sice_gestion
         {
             if (String.IsNullOrWhiteSpace(txtUsuario.Text))
             {
-                txtUsuario.Text = "Correo Electronico";
+                txtUsuario.Text = "Usuario";
                 txtUsuario.ForeColor = Color.FromArgb(1, 162, 162, 162);
 
             }
@@ -137,7 +137,7 @@ namespace sice_gestion
         {
             try
             {
-                if(txtUsuario.Text == "" || txtUsuario.Text == "Correo Electronico")
+                if(txtUsuario.Text == "" || txtUsuario.Text == "Usuario")
                 {
                     msgBox = new MsgBox(this, "Introduce Usuario", "Atención", MessageBoxButtons.OK, "Advertencia");
                     msgBox.ShowDialog(this);

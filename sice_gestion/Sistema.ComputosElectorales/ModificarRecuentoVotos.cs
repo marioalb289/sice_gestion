@@ -88,7 +88,6 @@ namespace Sistema.ComputosElectorales
 
             txtTotalCapturado.KeyPress += TxtPreventCaptura_KeyPress;
             txtBoletasR.KeyPress += TxtPreventCaptura_KeyPress;
-            txtVotosReserva.KeyPress += TxtPreventCaptura_KeyPress;
         }
 
         private void guardarRegistroVotos()
@@ -96,14 +95,15 @@ namespace Sistema.ComputosElectorales
             try
             {
                 int boletasSobrantes = Convert.ToInt32(txtSobrantes.Text);
-                int personas_votaron = Convert.ToInt32(txtPersonasVotaron.Text);
-                int votos_sacados = Convert.ToInt32(txtVotosSacados.Text);
+                int personas_votaron = Convert.ToInt32(txtTotalCapturado.Text);
+                int votos_sacados = Convert.ToInt32(txtTotalCapturado.Text);
 
                 CompElec = new ComputosElectoralesGenerales();
                 this.panelCaptura.Enabled = false;
 
                 List<sice_votos> lista_votos = new List<sice_votos>();
                 int id_casilla = Convert.ToInt32(cmbCasilla.SelectedValue);
+                int selectedSupuesto = 0;
                 if (id_casilla == 0)
                     throw new Exception("Error al guardar los datos");
 
@@ -120,28 +120,11 @@ namespace Sistema.ComputosElectorales
                         }
 
                     }
-                    if (personas_votaron == 0)
-                        throw new Exception("Debes capturar el numero de personas que votaron");
+
                     if (votos_sacados == 0)
-                        throw new Exception("Debes capturar el numero de votos sacados de la urna");
-                    if (!this.VerificarApartados())
-                        return;
-                }
-
-                //Validar casillas para reserva del consejo
-                int selectedSupuesto = 0;
-                if (estatus_acta != 4)
-                {
-                    selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
-                    if ((estatus_acta == 3 || estatus_acta == 5))
                     {
-                        if (this.recuento)
-                            throw new Exception("Esta Casilla ya fue enviada a Recuento.\nNO SE PUEDE ENVIAR A RECUENTO DE NUEVO");
-                        if (selectedSupuesto == 0)
-                            throw new Exception("Debes seleccionar un Motivo de Recuento");
+                        throw new Exception("El total de Captura debe ser mayor a 0");
                     }
-
-                    estatus_acta = Convert.ToInt32(cmbEstatusActa.SelectedValue);
 
                     if (this.flagSelectSupuesto == 4)
                     {
@@ -150,16 +133,57 @@ namespace Sistema.ComputosElectorales
                         msgBox.ShowDialog(this);
                         return;
                     }
-                    else if (this.flagSelectSupuesto == 5)
-                    {
-                        this.panelCaptura.Enabled = true;
-                        msgBox = new MsgBox(this, "Número de VOTOS NULOS mayor a la diferencia entre el 1ER y 2DO lugar", "Atención", MessageBoxButtons.OK, "Advertencia");
-                        msgBox.ShowDialog(this);
-                        return;
-                    }
+                }
+                else if(estatus_acta == 9)
+                {
+                    estatus_acta = Convert.ToInt32(cmbEstatusActa.SelectedValue);
+                }
+                else
+                {
+                    msgBox = new MsgBox(this, "No puedes enviar a Reserva o Recuento", "Atención", MessageBoxButtons.OK, "Error");
+                    msgBox.ShowDialog(this);
+                    return;
                 }
 
+                //Validar casillas para reserva del consejo
+                //int selectedSupuesto = 0;
+                //if (estatus_acta != 4)
+                //{
+                //    selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
+                //    if ((estatus_acta == 3 || estatus_acta == 5))
+                //    {
+                //        //if (this.recuento)
+                //        //    throw new Exception("Esta Casilla ya fue enviada a Recuento.\nNO SE PUEDE ENVIAR A RECUENTO DE NUEVO");
+                //        if (selectedSupuesto == 0)
+                //            throw new Exception("Debes seleccionar un Motivo de Recuento");
+                //    }
 
+                //    estatus_acta = Convert.ToInt32(cmbEstatusActa.SelectedValue);
+
+                //    if (this.flagSelectSupuesto == 4)
+                //    {
+                //        this.panelCaptura.Enabled = true;
+                //        msgBox = new MsgBox(this, "El total de Captura excede el Número de Boletas recibidas", "Atención", MessageBoxButtons.OK, "Error");
+                //        msgBox.ShowDialog(this);
+                //        return;
+                //    }
+                //    //else if (this.flagSelectSupuesto == 5)
+                //    //{
+                //    //    this.panelCaptura.Enabled = true;
+                //    //    msgBox = new MsgBox(this, "Número de VOTOS NULOS mayor a la diferencia entre el 1ER y 2DO lugar", "Atención", MessageBoxButtons.OK, "Advertencia");
+                //    //    msgBox.ShowDialog(this);
+                //    //    return;
+                //    //}
+                //}
+                //else
+                //{
+                //    if(estatus_acta == 4)
+                //    {
+                //        msgBox = new MsgBox(this, "No puedes enviar el Acta a Reserva", "Atención", MessageBoxButtons.OK, "Error");
+                //        msgBox.ShowDialog(this);
+                //        return;
+                //    }
+                //}
 
                 foreach (TextBox datos in this.textBoxes)
                 {
@@ -260,27 +284,14 @@ namespace Sistema.ComputosElectorales
                             if (votos_sacados != boletasRecibidas)
                                 throw new Exception("Debes capturar el numero de boletas sobrantes");
                         }
-                    }
-                    if (personas_votaron == 0)
-                        throw new Exception("Debes capturar el numero de personas que votaron");
-                    if (votos_sacados == 0)
-                        throw new Exception("Debes capturar el numero de votos sacados de la urna");
-                    if (!this.VerificarApartados())
-                        return;
-                }
-                int selectedSupuesto = 0;
-                if (estatus_acta != 4)
-                {
-                    selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
-                    if ((estatus_acta == 3 || estatus_acta == 5 || estatus_acta == 4))
-                    {
-                        if (this.recuento)
-                            throw new Exception("Esta Casilla ya fue enviada a Recuento.\nNO SE PUEDE ENVIAR A RECUENTO DE NUEVO");
-                        if (selectedSupuesto == 0)
-                            throw new Exception("Debes seleccionar un Motivo de Recuento");
+
                     }
 
-                    estatus_acta = Convert.ToInt32(cmbEstatusActa.SelectedValue);
+                    if (votos_sacados == 0)
+                    {
+                        throw new Exception("El total de Captura debe ser mayor a 0");
+                    }
+
                     if (this.flagSelectSupuesto == 4)
                     {
                         this.panelCaptura.Enabled = true;
@@ -288,17 +299,16 @@ namespace Sistema.ComputosElectorales
                         msgBox.ShowDialog(this);
                         return;
                     }
-                    else if (this.flagSelectSupuesto == 5)
-                    {
-                        this.panelCaptura.Enabled = true;
-                        msgBox = new MsgBox(this, "Número de VOTOS NULOS mayor a la diferencia entre el 1ER y 2DO lugar", "Atención", MessageBoxButtons.OK, "Advertencia");
-                        msgBox.ShowDialog(this);
-                        return;
-                    }
+                }
+                else if (estatus_acta == 9)
+                {
+                    estatus_acta = Convert.ToInt32(cmbEstatusActa.SelectedValue);
                 }
                 else
                 {
-                    
+                    msgBox = new MsgBox(this, "No puedes enviar a Reserva o Recuento", "Atención", MessageBoxButtons.OK, "Error");
+                    msgBox.ShowDialog(this);
+                    return;
                 }
 
 
@@ -346,7 +356,7 @@ namespace Sistema.ComputosElectorales
                     int incidencias = 0;
                     int estatus_paquete = 0;
 
-                    int res2 = CompElec.guardarDatosVotosRP(lista_votos, id_casilla, selectedSupuesto, Convert.ToInt32(txtSobrantes.Text),
+                    int res2 = CompElec.guardarDatosVotosRP(lista_votos, id_casilla, 0, Convert.ToInt32(txtSobrantes.Text),
                         0, Convert.ToInt32(txtPersonasVotaron.Text), Convert.ToInt32(txtRepresentantes.Text), Convert.ToInt32(txtVotosSacados.Text),
                         incidencias, estatus_acta, estatus_paquete);
                     if (res2 == 1)
@@ -1046,53 +1056,30 @@ namespace Sistema.ComputosElectorales
                 if (flagError == 1)
                 {
                     this.flagSelectSupuesto = 4;
-                    this.cmbSupuesto.SelectedValue = 4;
-                    this.cmbEstatusActa.SelectedValue = 5;
+                    //this.cmbSupuesto.SelectedValue = 4;
+                    //this.cmbEstatusActa.SelectedValue = 5;
                     //this.cmbSupuesto.Enabled = false;
                     //this.DesactivarTextBoxes();
                     msgBox = new MsgBox(this, "El total de Captura excede el Número de Boletas recibidas", "Atención", MessageBoxButtons.OK, "Error");
                     msgBox.ShowDialog(this);
                     return;
                 }
-                else if (flagError == 2)
-                {
-                    this.flagSelectSupuesto = 6;
-                    this.cmbSupuesto.SelectedValue = 6;
-                    this.cmbEstatusActa.SelectedValue = 5;
-                    //this.cmbSupuesto.Enabled = false;
-                    //this.DesactivarTextBoxes();
-                    msgBox = new MsgBox(this, "TODOS LOS VOTOS A FAVOR DE UN PARTIDO", "Atención", MessageBoxButtons.OK, "Error");
-                    msgBox.ShowDialog(this);
-                    return;
-                }
 
-                listaVotos.Sort();
-                double primero = listaVotos[listaVotos.Count - 1];
-                double segundo = listaVotos[listaVotos.Count - 2];
-                double diferencia = primero - segundo;
-                if (votosNulos > diferencia)
-                {
-                    this.flagSelectSupuesto = 5;
-                    this.cmbSupuesto.SelectedValue = 5;
-                    this.cmbEstatusActa.SelectedValue = 5;
-                    //this.cmbSupuesto.Enabled = false;
-                    //this.DesactivarTextBoxes();
-                    msgBox = new MsgBox(this, "Número de VOTOS NULOS mayor a la diferencia entre el 1ER y 2DO lugar", "Atención", MessageBoxButtons.OK, "Advertencia");
-                    msgBox.ShowDialog(this);
-                }
-                else
-                {
-                    //this.cmbSupuesto.Enabled = true;
-                    int selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
-                    if (selectedSupuesto == 5 || selectedSupuesto == 4 || selectedSupuesto == 6)
-                    {
-                        if (sender != null)
-                        {
-                            this.cmbSupuesto.SelectedIndex = 0;
-                            this.cmbEstatusActa.SelectedValue = 1;
-                        }
-                    }
-                }
+                //listaVotos.Sort();
+                //double primero = listaVotos[listaVotos.Count - 1];
+                //double segundo = listaVotos[listaVotos.Count - 2];
+                //double diferencia = primero - segundo;
+                //this.cmbSupuesto.Enabled = true;
+                //int selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
+                //if (selectedSupuesto == 5 || selectedSupuesto == 4 || selectedSupuesto == 6)
+                //{
+                //    if (sender != null)
+                //    {
+                //        this.cmbSupuesto.SelectedIndex = 0;
+                //        this.cmbEstatusActa.SelectedValue = 1;
+                //    }
+                //}
+                
 
 
             }

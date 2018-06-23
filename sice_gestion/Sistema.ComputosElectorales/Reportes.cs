@@ -979,5 +979,10 @@ namespace Sistema.ComputosElectorales
                 msgBox.ShowDialog(this);
             }
         }
+
+        private void Reportes_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.panel2.Visible = false;
+        }
     }
 }

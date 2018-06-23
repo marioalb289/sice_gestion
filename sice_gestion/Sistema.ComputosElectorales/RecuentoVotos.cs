@@ -114,7 +114,7 @@ namespace Sistema.ComputosElectorales
                     flagEspecialRp = false;
                     flagCasillasRecuento = false;
                     flagDistritoActual = this.sc[PosActual].distrito;
-                    msgBox = new MsgBox(this, "CAPTURANDO DISTRITO " + this.sc[0].distrito, "Atención", MessageBoxButtons.OK, "Informacion");
+                    msgBox = new MsgBox(this, "CAPTURANDO DISTRITO " + this.sc[PosActual].distrito, "Atención", MessageBoxButtons.OK, "Informacion");
                     msgBox.ShowDialog(this);
                 }
                 else if(flagDistritoActual != this.sc[PosActual].distrito)
@@ -123,21 +123,21 @@ namespace Sistema.ComputosElectorales
                     flagEspecialRp = false;
                     flagCasillasRecuento = false;
                     flagDistritoActual = this.sc[PosActual].distrito;
-                    msgBox = new MsgBox(this, "CAPTURANDO DISTRITO " + this.sc[0].distrito, "Atención", MessageBoxButtons.OK, "Informacion");
+                    msgBox = new MsgBox(this, "CAPTURANDO DISTRITO " + this.sc[PosActual].distrito, "Atención", MessageBoxButtons.OK, "Informacion");
                     msgBox.ShowDialog(this);
                 }
 
                 if(this.sc[PosActual].casilla == "S1" && !flagEspecialMr)
                 {
                     flagEspecialMr = true;
-                    msgBox = new MsgBox(this, "CAPTURANDO CASILLA ESPCIAL MR ", "Atención", MessageBoxButtons.OK, "Informacion");
+                    msgBox = new MsgBox(this, "CAPTURANDO CASILLA ESPECIAL MR ", "Atención", MessageBoxButtons.OK, "Informacion");
                     msgBox.ShowDialog(this);
                 }
 
                 if (this.sc[PosActual].casilla == "S1-RP" && !flagEspecialRp)
                 {
                     flagEspecialRp = true;
-                    msgBox = new MsgBox(this, "CAPTURANDO CASILLA ESPCIAL RP " , "Atención", MessageBoxButtons.OK, "Informacion");
+                    msgBox = new MsgBox(this, "CAPTURANDO CASILLA ESPECIAL RP " , "Atención", MessageBoxButtons.OK, "Informacion");
                     msgBox.ShowDialog(this);
                 }
 

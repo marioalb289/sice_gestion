@@ -1341,7 +1341,7 @@ namespace Sistema.Generales
                 int totalRows = hojaActual.Dimension.End.Row;
                 for (int rowNum = filaInicio; rowNum <= totalRows; rowNum++) //selet starting row here
                 {
-                    using (DatabaseContext contexto = new DatabaseContext(con))
+                    using (DatabaseContext contexto = new DatabaseContext("MYSQLSERVER"))
                     {
                         using (var TransactionContexto = new TransactionScope())
                         {
@@ -1371,8 +1371,37 @@ namespace Sistema.Generales
                                         v1.id_casilla = id_casilla;
                                         v1.tipo = tipo;
                                         v1.votos = Convert.ToInt32(hojaActual.Cells[rowNum, 4].Value);
-                                        v1.importado = Convert.ToInt32(hojaActual.Cells[rowNum, 6].Value);
-                                        v1.estatus = Convert.ToInt32(hojaActual.Cells[rowNum, 7].Value); ;
+                                        v1.estatus = Convert.ToInt32(hojaActual.Cells[rowNum, 6].Value); ;
+                                        v1.importado = Convert.ToInt32(hojaActual.Cells[rowNum, 7].Value);
+                                        contexto.SaveChanges();
+                                    }
+                                    break;
+                                case "sice_ar_votos_cotejo_rp":
+                                    int tempIdP = Convert.ToInt32(hojaActual.Cells[rowNum, 2].Value);
+                                    int? id_partido = tempIdP == 0 ? null : (int?)tempIdP;
+                                    int? id_casilla_rp = Convert.ToInt32(hojaActual.Cells[rowNum, 3].Value);
+                                    string tipo2 = hojaActual.Cells[rowNum, 5].Value.ToString();
+                                    sice_ar_votos_cotejo_rp v1rp = null;
+                                    if (id_partido != null)
+                                    {
+                                        v1rp = (from d in contexto.sice_ar_votos_cotejo_rp where d.id_partido == id_partido && d.id_casilla == id_casilla_rp select d).FirstOrDefault();
+                                    }
+                                    else
+                                    {
+                                        if (tipo2 == "NULO")
+                                            v1 = (from d in contexto.sice_ar_votos_cotejo where d.tipo == "NULO" && d.id_casilla == id_casilla_rp select d).FirstOrDefault();
+                                        else if (tipo2 == "NO REGISTRADO")
+                                            v1 = (from d in contexto.sice_ar_votos_cotejo where d.tipo == "NO REGISTRADO" && d.id_casilla == id_casilla_rp select d).FirstOrDefault();
+                                    }
+
+                                    if (v1rp != null)
+                                    {
+                                        v1rp.id_partido = id_partido;
+                                        v1rp.id_casilla = id_casilla_rp;
+                                        v1rp.tipo = tipo2;
+                                        v1rp.votos = Convert.ToInt32(hojaActual.Cells[rowNum, 4].Value);
+                                        v1rp.estatus = Convert.ToInt32(hojaActual.Cells[rowNum, 6].Value); 
+                                        v1rp.importado = Convert.ToInt32(hojaActual.Cells[rowNum, 7].Value);
                                         contexto.SaveChanges();
                                     }
                                     break;
@@ -1385,9 +1414,7 @@ namespace Sistema.Generales
                                         rc.tipo_reserva = hojaActual.Cells[rowNum, 3].Value.ToString();
                                         rc.id_documento = Convert.ToInt32(hojaActual.Cells[rowNum, 4].Value);
                                         rc.importado = Convert.ToInt32(hojaActual.Cells[rowNum, 5].Value);
-                                        rc.id_supuesto = Convert.ToInt32(hojaActual.Cells[rowNum, 6].Value);
-                                        string x = hojaActual.Cells[rowNum, 7].Value.ToString();
-                                        
+                                        rc.id_supuesto = Convert.ToInt32(hojaActual.Cells[rowNum, 6].Value);                                        
                                         rc.create_at = hojaActual.Cells[rowNum, 7].Value.ToString() != "" ? (DateTime?)DateTime.Parse(hojaActual.Cells[rowNum, 7].Value.ToString(), System.Globalization.CultureInfo.InvariantCulture) : null;
                                         rc.updated_at = hojaActual.Cells[rowNum, 8].Value.ToString() != "" ? (DateTime?)DateTime.Parse(hojaActual.Cells[rowNum, 8].Value.ToString(), System.Globalization.CultureInfo.InvariantCulture) : null;
                                         rc.num_escritos = Convert.ToInt32(hojaActual.Cells[rowNum, 9].Value);
@@ -1400,6 +1427,11 @@ namespace Sistema.Generales
                                         rc.id_estatus_paquete = Convert.ToInt32(hojaActual.Cells[rowNum, 16].Value);
                                         rc.id_incidencias = Convert.ToInt32(hojaActual.Cells[rowNum, 17].Value);
                                         rc.inicializada = Convert.ToInt32(hojaActual.Cells[rowNum, 18].Value);
+                                        rc.id_condiciones_paquete = Convert.ToInt32(hojaActual.Cells[rowNum, 19].Value);
+                                        rc.tipo_votacion = hojaActual.Cells[rowNum, 20].Value.ToString();
+                                        rc.grupo_trabajo = Convert.ToInt32(hojaActual.Cells[rowNum, 21].Value);
+                                        rc.con_cinta = Convert.ToInt32(hojaActual.Cells[rowNum, 22].Value);
+                                        rc.con_etiqueta = Convert.ToInt32(hojaActual.Cells[rowNum, 23].Value);
                                     }
                                     else
                                     {
@@ -1421,6 +1453,11 @@ namespace Sistema.Generales
                                         rc.id_estatus_paquete = Convert.ToInt32(hojaActual.Cells[rowNum, 16].Value);
                                         rc.id_incidencias = Convert.ToInt32(hojaActual.Cells[rowNum, 17].Value);
                                         rc.inicializada = Convert.ToInt32(hojaActual.Cells[rowNum, 18].Value);
+                                        rc.id_condiciones_paquete = Convert.ToInt32(hojaActual.Cells[rowNum, 19].Value);
+                                        rc.tipo_votacion = hojaActual.Cells[rowNum, 20].Value.ToString();
+                                        rc.grupo_trabajo = Convert.ToInt32(hojaActual.Cells[rowNum, 21].Value);
+                                        rc.con_cinta = Convert.ToInt32(hojaActual.Cells[rowNum, 22].Value);
+                                        rc.con_etiqueta = Convert.ToInt32(hojaActual.Cells[rowNum, 23].Value);
                                         contexto.sice_ar_reserva.Add(rc);
                                     }
                                     contexto.SaveChanges();
@@ -1479,11 +1516,41 @@ namespace Sistema.Generales
                                     }
                                     contexto.SaveChanges();
                                     break;
+                                case "sice_configuracion_recuento":
+                                    string sistema = hojaActual.Cells[rowNum, 2].Value.ToString();
+                                    int id_distrito = Convert.ToInt32(hojaActual.Cells[rowNum, 3].Value);
+                                    sice_configuracion_recuento conf = (from d in contexto.sice_configuracion_recuento where d.sistema == sistema && d.id_distrito == id_distrito select d).FirstOrDefault();
+                                    if(conf != null)
+                                    {
+                                        conf.sistema = hojaActual.Cells[rowNum, 2].Value.ToString();
+                                        conf.id_distrito = Convert.ToInt32(hojaActual.Cells[rowNum, 3].Value);
+                                        conf.grupos_trabajo = Convert.ToInt32(hojaActual.Cells[rowNum, 4].Value);
+                                        conf.puntos_recuento = Convert.ToInt32(hojaActual.Cells[rowNum, 5].Value);
+                                        conf.horas_disponibles = Convert.ToInt32(hojaActual.Cells[rowNum, 6].Value);
+                                        conf.tipo_recuento = hojaActual.Cells[rowNum, 7].Value.ToString();
+                                        conf.inicializado = Convert.ToInt32(hojaActual.Cells[rowNum, 8].Value);
+                                        conf.importado = Convert.ToInt32(hojaActual.Cells[rowNum, 9].Value);
+                                    }
+                                    else
+                                    {
+                                        conf = new sice_configuracion_recuento();
+                                        conf.sistema = hojaActual.Cells[rowNum, 2].Value.ToString();
+                                        conf.id_distrito = Convert.ToInt32(hojaActual.Cells[rowNum, 3].Value);
+                                        conf.grupos_trabajo = Convert.ToInt32(hojaActual.Cells[rowNum, 4].Value);
+                                        conf.puntos_recuento = Convert.ToInt32(hojaActual.Cells[rowNum, 5].Value);
+                                        conf.horas_disponibles = Convert.ToInt32(hojaActual.Cells[rowNum, 6].Value);
+                                        conf.tipo_recuento = hojaActual.Cells[rowNum, 7].Value.ToString();
+                                        conf.inicializado = Convert.ToInt32(hojaActual.Cells[rowNum, 8].Value);
+                                        conf.importado = Convert.ToInt32(hojaActual.Cells[rowNum, 9].Value);
+                                        contexto.sice_configuracion_recuento.Add(conf);
+                                    }
+                                    contexto.SaveChanges();
+                                    break;
                                 case "sice_votos":
                                     int tempId2 = Convert.ToInt32(hojaActual.Cells[rowNum, 2].Value);
                                     int? id_candidato2 = tempId2 == 0 ? null : (int?)tempId2 ;
                                     int? id_casilla3 = Convert.ToInt32(hojaActual.Cells[rowNum, 3].Value);
-                                    string tipo2 = hojaActual.Cells[rowNum, 5].Value.ToString();
+                                    string tipoc = hojaActual.Cells[rowNum, 5].Value.ToString();
                                     sice_votos v2 = null;
                                     if (id_candidato2 != null)
                                     {
@@ -1491,9 +1558,9 @@ namespace Sistema.Generales
                                     }
                                     else
                                     {
-                                        if (tipo2 == "NULO")
+                                        if (tipoc == "NULO")
                                             v2 = (from d in contexto.sice_votos where d.tipo == "NULO" && d.id_casilla == id_casilla3 select d).FirstOrDefault();
-                                        else if (tipo2 == "NO REGISTRADO")
+                                        else if (tipoc == "NO REGISTRADO")
                                             v2 = (from d in contexto.sice_votos where d.tipo == "NO REGISTRADO" && d.id_casilla == id_casilla3 select d).FirstOrDefault();
                                     }
 
@@ -1502,10 +1569,40 @@ namespace Sistema.Generales
                                         v2.id_candidato = id_candidato2;
                                         v2.id_casilla = id_casilla3;
                                         v2.votos = Convert.ToInt32(hojaActual.Cells[rowNum, 4].Value);
-                                        v2.tipo = tipo2;                                        
-                                        v2.importado = Convert.ToInt32(hojaActual.Cells[rowNum, 6].Value);
-                                        v2.estatus = Convert.ToInt32(hojaActual.Cells[rowNum, 7].Value); ;
+                                        v2.tipo = tipoc;
+                                        v2.estatus = Convert.ToInt32(hojaActual.Cells[rowNum, 6].Value);
+                                        v2.importado = Convert.ToInt32(hojaActual.Cells[rowNum, 7].Value);
                                         
+                                    }
+                                    contexto.SaveChanges();
+                                    break;
+                                case "sice_votos_rp":
+                                    int tempIdRP2 = Convert.ToInt32(hojaActual.Cells[rowNum, 2].Value);
+                                    int? id_partido_ce = tempIdRP2 == 0 ? null : (int?)tempIdRP2;
+                                    int? id_casilla_ce = Convert.ToInt32(hojaActual.Cells[rowNum, 3].Value);
+                                    string tipo_rp = hojaActual.Cells[rowNum, 5].Value.ToString();
+                                    sice_votos_rp v2rp = null;
+                                    if (id_partido_ce != null)
+                                    {
+                                        v2rp = (from d in contexto.sice_votos_rp where d.id_partido == id_partido_ce && d.id_casilla == id_casilla_ce select d).FirstOrDefault();
+                                    }
+                                    else
+                                    {
+                                        if (tipo_rp == "NULO")
+                                            v2 = (from d in contexto.sice_votos where d.tipo == "NULO" && d.id_casilla == id_casilla_ce select d).FirstOrDefault();
+                                        else if (tipo_rp == "NO REGISTRADO")
+                                            v2 = (from d in contexto.sice_votos where d.tipo == "NO REGISTRADO" && d.id_casilla == id_casilla_ce select d).FirstOrDefault();
+                                    }
+
+                                    if (v2rp != null)
+                                    {
+                                        v2rp.id_partido = id_partido_ce;
+                                        v2rp.id_casilla = id_casilla_ce;
+                                        v2rp.votos = Convert.ToInt32(hojaActual.Cells[rowNum, 4].Value);
+                                        v2rp.tipo = tipo_rp;
+                                        v2rp.estatus = Convert.ToInt32(hojaActual.Cells[rowNum, 7].Value);
+                                        v2rp.importado = Convert.ToInt32(hojaActual.Cells[rowNum, 6].Value);
+
                                     }
                                     contexto.SaveChanges();
                                     break;
@@ -1516,20 +1613,26 @@ namespace Sistema.Generales
                                     {
                                         rc2.id_casilla = Convert.ToInt32(hojaActual.Cells[rowNum, 2].Value); 
                                         rc2.tipo_reserva = hojaActual.Cells[rowNum, 3].Value.ToString();
-                                        rc2.importado = Convert.ToInt32(hojaActual.Cells[rowNum, 4].Value); 
-                                        rc2.id_supuesto = Convert.ToInt32(hojaActual.Cells[rowNum, 5].Value); 
-                                        rc2.num_escritos = Convert.ToInt32(hojaActual.Cells[rowNum, 6].Value); 
-                                        rc2.boletas_sobrantes = Convert.ToInt32(hojaActual.Cells[rowNum, 7].Value); 
-                                        rc2.create_at = hojaActual.Cells[rowNum, 8].Value.ToString() != "" ? (DateTime?)DateTime.Parse(hojaActual.Cells[rowNum, 8].Value.ToString(), System.Globalization.CultureInfo.InvariantCulture) : null;
-                                        rc2.updated_at = hojaActual.Cells[rowNum, 9].Value.ToString() != "" ? (DateTime?)DateTime.Parse(hojaActual.Cells[rowNum, 9].Value.ToString(), System.Globalization.CultureInfo.InvariantCulture) : null;
-                                        rc2.personas_votaron = Convert.ToInt32(hojaActual.Cells[rowNum, 10].Value); 
-                                        rc2.num_representantes_votaron = Convert.ToInt32(hojaActual.Cells[rowNum, 11].Value); 
-                                        rc2.votos_sacados = Convert.ToInt32(hojaActual.Cells[rowNum, 12].Value); 
-                                        rc2.casilla_instalada = Convert.ToInt32(hojaActual.Cells[rowNum, 13].Value); 
-                                        rc2.id_estatus_acta = Convert.ToInt32(hojaActual.Cells[rowNum, 14].Value); 
-                                        rc2.id_estatus_paquete = Convert.ToInt32(hojaActual.Cells[rowNum, 15].Value); 
-                                        rc2.id_incidencias = Convert.ToInt32(hojaActual.Cells[rowNum, 16].Value); 
-                                        rc2.inicializada = Convert.ToInt32(hojaActual.Cells[rowNum, 17].Value); 
+                                        rc2.tipo_votacion = hojaActual.Cells[rowNum, 4].Value.ToString();
+                                        rc2.id_supuesto = Convert.ToInt32(hojaActual.Cells[rowNum, 5].Value);
+                                        rc2.personas_votaron = Convert.ToInt32(hojaActual.Cells[rowNum, 6].Value);
+                                        rc2.num_representantes_votaron = Convert.ToInt32(hojaActual.Cells[rowNum, 7].Value);
+                                        rc2.num_escritos = Convert.ToInt32(hojaActual.Cells[rowNum, 8].Value);
+                                        rc2.votos_sacados = Convert.ToInt32(hojaActual.Cells[rowNum, 9].Value);
+                                        rc2.boletas_sobrantes = Convert.ToInt32(hojaActual.Cells[rowNum, 10].Value);
+                                        rc2.casilla_instalada = Convert.ToInt32(hojaActual.Cells[rowNum, 11].Value);
+                                        rc2.id_estatus_acta = Convert.ToInt32(hojaActual.Cells[rowNum, 12].Value);
+                                        rc2.id_estatus_paquete = Convert.ToInt32(hojaActual.Cells[rowNum, 13].Value);
+                                        rc2.id_condiciones_paquete = Convert.ToInt32(hojaActual.Cells[rowNum, 14].Value);
+                                        rc2.id_incidencias = Convert.ToInt32(hojaActual.Cells[rowNum, 15].Value);
+                                        rc2.inicializada = Convert.ToInt32(hojaActual.Cells[rowNum, 16].Value);
+                                        rc2.importado = Convert.ToInt32(hojaActual.Cells[rowNum, 17].Value);
+                                        rc2.create_at = hojaActual.Cells[rowNum, 18].Value.ToString() != "" ? (DateTime?)DateTime.Parse(hojaActual.Cells[rowNum, 18].Value.ToString(), System.Globalization.CultureInfo.InvariantCulture) : null;
+                                        rc2.updated_at = hojaActual.Cells[rowNum, 19].Value.ToString() != "" ? (DateTime?)DateTime.Parse(hojaActual.Cells[rowNum, 19].Value.ToString(), System.Globalization.CultureInfo.InvariantCulture) : null;
+                                        rc2.grupo_trabajo = Convert.ToInt32(hojaActual.Cells[rowNum, 20].Value);
+                                        rc2.votos_reservados = Convert.ToInt32(hojaActual.Cells[rowNum, 21].Value);
+                                        rc2.con_cinta = Convert.ToInt32(hojaActual.Cells[rowNum, 22].Value);
+                                        rc2.con_etiqueta = Convert.ToInt32(hojaActual.Cells[rowNum, 23].Value);
                                     }
                                     else
                                     {
@@ -1537,20 +1640,26 @@ namespace Sistema.Generales
 
                                         rc2.id_casilla = Convert.ToInt32(hojaActual.Cells[rowNum, 2].Value);
                                         rc2.tipo_reserva = hojaActual.Cells[rowNum, 3].Value.ToString();
-                                        rc2.importado = Convert.ToInt32(hojaActual.Cells[rowNum, 4].Value);
+                                        rc2.tipo_votacion = hojaActual.Cells[rowNum, 4].Value.ToString();
                                         rc2.id_supuesto = Convert.ToInt32(hojaActual.Cells[rowNum, 5].Value);
-                                        rc2.num_escritos = Convert.ToInt32(hojaActual.Cells[rowNum, 6].Value);
-                                        rc2.boletas_sobrantes = Convert.ToInt32(hojaActual.Cells[rowNum, 7].Value);
-                                        rc2.create_at = hojaActual.Cells[rowNum, 8].Value.ToString() != "" ? (DateTime?)DateTime.Parse(hojaActual.Cells[rowNum, 8].Value.ToString(), System.Globalization.CultureInfo.InvariantCulture) : null;
-                                        rc2.updated_at = hojaActual.Cells[rowNum, 9].Value.ToString() != "" ? (DateTime?)DateTime.Parse(hojaActual.Cells[rowNum, 9].Value.ToString(), System.Globalization.CultureInfo.InvariantCulture) : null;
-                                        rc2.personas_votaron = Convert.ToInt32(hojaActual.Cells[rowNum, 10].Value);
-                                        rc2.num_representantes_votaron = Convert.ToInt32(hojaActual.Cells[rowNum, 11].Value);
-                                        rc2.votos_sacados = Convert.ToInt32(hojaActual.Cells[rowNum, 12].Value);
-                                        rc2.casilla_instalada = Convert.ToInt32(hojaActual.Cells[rowNum, 13].Value);
-                                        rc2.id_estatus_acta = Convert.ToInt32(hojaActual.Cells[rowNum, 14].Value);
-                                        rc2.id_estatus_paquete = Convert.ToInt32(hojaActual.Cells[rowNum, 15].Value);
-                                        rc2.id_incidencias = Convert.ToInt32(hojaActual.Cells[rowNum, 16].Value);
-                                        rc2.inicializada = Convert.ToInt32(hojaActual.Cells[rowNum, 17].Value);
+                                        rc2.personas_votaron = Convert.ToInt32(hojaActual.Cells[rowNum, 6].Value);
+                                        rc2.num_representantes_votaron = Convert.ToInt32(hojaActual.Cells[rowNum, 7].Value);
+                                        rc2.num_escritos = Convert.ToInt32(hojaActual.Cells[rowNum, 8].Value);
+                                        rc2.votos_sacados = Convert.ToInt32(hojaActual.Cells[rowNum, 9].Value);
+                                        rc2.boletas_sobrantes = Convert.ToInt32(hojaActual.Cells[rowNum, 10].Value);
+                                        rc2.casilla_instalada = Convert.ToInt32(hojaActual.Cells[rowNum, 11].Value);
+                                        rc2.id_estatus_acta = Convert.ToInt32(hojaActual.Cells[rowNum, 12].Value);
+                                        rc2.id_estatus_paquete = Convert.ToInt32(hojaActual.Cells[rowNum, 13].Value);
+                                        rc2.id_condiciones_paquete = Convert.ToInt32(hojaActual.Cells[rowNum, 14].Value);
+                                        rc2.id_incidencias = Convert.ToInt32(hojaActual.Cells[rowNum, 15].Value);
+                                        rc2.inicializada = Convert.ToInt32(hojaActual.Cells[rowNum, 16].Value);
+                                        rc2.importado = Convert.ToInt32(hojaActual.Cells[rowNum, 17].Value);
+                                        rc2.create_at = hojaActual.Cells[rowNum, 18].Value.ToString() != "" ? (DateTime?)DateTime.Parse(hojaActual.Cells[rowNum, 18].Value.ToString(), System.Globalization.CultureInfo.InvariantCulture) : null;
+                                        rc2.updated_at = hojaActual.Cells[rowNum, 19].Value.ToString() != "" ? (DateTime?)DateTime.Parse(hojaActual.Cells[rowNum, 19].Value.ToString(), System.Globalization.CultureInfo.InvariantCulture) : null;
+                                        rc2.grupo_trabajo = Convert.ToInt32(hojaActual.Cells[rowNum, 20].Value);
+                                        rc2.votos_reservados = Convert.ToInt32(hojaActual.Cells[rowNum, 21].Value);
+                                        rc2.con_cinta = Convert.ToInt32(hojaActual.Cells[rowNum, 22].Value);
+                                        rc2.con_etiqueta = Convert.ToInt32(hojaActual.Cells[rowNum, 23].Value);
                                         contexto.sice_reserva_captura.Add(rc2);
                                     }
                                     contexto.SaveChanges();

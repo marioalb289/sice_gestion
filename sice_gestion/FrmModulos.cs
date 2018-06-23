@@ -27,24 +27,87 @@ namespace sice_gestion
             try
             {
                 //throw new Exception("Pribando");
-                if(LoginInfo.privilegios == 7)
+                //DateTime fechaInicioPruebaActa = new DateTime(2018, 6, 24, 0, 0, 0);
+                DateTime fechaFinPruebaActa = new DateTime(2018, 6, 28, 0, 0, 0);
+                DateTime fechaFinRegistroActas = new DateTime(2018, 7, 8, 8, 0, 0);
+
+
+                //DateTime fechaInicioPruebaComputo = new DateTime(2018, 6, 24, 0, 0, 0);
+                //DateTime fechaFinPruebaComputo = new DateTime(2018, 6, 30, 0, 0, 0);
+
+                DateTime fechaActual = DateTime.Now;
+
+                if (fechaActual <= fechaFinPruebaActa)
                 {
-                    this.btnRegistroActas.Enabled = true;
-                    this.btnComputos.Enabled = true;
-                    this.btnConf.Visible = true;
+                    if (LoginInfo.privilegios == 7)
+                    {
+                        this.btnRegistroActas.Enabled = true;
+                        this.btnComputos.Enabled = true;
+                        this.btnConf.Visible = true;
+                    }
+                    else if (LoginInfo.privilegios == 4 || LoginInfo.privilegios == 5)
+                    {
+                        this.btnRegistroActas.Enabled = true;
+                        this.btnComputos.Enabled = true;
+                        this.btnConf.Visible = false;
+                    }
+                    else if (LoginInfo.privilegios == 6)
+                    {
+                        this.btnRegistroActas.Enabled = false;
+                        this.btnComputos.Enabled = true;
+                        this.btnConf.Visible = false;
+                    }
                 }
-                else if(LoginInfo.privilegios == 4 || LoginInfo.privilegios == 5 )
+                else
                 {
-                    this.btnRegistroActas.Enabled = true;
-                    this.btnComputos.Enabled = true;
-                    this.btnConf.Visible = false;
+                    DateTime fechaActualProduccion = DateTime.Now;
+                    if(fechaActualProduccion <= fechaFinRegistroActas)
+                    {
+                        if (LoginInfo.privilegios == 7)
+                        {
+                            this.btnRegistroActas.Enabled = true;
+                            this.btnComputos.Enabled = true;
+                            this.btnConf.Visible = true;
+                        }
+                        else if (LoginInfo.privilegios == 4 || LoginInfo.privilegios == 5)
+                        {
+                            this.btnRegistroActas.Enabled = true;
+                            this.btnComputos.Enabled = false;
+                            this.btnConf.Visible = false;
+                        }
+                        else if (LoginInfo.privilegios == 6)
+                        {
+                            this.btnRegistroActas.Enabled = false;
+                            this.btnComputos.Enabled = false;
+                            this.btnConf.Visible = false;
+                        }
+                    }
+                    else
+                    {
+                        if (LoginInfo.privilegios == 7)
+                        {
+                            this.btnRegistroActas.Enabled = true;
+                            this.btnComputos.Enabled = true;
+                            this.btnConf.Visible = true;
+                        }
+                        else if (LoginInfo.privilegios == 4 || LoginInfo.privilegios == 5)
+                        {
+                            this.btnRegistroActas.Enabled = true;
+                            this.btnComputos.Enabled = true;
+                            this.btnConf.Visible = false;
+                        }
+                        else if (LoginInfo.privilegios == 6)
+                        {
+                            this.btnRegistroActas.Enabled = false;
+                            this.btnComputos.Enabled = true;
+                            this.btnConf.Visible = false;
+                        }
+                    }
                 }
-                else if(LoginInfo.privilegios == 6)
-                {
-                    this.btnRegistroActas.Enabled = false;
-                    this.btnComputos.Enabled = true;
-                    this.btnConf.Visible = false;
-                }
+
+
+
+                
             }
             catch(Exception ex)
             {                

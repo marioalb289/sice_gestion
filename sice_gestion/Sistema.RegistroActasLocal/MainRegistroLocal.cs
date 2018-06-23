@@ -24,49 +24,163 @@ namespace Sistema.RegistroActasLocal
         {
             try
             {
-                switch (LoginInfo.privilegios)
+                DateTime fechaFinPruebaActa = new DateTime(2018, 6, 28, 0, 0, 0);
+                DateTime fechaFinRegistroActas = new DateTime(2018, 7, 8, 8, 0, 0);
+                DateTime fechaActual = DateTime.Now;
+
+                if (fechaActual <= fechaFinPruebaActa)
                 {
-                    case 4:
-                        btnIdentificar.Enabled = false;
-                        btnRegistrarActas.Enabled = false;
-                        btnModificar.Enabled = false;
-                        btnConfRecuento.Enabled = false;
-                        btnConsultarActas.Enabled = true;
-                        btnReportes.Enabled = true;
-                        btnRespaldo.Enabled = false;
-                        btnImportarRespaldo.Visible = false;
-                        break;
-                    case 5:
-                        btnIdentificar.Enabled = true;
-                        btnRegistrarActas.Enabled = true;
-                        btnModificar.Enabled = true;
-                        btnConfRecuento.Enabled = true;
-                        btnConsultarActas.Enabled = true;
-                        btnReportes.Enabled = true;
-                        btnRespaldo.Enabled = true;
-                        btnImportarRespaldo.Visible = false;
-                        break;
-                    case 7:
-                        btnIdentificar.Enabled = true;
-                        btnRegistrarActas.Enabled = true;
-                        btnModificar.Enabled = true;
-                        btnConfRecuento.Enabled = true;
-                        btnConsultarActas.Enabled = true;
-                        btnReportes.Enabled = true;
-                        btnRespaldo.Enabled = true;
-                        btnImportarRespaldo.Visible = true;
-                        break;
-                    default:
-                        btnIdentificar.Enabled = false;
-                        btnRegistrarActas.Enabled = false;
-                        btnModificar.Enabled = false;
-                        btnConfRecuento.Enabled = false;
-                        btnConsultarActas.Enabled = true;
-                        btnReportes.Enabled = true;
-                        btnRespaldo.Enabled = false;
-                        btnImportarRespaldo.Visible = false;
-                        break;
+                    switch (LoginInfo.privilegios)
+                    {
+                        case 4:
+                            btnIdentificar.Enabled = false;
+                            btnIdentificar.Visible = false;
+                            btnRegistrarActas.Enabled = false;
+                            btnModificar.Enabled = false;
+                            btnConfRecuento.Enabled = false;
+                            btnConsultarActas.Enabled = true;
+                            btnReportes.Enabled = true;
+                            btnRespaldo.Enabled = false;
+                            btnImportarRespaldo.Visible = false;
+                            break;
+                        case 5:
+                            btnIdentificar.Enabled = false;
+                            btnIdentificar.Visible = false;
+                            btnRegistrarActas.Enabled = true;
+                            btnModificar.Enabled = true;
+                            btnConfRecuento.Enabled = true;
+                            btnConsultarActas.Enabled = true;
+                            btnReportes.Enabled = true;
+                            btnRespaldo.Enabled = true;
+                            btnImportarRespaldo.Visible = false;
+                            break;
+                        case 7:
+                            btnIdentificar.Enabled = true;
+                            btnRegistrarActas.Enabled = true;
+                            btnModificar.Enabled = true;
+                            btnConfRecuento.Enabled = true;
+                            btnConsultarActas.Enabled = true;
+                            btnReportes.Enabled = true;
+                            btnRespaldo.Enabled = true;
+                            btnImportarRespaldo.Visible = true;
+                            break;
+                        default:
+                            btnIdentificar.Enabled = false;
+                            btnIdentificar.Visible = false;
+                            btnRegistrarActas.Enabled = false;
+                            btnModificar.Enabled = false;
+                            btnConfRecuento.Enabled = false;
+                            btnConsultarActas.Enabled = true;
+                            btnReportes.Enabled = true;
+                            btnRespaldo.Enabled = false;
+                            btnImportarRespaldo.Visible = false;
+                            break;
+                    }
                 }
+                else
+                {
+                    DateTime fechaActualProduccion = DateTime.Now;
+                    if (fechaActualProduccion <= fechaFinRegistroActas)
+                    {
+                        switch (LoginInfo.privilegios)
+                        {
+                            case 4:
+                                btnIdentificar.Enabled = false;
+                                btnIdentificar.Visible = false;
+                                btnRegistrarActas.Enabled = false;
+                                btnModificar.Enabled = false;
+                                btnConfRecuento.Enabled = false;
+                                btnConsultarActas.Enabled = true;
+                                btnReportes.Enabled = true;
+                                btnRespaldo.Enabled = false;
+                                btnImportarRespaldo.Visible = false;
+                                break;
+                            case 5:
+                                btnIdentificar.Enabled = false;
+                                btnIdentificar.Visible = false;
+                                btnRegistrarActas.Enabled = true;
+                                btnModificar.Enabled = true;
+                                btnConfRecuento.Enabled = true;
+                                btnConsultarActas.Enabled = true;
+                                btnReportes.Enabled = true;
+                                btnRespaldo.Enabled = true;
+                                btnImportarRespaldo.Visible = false;
+                                break;
+                            case 7:
+                                btnIdentificar.Enabled = true;
+                                btnRegistrarActas.Enabled = true;
+                                btnModificar.Enabled = true;
+                                btnConfRecuento.Enabled = true;
+                                btnConsultarActas.Enabled = true;
+                                btnReportes.Enabled = true;
+                                btnRespaldo.Enabled = true;
+                                btnImportarRespaldo.Visible = true;
+                                break;
+                            default:
+                                btnIdentificar.Enabled = false;
+                                btnIdentificar.Visible = false;
+                                btnRegistrarActas.Enabled = false;
+                                btnModificar.Enabled = false;
+                                btnConfRecuento.Enabled = false;
+                                btnConsultarActas.Enabled = true;
+                                btnReportes.Enabled = true;
+                                btnRespaldo.Enabled = false;
+                                btnImportarRespaldo.Visible = false;
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        switch (LoginInfo.privilegios)
+                        {
+                            case 4:
+                                btnIdentificar.Enabled = false;
+                                btnIdentificar.Visible = false;
+                                btnRegistrarActas.Enabled = false;
+                                btnModificar.Enabled = false;
+                                btnConfRecuento.Enabled = false;
+                                btnConsultarActas.Enabled = true;
+                                btnReportes.Enabled = true;
+                                btnRespaldo.Enabled = false;
+                                btnImportarRespaldo.Visible = false;
+                                break;
+                            case 5:
+                                btnIdentificar.Enabled = false;
+                                btnIdentificar.Visible = false;
+                                btnRegistrarActas.Enabled = false;
+                                btnModificar.Enabled = false;
+                                btnConfRecuento.Enabled = false;
+                                btnConsultarActas.Enabled = true;
+                                btnReportes.Enabled = true;
+                                btnRespaldo.Enabled = true;
+                                btnImportarRespaldo.Visible = false;
+                                break;
+                            case 7:
+                                btnIdentificar.Enabled = true;
+                                btnRegistrarActas.Enabled = true;
+                                btnModificar.Enabled = true;
+                                btnConfRecuento.Enabled = true;
+                                btnConsultarActas.Enabled = true;
+                                btnReportes.Enabled = true;
+                                btnRespaldo.Enabled = true;
+                                btnImportarRespaldo.Visible = true;
+                                break;
+                            default:
+                                btnIdentificar.Enabled = false;
+                                btnIdentificar.Visible = false;
+                                btnRegistrarActas.Enabled = false;
+                                btnModificar.Enabled = false;
+                                btnConfRecuento.Enabled = false;
+                                btnConsultarActas.Enabled = true;
+                                btnReportes.Enabled = true;
+                                btnRespaldo.Enabled = false;
+                                btnImportarRespaldo.Visible = false;
+                                break;
+                        }
+                    }
+                }
+
+                
                 //asignar la imagen aqui
 
             }
