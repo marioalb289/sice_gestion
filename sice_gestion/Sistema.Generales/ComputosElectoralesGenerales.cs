@@ -2971,11 +2971,11 @@ namespace Sistema.Generales
                     {
                         id_candidato = data.First().id_candidato,
                         casilla = data.First().casilla,
-                        lista_nominal = data.First().tipo == "S1" || data.First().tipo == "S1-RP" ? data.First().lista_nominal : data.First().lista_nominal + TotalRepresentantes,
+                        lista_nominal = data.First().lista_nominal + TotalRepresentantes,
                         votos = data.First().votos
                     }).ToList();
 
-                int LnominalDistrito = totalAgrupado.Sum(x => x.lista_nominal);
+                int LnominalDistrito = totalAgrupado.Where(x => x.casilla != "S1").Sum(x => x.lista_nominal);
                 int TotalVotosDistrito = vSeccion.Where(x => x.id_estatus_acta == 1).Sum(x => (int)x.votos);
                 int totalSecciones = vSeccion.GroupBy(x => x.seccion).Select(data => new VotosSeccion { seccion = data.First().seccion }).Count();
                 int totalCasillas = totalAgrupado.Count();
