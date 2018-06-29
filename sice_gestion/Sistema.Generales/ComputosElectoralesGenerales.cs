@@ -2757,6 +2757,8 @@ namespace Sistema.Generales
 
         public int generarExcel(SaveFileDialog fichero, int distrito, bool completo = false)
         {
+            //this.generarExcelFinal(fichero);
+            //return 1;
             try
             {
                 Excel.Application excel = new Excel.Application();
@@ -4499,6 +4501,383 @@ namespace Sistema.Generales
                 //    rango.ColumnWidth = widh;
                 //    cont++;
                 //}
+                return columnaLetra++;
+            }
+            catch (Exception E)
+            {
+                throw E;
+            }
+        }
+
+        private int generarExcelFinal(SaveFileDialog fichero)
+        {
+            try
+            {
+                Excel.Application excel = new Excel.Application();
+                Excel._Workbook libro = null;
+
+                //completo = true;
+
+                //creamos un libro nuevo y la hoja con la que vamos a trabajar
+                libro = (Excel._Workbook)excel.Workbooks.Add(Excel.XlWBATemplate.xlWBATWorksheet);
+                this.generarHojaFinal(libro);
+
+                //if (completo)
+                //{
+                //    List<sice_distritos_locales> distritos = this.ListaDistritos();
+                //    foreach (sice_distritos_locales ds in distritos.OrderByDescending(x => x.id))
+                //    {
+                //        Console.WriteLine("Insetando Libro: " + ds.distrito);
+                //        this.generaHoja(ds.id, libro);
+                //        //this.generarHojaRP(ds.id, libro);
+                //    }
+                //}
+                //else
+                //{
+                //    this.generaHoja(distrito, libro);
+                //    //this.generarHojaRP(distrito, libro);
+                //}
+
+                ((Excel.Worksheet)excel.ActiveWorkbook.Sheets["Hoja1"]).Delete();   //Borramos la hoja que crea en el libro por defecto
+
+
+                libro.Saved = true;
+                //libro.SaveAs(Environment.CurrentDirectory + @"\Ejemplo2.xlsx");  // Si es un libro nuevo
+                //libro.SaveAs(fichero.FileName,
+                //Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookNormal);
+                object misValue = System.Reflection.Missing.Value;
+                libro.SaveAs(fichero.FileName, Excel.XlFileFormat.xlOpenXMLWorkbook, misValue,
+                misValue, false, false, Excel.XlSaveAsAccessMode.xlNoChange,
+                Excel.XlSaveConflictResolution.xlUserResolution, true,
+                misValue, misValue, misValue);
+
+                libro.Close(true, misValue, misValue);
+
+                excel.UserControl = false;
+                excel.Quit();
+
+                Marshal.ReleaseComObject(libro);
+                //Marshal.ReleaseComObject(xlWorkBook);
+                Marshal.ReleaseComObject(excel);
+                return 1;
+            }
+            catch (Exception E)
+            {
+                return 0;
+            }
+        }
+
+        public void generarHojaFinal(Excel._Workbook libro)
+        {
+            try
+            {
+                Excel._Worksheet hoja = null;
+                Excel.Range rango = null;
+                int filaInicialTabla = 7;
+
+                //creamos un libro nuevo y la hoja con la que vamos a trabajar
+                hoja = (Excel._Worksheet)libro.Worksheets.Add();
+                hoja.Name = "CASILLAS DIPUTADOS MR";  //Aqui debe ir el nombre del distrito
+                //List<VotosSeccion> vSeccion = this.ResultadosSeccion(0, 0, (int)distrito);
+
+
+
+                //List<VotosSeccion> vSeccion = this.ResultadosSeccion(1, 1, (int)distrito);
+                //List<Candidatos> candidatos = this.ListaCandidatos((int)distrito);
+                //int tempC = candidatos.Count;
+                int TotalRepresentantes = 0;
+                //foreach (Candidatos cnd in candidatos)
+                //{
+                //    if (cnd.coalicion != "" && cnd.coalicion != null && cnd.tipo_partido != "COALICION")
+                //    {
+                //        TotalRepresentantes += this.RepresentantesCComun(cnd.coalicion);
+                //    }
+                //    else if (cnd.tipo_partido != "COALICION")
+                //    {
+                //        if (cnd.partido_local == 1)
+                //            TotalRepresentantes += 1;
+                //        else if (cnd.partido_local == 0)
+                //            TotalRepresentantes += 2;
+                //    }
+                //}
+
+                //Montamos las cabeceras 
+                char letraFinal = CrearEncabezadosFinal(filaInicialTabla, ref hoja, 1);
+
+
+                //Agregar Datos
+                int fila = filaInicialTabla + 1;
+                int idCasillaActual = 0;
+                int cont = 1;
+                int contCand = 6;
+                //row.Cells[0].Value = 1;
+                //dgvResultados.Rows.Add(row);
+                List<int> vLst = new List<int>();
+                int Noregynulo = 0;
+                int Lnominal = 0;
+                bool flagInsert = true;
+
+                int votos = 0;
+                //foreach (VotosSeccion v in vSeccion)
+                //{
+                //    //idCasillaActual = (int)v.id_casilla;
+                //    //Agregar Columnas
+
+                //    if ((idCasillaActual != (int)v.id_casilla && idCasillaActual > 0) || cont == vSeccion.Count)
+                //    {
+                //        //Agregar Ultima columna
+                //        if (cont == vSeccion.Count)
+                //        {
+                //            //Agregar Columnas
+                //            hoja.Cells[fila, 1] = v.id_casilla;
+                //            hoja.Cells[fila, 2] = v.seccion; hoja.Cells[fila, 2].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+                //            hoja.Cells[fila, 3] = v.casilla;
+                //            hoja.Cells[fila, 4] = (v.estatus != null) ? v.estatus : "NO CAPTURADA";
+
+                //            votos = v.estatus_acta != "CAPTURADA" ? 0 : (int)v.votos;
+                //            hoja.Cells[fila, contCand].Value = votos;
+                //            vLst.Add(votos);
+                //            contCand++;
+                //        }
+
+                //        //Diferencia entre el primero y segundo
+                //        vLst.Sort();
+                //        int Primero = vLst[vLst.Count - 1];
+                //        int Seegundo = vLst[vLst.Count - 2];
+                //        int totalVotacionEmitida = vLst.Sum() + Noregynulo;
+                //        decimal diferencia = 0;
+                //        if (totalVotacionEmitida > 0)
+                //        {
+                //            int diferenciaTotal = Primero - Seegundo;
+                //            diferencia = Math.Round((Convert.ToDecimal(diferenciaTotal) * 100) / totalVotacionEmitida, 2);
+                //        }
+                //        hoja.Cells[fila, 5] = diferencia + "%";
+
+                //        //Votacion Emitida
+                //        hoja.Cells[fila, contCand] = totalVotacionEmitida;
+
+                //        //Lista Nominal
+                //        hoja.Cells[fila, contCand + 1] = Lnominal;
+
+                //        //Porcentaje de Participacion
+                //        if (totalVotacionEmitida == 0)
+                //            hoja.Cells[fila, contCand + 2] = 0 + "%";
+                //        else
+                //            hoja.Cells[fila, contCand + 2] = Math.Round((Convert.ToDecimal(totalVotacionEmitida) * 100) / Lnominal, 2) + "%";
+
+                //        //Agregar Estilo fila
+                //        string x = "A" + (fila).ToString();
+                //        string y = letraFinal.ToString() + (fila).ToString();
+                //        rango = hoja.Range[x, y];
+                //        rango.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+
+                //        //Console.WriteLine("Ins")
+                //        fila++;
+                //        contCand = 6;
+                //        vLst = new List<int>();
+                //        Noregynulo = 0;
+                //        flagInsert = true;
+                //        //Inrementar filla
+                //    }
+
+                //    if (cont >= vSeccion.Count)
+                //        break;
+                //    if (flagInsert)
+                //    {
+                //        //Agregar Columnas
+                //        hoja.Cells[fila, 1] = v.id_casilla;
+                //        hoja.Cells[fila, 2] = v.seccion; hoja.Cells[fila, 2].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+                //        hoja.Cells[fila, 3] = v.casilla; hoja.Cells[fila, 3].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+                //        hoja.Cells[fila, 4] = (v.estatus_acta != null) ? v.estatus : "NO CAPTURADA";
+                //    }
+
+                //    Lnominal = v.lista_nominal + TotalRepresentantes;
+
+                //    votos = v.estatus != "CAPTURADA" ? 0 : (int)v.votos;
+                //    hoja.Cells[fila, contCand] = votos;
+                //    if (v.tipo == "VOTO")
+                //        vLst.Add(votos);
+                //    else
+                //        Noregynulo += votos;
+
+                //    idCasillaActual = (int)v.id_casilla;
+                //    cont++;
+                //    contCand++;
+
+                //    flagInsert = false;
+
+                //    //if(cont == vSeccion.Count){
+                //    //    dgvResultados.Rows.Add(row);
+                //    //}
+
+
+                //}
+
+                
+
+
+            }
+            catch (Exception E)
+            {
+                throw E;
+            }
+        }
+
+        private char CrearEncabezadosFinal(int fila, ref Excel._Worksheet hoja, int columnaInicial = 1)
+        {
+            try
+            {
+                Excel.Range rango;
+                Excel.Range rangoTitutlo;
+                float Left = 0;
+                float Top = 0;
+                const float ImageSize = 42; //Tamaño Imagen Partidos
+                string rutaImagen = System.AppDomain.CurrentDomain.BaseDirectory + "imagenes\\";
+
+                List<sice_partidos_politicos> partidos = null;
+                sice_distritos_locales dlocal = null;
+                sice_municipios mun = null;
+
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    partidos = (from c in contexto.sice_partidos_politicos where c.id != 2 && c.id != 3 && c.id != 6 select c).OrderBy(x=> x.prelacion).ToList();
+                }
+
+                //Configuracon Hoja
+                hoja.PageSetup.Orientation = Excel.XlPageOrientation.xlLandscape;
+                hoja.PageSetup.Zoom =  63;
+                hoja.PageSetup.PrintTitleRows = "$1:$7";
+
+                hoja.PageSetup.TopMargin = 37.79;
+                hoja.PageSetup.BottomMargin = 37.79;
+                hoja.PageSetup.LeftMargin = 22.67;
+                hoja.PageSetup.RightMargin = 22.67;
+
+
+
+                //** Montamos el título en la línea 1 **
+                hoja.Cells[1, 3] = "SISTEMA DE CÓMPUTOS ELECTORALES DEL PROCESO ELECTORAL LOCAL 2017-2018";
+                hoja.Cells[2, 3] = "RESULTADOS ELECTORALES POR PARTIDOS POLÍTICOS O CANDIDATURA INDEPENDIENTE";
+                hoja.Cells[3, 3] = "ELECCIÓN DE DIPUTADOS DE MAYORÍA RELATIVA POR CASILLA, SECCIÓN Y DISTRITO LOCAL";
+                char columnaLetra = 'A';
+                hoja.Shapes.AddPicture(rutaImagen + "iepc.png", Microsoft.Office.Core.MsoTriState.msoFalse, Microsoft.Office.Core.MsoTriState.msoCTrue, 0, 0, 125, 45);
+                //hoja.Shapes.
+
+                List<double> widths = new List<double>();
+
+                //Agregar encabezados
+                hoja.Cells[fila - 3, columnaInicial] = "ESTADO DE DURANGO RESULTADOS POR CASILLA";
+                hoja.Range[hoja.Cells[fila - 3, columnaInicial], hoja.Cells[fila - 1, columnaInicial + 3]].Merge();
+                hoja.Cells[fila - 3, columnaInicial].WrapText = true;
+                hoja.Cells[fila - 3, columnaInicial].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+
+
+                hoja.Cells[fila, columnaInicial] = "Distrito"; columnaInicial++; columnaLetra++; widths.Add(14.43);
+                hoja.Cells[fila, columnaInicial] = "Sección"; columnaInicial++; columnaLetra++; widths.Add(14.43);
+                hoja.Cells[fila, columnaInicial] = "Casilla"; columnaInicial++; columnaLetra++; widths.Add(10.29);
+                hoja.Cells[fila, columnaInicial] = "Municipio"; columnaInicial++; columnaLetra++; widths.Add(25.29);
+
+                hoja.Cells[fila, columnaInicial] = "Diferencia entre 1° y 2° Lugar"; columnaInicial++; columnaLetra++; widths.Add(12.29);
+                hoja.Cells[fila, columnaInicial - 1].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(149)))), ((int)(((byte)(90))))));
+                hoja.Cells[fila, columnaInicial - 1].Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.White);
+                hoja.Range[hoja.Cells[fila, columnaInicial - 1], hoja.Cells[fila - 3, columnaInicial - 1]].Merge();
+                hoja.Cells[fila, columnaInicial - 1].WrapText = true;
+                hoja.Cells[fila, columnaInicial - 1].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+
+
+
+                //Agregar Columnas Caniddatos y Partidos
+                foreach (sice_partidos_politicos p in partidos)
+                {
+                    //Agregar Imagen del Partido
+                    rango = (Microsoft.Office.Interop.Excel.Range)hoja.Cells[fila - 3, columnaInicial];
+                    hoja.Range[hoja.Cells[fila - 3, columnaInicial], hoja.Cells[fila - 1, columnaInicial]].Merge();
+                    Left = 6 + (float)((double)rango.Left);
+                    Top = 1+(float)((double)rango.Top);
+
+                    hoja.Shapes.AddPicture(rutaImagen + p.img_par + ".jpg", Microsoft.Office.Core.MsoTriState.msoFalse, Microsoft.Office.Core.MsoTriState.msoCTrue, Left, Top, ImageSize+5, ImageSize);
+                    hoja.Cells[fila, columnaInicial] = (p.tipo == "INDEPENDIENTE") ? "IND_"+p.siglas_par : p.siglas_par;
+                    hoja.Cells[fila, columnaInicial].Font.Size = 10;
+                    columnaInicial++; columnaLetra++; widths.Add(11.57);
+                }
+                //Agregar columnas adicionales
+
+                //Imagen no registrados
+                rango = (Microsoft.Office.Interop.Excel.Range)hoja.Cells[fila - 3, columnaInicial];
+                hoja.Range[hoja.Cells[fila - 3, columnaInicial], hoja.Cells[fila - 1, columnaInicial]].Merge();
+                Left = 3 + (float)((double)rango.Left);
+                Top = 1+(float)((double)rango.Top);
+
+                hoja.Shapes.AddPicture(rutaImagen + "no-regis.png", Microsoft.Office.Core.MsoTriState.msoFalse, Microsoft.Office.Core.MsoTriState.msoCTrue, Left, Top, ImageSize, ImageSize);
+                hoja.Cells[fila, columnaInicial] = "NOREG"; columnaInicial++; columnaLetra++; widths.Add(8.57);
+
+                //Imagen Nulos
+                rango = (Microsoft.Office.Interop.Excel.Range)hoja.Cells[fila - 3, columnaInicial];
+                hoja.Range[hoja.Cells[fila - 3, columnaInicial], hoja.Cells[fila - 1, columnaInicial]].Merge();
+                Left = 3 + (float)((double)rango.Left);
+                Top = 1+(float)((double)rango.Top);
+                hoja.Shapes.AddPicture(rutaImagen + "nulos.png", Microsoft.Office.Core.MsoTriState.msoFalse, Microsoft.Office.Core.MsoTriState.msoCTrue, Left, Top, ImageSize, ImageSize);
+                hoja.Cells[fila, columnaInicial] = "NULOS"; columnaInicial++; columnaLetra++; widths.Add(8.57);
+
+                hoja.Cells[fila - 3, columnaInicial] = "Votación Total Emitida";
+                hoja.Cells[fila - 3, columnaInicial].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(149)))), ((int)(((byte)(90))))));
+                hoja.Cells[fila - 3, columnaInicial].Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.White);
+                hoja.Range[hoja.Cells[fila - 3, columnaInicial], hoja.Cells[fila - 1, columnaInicial]].Merge();
+                hoja.Cells[fila - 3, columnaInicial].WrapText = true;
+                hoja.Cells[fila - 3, columnaInicial].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+                hoja.Cells[fila, columnaInicial] = "TOTAL"; columnaInicial++; columnaLetra++; widths.Add(8.57);
+
+                hoja.Cells[fila, columnaInicial] = "L. Nominal"; columnaInicial++; columnaLetra++; widths.Add(10);
+                hoja.Cells[fila, columnaInicial] = "%"; widths.Add(10);
+                hoja.Cells[fila - 3, columnaInicial] = "Lista Nominal y Porcentaje de Participación Ciudadana";
+                hoja.Cells[fila - 3, columnaInicial].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(149)))), ((int)(((byte)(90))))));
+                hoja.Cells[fila - 3, columnaInicial].Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.White);
+                hoja.Range[hoja.Cells[fila - 3, columnaInicial - 1], hoja.Cells[fila - 1, columnaInicial]].Merge();
+                hoja.Cells[fila - 3, columnaInicial].WrapText = true;
+                hoja.Cells[fila - 3, columnaInicial].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+
+                //Colores de Fondo
+                rango = hoja.Range["A" + fila, "D" + fila];
+                rango.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(149)))), ((int)(((byte)(90))))));
+                rango.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.White);
+
+                //Colores de Fondo Partido
+                rango = hoja.Range["F" + fila, columnaLetra.ToString() + fila];
+                rango.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(((int)(((byte)(173)))), ((int)(((byte)(38)))), ((int)(((byte)(36))))));
+                rango.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.White);
+
+                //Ponemos borde a las celdas
+                string letra = columnaLetra.ToString() + fila;
+                rango = hoja.Range["A" + (fila - 3), letra];
+                rango.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                //Centramos los textos
+                rango = hoja.Rows[fila];
+                rango.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+
+                //Colores titulo1
+                rango = hoja.Range["C1", "C1"];
+                rango.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(((int)(((byte)(173)))), ((int)(((byte)(38)))), ((int)(((byte)(36))))));
+                rango.Font.Size = 16;
+                rango.Font.Bold = true;
+                //Colores Titulo2
+                rango = hoja.Range["C2", "C2"];
+                rango.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(70)))), ((int)(((byte)(47))))));
+                rango.Font.Size = 12;
+                rango.Font.Bold = true;
+                //Colores Titulo3
+                rango = hoja.Range["C3", "C3"];
+                rango.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(70)))), ((int)(((byte)(47))))));
+                rango.Font.Size = 12;
+                rango.Font.Bold = true;
+
+                //Modificamos los anchos de las columnas
+                int cont = 1;
+                foreach (int widh in widths)
+                {
+                    rango = hoja.Columns[cont];
+                    rango.ColumnWidth = widh;
+                    cont++;
+                }
                 return columnaLetra++;
             }
             catch (Exception E)

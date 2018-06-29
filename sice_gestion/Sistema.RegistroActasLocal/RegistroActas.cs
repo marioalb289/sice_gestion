@@ -617,6 +617,10 @@ namespace Sistema.RegistroActasLocal
                         this.lblListaNominal.Text = tempSec.listaNominal.ToString();
                         if (SelectedCasilla.casilla == "S1")
                             this.lblListaNominal.Text = "0";
+                        if(tempSec.distrito == 13)
+                        {
+                            TotalRepresentantes--;
+                        }
                         this.lblDistrito.Text = tempSec.distrito.ToString();
                         this.Lnominal = tempSec.listaNominal;
                         this.boletasRecibidas = tempSec.listaNominal + TotalRepresentantes; //Lista nominal + 2 veces el numero de representantes de casillas
@@ -756,9 +760,13 @@ namespace Sistema.RegistroActasLocal
                     this.btnGuardar.Enabled = true;
 
                     SeccionCasillaConsecutivo tempSec = (from p in this.sc where p.id == Convert.ToInt32(cmbCasilla.SelectedValue) select p).FirstOrDefault();
+                    if (tempSec.distrito == 13)
+                    {
+                        TotalRepresentantes--;
+                    }
                     this.lblListaNominal.Text = "0";
                     this.lblDistrito.Text = tempSec.distrito.ToString();
-                    this.Lnominal = Configuracion.BoletasEspecial;
+                    this.Lnominal = tempSec.listaNominal;
                     this.boletasRecibidas = this.Lnominal + TotalRepresentantes; //Lista nominal + 2 veces el numero de representantes de casillas
                     this.txtBoletasR.Text = this.boletasRecibidas.ToString();
 

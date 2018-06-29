@@ -561,6 +561,10 @@ namespace Sistema.ComputosElectorales
                     {
                         this.lblListaNominal.Text = "0";
                     }
+                    if (tempSec.distrito == 13)
+                    {
+                        TotalRepresentantes--;
+                    }
                     this.lblDistrito.Text = tempSec.distrito.ToString();
                     this.Lnominal = tempSec.listaNominal;
                     this.boletasRecibidas = tempSec.listaNominal + TotalRepresentantes; //Lista nominal + 2 veces el numero de representantes de casillas
@@ -707,6 +711,10 @@ namespace Sistema.ComputosElectorales
                     }
 
                     SeccionCasillaConsecutivo tempSec = (from p in this.sc where p.id == Convert.ToInt32(cmbCasilla.SelectedValue) select p).FirstOrDefault();
+                    if (tempSec.distrito == 13)
+                    {
+                        TotalRepresentantes--;
+                    }
                     this.lblListaNominal.Text = "0";
                     this.lblDistrito.Text = tempSec.distrito.ToString();
                     this.Lnominal = tempSec.listaNominal;

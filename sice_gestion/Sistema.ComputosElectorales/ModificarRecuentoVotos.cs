@@ -613,8 +613,7 @@ namespace Sistema.ComputosElectorales
                                 TotalRepresentantes += 2;
                         }
                     }
-                    if (SelectedCasilla.casilla == "S1")
-                        TotalRepresentantes = 0;
+
 
                     this.totalCandidatos = lsCandidatosVotos.Count();
                     this.cmbSupuesto.Enabled = true;
@@ -636,6 +635,10 @@ namespace Sistema.ComputosElectorales
                         cmbSupuesto.SelectedIndex = 0;
 
                     SeccionCasillaConsecutivo tempSec = (from p in this.sc where p.id == Convert.ToInt32(cmbCasilla.SelectedValue) select p).FirstOrDefault();
+                    if (tempSec.distrito == 13)
+                    {
+                        TotalRepresentantes--;
+                    }
                     this.lblListaNominal.Text = tempSec.listaNominal.ToString();
                     this.lblDistrito.Text = tempSec.distrito.ToString();
                     this.Lnominal = tempSec.listaNominal;
@@ -774,12 +777,32 @@ namespace Sistema.ComputosElectorales
                     this.labelsName = new Label[lsPartidosVotos.Count];
                     this.btnGuardar.Enabled = true;
 
+                    int TotalRepresentantes = 1;
+                    foreach (PartidosVotosRP cnd in lsPartidosVotos)
+                    {
+                        if (cnd.coalicion != "" && cnd.coalicion != null && cnd.tipo != "COALICION")
+                        {
+                            TotalRepresentantes += CompElec.RepresentantesCComun(cnd.coalicion);
+                        }
+                        else if (cnd.tipo != "COALICION")
+                        {
+                            if (cnd.partido_local == 1)
+                                TotalRepresentantes += 1;
+                            else if (cnd.partido_local == 0)
+                                TotalRepresentantes += 2;
+                        }
+                    }
+
 
                     SeccionCasillaConsecutivo tempSec = (from p in this.sc where p.id == Convert.ToInt32(cmbCasilla.SelectedValue) select p).FirstOrDefault();
-                    this.lblListaNominal.Text = Configuracion.BoletasEspecial.ToString();
+                    if (tempSec.distrito == 13)
+                    {
+                        TotalRepresentantes--;
+                    }
+                    this.lblListaNominal.Text = tempSec.listaNominal.ToString();
                     this.lblDistrito.Text = tempSec.distrito.ToString();
-                    this.Lnominal = Configuracion.BoletasEspecial;
-                    this.boletasRecibidas = Configuracion.BoletasEspecial; //Lista nominal + 2 veces el numero de representantes de casillas
+                    this.Lnominal = tempSec.listaNominal;
+                    this.boletasRecibidas = this.boletasRecibidas = this.Lnominal + TotalRepresentantes; //Lista nominal + 2 veces el numero de representantes de casillas
                     this.txtBoletasR.Text = this.boletasRecibidas.ToString();
                     this.txtPersonasVotaron.Text = detallesActa.personas_votaron.ToString();
                     this.txtRepresentantes.Text = detallesActa.num_representantes_votaron.ToString();

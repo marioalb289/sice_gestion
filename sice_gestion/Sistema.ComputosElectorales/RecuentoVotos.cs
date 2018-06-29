@@ -155,7 +155,7 @@ namespace Sistema.ComputosElectorales
                 this.lblCasilla.Text = tempSec.casilla;
                 this.lblDistrito.Text = tempSec.distrito.ToString();
                 this.distritoActual = tempSec.distrito;
-                this.Lnominal = this.sc[PosActual].casilla == "S1" || this.sc[PosActual].tipo == "RP" ? Configuracion.BoletasEspecial:tempSec.listaNominal;
+                this.Lnominal = tempSec.listaNominal;
                 this.lblListaNominal.Text = this.Lnominal.ToString();                
                 this.idCasillaActual = tempSec.id;                
 
@@ -620,6 +620,11 @@ namespace Sistema.ComputosElectorales
                     this.tablePanelPartidos.RowCount = 1;
                     this.btnGuardar.Enabled = true;
 
+                    if(this.distritoActual == 13)
+                    {
+                        TotalRepresentantes--;
+                    }
+
                     this.boletasRecibidas = this.Lnominal + TotalRepresentantes; //Lista nominal + 2 veces el numero de representantes de casillas
                     this.txtBoletasR.Text = this.boletasRecibidas.ToString();
                     if (this.sc[PosActual].casilla == "S1")
@@ -743,9 +748,6 @@ namespace Sistema.ComputosElectorales
                     this.labelsName = new Label[lsPartidos.Count + 2];
                     this.tablePanelPartidos.RowCount = 1;
                     this.btnGuardar.Enabled = true;
-
-                    this.boletasRecibidas = Configuracion.BoletasEspecial; //Lista nominal + 2 veces el numero de representantes de casillas
-                    this.txtBoletasR.Text = this.boletasRecibidas.ToString();
                     txtRepresentantes.Enabled = false;
 
                     //Agregar Columnas
@@ -774,6 +776,11 @@ namespace Sistema.ComputosElectorales
                     {
                         this.tablePanelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, (float)anchoColumnas));
                         //this.tablePanelPartidos.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.692307F));
+                    }
+
+                    if (this.distritoActual == 13)
+                    {
+                        TotalRepresentantes--;
                     }
 
                     this.lblListaNominal.Text = "0";

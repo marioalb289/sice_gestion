@@ -614,10 +614,15 @@ namespace Sistema.ComputosElectorales
                     {
                         this.lblListaNominal.Text = "0";
                     }
+                    if(tempSec.distrito == 13)
+                    {
+                        TotalRepresentantes--;
+                    }
                     this.lblDistrito.Text = tempSec.distrito.ToString();
                     this.Lnominal = tempSec.listaNominal;
                     this.boletasRecibidas = this.Lnominal + TotalRepresentantes; //Lista nominal + 2 veces el numero de representantes de casillas
                     this.txtBoletasR.Text = this.boletasRecibidas.ToString();
+                    this.lblConsecutivo.Text = tempSec.id.ToString();
 
                     this.cmbEstatusActa.SelectedValue = detallesActa.id_estatus_acta != null ? detallesActa.id_estatus_acta : 1;
                     this.cmbSupuesto.Enabled = true;
@@ -761,6 +766,11 @@ namespace Sistema.ComputosElectorales
                     this.btnGuardar.Enabled = true;
 
                     SeccionCasillaConsecutivo tempSec = (from p in this.sc where p.id == Convert.ToInt32(cmbCasilla.SelectedValue) select p).FirstOrDefault();
+                    if (tempSec.distrito == 13)
+                    {
+                        TotalRepresentantes--;
+                    }
+                    this.lblConsecutivo.Text = tempSec.id.ToString();
                     this.lblListaNominal.Text = "0";
                     this.lblDistrito.Text = tempSec.distrito.ToString();
                     this.Lnominal = tempSec.listaNominal;
