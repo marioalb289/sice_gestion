@@ -19,6 +19,8 @@ namespace sice_gestion
         private int childFormNumber = 0;
         private int flagWatcher = 0;
         private MsgBox msgBox;
+        SincronizarDatos data;
+        SincronizarDatosComputos dataComputos;
 
         public MDIMain()
         {
@@ -43,6 +45,31 @@ namespace sice_gestion
             //mod.ControlBox = false;
             mod.Show();
             //this.RunWatchFile();
+            if(LoginInfo.privilegios == 5)
+            {
+                this.data = new SincronizarDatos();
+                this.dataComputos = new SincronizarDatosComputos();
+            }
+            
+        }
+
+        private void MDIMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            try
+            {
+                if (LoginInfo.privilegios == 5)
+                {
+                    this.data.detener();
+                    this.dataComputos.detener();
+                }
+
+               
+                this.Dispose();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
     }
 }

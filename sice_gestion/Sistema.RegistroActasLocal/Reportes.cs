@@ -163,7 +163,8 @@ namespace Sistema.RegistroActasLocal
                    }).ToList();
                 int LnominalDistrito = totalAgrupado.Sum(x => x.lista_nominal);
                 this.TotalVotosDistrito = vSeccionTotales.Sum(x => (int)x.votos);
-                int actasCapturadas = vSeccionTotales.Where(x => x.id_estatus_acta == 1 || x.id_estatus_acta == 2 || x.id_estatus_acta == 8).GroupBy(y => y.casilla).Count();
+                //List<VotosSeccion> vSeccionTotales2 = vSeccionTotales.Where().GroupBy(y => y.casilla).ToList();
+                int actasCapturadas = vSeccionTotales.Where(x => x.id_estatus_acta == 1 || x.id_estatus_acta == 2 || x.id_estatus_acta == 8).GroupBy(y => y.id_casilla).Count();
 
                 this.lblListaNominal.Text = String.Format(CultureInfo.InvariantCulture, "{0:#,#}", LnominalDistrito);
                 this.lblTotalVotos.Text = TotalVotosDistrito > 0 ? String.Format(CultureInfo.InvariantCulture, "{0:#,#}", TotalVotosDistrito) : "0";
