@@ -1202,6 +1202,7 @@ namespace Sistema.Generales
         public Nullable<int> id_candidato { get; set; }
         public string candidato { get; set; }
         public string nombre_candidatura { get; set; }
+        public Nullable<int> id_partido { get; set; }
         public string partido { get; set; }
         public string imagen { get; set; }
         public Nullable<int> partido_local { get; set; }
@@ -1231,6 +1232,7 @@ namespace Sistema.Generales
         public string candidato { get; set; }
         public string nombre_candidatura { get; set; }
         public string partido { get; set; }
+        public int id_partido { get; set; }
         public int partido_local { get; set; }
         public string imagen { get; set; }
         public int prelacion { get; set; }
@@ -1305,4 +1307,22 @@ namespace Sistema.Generales
         public System.DateTime updated_at { get; set; }
         public string tipo_reserva { get; set; }
     }
+
+    public class AvanceCaptura
+    {
+        public int id_casilla { get; set; }
+        public int id_distrito { get; set; }
+        public string distrito { get; set; }
+        public int seccion { get; set; }
+        public string casilla { get; set; }
+        public string tipo_votacion { get; set; }
+        public Nullable<int> id_estatus_acta { get; set; }
+        public string estatus_sistema { get; set; }
+        public Nullable<int> id_estatus_paquete { get; set; }
+        public string estatus_acta { get; set; }
+        public string recuento { get; set; }
+        public Nullable<int> id_supuesto { get; set; }
+        public string supuesto { get; set; }
+    }
+
 }

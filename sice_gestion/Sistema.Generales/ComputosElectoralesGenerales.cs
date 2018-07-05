@@ -39,6 +39,8 @@ namespace Sistema.Generales
                 {
                     using (var TransactionContexto = new TransactionScope())
                     {
+                        if (LoginInfo.privilegios != 5)
+                            return;
                         List<sice_distritos_locales> ds = ListaDistritos();
                         foreach(sice_distritos_locales distrito in ds)
                         {
@@ -196,8 +198,8 @@ namespace Sistema.Generales
                             }
                             else
                             {
-                                List<sice_ar_reserva> listaCasillasSinGrupo = (from p in contexto.sice_ar_reserva where p.id_estatus_acta == 5 && p.grupo_trabajo == null && p.inicializada == 0 select p).ToList();
-                                if(listaCasillasSinGrupo.Count > 0)
+                                List<sice_ar_reserva> listaCasillasSinGrupo = (from r in contexto.sice_ar_reserva join c in contexto.sice_casillas on r.id_casilla equals c.id where r.id_estatus_acta == 5 && r.grupo_trabajo == null && r.inicializada == 0 select r).ToList();
+                                if (listaCasillasSinGrupo.Count > 0)
                                 {
                                     foreach(sice_ar_reserva ls in listaCasillasSinGrupo)
                                     {
@@ -875,7 +877,7 @@ namespace Sistema.Generales
                        "CASE WHEN C.tipo_casilla = 'S1' THEN	100 WHEN C.tipo_casilla = 'S1-RP' THEN 200 WHEN C.tipo_casilla <> 'S1' THEN	1 END AS especial " +
                        "FROM sice_casillas C " +
                        "LEFT JOIN sice_reserva_captura RC ON RC.id_casilla = C.id " +
-                       "WHERE RC.id IS NULL" + " AND C.id_cabecera_local = " + LoginInfo.id_municipio + " " +
+                       "WHERE RC.id IS NULL" + " and C.id_distrito_local = 2 " +
                        "ORDER BY C.id_distrito_local ASC,especial ASC,C.seccion,C.id ASC";
 
                     }
@@ -976,6 +978,7 @@ namespace Sistema.Generales
                         "C.id as id_candidato, " +
                         "CONCAT(C.nombre,' ',C.apellido_paterno,' ',C.apellido_materno)as candidato, " +
                         "CD.nombre_candidatura, " +
+                        "P.id as id_partido, " +
                         "P.siglas_par as partido, " +
                         "P.img_par as imagen, " +
                         "P.local as partido_local, " +
@@ -2362,6 +2365,39 @@ namespace Sistema.Generales
                 return (int)Math.Floor(numero);
         }
 
+        public List<AvanceCaptura> ListaResultadosAvances(int distrito)
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    string consulta =
+                    "SELECT " +
+                    "C.id AS id_casilla, " +
+                    "D.id AS id_distrito, " +
+                    "D.distrito, " +
+                    "C.seccion, " +
+                    "C.tipo_casilla AS casilla, " +
+                    "C.tipo_votacion, " +
+                    "RES.id_estatus_acta, " +
+                    "CASE WHEN EA.estatus IS NULL THEN   'NO CAPTURADA' WHEN EA.estatus = 'VALIDA' THEN 'CAPTURADA' WHEN EA.estatus IS NOT NULL THEN EA.estatus END AS estatus_acta, " +
+                    "RES.id_supuesto, " +
+                    "S.supuesto " +
+                    "FROM sice_casillas C " +
+                    "LEFT JOIN sice_reserva_captura RES ON C.id = RES.id_casilla " +
+                    "LEFT JOIN sice_estado_acta EA ON RES.id_estatus_acta = EA.id " +
+                    "LEFT JOIN sice_ar_supuestos S ON S.id = RES.id_supuesto " +
+                    "JOIN sice_distritos_locales D ON D.id = C.id_distrito_local " +
+                    "WHERE C.id_distrito_local = " + distrito + " " +
+                    "ORDER BY D.id ASC, C.seccion ASC, C.tipo_casilla ASC ";
+                    return contexto.Database.SqlQuery<AvanceCaptura>(consulta).ToList();
+                }
+
+            }
+            catch (Exception E)
+            { throw E; }
+        }
+
         public int generarExcelRecuento(SaveFileDialog fichero, int distrito, bool completo = false)
         {
             try
@@ -2867,6 +2903,7 @@ namespace Sistema.Generales
                 bool flagInsert = true;
 
                 int votos = 0;
+                int tempVotosPTCasilla = 0;
                 foreach (VotosSeccion v in vSeccion)
                 {
                     //idCasillaActual = (int)v.id_casilla;
@@ -2890,6 +2927,7 @@ namespace Sistema.Generales
                         }
 
                         //Diferencia entre el primero y segundo
+                        vLst.Add(tempVotosPTCasilla);
                         vLst.Sort();
                         int Primero = vLst[vLst.Count - 1];
                         int Seegundo = vLst[vLst.Count - 2];
@@ -2926,6 +2964,7 @@ namespace Sistema.Generales
                         vLst = new List<int>();
                         Noregynulo = 0;
                         flagInsert = true;
+                        tempVotosPTCasilla = 0;
                         //Inrementar filla
                     }
 
@@ -2944,10 +2983,27 @@ namespace Sistema.Generales
 
                     votos = v.estatus != "CAPTURADA" ? 0 : (int)v.votos;
                     hoja.Cells[fila,contCand] = votos;
+                    //if (v.tipo == "VOTO")
+                    //    vLst.Add(votos);
+                    //else
+                    //    Noregynulo += votos;
+
                     if (v.tipo == "VOTO")
-                        vLst.Add(votos);
+                    {
+                        if (v.id_partido == 5 || v.id_partido == 9 || v.id_partido == 15)
+                        {
+                            tempVotosPTCasilla += v.estatus != "CAPTURADA" ? 0 : (int)v.votos;
+                        }
+                        else
+                        {
+                            vLst.Add(v.estatus != "CAPTURADA" ? 0 : (int)v.votos);
+                        }
+
+                    }
                     else
-                        Noregynulo += votos;
+                    {
+                        Noregynulo += v.estatus != "CAPTURADA" ? 0 : (int)v.votos;
+                    }
 
                     idCasillaActual = (int)v.id_casilla;
                     cont++;
@@ -3002,14 +3058,37 @@ namespace Sistema.Generales
                 if(lsCandidatos.Count == 0)
                     lsCandidatos = ListaResultadosCandidatos(distrito, false);
                 List<CandidatosResultados> lsCandidatos2 = null;
+                List<CandidatosResultados> lsCandidatos3 = new List<CandidatosResultados>();
                 lsCandidatos2 = lsCandidatos.Select(data => new CandidatosResultados
                 {
                     id_candidato = data.id_candidato,
                     partido = data.partido,
                     candidato = data.candidato,
                     votos = data.votos,
-                    tipo = data.tipo
+                    tipo = data.tipo,
+                    id_partido = data.id_partido
                 }).Where(x => x.tipo == "VOTO").OrderByDescending(x => x.votos).ToList();
+
+                int tempVotosPT = 0;
+                foreach (CandidatosResultados ls in lsCandidatos2)
+                {
+                    if (ls.id_partido == 5 || ls.id_partido == 9 || ls.id_partido == 15)
+                    {
+                        tempVotosPT += (int)ls.votos;
+                    }
+                    else
+                    {
+                        lsCandidatos3.Add(ls);
+                    }
+                }
+                lsCandidatos3.Add(new CandidatosResultados
+                {
+                    id_candidato = 100,
+                    votos = tempVotosPT,
+                    id_partido = 9
+                });
+                lsCandidatos2 = lsCandidatos3.OrderByDescending(x => x.votos).ToList();
+
                 if (lsCandidatos2.Count > 0)
                 {
                     int PrimeroTotal = (int)lsCandidatos2[0].votos;

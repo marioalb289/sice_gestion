@@ -295,6 +295,7 @@ namespace Sistema.Generales
                         "C.id as id_candidato, " +
                         "CONCAT(C.nombre,' ',C.apellido_paterno,' ',C.apellido_materno)as candidato, " +
                         "CD.nombre_candidatura, " +
+                        "P.id as id_partido, " +
                         "P.siglas_par as partido, " +
                         "P.img_par as imagen, " +
                         "P.local as partido_local, "+
@@ -395,9 +396,10 @@ namespace Sistema.Generales
                             "RV.votos," +
                             "RV.tipo," +
                             "RES.tipo_reserva as estatus, " +
-                            "EA.estatus AS estatus_acta, " +
+                            "CASE WHEN EP.estatus IS NULL THEN 'NO CAPTURADA' WHEN EP.estatus IS NOT NULL THEN EP.estatus END AS estatus_acta, " +
                             "EA.id AS id_estatus_acta, " +
                             "CONCAT(CND.nombre, ' ', CND.apellido_paterno, ' ', CND.apellido_materno) as candidato," +
+                            "P.id as id_partido," +
                             "P.siglas_par as partido," +
                             "P.img_par as imagen," +
                             "P.local as partido_local, "+
@@ -412,6 +414,7 @@ namespace Sistema.Generales
                         "JOIN sice_municipios M2 ON M2.id = C.id_cabecera_local " +
                         "LEFT JOIN sice_ar_reserva RES ON RES.id_casilla = RV.id_casilla AND RES.tipo_votacion = 'MR' " +
                         "LEFT JOIN sice_ar_estatus_acta EA ON RES.id_estatus_acta = EA.id "+
+                        "LEFT JOIN sice_ar_estatus_paquete EP ON EP.id = RES.id_estatus_paquete " +
                         "ORDER BY C.seccion ASC, RV.id_casilla ASC, prelacion ASC " +
                         limit;
 
@@ -553,6 +556,7 @@ namespace Sistema.Generales
                         "CASE WHEN V.tipo = 'VOTO' THEN P.prelacion WHEN V.tipo = 'NULO' THEN 200 WHEN V.tipo = 'NO REGISTRADO' THEN	100 END AS prelacion, " +
                         "CONCAT(C.nombre,' ',C.apellido_paterno,' ',C.apellido_materno)as candidato, " +
                         "CD.nombre_candidatura, " +
+                        "P.id as id_partido, " +
                         "P.siglas_par as partido, " +
                         "P.local as partido_local, " +
                         "P.info_creado as coalicion, " +
@@ -1993,11 +1997,300 @@ namespace Sistema.Generales
             }
         }
 
-        public int generarExcelRecuento(SaveFileDialog fichero, int distrito, bool completo = false)
+        public List<AvanceCaptura> ListaResultadosAvances(int distrito)
+        {
+            try
+            {
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    string consulta =
+                        "SELECT " +
+                        "C.id AS id_casilla, " +
+                        "D.id AS id_distrito, " +
+                        "D.distrito, " +
+                        "C.seccion, " +
+                        "C.tipo_casilla as casilla, " +
+                        "C.tipo_votacion, " +
+                        "RES.id_estatus_acta, " +
+                        "EA.estatus AS estatus_sistema, " +
+                        "RES.id_estatus_paquete, " +
+                        "CASE WHEN EP.estatus IS NULL THEN 'NO CAPTURADA' WHEN EP.estatus IS NOT NULL THEN EP.estatus END AS estatus_acta, " +
+                        "CASE WHEN RES.id_estatus_acta = 5 THEN 'RECUENTO' WHEN RES.id_estatus_acta <> 5 THEN  ''END AS recuento, " +
+                        "RES.id_supuesto, "+
+                        "S.supuesto " +
+                        "FROM sice_casillas C " +
+                        "LEFT JOIN sice_ar_reserva RES ON C.id = RES.id_casilla " +
+                        "LEFT JOIN sice_ar_estatus_acta EA ON RES.id_estatus_acta = EA.id " +
+                        "LEFT JOIN sice_ar_estatus_paquete EP ON EP.id = RES.id_estatus_paquete " +
+                        "LEFT JOIN sice_ar_supuestos S ON S.id = RES.id_supuesto " +
+                        "JOIN sice_distritos_locales D ON D.id = C.id_distrito_local " +
+                        "WHERE C.id_distrito_local = "+distrito+" " +
+                        "ORDER BY D.id ASC,C.seccion ASC,C.tipo_casilla ASC ";
+                    return contexto.Database.SqlQuery<AvanceCaptura>(consulta).ToList();
+                }
+
+            }
+            catch (Exception E)
+            { throw E; }
+        }
+
+        public int generarExcelAvance(SaveFileDialog fichero, int distrito, bool completo = false)
         {
             try
             {
 
+                Excel.Application excel = new Excel.Application();
+                Excel._Workbook libro = null;
+                completo = true;//Se cambio aqui para generar reporte de todo el recuento
+
+                //creamos un libro nuevo y la hoja con la que vamos a trabajar
+                libro = (Excel._Workbook)excel.Workbooks.Add(Excel.XlWBATemplate.xlWBATWorksheet);
+
+                if (completo)
+                {
+                    List<sice_distritos_locales> distritos = this.ListaDistritos();
+                    bool flagRecuentoTotal = false;
+
+                    foreach (sice_distritos_locales ds in distritos.OrderByDescending(x => x.id))
+                    {                      
+                        this.generaHojaAvance(ds.id, libro);
+                    }
+                }
+                else
+                {
+                    this.generaHojaAvance(distrito, libro);
+                }
+
+                ((Excel.Worksheet)excel.ActiveWorkbook.Sheets["Hoja1"]).Delete();   //Borramos la hoja que crea en el libro por defecto
+
+
+                libro.Saved = true;
+                //libro.SaveAs(Environment.CurrentDirectory + @"\Ejemplo2.xlsx");  // Si es un libro nuevo
+                //libro.SaveAs(fichero.FileName,
+                //Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookNormal);
+                object misValue = System.Reflection.Missing.Value;
+                libro.SaveAs(fichero.FileName, Excel.XlFileFormat.xlOpenXMLWorkbook, misValue,
+                misValue, false, false, Excel.XlSaveAsAccessMode.xlNoChange,
+                Excel.XlSaveConflictResolution.xlUserResolution, true,
+                misValue, misValue, misValue);
+
+                libro.Close(true, misValue, misValue);
+
+                excel.UserControl = false;
+                excel.Quit();
+
+                Marshal.ReleaseComObject(libro);
+                //Marshal.ReleaseComObject(xlWorkBook);
+                Marshal.ReleaseComObject(excel);
+                return 1;
+
+
+
+            }
+            catch (Exception E)
+            {
+                MessageBox.Show(E.Message);
+                return 0;
+            }
+        }
+
+        public void generaHojaAvance(int distrito, Excel._Workbook libro)
+        {
+            try
+            {
+                Excel._Worksheet hoja = null;
+                Excel.Range rango = null;
+                int filaInicialTabla = 5;
+
+                //creamos un libro nuevo y la hoja con la que vamos a trabajar
+                hoja = (Excel._Worksheet)libro.Worksheets.Add();
+                hoja.Name = "DISTRITO " + distrito;  //Aqui debe ir el nombre del distrito
+
+                //List<CasillasRecuento> listaRecuento = (from d in listaCasillas where d.id_distrito_local == distrito select d).ToList();
+
+                //Montamos las cabeceras 
+                char letraFinal = CrearEncabezadosAvance(filaInicialTabla, ref hoja, distrito, 1);
+                List<AvanceCaptura> listaAvances = this.ListaResultadosAvances(distrito);
+                int totalCapturado = listaAvances.Where(x => x.id_estatus_acta == 1 || x.id_estatus_acta == 2 || x.id_estatus_acta == 8).Count();
+                int totalRecuento = listaAvances.Where(x => x.id_estatus_acta == 5).Count();
+                int totalNoregis = listaAvances.Where(x => x.id_estatus_acta == null).Count();
+                int totalARevision = listaAvances.Where(x => x.id_estatus_paquete == 4 || x.id_estatus_paquete == 5 || x.id_estatus_paquete == 6 || x.id_estatus_paquete == 7).Count();
+                int totalNoConta = listaAvances.Where(x => x.id_estatus_paquete == 1 || x.id_estatus_paquete == 2).Count();
+                int totalActas = listaAvances.Count;
+
+                int fila = filaInicialTabla + 1;
+                if (listaAvances.Count > 0)
+                {
+                    foreach (AvanceCaptura casillla in listaAvances)
+                    {
+                        //Agregar Columnas
+                        hoja.Cells[fila, 1] = casillla.id_casilla;
+                        hoja.Cells[fila, 2] = casillla.seccion;
+                        hoja.Cells[fila, 3] = casillla.casilla;
+                        hoja.Cells[fila, 4] = casillla.tipo_votacion;
+                        hoja.Cells[fila, 5] = casillla.estatus_acta;
+                        hoja.Cells[fila, 6] = casillla.recuento;
+                        hoja.Cells[fila, 7] = casillla.id_supuesto != null ? casillla.supuesto : "SIN MOTIVO DE RECUENTO";
+
+
+                        //Agregar fila
+                        string x = "A" + (fila).ToString();
+                        string y = letraFinal.ToString() + (fila).ToString();
+                        rango = hoja.Range[x, y];
+                        rango.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+
+                        //Console.WriteLine("Ins")
+                        fila++;
+                    }
+                    fila++;
+                    hoja.Cells[fila, 3] = "ACTAS ESPERADAS"; 
+                    hoja.Cells[fila, 4] = totalActas;
+                    fila++;
+
+                    hoja.Cells[fila, 3] = "ACTAS CAPTURADAS SIN OBSERVACIONES:";
+                    hoja.Cells[fila, 4] = totalCapturado;
+                    fila++;
+
+                    hoja.Cells[fila, 3] = "ACTAS A RECUENTO:";
+                    hoja.Cells[fila, 4] = totalRecuento;
+                    fila++;
+
+                    hoja.Cells[fila, 3] = "ACTAS A REVISIÓN EN COTEJO DE ACTAS:";
+                    hoja.Cells[fila, 4] = totalARevision;
+                    fila++;
+
+                    hoja.Cells[fila, 3] = "ACTAS NO CONTABILIZABLES:";
+                    hoja.Cells[fila, 4] = totalNoConta;
+                    fila++;
+
+                    hoja.Cells[fila, 3] = "ACTAS NO CAPTURADAS:";
+                    hoja.Cells[fila, 4] = totalNoregis;
+                    fila++;
+
+                }
+
+            }
+            catch (Exception E)
+            {
+                throw E;
+            }
+        }
+
+        private char CrearEncabezadosAvance(int fila, ref Excel._Worksheet hoja, int distrito, int columnaInicial = 1)
+        {
+            try
+            {
+                Excel.Range rango;
+                string rutaImagen = System.AppDomain.CurrentDomain.BaseDirectory + "imagenes\\";
+
+                sice_casillas casilla = null;
+                sice_distritos_locales dlocal = null;
+                sice_municipios mun = null;
+
+                sice_configuracion_recuento conf = this.Configuracion_Recuento("RA", distrito);
+                int grupos_tabajo = 0;
+                int puntos_recuento = 0;
+                int horas = 0;
+                string tipo_recuento = "PARCIAL";
+
+                if (conf != null)
+                {
+                    tipo_recuento = conf.tipo_recuento;
+                    grupos_tabajo = (int)conf.grupos_trabajo;
+                    puntos_recuento = (int)conf.puntos_recuento;
+                    horas = Convert.ToInt32(conf.horas_disponibles);
+                }
+
+                using (DatabaseContext contexto = new DatabaseContext(con))
+                {
+                    casilla = (from c in contexto.sice_casillas where c.id_distrito_local == distrito select c).FirstOrDefault();
+                    mun = (from m in contexto.sice_municipios where m.id == casilla.id_cabecera_local select m).FirstOrDefault();
+                    dlocal = (from d in contexto.sice_distritos_locales where d.id == distrito select d).FirstOrDefault();
+                }
+                //Configuracon Hoja
+                hoja.PageSetup.Orientation = Excel.XlPageOrientation.xlLandscape;
+                hoja.PageSetup.Zoom = 69;
+                hoja.PageSetup.PrintTitleRows = "$10:$11";
+
+                //** Montamos el título en la línea 1 **
+                hoja.Cells[1, 3] = "SISTEMA DE REGISTRO DE ACTAS DEL PROCESO ELECTORAL LÓCAL 2017-2018";
+                hoja.Range[hoja.Cells[1, 3], hoja.Cells[1, 5]].Merge();
+                hoja.Cells[2, 3] = "ELECCIÓN DE DIPUTADOS DE MAYORÍA RELATIVA POR CASILLA, SECCIÓN Y DISTRITO LOCAL";
+                hoja.Range[hoja.Cells[2, 3], hoja.Cells[2, 5]].Merge();
+                hoja.Cells[3, 3] = "LISTA DE CASILLAS A REGISTRADAS EN EL SISTEMA";
+                hoja.Range[hoja.Cells[3, 3], hoja.Cells[3, 5]].Merge();
+                char columnaLetra = 'A';
+                hoja.Shapes.AddPicture(rutaImagen + "iepc.png", Microsoft.Office.Core.MsoTriState.msoFalse, Microsoft.Office.Core.MsoTriState.msoCTrue, 0, 0, 125, 52);
+                //hoja.Shapes.
+
+                List<double> widths = new List<double>();
+
+
+                hoja.Cells[fila - 1, columnaInicial] = dlocal.distrito + " CABECERA " + mun.municipio;
+                hoja.Range[hoja.Cells[fila - 1, columnaInicial], hoja.Cells[fila - 1, columnaInicial + 6]].Merge();
+                hoja.Cells[fila - 1, columnaInicial].WrapText = true;
+                hoja.Cells[fila - 1, columnaInicial].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+
+
+                hoja.Cells[fila, columnaInicial] = "No."; columnaInicial++; columnaLetra++; widths.Add(8.57);
+                hoja.Cells[fila, columnaInicial] = "Sección"; columnaInicial++; columnaLetra++; widths.Add(14.43);
+                hoja.Cells[fila, columnaInicial] = "Casilla"; columnaInicial++; columnaLetra++; widths.Add(25.29);
+                hoja.Cells[fila, columnaInicial] = "Tipo Votación"; columnaInicial++; columnaLetra++; widths.Add(25.29);
+                hoja.Cells[fila, columnaInicial] = "Estatus Acta"; columnaInicial++; columnaLetra++; widths.Add(50);
+                hoja.Cells[fila, columnaInicial] = "Recuento"; columnaInicial++; columnaLetra++; widths.Add(25.29);
+                hoja.Cells[fila, columnaInicial] = "Motivo Recuento"; columnaInicial++; widths.Add(100);
+
+                //Colores de Fondo
+                rango = hoja.Range["A" + fila, "G" + fila];
+                rango.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(149)))), ((int)(((byte)(90))))));
+                rango.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.White);
+
+
+                //Ponemos borde a las celdas
+                string letra = columnaLetra.ToString() + fila;
+                rango = hoja.Range["A" + (fila -1), letra];
+                rango.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                //Centramos los textos
+                rango = hoja.Rows[fila];
+                rango.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+
+                //Colores titulo1
+                rango = hoja.Range["C1", "C1"];
+                rango.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(((int)(((byte)(173)))), ((int)(((byte)(38)))), ((int)(((byte)(36))))));
+                rango.Font.Size = 16;
+                rango.Font.Bold = true;
+                //Colores Titulo2
+                rango = hoja.Range["C2", "C2"];
+                rango.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(70)))), ((int)(((byte)(47))))));
+                rango.Font.Size = 12;
+                rango.Font.Bold = true;
+                //Colores Titulo3
+                rango = hoja.Range["C3", "C3"];
+                rango.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(70)))), ((int)(((byte)(47))))));
+                rango.Font.Size = 12;
+                rango.Font.Bold = true;
+
+                //Modificamos los anchos de las columnas
+                int cont = 1;
+                foreach (int widh in widths)
+                {
+                    rango = hoja.Columns[cont];
+                    rango.ColumnWidth = widh;
+                    cont++;
+                }
+                return columnaLetra++;
+            }
+            catch (Exception E)
+            {
+                throw E;
+            }
+        }
+
+        public int generarExcelRecuento(SaveFileDialog fichero, int distrito, bool completo = false)
+        {
+            try
+            {
+                
                 Excel.Application excel = new Excel.Application();
                 Excel._Workbook libro = null;
                 completo = true;//Se cambio aqui para generar reporte de todo el recuento
@@ -2464,8 +2757,12 @@ namespace Sistema.Generales
                 List<int> vLst = new List<int>();
                 int Noregynulo = 0;
                 int Lnominal = 0;
+                bool flagInsert = true;
+                int TotalRepresentantes = 0;
 
                 //return;
+                int votos = 0;
+                int tempVotosPTCasilla = 0;
                 foreach (VotosSeccion v in vSeccion)
                 {
                     //idCasillaActual = (int)v.id_casilla;
@@ -2478,16 +2775,18 @@ namespace Sistema.Generales
                         {
                             //Agregar Columnas
                             hoja.Cells[fila, 1] = v.id_casilla;
-                            hoja.Cells[fila, 2] = v.seccion;
+                            hoja.Cells[fila, 2] = v.seccion; hoja.Cells[fila, 2].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
                             hoja.Cells[fila, 3] = v.casilla;
-                            hoja.Cells[fila, 4] = (v.estatus != null) ? (v.estatus == "ATENDIDO") ? "CAPTURADA": v.estatus : "NO CAPTURADA";
+                            hoja.Cells[fila, 4] = v.id_estatus_acta == 5 ? "RECUENTO" : v.estatus_acta;
 
-                            hoja.Cells[fila, contCand].Value = v.votos;
-                            vLst.Add((int)v.votos);
+                            votos = v.estatus_acta != "CAPTURABLE" ? 0 : (int)v.votos;
+                            hoja.Cells[fila, contCand].Value = votos;
+                            vLst.Add(votos);
                             contCand++;
                         }
 
                         //Diferencia entre el primero y segundo
+                        vLst.Add(tempVotosPTCasilla);
                         vLst.Sort();
                         int Primero = vLst[vLst.Count - 1];
                         int Seegundo = vLst[vLst.Count - 2];
@@ -2512,7 +2811,7 @@ namespace Sistema.Generales
                         else
                             hoja.Cells[fila, contCand + 2] = Math.Round((Convert.ToDecimal(totalVotacionEmitida) * 100) / Lnominal, 2) + "%";
 
-                        //Agregar fila
+                        //Agregar Estilo fila
                         string x = "A" + (fila).ToString();
                         string y = letraFinal.ToString() + (fila).ToString();
                         rango = hoja.Range[x, y];
@@ -2523,25 +2822,53 @@ namespace Sistema.Generales
                         contCand = 6;
                         vLst = new List<int>();
                         Noregynulo = 0;
+                        flagInsert = true;
+                        tempVotosPTCasilla = 0;
                         //Inrementar filla
                     }
 
-                    //Agregar Columnas
-                    hoja.Cells[fila, 1] = v.id_casilla;
-                    hoja.Cells[fila, 2] = v.seccion;
-                    hoja.Cells[fila, 3] = v.casilla;
-                    hoja.Cells[fila, 4] = (v.estatus != null) ? (v.estatus == "ATENDIDO") ? "CAPTURADA" : v.estatus : "NO CAPTURADA";
-                    Lnominal = v.lista_nominal + tempC * 2;
+                    if (cont >= vSeccion.Count)
+                        break;
+                    if (flagInsert)
+                    {
+                        //Agregar Columnas
+                        hoja.Cells[fila, 1] = v.id_casilla;
+                        hoja.Cells[fila, 2] = v.seccion; hoja.Cells[fila, 2].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+                        hoja.Cells[fila, 3] = v.casilla; hoja.Cells[fila, 3].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+                        hoja.Cells[fila, 4] = v.id_estatus_acta == 5 ? "RECUENTO" : v.estatus_acta;
+                    }
 
-                    hoja.Cells[fila, contCand] = v.votos;
+                    Lnominal = v.lista_nominal + TotalRepresentantes;
+
+                    votos = v.estatus_acta != "CAPTURABLE" ? 0 : (int)v.votos;
+                    hoja.Cells[fila, contCand] = votos;
+                    //if (v.tipo == "VOTO")
+                    //    vLst.Add(votos);
+                    //else
+                    //    Noregynulo += votos;
+
                     if (v.tipo == "VOTO")
-                        vLst.Add((int)v.votos);
+                    {
+                        if (v.id_partido == 5 || v.id_partido == 9 || v.id_partido == 15)
+                        {
+                            tempVotosPTCasilla += v.estatus_acta != "CAPTURABLE" ? 0 : (int)v.votos;
+                        }
+                        else
+                        {
+                            vLst.Add(v.estatus_acta != "CAPTURABLE" ? 0 : (int)v.votos);
+                        }
+
+                    }
                     else
-                        Noregynulo += (int)v.votos;
+                    {
+                        Noregynulo += v.estatus_acta != "CAPTURABLE" ? 0 : (int)v.votos;
+                    }
 
                     idCasillaActual = (int)v.id_casilla;
                     cont++;
                     contCand++;
+
+                    flagInsert = false;
 
                     //if(cont == vSeccion.Count){
                     //    dgvResultados.Rows.Add(row);
@@ -2567,6 +2894,8 @@ namespace Sistema.Generales
                 const float ImageSize = 42; //Tamaño Imagen Partidos
                 string rutaImagen = System.AppDomain.CurrentDomain.BaseDirectory + "imagenes\\";
 
+                bool flagColumna = candidatos.Count > 11 ? true : false;
+
                 sice_casillas casilla = null;
                 sice_distritos_locales dlocal = null;
                 sice_municipios mun = null;
@@ -2578,54 +2907,68 @@ namespace Sistema.Generales
                     dlocal = (from d in contexto.sice_distritos_locales where d.id == distrito select d).FirstOrDefault();
                 }
 
+                //Configuracon Hoja
+                hoja.PageSetup.Orientation = Excel.XlPageOrientation.xlLandscape;
+                hoja.PageSetup.Zoom = flagColumna ? 65 : 63;
+                hoja.PageSetup.PrintTitleRows = "$1:$7";
+
+                hoja.PageSetup.TopMargin = 37.79;
+                hoja.PageSetup.BottomMargin = 37.79;
+                hoja.PageSetup.LeftMargin = 22.67;
+                hoja.PageSetup.RightMargin = 22.67;
+
+
+
                 //** Montamos el título en la línea 1 **
-                hoja.Cells[1, 3] = "SISTEMA DE REGISTRO DE ACTAS DEL PROCESO ELECTORAL LÓCAL 2017-2018";
+                hoja.Cells[1, 3] = "SISTEMA DE REGISTRO DE ACTAS DEL PROCESO ELECTORAL LOCAL 2017-2018";
                 hoja.Cells[2, 3] = "RESULTADOS ELECTORALES POR PARTIDOS POLÍTICOS O CANDIDATURA INDEPENDIENTE";
                 hoja.Cells[3, 3] = "ELECCIÓN DE DIPUTADOS DE MAYORÍA RELATIVA POR CASILLA, SECCIÓN Y DISTRITO LOCAL";
                 char columnaLetra = 'A';
-                hoja.Shapes.AddPicture(rutaImagen+"iepc.png", Microsoft.Office.Core.MsoTriState.msoFalse, Microsoft.Office.Core.MsoTriState.msoCTrue, 0, 0, 125, 45);
+                hoja.Shapes.AddPicture(rutaImagen + "iepc.png", Microsoft.Office.Core.MsoTriState.msoFalse, Microsoft.Office.Core.MsoTriState.msoCTrue, 0, 0, 125, 45);
                 //hoja.Shapes.
 
                 List<double> widths = new List<double>();
 
                 //Agregar encabezados
                 hoja.Cells[fila - 3, columnaInicial] = dlocal.distrito + " CABECERA " + mun.municipio;
-                hoja.Range[hoja.Cells[fila - 3, columnaInicial], hoja.Cells[fila - 1, columnaInicial+3]].Merge();
+                hoja.Range[hoja.Cells[fila - 3, columnaInicial], hoja.Cells[fila - 1, columnaInicial + 3]].Merge();
                 hoja.Cells[fila - 3, columnaInicial].WrapText = true;
                 hoja.Cells[fila - 3, columnaInicial].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
 
 
                 hoja.Cells[fila, columnaInicial] = "No."; columnaInicial++; columnaLetra++; widths.Add(8.57);
                 hoja.Cells[fila, columnaInicial] = "Sección"; columnaInicial++; columnaLetra++; widths.Add(14.43);
-                hoja.Cells[fila, columnaInicial] = "Casilla"; columnaInicial++; columnaLetra++; widths.Add(25.29);
-                hoja.Cells[fila, columnaInicial] = "Estatus"; columnaInicial++; columnaLetra++; widths.Add(12.29);
+                hoja.Cells[fila, columnaInicial] = "Casilla"; columnaInicial++; columnaLetra++; widths.Add(10.29);
+                hoja.Cells[fila, columnaInicial] = "Estatus"; columnaInicial++; columnaLetra++; widths.Add(15.29);
 
                 hoja.Cells[fila, columnaInicial] = "Diferencia entre 1° y 2° Lugar"; columnaInicial++; columnaLetra++; widths.Add(12.29);
                 hoja.Cells[fila, columnaInicial - 1].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(149)))), ((int)(((byte)(90))))));
                 hoja.Cells[fila, columnaInicial - 1].Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.White);
-                hoja.Range[hoja.Cells[fila, columnaInicial-1], hoja.Cells[fila - 3, columnaInicial-1]].Merge();
-                hoja.Cells[fila, columnaInicial-1].WrapText = true;
-                hoja.Cells[fila, columnaInicial-1].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
-                
+                hoja.Range[hoja.Cells[fila, columnaInicial - 1], hoja.Cells[fila - 3, columnaInicial - 1]].Merge();
+                hoja.Cells[fila, columnaInicial - 1].WrapText = true;
+                hoja.Cells[fila, columnaInicial - 1].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+
 
 
                 //Agregar Columnas Caniddatos y Partidos
                 foreach (Candidatos c in candidatos)
                 {
                     //Agregar Imagen del Partido
-                    rango = (Microsoft.Office.Interop.Excel.Range)hoja.Cells[fila-3, columnaInicial];
+                    rango = (Microsoft.Office.Interop.Excel.Range)hoja.Cells[fila - 3, columnaInicial];
                     hoja.Range[hoja.Cells[fila - 3, columnaInicial], hoja.Cells[fila - 1, columnaInicial]].Merge();
                     Left = 3 + (float)((double)rango.Left);
                     Top = (float)((double)rango.Top);
-                    
-                    hoja.Shapes.AddPicture(rutaImagen + "pri.png", Microsoft.Office.Core.MsoTriState.msoFalse, Microsoft.Office.Core.MsoTriState.msoCTrue, Left, Top, ImageSize, ImageSize);
-                    hoja.Cells[fila, columnaInicial] = c.partido; columnaInicial++; columnaLetra++; widths.Add(8.57);
+
+                    hoja.Shapes.AddPicture(rutaImagen + c.imagen + ".jpg", Microsoft.Office.Core.MsoTriState.msoFalse, Microsoft.Office.Core.MsoTriState.msoCTrue, Left, Top, ImageSize, ImageSize);
+                    hoja.Cells[fila, columnaInicial] = c.partido;
+                    hoja.Cells[fila, columnaInicial].Font.Size = 10;
+                    columnaInicial++; columnaLetra++; widths.Add(9.57);
                 }
                 //Agregar columnas adicionales
 
                 //Imagen no registrados
                 rango = (Microsoft.Office.Interop.Excel.Range)hoja.Cells[fila - 3, columnaInicial];
-                hoja.Range[hoja.Cells[fila-3, columnaInicial], hoja.Cells[fila-1, columnaInicial]].Merge();
+                hoja.Range[hoja.Cells[fila - 3, columnaInicial], hoja.Cells[fila - 1, columnaInicial]].Merge();
                 Left = 3 + (float)((double)rango.Left);
                 Top = (float)((double)rango.Top);
 
@@ -2640,7 +2983,7 @@ namespace Sistema.Generales
                 hoja.Shapes.AddPicture(rutaImagen + "nulos.png", Microsoft.Office.Core.MsoTriState.msoFalse, Microsoft.Office.Core.MsoTriState.msoCTrue, Left, Top, ImageSize, ImageSize);
                 hoja.Cells[fila, columnaInicial] = "NULOS"; columnaInicial++; columnaLetra++; widths.Add(8.57);
 
-                hoja.Cells[fila-3, columnaInicial] = "Votación Total Emitida";
+                hoja.Cells[fila - 3, columnaInicial] = "Votación Total Emitida";
                 hoja.Cells[fila - 3, columnaInicial].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(149)))), ((int)(((byte)(90))))));
                 hoja.Cells[fila - 3, columnaInicial].Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.White);
                 hoja.Range[hoja.Cells[fila - 3, columnaInicial], hoja.Cells[fila - 1, columnaInicial]].Merge();
@@ -2649,16 +2992,16 @@ namespace Sistema.Generales
                 hoja.Cells[fila, columnaInicial] = "TOTAL"; columnaInicial++; columnaLetra++; widths.Add(8.57);
 
                 hoja.Cells[fila, columnaInicial] = "L. Nominal"; columnaInicial++; columnaLetra++; widths.Add(10);
-                hoja.Cells[fila, columnaInicial] = "%"; widths.Add(10);                
+                hoja.Cells[fila, columnaInicial] = "%"; widths.Add(10);
                 hoja.Cells[fila - 3, columnaInicial] = "Lista Nominal y Porcentaje de Participación Ciudadana";
-                hoja.Cells[fila-3, columnaInicial].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(149)))), ((int)(((byte)(90))))));
-                hoja.Cells[fila-3, columnaInicial].Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.White);
-                hoja.Range[hoja.Cells[fila - 3, columnaInicial-1], hoja.Cells[fila - 1, columnaInicial]].Merge();
+                hoja.Cells[fila - 3, columnaInicial].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(149)))), ((int)(((byte)(90))))));
+                hoja.Cells[fila - 3, columnaInicial].Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.White);
+                hoja.Range[hoja.Cells[fila - 3, columnaInicial - 1], hoja.Cells[fila - 1, columnaInicial]].Merge();
                 hoja.Cells[fila - 3, columnaInicial].WrapText = true;
                 hoja.Cells[fila - 3, columnaInicial].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
 
                 //Colores de Fondo
-                rango = hoja.Range["A"+fila, "D"+fila];
+                rango = hoja.Range["A" + fila, "D" + fila];
                 rango.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(149)))), ((int)(((byte)(90))))));
                 rango.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.White);
 
@@ -2669,7 +3012,7 @@ namespace Sistema.Generales
 
                 //Ponemos borde a las celdas
                 string letra = columnaLetra.ToString() + fila;
-                rango = hoja.Range["A" + (fila-3), letra];
+                rango = hoja.Range["A" + (fila - 3), letra];
                 rango.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
                 //Centramos los textos
                 rango = hoja.Rows[fila];
@@ -2716,5 +3059,11 @@ namespace Sistema.Generales
         public string casilla { get; set; }
         public string supuesto { get; set; }
         public Nullable<int> grupo_trabajo { get; set; }
+    }
+
+    public class TempSumaVotos
+    {
+        public int id_candidatos { get; set; }
+        public double votos { get; set; }
     }
 }

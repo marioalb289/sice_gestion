@@ -87,7 +87,15 @@ namespace Sistema.RegistroActasLocal
                 {
                     res = rgActas.generarExcelRespaldo(fichero, distrito, completo);
                 }
-                
+                else if(tipo == "AVANCE")
+                {
+                    res = rgActas.generarExcelAvance(fichero, distrito, completo);
+                }
+                else if (tipo == "CAPTURA")
+                {
+                    res = rgActas.generarExcel(fichero, distrito, completo);
+                }
+
 
                 if (this.IsDisposed)
                 {
@@ -241,7 +249,59 @@ namespace Sistema.RegistroActasLocal
                         BuscarControl(active.Controls, "btnRespaldo");
                     }
                 }
-                    
+                else if (tipo == "AVANCE")
+                {
+                    DateTime localDate = DateTime.Now;
+                    string date = localDate.ToString("MM-dd-yyyy_HH-mm-ss");
+                    //string namefile = (completo) ? "Reporte_Excel_Completo_Recuento_" + date : "Reporte_Excel_Recuento_Distrito_" + selected + "_" + date;
+                    string namefile = "Excel_Actas_Registradas" + date;
+                    SaveFileDialog fichero = new SaveFileDialog();
+                    fichero.Filter = "Excel (*.xlsx)|*.xlsx";
+                    fichero.FileName = namefile;
+                    if (fichero.ShowDialog() == DialogResult.OK)
+                    {
+                        //Creamos el delegado 
+                        lblGenerarExcel.Visible = true;
+                        pictureExcel.Visible = true;
+                        ThreadStart delegado = new ThreadStart(() => ProcesoGeneraExcel(selected, completo, fichero, tipo));
+                        //Creamos la instancia del hilo 
+                        Thread hilo = new Thread(delegado) { IsBackground = true };
+                        //Iniciamos el hilo 
+                        hilo.Start();
+                    }
+                    else
+                    {
+                        Form active = this.ActiveMdiChild;
+                        BuscarControl(active.Controls, "btnRespaldo");
+                    }
+                }
+                else if (tipo == "CAPTURA")
+                {
+                    DateTime localDate = DateTime.Now;
+                    string date = localDate.ToString("MM-dd-yyyy_HH-mm-ss");
+                    //string namefile = (completo) ? "Reporte_Excel_Completo_Recuento_" + date : "Reporte_Excel_Recuento_Distrito_" + selected + "_" + date;
+                    string namefile = "Excel_Actas_Registradas_Captura_" + date;
+                    SaveFileDialog fichero = new SaveFileDialog();
+                    fichero.Filter = "Excel (*.xlsx)|*.xlsx";
+                    fichero.FileName = namefile;
+                    if (fichero.ShowDialog() == DialogResult.OK)
+                    {
+                        //Creamos el delegado 
+                        lblGenerarExcel.Visible = true;
+                        pictureExcel.Visible = true;
+                        ThreadStart delegado = new ThreadStart(() => ProcesoGeneraExcel(selected, completo, fichero, tipo));
+                        //Creamos la instancia del hilo 
+                        Thread hilo = new Thread(delegado) { IsBackground = true };
+                        //Iniciamos el hilo 
+                        hilo.Start();
+                    }
+                    else
+                    {
+                        Form active = this.ActiveMdiChild;
+                        BuscarControl(active.Controls, "btnRespaldo");
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -331,7 +391,15 @@ namespace Sistema.RegistroActasLocal
                     if (tipo == "RECUENTO")
                     {
                         BuscarControl(active.Controls, (completo) ? "btnGenerarExcelTodo" : "btnGenerarExcel");
-                    }                    
+                    }
+                    else if (tipo == "AVANCE")
+                    {
+                        BuscarControl(active.Controls, "btnActasRegistradas");
+                    }
+                    else if (tipo == "CAPTURA")
+                    {
+                        BuscarControl(active.Controls, "btnExcelCaptura");
+                    }
                 }
                 else if(formname == "MainRegistroLocal")
                 {

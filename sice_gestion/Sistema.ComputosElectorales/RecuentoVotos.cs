@@ -47,6 +47,8 @@ namespace Sistema.ComputosElectorales
         const int SB_HORZ = 0;
         private int boletasRecibidas = 0;
         private List<sice_ar_supuestos> supuestos;
+        private List<int> listaIdCandidatoPTMORENA;
+        private bool flagRP = false;
         [DllImport("user32.dll")]
 
         static extern bool ShowScrollBar(IntPtr hWnd, int wBar, bool bShow);
@@ -579,6 +581,7 @@ namespace Sistema.ComputosElectorales
             {
                 if (this.sc[PosActual].tipo == "RP")
                 {
+                    this.flagRP = true;
                     cargarPartidosPoliticosRp();
                     return;
                 }
@@ -586,13 +589,18 @@ namespace Sistema.ComputosElectorales
                 if (this.distritoActual == 0)
                     throw new Exception("No se pudo cargar lista de Candidatos");
                 List<Candidatos> lsCandidatos = CompElec.ListaCandidatos(this.distritoActual);
+                this.listaIdCandidatoPTMORENA = new List<int>();
                 this.totalCandidatos = lsCandidatos.Count();
                 if (lsCandidatos != null)
                 {
-
+                    this.flagRP = false;
                     int TotalRepresentantes = 1;
                     foreach (Candidatos cnd in lsCandidatos)
                     {
+                        //si morena pt o pt-morena
+                        if (cnd.id_partido == 5 || cnd.id_partido == 9 || cnd.id_partido == 15)
+                            listaIdCandidatoPTMORENA.Add(cnd.id_candidato);
+
                         if (cnd.coalicion != "" && cnd.coalicion != null && cnd.tipo_partido != "COALICION")
                         {
                             TotalRepresentantes += CompElec.RepresentantesCComun(cnd.coalicion);
@@ -989,7 +997,8 @@ namespace Sistema.ComputosElectorales
 
                 double totalVotos = 0;
                 this.flagSelectSupuesto = 0;
-                List<double> listaVotos = new List<double>();
+                List<TempSumaVotos> listaVotos = new List<TempSumaVotos>();
+                double tempVotosPT = 0;
                 double votosNulos = 0;
                 int flagError = 0;
                 double boletasSobrantes = 0;
@@ -1007,14 +1016,24 @@ namespace Sistema.ComputosElectorales
                         {
                             flagError = 2;
                         }
-                        listaVotos.Add(num);
+                        if (this.flagRP)
+                            listaVotos.Add(new TempSumaVotos { id_candidatos = tempIdCandidato, votos = num });
+                        else if (this.listaIdCandidatoPTMORENA.IndexOf(tempIdCandidato) != -1)
+                            tempVotosPT += num;
+                        else
+                            listaVotos.Add(new TempSumaVotos { id_candidatos = tempIdCandidato, votos = num });
                         if (tempIdCandidato == -2)
                             votosNulos = num;
                     }
                     else
                     {
                         datos.Text = "0";
-                        listaVotos.Add(0);
+                        if (this.flagRP)
+                            listaVotos.Add(new TempSumaVotos { id_candidatos = tempIdCandidato, votos = 0 });
+                        else if (this.listaIdCandidatoPTMORENA.IndexOf(tempIdCandidato) != -1)
+                            tempVotosPT += num;
+                        else
+                            listaVotos.Add(new TempSumaVotos { id_candidatos = tempIdCandidato, votos = 0 });
                         if (tempIdCandidato == 0)
                             votosNulos = 0;
                     }
@@ -1034,6 +1053,8 @@ namespace Sistema.ComputosElectorales
 
 
                 }
+                //DONDE 100 morena pt pt morena
+                listaVotos.Add(new TempSumaVotos { id_candidatos = 100, votos = tempVotosPT }); 
                 this.totalVotos = Convert.ToInt32(totalVotos + boletasSobrantes);
                 if (flagError == 1)
                 {
@@ -1058,19 +1079,32 @@ namespace Sistema.ComputosElectorales
                     return;
                 }
 
-                listaVotos.Sort();
-                double primero = listaVotos[listaVotos.Count - 1];
-                double segundo = listaVotos[listaVotos.Count - 2];
-                double diferencia = primero - segundo;
-                if (votosNulos > diferencia)
+                listaVotos = listaVotos.Where(x => x.id_candidatos > 0).OrderBy(x => x.votos).ToList();
+                double primero = listaVotos[listaVotos.Count - 1].votos;
+                double segundo = listaVotos[listaVotos.Count - 2].votos;
+                if (primero > 0 && segundo > 0)
                 {
-                    this.flagSelectSupuesto = 5;
-                    this.cmbSupuesto.SelectedValue = 5;
-                    this.cmbEstatusActa.SelectedValue = 5;
-                    //this.cmbSupuesto.Enabled = false;
-                    //this.DesactivarTextBoxes();
-                    msgBox = new MsgBox(this, "Número de VOTOS NULOS mayor a la diferencia entre el 1ER y 2DO lugar", "Atención", MessageBoxButtons.OK, "Advertencia");
-                    msgBox.ShowDialog(this);
+                    double diferencia = primero - segundo;
+                    if (votosNulos > diferencia)
+                    {
+                        this.flagSelectSupuesto = 5;
+                        this.cmbSupuesto.SelectedValue = 5;
+                        this.cmbEstatusActa.SelectedValue = 5;
+                        //this.cmbSupuesto.Enabled = false;
+                        //this.DesactivarTextBoxes();
+                        msgBox = new MsgBox(this, "Número de VOTOS NULOS mayor a la diferencia entre el 1ER y 2DO lugar", "Atención", MessageBoxButtons.OK, "Advertencia");
+                        msgBox.ShowDialog(this);
+                    }
+                    else
+                    {
+                        //this.cmbSupuesto.Enabled = true;
+                        int selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
+                        if (selectedSupuesto == 5 || selectedSupuesto == 4 || selectedSupuesto == 6)
+                        {
+                            this.cmbSupuesto.SelectedIndex = 0;
+                            this.cmbEstatusActa.SelectedValue = 1;
+                        }
+                    }
                 }
                 else
                 {
@@ -1082,6 +1116,8 @@ namespace Sistema.ComputosElectorales
                         this.cmbEstatusActa.SelectedValue = 1;
                     }
                 }
+
+
 
 
             }

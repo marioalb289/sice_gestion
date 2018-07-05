@@ -45,15 +45,15 @@ namespace Sistema.RegistroActasLocal
         {
             try
             {
-                if (LoginInfo.lista_distritos.Count > 0)
-                {
-                    int? result = LoginInfo.lista_distritos.Find(x => x == distrito);
-                    if (result != 0)
-                        btnDescargar.Enabled = false;
-                    else
-                        btnDescargar.Enabled = true;
+                //if (LoginInfo.lista_distritos.Count > 0)
+                //{
+                //    int? result = LoginInfo.lista_distritos.Find(x => x == distrito);
+                //    if (result != 0)
+                //        btnDescargar.Enabled = false;
+                //    else
+                //        btnDescargar.Enabled = true;
 
-                }
+                //}
             }
             catch(Exception ex)
             {
@@ -101,7 +101,7 @@ namespace Sistema.RegistroActasLocal
             }
         }
 
-        private void InicializarPaginador(int? distrito, int pageNumber = 1, int pageSize = 25)
+        private void InicializarPaginador(int? distrito, int pageNumber = 1, int pageSize = 3000)
         {
             try
             {
@@ -151,6 +151,7 @@ namespace Sistema.RegistroActasLocal
 
                 //}
                 List<VotosSeccion> vSeccionTotales = rgActas.ResultadosSeccionCaptura(0, 0, (int)distrito);
+                List<AvanceCaptura> listaAvances = rgActas.ListaResultadosAvances(distrito);
                 List<VotosSeccion> totalAgrupado = vSeccionTotales.Where(x=> x.casilla != "S1").GroupBy(x => x.id_casilla).
                    Select(data => new VotosSeccion
                    {
@@ -164,7 +165,12 @@ namespace Sistema.RegistroActasLocal
                 int LnominalDistrito = totalAgrupado.Sum(x => x.lista_nominal);
                 this.TotalVotosDistrito = vSeccionTotales.Sum(x => (int)x.votos);
                 //List<VotosSeccion> vSeccionTotales2 = vSeccionTotales.Where().GroupBy(y => y.casilla).ToList();
-                int actasCapturadas = vSeccionTotales.Where(x => x.id_estatus_acta == 1 || x.id_estatus_acta == 2 || x.id_estatus_acta == 8).GroupBy(y => y.id_casilla).Count();
+                int totalCapturado = listaAvances.Where(x => x.id_estatus_acta == 1 || x.id_estatus_acta == 2 || x.id_estatus_acta == 8).Count();
+                int totalRecuento = listaAvances.Where(x => x.id_estatus_acta == 5).Count();
+                int totalNoregis = listaAvances.Where(x => x.id_estatus_acta == null).Count();
+                int totalARevision = listaAvances.Where(x => x.id_estatus_paquete == 4 || x.id_estatus_paquete == 5 || x.id_estatus_paquete == 6 || x.id_estatus_paquete == 7).Count();
+                int totalNoConta = listaAvances.Where(x => x.id_estatus_paquete == 1 || x.id_estatus_paquete == 2).Count();
+                int totalActas = listaAvances.Count;
 
                 this.lblListaNominal.Text = String.Format(CultureInfo.InvariantCulture, "{0:#,#}", LnominalDistrito);
                 this.lblTotalVotos.Text = TotalVotosDistrito > 0 ? String.Format(CultureInfo.InvariantCulture, "{0:#,#}", TotalVotosDistrito) : "0";
@@ -178,13 +184,32 @@ namespace Sistema.RegistroActasLocal
                 }
                 this.lblParticipacion.Text = PorcentajeParDistrito + "%";
                 this.lblDistrito.Text = distrito.ToString();
-                this.lblActasCapturadas.Text = actasCapturadas > 0 ? String.Format(CultureInfo.InvariantCulture, "{0:#,#}", actasCapturadas) : "0";
+                this.lblActasCapturadas.Text = totalCapturado > 0 ? String.Format(CultureInfo.InvariantCulture, "{0:#,#}", totalCapturado) : "0";
+                this.lblActasRecuento.Text = totalRecuento > 0 ? String.Format(CultureInfo.InvariantCulture, "{0:#,#}", totalRecuento) : "0";
+                this.lblNoCap.Text = totalNoregis > 0 ? String.Format(CultureInfo.InvariantCulture, "{0:#,#}", totalNoregis) : "0";
+                this.lblTotalActas.Text = totalActas > 0 ? String.Format(CultureInfo.InvariantCulture, "{0:#,#}", totalActas) : "0";
                 //var x = vSeccion.Select(x=> new VotosSeccion { id_candidato = x.id_candidato, votos = x.s })
 
-                List<VotosSeccion> listaSumaCandidatos = vSeccionTotales.Where(x => x.estatus == "ATENDIDO" && x.id_candidato != null).GroupBy(y => y.id_candidato).Select(data => new VotosSeccion { id_candidato = data.First().id_candidato, votos = data.Sum(d => d.votos) }).OrderBy(x=> x.votos).ToList();
+                List<VotosSeccion> listaSumaCandidatos2 = new List<VotosSeccion>();
+                List<VotosSeccion> listaSumaCandidatos = vSeccionTotales.Where(x => x.estatus == "ATENDIDO" && x.id_candidato != null).GroupBy(y => y.id_candidato).Select(data => new VotosSeccion { id_candidato = data.First().id_candidato, votos = data.Sum(d => d.votos), id_partido = data.First().id_partido }).OrderBy(x=> x.votos).ToList();
+                int tempVotosPT = 0;                
                 //listaSumaCandidatos.OrderBy(x => x.votos);
                 if (listaSumaCandidatos.Count > 0)
                 {
+                    foreach (VotosSeccion ls in listaSumaCandidatos)
+                    {
+                        if (ls.id_partido == 5 || ls.id_partido == 9 || ls.id_partido == 15)
+                        {
+                            tempVotosPT += (int)ls.votos;
+                        }
+                        else
+                        {
+                            listaSumaCandidatos2.Add(ls);
+                        }
+                    }
+                    listaSumaCandidatos2.Add(new VotosSeccion { id_candidato = 100, votos = tempVotosPT, id_partido = 9 });
+                    listaSumaCandidatos = listaSumaCandidatos2.OrderBy(x => x.votos).ToList();
+
                     int PrimeroTotal = (int)listaSumaCandidatos[listaSumaCandidatos.Count - 1].votos;
                     int SeegundoTotal = (int)listaSumaCandidatos[listaSumaCandidatos.Count - 2].votos;
                     int diferenciaTotal = PrimeroTotal - SeegundoTotal;
@@ -348,7 +373,7 @@ namespace Sistema.RegistroActasLocal
                 //    }
 
                 //}
-
+                int tempVotosPT = 0;
 
                 foreach (VotosSeccion v in vSeccion)
                 {
@@ -364,7 +389,7 @@ namespace Sistema.RegistroActasLocal
                             row.Cells[0].Value = v.id_casilla;
                             row.Cells[1].Value = v.seccion;
                             row.Cells[2].Value = v.casilla;
-                            row.Cells[3].Value = getEstatus(v.id_estatus_acta);
+                            row.Cells[3].Value = v.id_estatus_acta == 5 ? "RECUENTO" : v.estatus_acta;
 
                             row.Cells[contCand].Value = v.votos;
                             vLst.Add((int)v.votos);
@@ -372,6 +397,7 @@ namespace Sistema.RegistroActasLocal
                         }
 
                         //Diferencia entre el primero y segundo
+                        vLst.Add(tempVotosPT);
                         vLst.Sort();
                         int Primero = vLst[vLst.Count - 1];
                         int Seegundo = vLst[vLst.Count - 2];
@@ -410,6 +436,7 @@ namespace Sistema.RegistroActasLocal
                         contCand = 5;
                         vLst = new List<int>();
                         Noregynulo = 0;
+                        tempVotosPT = 0;
                         //Inrementar filla
                     }
 
@@ -417,14 +444,29 @@ namespace Sistema.RegistroActasLocal
                     row.Cells[0].Value = v.id_casilla;
                     row.Cells[1].Value = v.seccion;
                     row.Cells[2].Value = v.casilla;
-                    row.Cells[3].Value = getEstatus(v.id_estatus_acta);
+                    row.Cells[3].Value = v.id_estatus_acta == 5 ? "RECUENTO" : v.estatus_acta;
                     Lnominal = v.casilla == "S1" ? Configuracion.BoletasEspecial :  v.lista_nominal + TotalRepresentantes;
 
                     row.Cells[contCand].Value = v.votos;
                     if (v.tipo == "VOTO")
-                        vLst.Add((int)v.votos);
+                    {
+                        if (v.id_partido == 5 || v.id_partido == 9 || v.id_partido == 15)
+                        {
+                            tempVotosPT += (int)v.votos;
+                        }
+                        else
+                        {
+                            vLst.Add((int)v.votos);
+                        }
+                        
+                    }
                     else
+                    {
                         Noregynulo += (int)v.votos;
+                    }
+                        
+
+                    
 
                     idCasillaActual = (int)v.id_casilla;
                     cont++;
@@ -811,7 +853,7 @@ namespace Sistema.RegistroActasLocal
                 int? selected = Convert.ToInt32(cmbDistrito.SelectedValue);
                 if (selected > 0 && selected != null)
                 {
-                    btnDescargar.Enabled = false;
+                    //btnDescargar.Enabled = false;
                     ((MDIMainRegistroActas)this.MdiParent).DescargarDatosLocal((int)selected);
                     
                     //Thread thread = new Thread(() =>
@@ -980,6 +1022,42 @@ namespace Sistema.RegistroActasLocal
                 msgBox.ShowDialog(this);
             }          
             
+        }
+
+        private void btnActasRegistradas_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //int? selected = Convert.ToInt32(cmbDistrito.SelectedValue);
+                //if (selected > 0 && selected != null)
+                //{
+                //this.ValidarRecuento();
+                btnActasRegistradas.Enabled = false;
+                ((MDIMainRegistroActas)this.MdiParent).GenerarExcel(0, false,"AVANCE");
+
+                //}
+
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
+        }
+
+        private void btnExcelCaptura_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                btnExcelCaptura.Enabled = false;
+                ((MDIMainRegistroActas)this.MdiParent).GenerarExcel(0, true,"CAPTURA");
+
+            }
+            catch (Exception ex)
+            {
+                msgBox = new MsgBox(this, ex.Message, "Atención", MessageBoxButtons.OK, "Error");
+                msgBox.ShowDialog(this);
+            }
         }
     }
 }

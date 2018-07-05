@@ -38,6 +38,8 @@ namespace Sistema.RegistroActasLocal
         private int flagSelectSupuesto = 0;
         private int totalVotos = 0;
         private int boletasRecibidas = 0;
+        private List<int> listaIdCandidatoPTMORENA;
+        private bool flagRP = false;
 
         const int SB_HORZ = 0;
         [DllImport("user32.dll")]
@@ -566,10 +568,12 @@ namespace Sistema.RegistroActasLocal
                 SeccionCasillaConsecutivo SelectedCasilla = (SeccionCasillaConsecutivo)cmbCasilla.SelectedItem;
                 if (SelectedCasilla.tipo == "RP")
                 {
+                    this.flagRP = true;
                     this.cargarResultadosVotosRP();
                 }
                 else
                 {
+                    this.flagRP = false;
                     regActas = new RegistroLocalGenerales();
                     if (this.distritoActual == 0)
                         throw new Exception("No se pudo cargar lista de Resultados");
@@ -577,6 +581,7 @@ namespace Sistema.RegistroActasLocal
                     List<CandidatosVotos> lsCandidatosVotos = regActas.ListaResultadosCasilla(Convert.ToInt32(cmbCasilla.SelectedValue), "sice_ar_votos_cotejo");
                     sice_ar_reserva detallesActa = regActas.DetallesActa(Convert.ToInt32(cmbCasilla.SelectedValue),"MR");
                     sice_ar_supuestos supuesto = regActas.getSupuesto(Convert.ToInt32(cmbCasilla.SelectedValue));
+                    this.listaIdCandidatoPTMORENA = new List<int>();
                     if (supuesto != null)
                         cmbSupuesto.SelectedValue = supuesto.id;
                     else
@@ -586,6 +591,9 @@ namespace Sistema.RegistroActasLocal
                         int TotalRepresentantes = 1;
                         foreach (CandidatosVotos cnd in lsCandidatosVotos)
                         {
+                            //si morena pt o pt-morena
+                            if (cnd.id_partido == 5 || cnd.id_partido == 9 || cnd.id_partido == 15)
+                                listaIdCandidatoPTMORENA.Add((int)cnd.id_candidato);
                             if (cnd.coalicion != "" && cnd.coalicion != null && cnd.tipo_partido != "COALICION")
                             {
                                 TotalRepresentantes += regActas.RepresentantesCComun(cnd.coalicion);
@@ -1033,7 +1041,8 @@ namespace Sistema.RegistroActasLocal
 
                 double totalVotos = 0;
                 this.flagSelectSupuesto = 0;
-                List<double> listaVotos = new List<double>();
+                List<TempSumaVotos> listaVotos = new List<TempSumaVotos>();
+                double tempVotosPT = 0;
                 double votosNulos = 0;
                 int flagError = 0;
                 double boletasSobrantes = 0;
@@ -1051,17 +1060,31 @@ namespace Sistema.RegistroActasLocal
                         {
                             flagError = 2;
                         }
-                        listaVotos.Add(num);
+                        if (this.flagRP)
+                            listaVotos.Add(new TempSumaVotos { id_candidatos = tempIdCandidato, votos = num });
+                        else if (this.listaIdCandidatoPTMORENA.IndexOf(tempIdCandidato) != -1)
+                            tempVotosPT += num;
+                        else
+                            listaVotos.Add(new TempSumaVotos { id_candidatos = tempIdCandidato, votos = num });
+
                         if (tempIdCandidato == -2)
                             votosNulos = num;
                     }
                     else
                     {
                         datos.Text = "0";
-                        listaVotos.Add(0);
+                        if (this.flagRP)
+                            listaVotos.Add(new TempSumaVotos { id_candidatos = tempIdCandidato, votos = 0 });
+                        else if (this.listaIdCandidatoPTMORENA.IndexOf(tempIdCandidato) != -1)
+                            tempVotosPT += num;
+                        else
+                            listaVotos.Add(new TempSumaVotos { id_candidatos = tempIdCandidato, votos = 0 });
                         if (tempIdCandidato == 0)
                             votosNulos = 0;
                     }
+
+                    //DONDE 100 morena pt pt morena
+                    
 
                     //Numero de Votos Nulos
 
@@ -1078,6 +1101,7 @@ namespace Sistema.RegistroActasLocal
 
 
                 }
+                listaVotos.Add(new TempSumaVotos { id_candidatos = 100, votos = tempVotosPT });
                 this.totalVotos = Convert.ToInt32(totalVotos + boletasSobrantes);
                 if (flagError == 1)
                 {
@@ -1100,18 +1124,34 @@ namespace Sistema.RegistroActasLocal
                     return;
                 }
 
-                listaVotos.Sort();
-                double primero = listaVotos[listaVotos.Count - 1];
-                double segundo = listaVotos[listaVotos.Count - 2];
-                double diferencia = primero - segundo;
-                if (votosNulos > diferencia)
+                listaVotos = listaVotos.Where(x => x.id_candidatos > 0).OrderBy(x => x.votos).ToList();
+                double primero = listaVotos[listaVotos.Count - 1].votos;
+                double segundo = listaVotos[listaVotos.Count - 2].votos;
+                if(primero > 0 && segundo > 0)
                 {
-                    this.flagSelectSupuesto = 5;
-                    this.cmbSupuesto.SelectedValue = 5;                    
-                    //this.cmbSupuesto.Enabled = false;
-                    //this.DesactivarTextBoxes();
-                    msgBox = new MsgBox(this, "Número de VOTOS NULOS mayor a la diferencia entre el 1ER y 2DO lugar", "Atención", MessageBoxButtons.OK, "Advertencia");
-                    msgBox.ShowDialog(this);
+                    double diferencia = primero - segundo;
+                    if (votosNulos > diferencia)
+                    {
+                        this.flagSelectSupuesto = 5;
+                        this.cmbSupuesto.SelectedValue = 5;
+                        //this.cmbSupuesto.Enabled = false;
+                        //this.DesactivarTextBoxes();
+                        msgBox = new MsgBox(this, "Número de VOTOS NULOS mayor a la diferencia entre el 1ER y 2DO lugar", "Atención", MessageBoxButtons.OK, "Advertencia");
+                        msgBox.ShowDialog(this);
+                    }
+                    else
+                    {
+                        //this.cmbSupuesto.Enabled = true;
+                        int selectedSupuesto = Convert.ToInt32(cmbSupuesto.SelectedValue);
+                        if (selectedSupuesto == 5 || selectedSupuesto == 4 || selectedSupuesto == 6)
+                        {
+                            if (sender != null)
+                            {
+                                this.cmbSupuesto.SelectedValue = 0;
+                            }
+
+                        }
+                    }
                 }
                 else
                 {
@@ -1123,9 +1163,12 @@ namespace Sistema.RegistroActasLocal
                         {
                             this.cmbSupuesto.SelectedValue = 0;
                         }
-                       
+
                     }
                 }
+                
+                
+                
 
 
             }
