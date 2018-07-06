@@ -174,6 +174,7 @@ namespace Sistema.ComputosElectorales
                 int totalSecciones = vSeccionTotales.GroupBy(x => x.seccion).Select(data => new VotosSeccion { seccion = data.First().seccion }).Count();
                 int LnominalDistrito = totalAgrupado.Sum(x => x.lista_nominal);
                 this.TotalVotosDistrito = vSeccionTotales.Where(x=> x.id_estatus_acta == 1).Sum(x => (int)x.votos);
+                
                 int actasCapturadas = vSeccionTotales.Where(x => x.id_estatus_acta == 1 || x.id_estatus_acta == 2 || x.id_estatus_acta == 8).GroupBy(y => y.id_casilla).Count();
 
                 this.lblListaNominal.Text = String.Format(CultureInfo.InvariantCulture, "{0:#,#}", LnominalDistrito);

@@ -136,7 +136,7 @@ namespace Sistema.Generales
                     listaLocalVotosRP = (from i in contextoLocal.sice_votos_rp where i.importado == 0 && i.estatus == 1 select i).ToList();
                     listaReserva = (from i in contextoLocal.sice_reserva_captura where i.importado == 0 select i).ToList();
                     listaHistorico = (from i in contextoLocal.sice_historico where i.importado == 0 select i).ToList();
-                    listaConfiguracionRecuento = (from i in contextoLocal.sice_configuracion_recuento where i.importado == 0 && i.sistema == "SICE" select i).ToList();
+                    listaConfiguracionRecuento = (from i in contextoLocal.sice_configuracion_recuento where i.sistema == "SICE" select i).ToList();
                 }
 
                 using (DatabaseContext contextoServer = new DatabaseContext("MYSQLSERVER"))
@@ -366,7 +366,7 @@ namespace Sistema.Generales
                             sice_configuracion_recuento tempConf = (from d in contextoLocal.sice_configuracion_recuento where d.id == conf.id select d).FirstOrDefault();
                             if (tempConf != null)
                             {
-                                tempConf.importado = 1;
+                                tempConf.importado = 0;
                                 contextoLocal.SaveChanges();
                             }
                         }

@@ -28,7 +28,7 @@ namespace Sistema.Generales
         public const string Pass = "$i$t3m4s2018utc";
         public const string Repo = "sice_archivos";
         public const int BoletasEspecial = 750;
-        public const int TimerDatosReg = 15000;
-        public const int TimerDatosComp = 15000;
+        public const int TimerDatosReg = 600000;
+        public const int TimerDatosComp = 300000;
     }
 }

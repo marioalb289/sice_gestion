@@ -1059,6 +1059,7 @@ namespace Sistema.Generales
                             conf.puntos_recuento = puntos_recuento;
                             conf.tipo_recuento = tipo_recuento;
                             conf.sistema = "RA";
+                            conf.inicializado = 0;
                             contexto.SaveChanges();
                             res = 1;
                         }
@@ -1070,6 +1071,7 @@ namespace Sistema.Generales
                             newConf.horas_disponibles = horas;
                             newConf.id_distrito = id_distrito;
                             newConf.puntos_recuento = puntos_recuento;
+                            newConf.inicializado = 0;
                             newConf.tipo_recuento = tipo_recuento;
                             contexto.sice_configuracion_recuento.Add(newConf);
                             contexto.SaveChanges();

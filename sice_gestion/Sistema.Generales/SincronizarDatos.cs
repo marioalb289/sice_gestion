@@ -16,7 +16,7 @@ namespace Sistema.Generales
     {
         private static System.Timers.Timer aTimer;
         public SincronizarDatos()
-        {            
+        {
             SetTimer();
         }
 
@@ -74,16 +74,16 @@ namespace Sistema.Generales
                 //DateTime fechaActual = DateTime.Now;
                 //if (fechaActual >= fechaInicio)
                 //{
-                    //Iniciar Proceso
-                    ThreadStart delegado = new ThreadStart(() => ProcesoSincronizarRegistroActas());
-                    delegado += () =>
-                    {
-                        aTimer.Start();
-                    };
-                    //Creamos la instancia del hilo 
-                    Thread hilo = new Thread(delegado) { IsBackground = true };
-                    //Iniciamos el hilo 
-                    hilo.Start();
+                //Iniciar Proceso
+                ThreadStart delegado = new ThreadStart(() => ProcesoSincronizarRegistroActas());
+                delegado += () =>
+                {
+                    aTimer.Start();
+                };
+                //Creamos la instancia del hilo 
+                Thread hilo = new Thread(delegado) { IsBackground = true };
+                //Iniciamos el hilo 
+                hilo.Start();
                 //}
                 //else
                 //{
@@ -91,7 +91,7 @@ namespace Sistema.Generales
                 //}
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 aTimer.Start();
                 Console.WriteLine(ex.Message);
@@ -145,7 +145,7 @@ namespace Sistema.Generales
                 Console.WriteLine(ex.Message);
             }
 
-            
+
         }
 
         public int SubirDatosRegistroActas()
@@ -167,187 +167,187 @@ namespace Sistema.Generales
                 {
                     listaLocalVotos = (from i in contextoLocal.sice_ar_votos_cotejo where i.importado == 0 && i.estatus == 1 select i).ToList();
                     listaLocalVotosRP = (from i in contextoLocal.sice_ar_votos_cotejo_rp where i.importado == 0 && i.estatus == 1 select i).ToList();
-                    listaReserva = (from i in contextoLocal.sice_ar_reserva where i.importado == 0  select i).ToList();
+                    listaReserva = (from i in contextoLocal.sice_ar_reserva where i.importado == 0 select i).ToList();
                     listaDocumentos = (from i in contextoLocal.sice_ar_documentos where i.importado_dato == 0 select i).ToList();
                     listaHistorico = (from i in contextoLocal.sice_ar_historico where i.importado == 0 select i).ToList();
-                    listaConfiguracionRecuento = (from i in contextoLocal.sice_configuracion_recuento where i.importado == 0 && i.sistema == "RA" select i).ToList();
+                    listaConfiguracionRecuento = (from i in contextoLocal.sice_configuracion_recuento where i.sistema == "RA" select i).ToList();
                 }
 
                 using (DatabaseContext contextoServer = new DatabaseContext("MYSQLSERVER"))
                 {
                     //using (var TransactionContexto = new TransactionScope())
                     //{
-                        foreach (sice_ar_reserva reserva in listaReserva)
+                    foreach (sice_ar_reserva reserva in listaReserva)
+                    {
+                        int? id_casilla2 = reserva.id_casilla;
+                        sice_ar_reserva rc = (from p in contextoServer.sice_ar_reserva where p.id_casilla == id_casilla2 select p).FirstOrDefault();
+                        if (rc != null)
                         {
-                            int? id_casilla2 = reserva.id_casilla;
-                            sice_ar_reserva rc = (from p in contextoServer.sice_ar_reserva where p.id_casilla == id_casilla2 select p).FirstOrDefault();
-                            if (rc != null)
-                            {
-                                rc.id_casilla = reserva.id_casilla;
-                                rc.tipo_reserva = reserva.tipo_reserva;
-                                rc.id_documento = reserva.id_documento;
-                                rc.importado = reserva.importado;
-                                rc.id_supuesto = reserva.id_supuesto;
-                                rc.create_at = reserva.create_at;
-                                rc.updated_at = reserva.updated_at;
-                                rc.num_escritos = reserva.num_escritos;
-                                rc.boletas_sobrantes = reserva.boletas_sobrantes;
-                                rc.personas_votaron = reserva.personas_votaron;
-                                rc.num_representantes_votaron = reserva.num_representantes_votaron;
-                                rc.votos_sacados = reserva.votos_sacados;
-                                rc.casilla_instalada = reserva.casilla_instalada;
-                                rc.id_estatus_acta = reserva.id_estatus_acta;
-                                rc.id_estatus_paquete = reserva.id_estatus_paquete;
-                                rc.id_incidencias = reserva.id_incidencias;
-                                rc.inicializada = reserva.inicializada;
-                                rc.id_condiciones_paquete = reserva.id_condiciones_paquete;
-                                rc.tipo_votacion = reserva.tipo_votacion;
-                                rc.grupo_trabajo = reserva.grupo_trabajo;
-                                rc.con_cinta = reserva.con_cinta;
-                                rc.con_etiqueta = reserva.con_etiqueta;
-                            }
-                            else
-                            {
-                                rc = new sice_ar_reserva();
-                                rc.id_casilla = reserva.id_casilla;
-                                rc.tipo_reserva = reserva.tipo_reserva;
-                                rc.id_documento = reserva.id_documento;
-                                rc.importado = reserva.importado;
-                                rc.id_supuesto = reserva.id_supuesto;
-                                rc.create_at = reserva.create_at;
-                                rc.updated_at = reserva.updated_at;
-                                rc.num_escritos = reserva.num_escritos;
-                                rc.boletas_sobrantes = reserva.boletas_sobrantes;
-                                rc.personas_votaron = reserva.personas_votaron;
-                                rc.num_representantes_votaron = reserva.num_representantes_votaron;
-                                rc.votos_sacados = reserva.votos_sacados;
-                                rc.casilla_instalada = reserva.casilla_instalada;
-                                rc.id_estatus_acta = reserva.id_estatus_acta;
-                                rc.id_estatus_paquete = reserva.id_estatus_paquete;
-                                rc.id_incidencias = reserva.id_incidencias;
-                                rc.inicializada = reserva.inicializada;
-                                rc.id_condiciones_paquete = reserva.id_condiciones_paquete;
-                                rc.tipo_votacion = reserva.tipo_votacion;
-                                rc.grupo_trabajo = reserva.grupo_trabajo;
-                                rc.con_cinta = reserva.con_cinta;
-                                rc.con_etiqueta = reserva.con_etiqueta;
-                                contextoServer.sice_ar_reserva.Add(rc);
-                            }
+                            rc.id_casilla = reserva.id_casilla;
+                            rc.tipo_reserva = reserva.tipo_reserva;
+                            rc.id_documento = reserva.id_documento;
+                            rc.importado = reserva.importado;
+                            rc.id_supuesto = reserva.id_supuesto;
+                            rc.create_at = reserva.create_at;
+                            rc.updated_at = reserva.updated_at;
+                            rc.num_escritos = reserva.num_escritos;
+                            rc.boletas_sobrantes = reserva.boletas_sobrantes;
+                            rc.personas_votaron = reserva.personas_votaron;
+                            rc.num_representantes_votaron = reserva.num_representantes_votaron;
+                            rc.votos_sacados = reserva.votos_sacados;
+                            rc.casilla_instalada = reserva.casilla_instalada;
+                            rc.id_estatus_acta = reserva.id_estatus_acta;
+                            rc.id_estatus_paquete = reserva.id_estatus_paquete;
+                            rc.id_incidencias = reserva.id_incidencias;
+                            rc.inicializada = reserva.inicializada;
+                            rc.id_condiciones_paquete = reserva.id_condiciones_paquete;
+                            rc.tipo_votacion = reserva.tipo_votacion;
+                            rc.grupo_trabajo = reserva.grupo_trabajo;
+                            rc.con_cinta = reserva.con_cinta;
+                            rc.con_etiqueta = reserva.con_etiqueta;
+                        }
+                        else
+                        {
+                            rc = new sice_ar_reserva();
+                            rc.id_casilla = reserva.id_casilla;
+                            rc.tipo_reserva = reserva.tipo_reserva;
+                            rc.id_documento = reserva.id_documento;
+                            rc.importado = reserva.importado;
+                            rc.id_supuesto = reserva.id_supuesto;
+                            rc.create_at = reserva.create_at;
+                            rc.updated_at = reserva.updated_at;
+                            rc.num_escritos = reserva.num_escritos;
+                            rc.boletas_sobrantes = reserva.boletas_sobrantes;
+                            rc.personas_votaron = reserva.personas_votaron;
+                            rc.num_representantes_votaron = reserva.num_representantes_votaron;
+                            rc.votos_sacados = reserva.votos_sacados;
+                            rc.casilla_instalada = reserva.casilla_instalada;
+                            rc.id_estatus_acta = reserva.id_estatus_acta;
+                            rc.id_estatus_paquete = reserva.id_estatus_paquete;
+                            rc.id_incidencias = reserva.id_incidencias;
+                            rc.inicializada = reserva.inicializada;
+                            rc.id_condiciones_paquete = reserva.id_condiciones_paquete;
+                            rc.tipo_votacion = reserva.tipo_votacion;
+                            rc.grupo_trabajo = reserva.grupo_trabajo;
+                            rc.con_cinta = reserva.con_cinta;
+                            rc.con_etiqueta = reserva.con_etiqueta;
+                            contextoServer.sice_ar_reserva.Add(rc);
+                        }
+                        contextoServer.SaveChanges();
+
+                    }
+
+                    sice_ar_votos_cotejo v1 = null;
+                    foreach (sice_ar_votos_cotejo voto in listaLocalVotos)
+                    {
+                        if (voto.id_candidato != null)
+                        {
+                            v1 = (from d in contextoServer.sice_ar_votos_cotejo where d.id_candidato == voto.id_candidato && d.id_casilla == voto.id_casilla select d).FirstOrDefault();
+                        }
+                        else
+                        {
+                            if (voto.tipo == "NULO")
+                                v1 = (from d in contextoServer.sice_ar_votos_cotejo where d.tipo == "NULO" && d.id_casilla == voto.id_casilla select d).FirstOrDefault();
+                            else if (voto.tipo == "NO REGISTRADO")
+                                v1 = (from d in contextoServer.sice_ar_votos_cotejo where d.tipo == "NO REGISTRADO" && d.id_casilla == voto.id_casilla select d).FirstOrDefault();
+                        }
+
+                        if (v1 != null)
+                        {
+                            v1.id_candidato = voto.id_candidato;
+                            v1.id_casilla = voto.id_casilla;
+                            v1.tipo = voto.tipo;
+                            v1.votos = voto.votos;
+                            v1.importado = 1;
+                            v1.estatus = 1;
+                            contextoServer.SaveChanges();
+                        }
+                    }
+
+                    sice_ar_votos_cotejo_rp vrp1 = null;
+                    foreach (sice_ar_votos_cotejo_rp voto in listaLocalVotosRP)
+                    {
+                        if (voto.id_partido != null)
+                        {
+                            vrp1 = (from d in contextoServer.sice_ar_votos_cotejo_rp where d.id_partido == voto.id_partido && d.id_casilla == voto.id_casilla select d).FirstOrDefault();
+                        }
+                        else
+                        {
+                            if (voto.tipo == "NULO")
+                                vrp1 = (from d in contextoServer.sice_ar_votos_cotejo_rp where d.tipo == "NULO" && d.id_casilla == voto.id_casilla select d).FirstOrDefault();
+                            else if (voto.tipo == "NO REGISTRADO")
+                                vrp1 = (from d in contextoServer.sice_ar_votos_cotejo_rp where d.tipo == "NO REGISTRADO" && d.id_casilla == voto.id_casilla select d).FirstOrDefault();
+                        }
+
+                        if (vrp1 != null)
+                        {
+                            vrp1.id_partido = voto.id_partido;
+                            vrp1.id_casilla = voto.id_casilla;
+                            vrp1.tipo = voto.tipo;
+                            vrp1.votos = voto.votos;
+                            vrp1.importado = 0;
+                            vrp1.estatus = 1;
+                            contextoServer.SaveChanges();
+                        }
+                    }
+
+                    foreach (sice_ar_documentos doc in listaDocumentos)
+                    {
+                        sice_ar_documentos tempDoc = (from d in contextoServer.sice_ar_documentos where d.nombre == doc.nombre select d).FirstOrDefault();
+                        if (tempDoc != null)
+                        {
+                            tempDoc.id_casilla = doc.id_casilla;
+                            tempDoc.estatus = doc.estatus;
+                            tempDoc.updated_at = doc.updated_at;
+                            tempDoc.identificado = doc.identificado;
+                            contextoServer.SaveChanges();
+                        }
+                    }
+
+                    foreach (sice_configuracion_recuento conf in listaConfiguracionRecuento)
+                    {
+                        sice_configuracion_recuento tempConf = (from d in contextoServer.sice_configuracion_recuento where d.id_distrito == conf.id_distrito && d.sistema == "RA" select d).FirstOrDefault();
+                        if (tempConf != null)
+                        {
+                            tempConf.grupos_trabajo = conf.grupos_trabajo;
+                            tempConf.horas_disponibles = conf.horas_disponibles;
+                            tempConf.id_distrito = conf.id_distrito;
+                            tempConf.importado = 0;
+                            tempConf.inicializado = conf.inicializado;
+                            tempConf.puntos_recuento = conf.puntos_recuento;
+                            tempConf.sistema = conf.sistema;
+                            tempConf.tipo_recuento = conf.tipo_recuento;
+                            contextoServer.SaveChanges();
+                        }
+                        else
+                        {
+                            tempConf = new sice_configuracion_recuento();
+                            tempConf.grupos_trabajo = conf.grupos_trabajo;
+                            tempConf.horas_disponibles = conf.horas_disponibles;
+                            tempConf.id_distrito = conf.id_distrito;
+                            tempConf.importado = 0;
+                            tempConf.inicializado = conf.inicializado;
+                            tempConf.puntos_recuento = conf.puntos_recuento;
+                            tempConf.sistema = conf.sistema;
+                            tempConf.tipo_recuento = conf.tipo_recuento;
+                            contextoServer.sice_configuracion_recuento.Add(tempConf);
                             contextoServer.SaveChanges();
 
                         }
+                    }
 
-                        sice_ar_votos_cotejo v1 = null;
-                        foreach (sice_ar_votos_cotejo voto in listaLocalVotos)
-                        {
-                            if (voto.id_candidato != null)
-                            {
-                                v1 = (from d in contextoServer.sice_ar_votos_cotejo where d.id_candidato == voto.id_candidato && d.id_casilla == voto.id_casilla select d).FirstOrDefault();
-                            }
-                            else
-                            {
-                                if (voto.tipo == "NULO")
-                                    v1 = (from d in contextoServer.sice_ar_votos_cotejo where d.tipo == "NULO" && d.id_casilla == voto.id_casilla select d).FirstOrDefault();
-                                else if (voto.tipo == "NO REGISTRADO")
-                                    v1 = (from d in contextoServer.sice_ar_votos_cotejo where d.tipo == "NO REGISTRADO" && d.id_casilla == voto.id_casilla select d).FirstOrDefault();
-                            }
+                    foreach (sice_ar_historico hs in listaHistorico)
+                    {
+                        sice_ar_historico hs2 = new sice_ar_historico();
+                        hs2.id_supuesto = hs.id_supuesto;
+                        hs2.fecha = hs.fecha;
+                        hs2.id_casilla = hs.id_casilla;
+                        hs2.importado = hs.importado;
+                        contextoServer.sice_ar_historico.Add(hs2);
+                        contextoServer.SaveChanges();
+                    }
 
-                            if (v1 != null)
-                            {
-                                v1.id_candidato = voto.id_candidato;
-                                v1.id_casilla = voto.id_casilla;
-                                v1.tipo = voto.tipo;
-                                v1.votos = voto.votos;
-                                v1.importado = 1;
-                                v1.estatus = 1;
-                                contextoServer.SaveChanges();
-                            }
-                        }
-
-                        sice_ar_votos_cotejo_rp vrp1 = null;
-                        foreach (sice_ar_votos_cotejo_rp voto in listaLocalVotosRP)
-                        {
-                            if (voto.id_partido != null)
-                            {
-                                vrp1 = (from d in contextoServer.sice_ar_votos_cotejo_rp where d.id_partido == voto.id_partido && d.id_casilla == voto.id_casilla select d).FirstOrDefault();
-                            }
-                            else
-                            {
-                                if (voto.tipo == "NULO")
-                                    vrp1 = (from d in contextoServer.sice_ar_votos_cotejo_rp where d.tipo == "NULO" && d.id_casilla == voto.id_casilla select d).FirstOrDefault();
-                                else if (voto.tipo == "NO REGISTRADO")
-                                    vrp1 = (from d in contextoServer.sice_ar_votos_cotejo_rp where d.tipo == "NO REGISTRADO" && d.id_casilla == voto.id_casilla select d).FirstOrDefault();
-                            }
-
-                            if (vrp1 != null)
-                            {
-                                vrp1.id_partido = voto.id_partido;
-                                vrp1.id_casilla = voto.id_casilla;
-                                vrp1.tipo = voto.tipo;
-                                vrp1.votos = voto.votos;
-                                vrp1.importado = 0;
-                                vrp1.estatus = 1;
-                                contextoServer.SaveChanges();
-                            }
-                        }
-
-                        foreach (sice_ar_documentos doc in listaDocumentos)
-                        {
-                            sice_ar_documentos tempDoc = (from d in contextoServer.sice_ar_documentos where d.nombre == doc.nombre select d).FirstOrDefault();
-                            if (tempDoc != null)
-                            {
-                                tempDoc.id_casilla = doc.id_casilla;
-                                tempDoc.estatus = doc.estatus;
-                                tempDoc.updated_at = doc.updated_at;
-                                tempDoc.identificado = doc.identificado;
-                                contextoServer.SaveChanges();
-                            }
-                        }
-
-                        foreach(sice_configuracion_recuento conf in listaConfiguracionRecuento)
-                        {
-                            sice_configuracion_recuento tempConf = (from d in contextoServer.sice_configuracion_recuento where d.id_distrito == conf.id_distrito && d.sistema == "RA" select d).FirstOrDefault();
-                            if(tempConf != null)
-                            {
-                                tempConf.grupos_trabajo = conf.grupos_trabajo;
-                                tempConf.horas_disponibles = conf.horas_disponibles;
-                                tempConf.id_distrito = conf.id_distrito;
-                                tempConf.importado = 0;
-                                tempConf.inicializado = conf.inicializado;
-                                tempConf.puntos_recuento = conf.puntos_recuento;
-                                tempConf.sistema = conf.sistema;
-                                tempConf.tipo_recuento = conf.tipo_recuento;
-                                contextoServer.SaveChanges();
-                            }
-                            else
-                            {
-                                tempConf = new sice_configuracion_recuento();
-                                tempConf.grupos_trabajo = conf.grupos_trabajo;
-                                tempConf.horas_disponibles = conf.horas_disponibles;
-                                tempConf.id_distrito = conf.id_distrito;
-                                tempConf.importado = 0;
-                                tempConf.inicializado = conf.inicializado;
-                                tempConf.puntos_recuento = conf.puntos_recuento;
-                                tempConf.sistema = conf.sistema;
-                                tempConf.tipo_recuento = conf.tipo_recuento;
-                                contextoServer.sice_configuracion_recuento.Add(tempConf);
-                                contextoServer.SaveChanges();
-
-                            }
-                        }
-
-                        foreach (sice_ar_historico hs in listaHistorico)
-                        {
-                            sice_ar_historico hs2 = new sice_ar_historico();
-                            hs2.id_supuesto = hs.id_supuesto;
-                            hs2.fecha = hs.fecha;
-                            hs2.id_casilla = hs.id_casilla;
-                            hs2.importado = hs.importado;
-                            contextoServer.sice_ar_historico.Add(hs2);
-                            contextoServer.SaveChanges();
-                        }
-
-                        //TransactionContexto.Complete();
+                    //TransactionContexto.Complete();
 
                     //}
                 }
@@ -409,12 +409,12 @@ namespace Sistema.Generales
                             }
                         }
 
-                        foreach(sice_configuracion_recuento conf in listaConfiguracionRecuento)
+                        foreach (sice_configuracion_recuento conf in listaConfiguracionRecuento)
                         {
                             sice_configuracion_recuento tempConf = (from d in contextoLocal.sice_configuracion_recuento where d.id == conf.id select d).FirstOrDefault();
-                            if(tempConf != null)
+                            if (tempConf != null)
                             {
-                                tempConf.importado = 1;
+                                tempConf.importado = 0;
                                 contextoLocal.SaveChanges();
                             }
                         }
@@ -489,7 +489,7 @@ namespace Sistema.Generales
                 //                    contextoServer.SaveChanges();
                 //                }
                 //            }
-                            
+
                 //            TransactionContexto.Complete();
                 //        }
                 //    }
@@ -577,11 +577,11 @@ namespace Sistema.Generales
                 Console.WriteLine("Sincronizacion completa Registro de Actas");
                 return 1;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 return 0;
-            }            
+            }
         }
     }
 }

@@ -79,7 +79,7 @@ namespace Sistema.Generales
                                                 contexto.sice_reserva_captura.Add(new_casilla);
                                                 contexto.SaveChanges();
 
-                                                //casilla.inicializada = 1;
+                                                casilla.inicializada = 1;
                                                 contexto.SaveChanges();
                                             }
                                             else
@@ -101,6 +101,8 @@ namespace Sistema.Generales
                                                 new_casilla.create_at = DateTime.Now;
                                                 new_casilla.updated_at = DateTime.Now;
                                                 new_casilla.tipo_votacion = casilla.tipo_votacion;
+
+                                                casilla.inicializada = 1;
                                                 contexto.SaveChanges();
                                             }
 
@@ -196,9 +198,9 @@ namespace Sistema.Generales
                                 contexto.SaveChanges();
                                 
                             }
-                            else
-                            {
-                                List<sice_ar_reserva> listaCasillasSinGrupo = (from r in contexto.sice_ar_reserva join c in contexto.sice_casillas on r.id_casilla equals c.id where r.id_estatus_acta == 5 && r.grupo_trabajo == null && r.inicializada == 0 select r).ToList();
+                            //else
+                            //{
+                                List<sice_ar_reserva> listaCasillasSinGrupo = (from r in contexto.sice_ar_reserva join c in contexto.sice_casillas on r.id_casilla equals c.id where r.id_estatus_acta == 5 && r.grupo_trabajo == null && r.inicializada == 0 && c.id_distrito_local == distrito.id select r).ToList();
                                 if (listaCasillasSinGrupo.Count > 0)
                                 {
                                     foreach(sice_ar_reserva ls in listaCasillasSinGrupo)
@@ -253,7 +255,7 @@ namespace Sistema.Generales
                                         }
                                     }
                                 }
-                            }
+                            //}
                         }
                         TransactionContexto.Complete();
 
@@ -687,6 +689,7 @@ namespace Sistema.Generales
                             "RV.votos," +
                             "RV.tipo," +
                             "CONCAT(CND.nombre, ' ', CND.apellido_paterno, ' ', CND.apellido_materno) as candidato," +
+                            "P.id as id_partido," +
                             "P.siglas_par as partido," +
                             "P.img_par as imagen," +
                             "C.id_distrito_local as distrito_local," +
@@ -877,7 +880,8 @@ namespace Sistema.Generales
                        "CASE WHEN C.tipo_casilla = 'S1' THEN	100 WHEN C.tipo_casilla = 'S1-RP' THEN 200 WHEN C.tipo_casilla <> 'S1' THEN	1 END AS especial " +
                        "FROM sice_casillas C " +
                        "LEFT JOIN sice_reserva_captura RC ON RC.id_casilla = C.id " +
-                       "WHERE RC.id IS NULL" + " and C.id_distrito_local = 2 " +
+                       //"WHERE RC.id IS NULL" + " and C.id_distrito_local = 2 " +
+                       "WHERE RC.id IS NULL" + " AND C.id_cabecera_local = " + LoginInfo.id_municipio + " " +
                        "ORDER BY C.id_distrito_local ASC,especial ASC,C.seccion,C.id ASC";
 
                     }
@@ -3035,6 +3039,7 @@ namespace Sistema.Generales
 
                 int LnominalDistrito = totalAgrupado.Where(x => x.casilla != "S1").Sum(x => x.lista_nominal);
                 int TotalVotosDistrito = vSeccion.Where(x => x.id_estatus_acta == 1).Sum(x => (int)x.votos);
+                int totalVotacionValida = vSeccion.Where(x => x.tipo != "NULO" && x.tipo != "NO REGISTRADO" && x.id_estatus_acta == 1).Sum(x => (int)x.votos);
                 int totalSecciones = vSeccion.GroupBy(x => x.seccion).Select(data => new VotosSeccion { seccion = data.First().seccion }).Count();
                 int totalCasillas = totalAgrupado.Count();
 
@@ -3114,9 +3119,11 @@ namespace Sistema.Generales
                     {                        
                         hoja.Cells[fila, contCand] = candidato.votos > 0 ? String.Format(CultureInfo.InvariantCulture, "{0:#,#}", candidato.votos) : "0"; 
                         decimal porcentaje = 0;
+                        decimal porcentajeValido = 0;
                         if (TotalVotosDistrito > 0 && candidato.votos > 0)
                         {
                             porcentaje = Math.Round((Convert.ToDecimal(candidato.votos) * 100) / Convert.ToDecimal(TotalVotosDistrito), 2);
+                            porcentajeValido = Math.Round((Convert.ToDecimal(candidato.votos) * 100) / Convert.ToDecimal(totalVotacionValida), 2);
                         }
                         candidato.porcentaje = (double)porcentaje;
 
@@ -3131,10 +3138,10 @@ namespace Sistema.Generales
                                 foreach (string r in result)
                                 {
                                     int id_partido = Convert.ToInt32(r);
-                                    double porcentajeTotal = (double)Math.Floor(porcentaje);
+                                    double porcentajeTotal = (double)Math.Floor(porcentajeValido);
                                     if(porcentajeTotal > 0)
                                     {
-                                        double porcentajeCoalicion = porcentajeRP(id_partido, (int)Math.Floor(porcentaje));
+                                        double porcentajeCoalicion = porcentajeRP(id_partido, (int)Math.Floor(porcentajeValido));
                                         int totalVotos = candidato.votos;
                                         double res = (porcentajeCoalicion * totalVotos) / porcentajeTotal;
                                         lsTemp.Add(new PorcentajePartido { id_partido = id_partido, votos = res });
