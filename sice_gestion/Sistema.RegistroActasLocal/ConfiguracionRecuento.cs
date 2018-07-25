@@ -77,11 +77,28 @@ namespace Sistema.RegistroActasLocal
 
                 List<VotosSeccion> vSeccionTotales = reg.ResultadosSeccionCaptura(0, 0, id_distrito);
                 int TotalVotosDistrito = vSeccionTotales.Sum(x => (int)x.votos);
-                List<VotosSeccion> listaSumaCandidatos = vSeccionTotales.Where(x => x.estatus == "ATENDIDO" && x.id_candidato != null).GroupBy(y => y.id_candidato).Select(data => new VotosSeccion { id_candidato = data.First().id_candidato, votos = data.Sum(d => d.votos) }).OrderBy(x => x.votos).ToList();
+                List<VotosSeccion> listaSumaCandidatos2 = new List<VotosSeccion>();
+                List<VotosSeccion> listaSumaCandidatos = vSeccionTotales.Where(x => x.estatus == "ATENDIDO" && x.id_candidato != null).GroupBy(y => y.id_candidato).Select(data => new VotosSeccion { id_candidato = data.First().id_candidato,id_partido = data.First().id_partido, votos = data.Sum(d => d.votos) }).OrderBy(x => x.votos).ToList();
                 double diferenciaPorcentajeTotal = 0;
+                int tempVotosPT = 0;
                 //listaSumaCandidatos.OrderBy(x => x.votos);
                 if (listaSumaCandidatos.Count > 0)
                 {
+                    foreach (VotosSeccion ls in listaSumaCandidatos)
+                    {
+                        if (ls.id_partido == 5 || ls.id_partido == 9 || ls.id_partido == 15)
+                        {
+                            tempVotosPT += (int)ls.votos;
+                        }
+                        else
+                        {
+                            listaSumaCandidatos2.Add(ls);
+                        }
+                    }
+                    listaSumaCandidatos2.Add(new VotosSeccion { id_candidato = 100, votos = tempVotosPT, id_partido = 9 });
+                    listaSumaCandidatos = listaSumaCandidatos2.OrderBy(x => x.votos).ToList();
+
+
                     int PrimeroTotal = (int)listaSumaCandidatos[listaSumaCandidatos.Count - 1].votos;
                     int SeegundoTotal = (int)listaSumaCandidatos[listaSumaCandidatos.Count - 2].votos;
                     int diferenciaTotal = PrimeroTotal - SeegundoTotal;

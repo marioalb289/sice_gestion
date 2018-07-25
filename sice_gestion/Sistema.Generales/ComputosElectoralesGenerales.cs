@@ -709,7 +709,8 @@ namespace Sistema.Generales
                         "JOIN sice_municipios M2 ON M2.id = C.id_cabecera_local " +
                         "ORDER BY C.seccion ASC, RV.id_casilla ASC, prelacion ASC " +
                         limit;
-                        
+
+
 
                     return contexto.Database.SqlQuery<VotosSeccion>(consulta).ToList();
                 }
@@ -2797,7 +2798,10 @@ namespace Sistema.Generales
 
         public int generarExcel(SaveFileDialog fichero, int distrito, bool completo = false)
         {
-            //this.generarExcelFinal(fichero);
+            //ExcelFinal obj = new ExcelFinal();
+            //return obj.generarExcel(fichero);
+            
+            //this.generarExcelFinal(fichero);  
             //return 1;
             try
             {
@@ -2924,7 +2928,7 @@ namespace Sistema.Generales
                             hoja.Cells[fila, 3] = v.casilla;
                             hoja.Cells[fila, 4] = (v.estatus != null) ? v.estatus : "NO CAPTURADA";
 
-                            votos = v.estatus_acta != "CAPTURADA" ? 0 : (int)v.votos;
+                            votos = v.estatus != "CAPTURADA" ? 0 : (int)v.votos;
                             hoja.Cells[fila,contCand].Value = votos;
                             vLst.Add(votos);
                             contCand++;
@@ -3903,7 +3907,7 @@ namespace Sistema.Generales
                             hoja.Cells[fila, 3] = v.casilla;
                             hoja.Cells[fila, 4] = (v.estatus != null) ? v.estatus : "NO CAPTURADA";
 
-                            votos = v.estatus_acta != "CAPTURADA" ? 0 : (int)v.votos;
+                            votos = v.estatus != "CAPTURADA" ? 0 : (int)v.votos;
                             hoja.Cells[fila, contCand].Value = votos;
                             vLst.Add(votos);
                             contCand++;

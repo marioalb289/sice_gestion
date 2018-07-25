@@ -77,6 +77,7 @@ namespace Sistema.ComputosElectorales
 
 
                 List<CandidatosResultados> lsCandidatos = CompElec.ListaResultadosCandidatos(id_distrito, true);
+                List<CandidatosResultados> lsCandidatos2 = new List<CandidatosResultados>();
                 double diferenciaPorcentajeTotal = 0;
                 //listaSumaCandidatos.OrderBy(x => x.votos);
                 int TotalVotosDistrito = lsCandidatos.Sum(x => (int)x.votos);
@@ -86,16 +87,36 @@ namespace Sistema.ComputosElectorales
                     partido = data.partido,
                     candidato = data.candidato,
                     votos = data.votos,
-                    tipo = data.tipo
+                    tipo = data.tipo,
+                    id_partido = data.id_partido
                 }).Where(x => x.tipo == "VOTO").OrderByDescending(x => x.votos).ToList();
+                int tempVotosPT = 0;
 
-               
                 if (lsCandidatos.Count > 0)
                 {
+                    foreach (CandidatosResultados ls in lsCandidatos)
+                    {
+                        if (ls.id_partido == 5 || ls.id_partido == 9 || ls.id_partido == 15)
+                        {
+                            tempVotosPT += (int)ls.votos;
+                        }
+                        else
+                        {
+                            lsCandidatos2.Add(ls);
+                        }
+                    }
+                    lsCandidatos2.Add(new CandidatosResultados
+                    {
+                        id_candidato = 100,
+                        votos = tempVotosPT,
+                        id_partido = 9
+                    });
+                    lsCandidatos = lsCandidatos2.OrderByDescending(x => x.votos).ToList();
 
                     int PrimeroTotal = (int)lsCandidatos[0].votos;
                     int SeegundoTotal = (int)lsCandidatos[1].votos;
                     int diferenciaTotal = PrimeroTotal - SeegundoTotal;
+
 
                     if (TotalVotosDistrito > 0)
                     {

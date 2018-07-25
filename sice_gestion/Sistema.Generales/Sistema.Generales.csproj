@@ -68,6 +68,7 @@
     <Compile Include="Class1.cs" />
     <Compile Include="CheckLogin.cs" />
     <Compile Include="ComputosElectoralesGenerales.cs" />
+    <Compile Include="ExcelFinal.cs" />
     <Compile Include="ftp.cs" />
     <Compile Include="Loading.cs">
       <SubType>Form</SubType>

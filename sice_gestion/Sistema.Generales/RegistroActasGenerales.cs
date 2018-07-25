@@ -1276,11 +1276,13 @@ namespace Sistema.Generales
         public Nullable<int> id_partido { get; set; }
         public Nullable<int> votos { get; set; }
         public string tipo { get; set; }
+        public int boletas_sobrantes { get; set; }
         public string candidato { get; set; }
         public string partido { get; set; }
         public Nullable<int> partido_local { get; set; }
         public string imagen { get; set; }
         public int distrito_local { get; set; }
+        public int id_municipio { get; set; }
         public string municipio { get; set; }
         public string cabecera_local { get; set; }
         public string estatus { get; set; }

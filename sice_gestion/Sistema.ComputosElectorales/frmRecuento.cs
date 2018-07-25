@@ -604,9 +604,9 @@ namespace Sistema.ComputosElectorales
 
                     sice_ar_supuestos supuesto = CompElec.getSupuesto(Convert.ToInt32(cmbCasilla.SelectedValue));
                     if (supuesto != null)
-                        cmbSupuesto.SelectedIndex = supuesto.id;
+                        cmbSupuesto.SelectedValue = supuesto.id;
                     else
-                        cmbSupuesto.SelectedIndex = 0;
+                        cmbSupuesto.SelectedValue = 0;
 
                     SeccionCasillaConsecutivo tempSec = (from p in this.sc where p.id == Convert.ToInt32(cmbCasilla.SelectedValue) select p).FirstOrDefault();
                     this.lblListaNominal.Text = tempSec.listaNominal.ToString();
